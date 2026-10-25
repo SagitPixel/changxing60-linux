@@ -696,6 +696,36 @@ the approach:
   - 因此本机的能力边界：对端能听到注入音频（`FE_ST_VOICE_PCM_P`）、能录下行（`FE_ST_VOICE_C`，
     但参考项目实测帧率只有一半、语音变调）；**用听筒/喇叭听、用麦克风说，做不到**。
 
+* **2026-10-25 21:00-22:00 — 拿到 Android 通话时的完整配置快照；确认卡点是 codec 的 DAPM 没上电。**
+  - **抓取方法**：`work/cap-call.sh` 推到 `/data/local/tmp`，等 `/proc/asound/card0/pcm*p/sub0/status`
+    出现 `RUNNING` 就 dump。产物 `work/calldump.txt`（19 KB，全部 326 个控件值 + APB 寄存器）。
+    通话时跑的是 **`pcm5p`（FE_ST_VOICE）**；放音乐时 Android 用的是 **`pcm3p`（FE_ST_FAST）**，不是 `pcm0p`。
+  - **Android 通话中的关键值**（和我们设的几处不同）：
+    `VBC_IIS_MST_SEL_0..3_TYPE = VBC_MASTER_EXTERNAL`（**不是 INTERNAL**）、
+    `VBC_IIS_MST_WIDTH_SET = WD_16BIT`（不是 24bit）、`VBC_VOLUME = 7`、
+    `Audio Structure Profile Select` = `DSP VBC Profile Select` = **33685509**（`0x02020005`，
+    即 `(mode<<24)|(mode<<16)|5`，mode=2）、`Audio Structure Profile Update = 0`（不加载 profile）、
+    `VBC DAC0/DAC1 DG Set = 33/25`、`S_VOICE_{P,C}_CODEC` 与 `S_VOICE_CAP_C` 全开、
+    `EAR_AOL Mixer DACAOL = Off`、`AOL EAR Sel = AOL`、`Speaker Function = On`。
+    **照抄这套配置后通话仍无声** —— 相差的不是 mixer 值。
+  - **DAPM 实测：整条链全 Off**（播放中、文件名有效的前提下）：
+    `FE_IF_NORMAL_AP01_P` / `BE_DAI_NORMAL_AP01_CODEC_P` / codec 的 `Normal-Playback` /
+    `DAC` / `CLK_DAC` / `Digital Power` **全部 Off，但每级都是 `in 1`** —— 路由连上了，没有一级被点亮。
+    前端控件的正确名字是 `FE_IF_NORMAL_AP01_P`（`platform_routing/sprd-platform-pcm-routing.c`），
+    `FE_DAI_NORMAL_AP01_P` 只是 stream 名，别查错。
+  - **踩过的坑**：
+    * 电源域没按住时读 AGCP 寄存器会**挂总线、整机重启**。必须先
+      `amixer sset agdsp_access_en on` 再读 `/sys/kernel/debug/regmap/...`。
+    * `/tmp` 下的测试音频重启后会消失，aplay 静默失败，会让人误判「DAPM 全 Off」。
+    * 声卡叫 `sprdphone-sc2730`，但**真正编进去的 codec 驱动是 `snd-soc-sprd-codec-ump9620`**，
+      查 sc2730 的源码会白查。
+  - **寄存器层面的坑**：`sprd-audio-sharkl3.h` / `sharkle.h` / `pike2.h` / `agcp.h` 来自不同代的 SoC，
+    位定义互不相同也不匹配本机。曾在 `dummy-syscon@56390000`（AON_APB）上看到 Android `0x88`、
+    Linux `0x80` 的差异并推测 bit 3 是 AUDIF，但 ump9620 走的是 `REG_AGCP_AHB_MODULE_EB0_STS`
+    （AGCP 块 `0x56200000` 偏移 0），那条推断已撤回。
+  - **结论**：缺的是**这台机器自己的 vendor 内核音频驱动源码**。手上的驱动来自 realme C51/C53
+    （SC9863 代），逻辑对、寄存器位和硬件对不上，靠猜位号不可行。
+
 ## Bluetooth
 
 ### 25. SC2355 Bluetooth on BlueZ
