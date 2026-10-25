@@ -282,10 +282,26 @@ function gsm7_pack(cp, n,    i, sept, k, bit, byte, bits, out, val, hi) {
     if (bits > 0) out = out sprintf("%02X", b_and(val, 255))
     return out
 }
-function ucs2_pack(cp, n,    i, out, v) {
+function ucs2_pack(cp, n,    i, out, v, hi, lo) {
+    # SMS-TL counts UCS2 user data in octets, one 16-bit unit per BMP character. A character outside the
+    # BMP (an emoji, U+1FAB6 and up) is *two* UTF-16 units - a surrogate pair - so it is four octets, and
+    # UDL has to say four. Packing such a code point as sprintf("%02X%02X", int(v/256), v%256) wrote three
+    # hex digits for the high byte (1FA for U+1FAB6), left the hex string an odd length and the modem
+    # answered +CMS ERROR: 304 (invalid PDU mode parameter) - measured 2026-10-24 on 7552N, R10s.
+    # UNITS is derived from the packed length rather than from n so both cases come out right.
     out = ""
-    for (i = 1; i <= n; i++) { v = cp[i] + 0; out = out sprintf("%02X%02X", int(v / 256), v % 256) }
-    UNITS = n * 2
+    for (i = 1; i <= n; i++) {
+        v = cp[i] + 0
+        if (v > 65535) {
+            v -= 65536
+            hi = 55296 + int(v / 1024)          # 0xD800 + (v >> 10)
+            lo = 56320 + (v % 1024)             # 0xDC00 + (v & 0x3FF)
+            out = out sprintf("%02X%02X%02X%02X", int(hi / 256), hi % 256, int(lo / 256), lo % 256)
+        } else {
+            out = out sprintf("%02X%02X", int(v / 256), v % 256)
+        }
+    }
+    UNITS = length(out) / 2
     return out
 }
 
