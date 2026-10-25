@@ -1,0 +1,80 @@
+#!/bin/sh
+# changxing60-audio-route -- open the FE->BE crossbar and the analog output path.
+#
+# Why this exists: the machine card declares no DAPM routes, so on this board the ASoC front ends
+# (FE_ST_NORMAL_AP01 ...) are connected to the back ends (BE_DAI_*_CODEC / _SMTPA ...) at runtime
+# through sprd-platform-pcm-routing's crossbar mixer switches. Android's audio HAL sets them before
+# every stream; nothing in our rootfs did, and the result was
+#
+#   FE_NORMAL_AP01: ASoC: no backend DAIs enabled for FE_NORMAL_AP01
+#   aplay: set_params:1456: Unable to install hw params
+#
+# with the FE's dpcm be_clients list empty (soc-pcm.c:2542, checked in dpcm_fe_dai_prepare). Setting
+# S_NORMAL_AP01_P_CODEC SWITCH makes the same aplay run, and the kernel then logs the whole scene:
+# scene_normal_startup -> scene_normal_hw_params -> hook_general_spk ... on 1. Measured 2026-10-25.
+#
+# The analog half is here too because the codec mixer boots with every output muted: without
+# AO Mixer AOL/AOR the DAC output goes nowhere and the earpiece stays silent even with a live stream.
+set -u
+export PATH="$PATH:/opt/changxing60/busybox-bin:/usr/bin:/sbin:/usr/sbin"
+C=${CARD:-0}
+LOG=/root/audio-route.log
+
+say() { echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$LOG"; logger -t changxing60-audio "$*"; }
+
+# set NAME VALUE -- quietly, but record the ones that do not exist so a renamed control is visible
+set_ctl() {
+    if amixer -c "$C" sset "$1" "$2" >/dev/null 2>&1; then
+        return 0
+    fi
+    say "audio-route: missing or rejected control: $1 -> $2"
+    return 1
+}
+
+# 1. FE -> BE crossbar. CODEC is the codec's own DAC path; SMTPA is the speaker amplifier path.
+for fe in NORMAL_AP01 NORMAL_AP23; do
+    set_ctl "S_${fe}_P_CODEC SWITCH" on
+    set_ctl "S_${fe}_P_SMTPA SWITCH" on
+done
+
+# 2. Analog output. AO Mixer is the mixer upstream of the earpiece/speaker drivers; AOL EAR Sel picks
+#    which of the two the "AO" node feeds, and AO Gain is its volume (0..15).
+set_ctl "AO Mixer AOL" on
+set_ctl "AO Mixer AOR" on
+set_ctl "AOL EAR Sel" AOL
+set_ctl "AO Gain AO" 13
+set_ctl "DAC Gain DAC" 2
+set_ctl "Speaker Function" on
+set_ctl "Speaker1 Function" on
+
+# 3. Values taken from a tinymix dump of this very phone running Android (2026-10-25). Two of them
+#    are not in audio_config.xml at all and were left at 0 by our rootfs, which mutes the path:
+#      VBC DAC0 DG Set        the DAC's own digital gain, 0 == silent (Android: 33)
+#      Inter PA Config        the internal PA configuration (Android: 303)
+#    DSP VBC Profile Select carries the ((offset<<24)|(param_id<<16)|dsp_case) encoding the driver
+#    documents in vbc_profile_put(); Android uses offset 64 / param_id 75.
+set_ctl "VBC DAC0 DG Set" 33
+set_ctl "Inter PA Config" 303
+set_ctl "DSP VBC Profile Select" 1078657024
+
+say "audio-route: applied (card $C)"
+true
+
+# 4. Measured on this phone with Android actually playing music (tinymix sampled every second for
+#    40s, 2026-10-25). These 22 controls change the moment a stream runs; the ones below were the
+#    ones our rootfs never set and that the data path needs to reach the DAC:
+#      ag_iis0_ext_sel_v2       routes IIS0 to the DAC block (aud_4ad_iis0_da0)
+#      aw87xxx_mode/profile     the speaker PA profile, "Music" not "Voice"
+#      VBC_IIS_TX0_LRMOD_SEL    LR clock polarity
+set_ctl "ag_iis0_ext_sel_v2" aud_4ad_iis0_da0
+set_ctl "VBC_IIS_TX0_LRMOD_SEL" RIGHT_HIGH
+set_ctl "DA AOR Switch" on
+set_ctl "agdsp_access_en" on
+set_ctl "S_FAST_P_SMART_AMP SWITCH" on
+for fe in NORMAL_AP01 NORMAL_AP23 VOIP FAST LOOP VOICE FM_CODEC FM_DSP_CODEC OFFLOAD_CODEC; do
+    set_ctl "S_${fe}_P_CODEC SWITCH" on 2>/dev/null
+done
+set_ctl "S_VOICE_PCM_P SWITCH" on
+set_ctl "S_OFFLOAD_CODEC SWITCH" on
+set_ctl "aw87xxx_mode_switch_0" Music 2>/dev/null
+set_ctl "aw87xxx_profile_switch_0" Music 2>/dev/null

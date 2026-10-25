@@ -653,6 +653,49 @@ the approach:
   SCO call audio. The Unisoc ASoC/AGDSP driver sources are in the realme `unisoc-5.4` kernel_modules tree; porting this
   to Linux is future work (A2DP over BlueZ does not need the DSP).
 
+* **2026-10-25 — 在这台 7552N 上实际推进了一次，结论是"用户态已通，DSP 不消费"。**
+  - 这一版 DT **有** `audio-mem@af700000` 和 `audiodsp-mem@afa00000`，不是上面说的缺失。
+  - AGDSP 镜像在分区备份里（`l_agdsp_a.bin`，6 MiB，头 `SharkL5_AUDCP_2022Y_VER_4119`），
+    但**不要往 `/sys/.../audiocp_boot/agdsp` 里 cat 它** —— sysfs 会把 6 MiB 拆成上千次 write，
+    写进去的是坏镜像。反弹回 Android 即可恢复。
+  - 声卡、codec、327 个混音器控件、VBC profile（318 字段逐个对账正确）、功放 aw87xxx、模拟通路
+    （听筒有底噪）**全部确认正常**；profile 也确实下发到了 DSP（SIPC 有 ack）。
+  - **卡点**：DMA 把数据写进 `audio-mem` 后只走 640 字节就因背压停摆 —— DSP 不读。
+    `sprd_dma` 的两条中断计数恒为 0（`audio-pcm-period-timer` 补丁已按此设计）。
+  - 通话路径单独验证过：拨号能接通（`ATD...;` + `AT+CLCC` 的 `stat=0`），但上下行都无声。
+  - `/dev/audio_pipe_*` 默认不创建，手动 `modprobe audio_pipe` 才出现；补齐后仍无声。
+  - 详细逆向（HAL 的 PCM 设备表、内核接口清单、我们内核少注册一个设备导致的编号偏移）
+    见 `docs/HAL-REVERSE.md`。
+  - **结论：以现有手段无法让内置听筒/喇叭出声。** 再往下需要 DSP 侧可观测手段
+    （`audio_dsp_log` 的 ioctl 使能协议未逆向）或厂商 DSP 初始化文档。
+    这台机器想打电话，回 Android 即可。
+
+* **2026-10-25 晚 — DMA 停摆已修复，卡点移到 DSP→codec。**（上一段的结论已被推翻一半）
+  - 参考 `dikeckaan/mu300-audio`（同平台 F50、OpenWrt、5.4），其 `mu300-voice` 注释直接点名了我们的症状：
+    「`agdsp_access_en` ... **It is also what lets the AP DMA move at all** (without it one burst and a stall)」。
+  - **两个开关解决停摆**：`agdsp_access_en=on` + `VBC_IIS_MASTER_ENALBE=enable`、
+    `VBC_IIS_MST_SEL_0_TYPE=VBC_MASTER_INTERNAL`。之后 aplay 25 秒音频 25 秒跑完、rc=0、无 EIO。
+  - **顺带修了一个真 bug**：`VBC_VOLUME` 的 max 声明成 `MAX_32_BIT`(0xffffffff)，ALSA 当有符号读成 -1，
+    范围非法 → 任何写入都 EPERM，DSP 侧音量恒为 0。改为 `0x7fffffff` 后可写（见 `kernel/build-audio.sh`）。
+  - **数据确实进了 codec**：PMIC `0x100`=0x2（上电并在跑）、`0x144` 播放中从 0x10d 变到 0x132。
+    读法 `dd if=/sys/kernel/debug/regmap/spi4.0/registers bs=15 skip=$((reg/4)) count=1`。
+  - **仍未解决**：DSP → codec 的模拟输出（听筒和喇叭两条路都试过，Android 播放时的 22 个控件也套用了）。
+    参考项目同样没打通这段 —— 它能出声的只有蓝牙耳机和 AP 侧对通话的注入/录制（走 DSP 不过 codec），
+    其 FINDINGS 24b 原文「nothing arrives over AUDIF from the digital codec」。
+  - 下一步只剩：逆向 Android HAL 通话时对模拟路由的完整设置，或拿 DSP 侧 AUDIF 初始化。
+
+* **2026-10-25 夜 — 读到 mu300-linux FINDINGS 24d，找到通话场景的真正卡点，但天花板确认。**
+  - **端口 1 的时钟**：`VBC_IIS_MST_SEL_0_TYPE` 只覆盖 IIS 端口 0，而**通话场景跑在端口 1**
+    （voice 的 DAC1/ADC2 mux 都在 `VBC_IIS_PORT_IIS1`）。所以 `FE_ST_VOICE_C` 一直停在 `hw_ptr` 0。
+    需要 `VBC_IIS_MASTER_ENALBE=enable` **且** `VBC_IIS_MST_SEL_1_TYPE=VBC_MASTER_INTERNAL`，
+    场景才会跑（参考项目实测：设了之后 2 秒采集 2 秒返回）。
+  - 本机实测：设好端口 1 后通话场景能运行 25 秒，**但听筒依然无声**。
+  - **原因在 24b**：codec 上电、时钟正常、DAC 使能，但 **DAC FIFO 空、写指针 0（`0x144=0x80`）** ——
+    「nothing arrives over AUDIF from the digital codec」。**这条 DSP→codec 的 AUDIF 链路
+    F50 上也没打通**，他们能出声的只有蓝牙耳机和 AP 侧对通话的注入/录制。
+  - 因此本机的能力边界：对端能听到注入音频（`FE_ST_VOICE_PCM_P`）、能录下行（`FE_ST_VOICE_C`，
+    但参考项目实测帧率只有一半、语音变调）；**用听筒/喇叭听、用麦克风说，做不到**。
+
 ## Bluetooth
 
 ### 25. SC2355 Bluetooth on BlueZ

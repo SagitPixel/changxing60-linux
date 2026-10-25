@@ -36,7 +36,7 @@ that delay is kept here too.
 
 --- a/sprd/machine/sprd_card/sprd-asoc-card-utils-hook.c
 +++ b/sprd/machine/sprd_card/sprd-asoc-card-utils-hook.c
-@@ -20,6 +20,12 @@
+@@ -20,6 +20,13 @@
  #include <linux/spinlock.h>
  #include <linux/kallsyms.h>
 
@@ -45,12 +45,12 @@ that delay is kept here too.
 + * Weak on purpose: the card must load and every non-speaker path must work
 + * even when that driver is not loaded; the hook checks for NULL below.
 + */
-+extern int __weak aw87xxx_set_profile(int dev_index, char *profile);
++extern int aw87xxx_set_profile(int dev_index, char *profile);
 +
  #include "sprd-asoc-card-utils.h"
  #include "sprd-asoc-common.h"
 
-@@ -135,6 +141,30 @@ static void hook_gpio_pulse_control(unsigned int gpio, unsigned int mode)
+@@ -135,6 +141,28 @@ static void hook_gpio_pulse_control(unsigned int gpio, unsigned int mode)
  static int hook_general_spk(int id, int on)
  {
  	int gpio, mode;
@@ -61,16 +61,14 @@ that delay is kept here too.
 +	 * and no sprd,spk-ext-pa-gpio at all, so the gpio path below has nothing
 +	 * to drive and dies at "gpio is invalid!". Drive the amp through the one
 +	 * interface it actually exports - aw87xxx_set_profile() - and switch it
-+	 * between the profiles our aw87xxx_acf.bin carries ("Music" id 0,
-+	 * "Off" id 11). The vendor block that would have done this is #if 0'd
++	 * between the profiles our aw87xxx_acf.bin actually carries for
++	 * this board -- Voice / Receiver / Off, no "Music" (measured 2026-10-25). The vendor block that would have done this is #if 0'd
 +	 * out and looks up aw87xxx_i2c_pa/aw87xxx_audio_scene_load, which
 +	 * nothing exports, so this is not that code re-enabled.
 +	 */
 +	if (extral_iic_pa_en) {
-+		if (!aw87xxx_set_profile)
-+			return HOOK_OK;
 +		sp_asoc_pr_info("%s aw87xxx i2c pa, on %d\n", __func__, on);
-+		if (aw87xxx_set_profile(0, on ? "Music" : "Off"))
++		if (aw87xxx_set_profile(0, on ? "Voice" : "Off"))
 +			pr_err("%s aw87xxx_set_profile failed, on %d\n",
 +				__func__, on);
 +		if (on)

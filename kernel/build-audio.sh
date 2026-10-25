@@ -78,6 +78,24 @@ apply audio-pcm-pointer-agcp-access last_pointer
 apply audio-pcm-prealloc-guard "exceeds preallocated"
 apply audio-fe-dai-formats fe_dai_uses_mcdt
 apply audio-sprd-card-dummy-on-defer dummy_on_defer
+# Drives the aw87xxx speaker PA from the machine card via aw87xxx_set_profile(), the one symbol that
+# driver exports. Without it the Speaker widget only reaches the gpio fallback, which cannot work on
+# this board (no sprd,spk-ext-pa-gpio in the DT) and dies at "gpio is invalid!", leaving the amp in
+# its "Off" profile. This patch was in kernel/patches/ but never wired into this list.
+apply audio-sprd-card-aw87xxx-hook aw87xxx_set_profile
+
+# Diagnostic only: turn on sprd-dmaengine-pcm.c's existing debug_pointer_log so sprd_pcm_pointer()
+# prints the DMA address it reads. Needed because this kernel does not expose pcm0p/sub0/hw_ptr and
+# "aplay ... write error: I/O error" leaves no trace of whether the DMA ever moved (2026-10-25).
+sed -i 's/^static int debug_pointer_log;/static int debug_pointer_log = 1;/' \
+    $A/sprd/platform/dmaengine_pcm/sprd-dmaengine-pcm.c
+
+# VBC_VOLUME is declared with max = MAX_32_BIT (0xffffffff). ALSA reads the max as a signed int, gets -1, and
+# then the element's range is max < min - so snd_ctl_elem_write rejects every write with EPERM and the value can
+# never leave whatever the DSP defaults to (it reads back -1 here). The vendor HAL does write this control
+# (mu300-voice writes VOLUME+1, 7 for a normal call volume), so it is meant to be writable; 0x7fffffff keeps the
+# same 32-bit width without the sign flip.
+sed -i 's/MAX_32_BIT, 0,/0x7fffffff, 0,/' $A/sprd/dai/vbc/v4/vbc_dai/vbc-dai.c
 
 # ---- what gets built, and why the set looks like it does -------------------
 # Android runs 27 audio .ko on this phone (the vendor_boot ramdisk /lib/modules set =

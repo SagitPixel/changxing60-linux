@@ -35,6 +35,11 @@ for a in "$@"; do
     esac
 done
 
+# sprd-dma is deliberately NOT in this list. It is the DMA controller at 56650000.dma-controller and
+# without it the machine card defers out of existence -- but loading it here binds sound@0 too early,
+# and with the card bound the VBC profile write to /dev/vbc_turning0 NULL-derefs and panics the kernel.
+# changxing60-audio-up loads it as its *last* step instead: modules -> VBC profiles -> sprd-dma.
+#
 # The set, in load order. snd-soc-sprd-pa-ucp1301 is deliberately not here: this board has no
 # ucp1301 speaker amplifier in its device tree, so there is nothing for it to bind.
 MODULES="

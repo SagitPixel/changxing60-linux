@@ -1,0 +1,106 @@
+#!/bin/sh
+# changxing60-audio-up -- bring the ASoC stack up in the order the DSP actually wants.
+#
+# WHY THIS EXISTS (measured 2026-10-24 on this board, three facts):
+#
+#   * `sprd-dma` (the DMA controller at 56650000.dma-controller) is what lets sprd-pcm-audio off its
+#     "waiting_for_supplier" and sound@0 probe. Without it /proc/asound/cards is empty -- that is why
+#     the 27-module list alone never produced a card.
+#   * `vbc_codec->codec` -- the pointer vbc_turning_ndp_write() passes into the profile loader -- is set
+#     in vbc_codec_soc_probe(), i.e. when the ASoC component probes, which happens as part of the machine
+#     card binding. Writing a profile before that leaves it NULL, and vbc_turning_profile_loading()
+#     dereferences it without a check: NULL + offsetof(vbc_profile_setting) = NULL + 0x18, which is
+#     exactly the fault address in the pstore trace (vbc_turning_ndp_write+0x150, 2026-10-24, twice).
+#
+# So the order is: modules -> sprd-dma -> WAIT for the card -> profiles. Not "profiles then card" (that
+# crashed too) and not "card then profiles immediately" (the card appears asynchronously, the write raced
+# it). The wait is what was missing both times.
+#
+set -u
+export PATH="$PATH:/opt/changxing60/bin:/opt/changxing60/busybox-bin:/usr/sbin:/sbin"
+
+LOAD=/opt/changxing60/bin/changxing60-audio-load
+VBC=/opt/changxing60/bin/changxing60-vbc-load
+MODDIR=/lib/modules/$(uname -r)
+LOG=/root/audio-up.log
+
+say() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$LOG"
+    logger -t changxing60-audio "$*"
+}
+
+loaded() { [ -d "/sys/module/$1" ]; }
+
+say "audio-up: start (VBC_LOAD=${CHANGXING60_VBC_LOAD:-1})"
+
+# 0. The speaker amplifier driver, BEFORE anything else. snd-soc-sprd-card's speaker hook calls
+#    aw87xxx_set_profile() through an `extern int __weak` declaration, and a weak symbol is resolved
+#    when the referring module is loaded: if this driver is not in the kernel by then the pointer stays
+#    NULL for the life of the boot and the amp is never switched out of its "Off" profile -- silently,
+#    because the hook just returns.
+if [ -f "$MODDIR/snd-soc-sprd-pa-aw87xxx.ko" ]; then
+    loaded snd_soc_sprd_pa_aw87xxx || insmod "$MODDIR/snd-soc-sprd-pa-aw87xxx.ko" >> "$LOG" 2>&1
+    if loaded snd_soc_sprd_pa_aw87xxx; then
+        say "audio-up: amp driver loaded (aw87xxx)"
+    else
+        say "audio-up: amp driver FAILED to load, speaker stays silent"
+    fi
+fi
+
+# 1. modules. The machine card will sit in deferred-probe until step 3, by design.
+if [ -x "$LOAD" ]; then
+    if "$LOAD" >> "$LOG" 2>&1; then
+        say "audio-up: step 1 ok, 27 modules"
+    else
+        say "audio-up: step 1 incomplete, see /root/audio-load.log"
+    fi
+else
+    say "audio-up: no module loader at $LOAD"
+fi
+
+# 2. the DMA controller: this is what makes sound@0 probe at all.
+loaded virt_dma || insmod "$MODDIR/virt-dma.ko" >> "$LOG" 2>&1
+loaded sprd_dma || insmod "$MODDIR/sprd-dma.ko" >> "$LOG" 2>&1
+
+# 3..5 are wrapped in a background worker: waiting here blocks init, and the whole boot stalls
+#    behind it (measured 2026-10-25: the 300s poll made a boot take 5 minutes). The card genuinely
+#    appears late on this board -- that is worth investigating on its own -- but it must not gate
+#    the rest of the system coming up.
+(
+# 3. wait for the card. The probe runs on the deferred-probe worker, so this is not instant, and the
+#    component probe that fills in vbc_codec->codec happens inside it. Writing the profiles before
+#    the card is up is what panicked the kernel on 2026-10-24.
+i=0
+while [ $i -lt 300 ]; do
+    if [ -s /proc/asound/cards ] && ! grep -q "no soundcards" /proc/asound/cards 2>/dev/null; then
+        break
+    fi
+    sleep 1
+    i=$((i + 1))
+done
+if [ -s /proc/asound/cards ] && ! grep -q "no soundcards" /proc/asound/cards 2>/dev/null; then
+    say "audio-up: card up after ${i}s: $(head -1 /proc/asound/cards | sed 's/^ *//')"
+else
+    say "audio-up: NO CARD after 300s, skipping the VBC profiles (still applying the route)"
+fi
+
+# 4. VBC profiles -- only now is vbc_codec->codec valid.
+if [ "${CHANGXING60_VBC_LOAD:-1}" = 1 ] && [ -x "$VBC" ]; then
+    if "$VBC" >> "$LOG" 2>&1; then
+        say "audio-up: VBC profiles loaded"
+    else
+        say "audio-up: VBC load FAILED, see /root/vbc-load.log"
+    fi
+else
+    say "audio-up: VBC profiles skipped"
+fi
+
+# 5. Open the FE->BE crossbar and the analog output. Without this every play attempt dies at
+#    "no backend DAIs enabled" because the FE has no BE client (see changxing60-audio-route).
+if [ -x /opt/changxing60/bin/changxing60-audio-route ]; then
+    /opt/changxing60/bin/changxing60-audio-route
+fi
+) >/dev/null 2>&1 &
+
+say "audio-up: done"
+true
