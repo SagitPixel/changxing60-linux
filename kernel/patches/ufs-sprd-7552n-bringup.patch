@@ -1,5 +1,5 @@
 diff --git a/drivers/ufs/host/ufs-sprd.c b/drivers/ufs/host/ufs-sprd.c
-index 65bd8fb96..b495283e1 100644
+index 65bd8fb96..ee4cc2dc8 100644
 --- a/drivers/ufs/host/ufs-sprd.c
 +++ b/drivers/ufs/host/ufs-sprd.c
 @@ -6,6 +6,7 @@
@@ -61,7 +61,7 @@ index 65bd8fb96..b495283e1 100644
  	}
  
  	/* Parse UFS vreg info */
-@@ -257,6 +274,25 @@ static int ufs_sprd_n6_init(struct ufs_hba *hba)
+@@ -257,6 +274,51 @@ static int ufs_sprd_n6_init(struct ufs_hba *hba)
  	if (ret != 0)
  		return ret;
  
@@ -84,10 +84,36 @@ index 65bd8fb96..b495283e1 100644
 +			 (long)PTR_ERR_OR_ZERO(hclk_src), cret);
 +	}
 +
++	/*
++	 * clk_summary showed every UFS gate as "deviceless" with the hardware
++	 * enable bit clear (ufs-eb / ufs-cfg-eb / ufs-tx-eb / ufs-rx-*-eb = N).
++	 * Only ufs-pck and ufs-cfg were on, which is enough to read registers but
++	 * not to bring the controller out of reset - touching the PHY hung the
++	 * bus. Claim and enable them here.
++	 */
++	{
++		static const char * const gates[] = {
++			"ufs_eb", "ufs_cfg_eb", "ufs_hclk", NULL,
++		};
++		int i;
++
++		for (i = 0; gates[i]; i++) {
++			struct clk *c = devm_clk_get(hba->dev, gates[i]);
++
++			if (IS_ERR_OR_NULL(c)) {
++				dev_info(hba->dev, "ufs gate %s: none (%ld)\n",
++					 gates[i], (long)PTR_ERR_OR_ZERO(c));
++				continue;
++			}
++			dev_info(hba->dev, "ufs gate %s: enable=%d\n",
++				 gates[i], clk_prepare_enable(c));
++		}
++	}
++
  	priv = ufs_sprd_get_priv_data(hba);
  
  	ret = regulator_enable(priv->vregi[SPRD_UFS_VDD_MPHY].vreg);
-@@ -386,8 +422,9 @@ static void sprd_ufs_n6_h8_notify(struct ufs_hba *hba,
+@@ -386,8 +448,9 @@ static void sprd_ufs_n6_h8_notify(struct ufs_hba *hba,
  }
  
  static struct ufs_sprd_priv n6_ufs = {
@@ -99,7 +125,7 @@ index 65bd8fb96..b495283e1 100644
  
  	.sysci[SPRD_UFS_ANLG] = { .name = "sprd,ufs-anlg-syscon", },
  	.sysci[SPRD_UFS_AON_APB] = { .name = "sprd,aon-apb-syscon", },
-@@ -407,6 +444,9 @@ static struct ufs_sprd_priv n6_ufs = {
+@@ -407,6 +470,9 @@ static struct ufs_sprd_priv n6_ufs = {
  
  static const struct of_device_id __maybe_unused ufs_sprd_of_match[] = {
  	{ .compatible = "sprd,ums9620-ufs", .data = &n6_ufs.ufs_hba_sprd_vops},
