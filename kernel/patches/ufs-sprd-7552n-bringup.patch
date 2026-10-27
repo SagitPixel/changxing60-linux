@@ -1,8 +1,16 @@
 diff --git a/drivers/ufs/host/ufs-sprd.c b/drivers/ufs/host/ufs-sprd.c
-index 65bd8fb96..75e157945 100644
+index 65bd8fb96..b495283e1 100644
 --- a/drivers/ufs/host/ufs-sprd.c
 +++ b/drivers/ufs/host/ufs-sprd.c
-@@ -31,12 +31,21 @@ static struct ufs_sprd_priv *ufs_sprd_get_priv_data(struct ufs_hba *hba)
+@@ -6,6 +6,7 @@
+  * Author: Zhe Wang <zhe.wang1@unisoc.com>
+  */
+ 
++#include <linux/clk.h>
+ #include <linux/arm-smccc.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/of.h>
+@@ -31,12 +32,21 @@ static struct ufs_sprd_priv *ufs_sprd_get_priv_data(struct ufs_hba *hba)
  static void ufs_sprd_regmap_update(struct ufs_sprd_priv *priv, unsigned int index,
  				unsigned int reg, unsigned int bits,  unsigned int val)
  {
@@ -24,7 +32,7 @@ index 65bd8fb96..75e157945 100644
  	regmap_read(priv->sysci[index].regmap, reg, val);
  }
  
-@@ -74,8 +83,12 @@ static int ufs_sprd_get_syscon_reg(struct device *dev, struct ufs_sprd_syscon *s
+@@ -74,8 +84,12 @@ static int ufs_sprd_get_syscon_reg(struct device *dev, struct ufs_sprd_syscon *s
  {
  	sysci->regmap = syscon_regmap_lookup_by_phandle(dev->of_node, sysci->name);
  	if (IS_ERR(sysci->regmap)) {
@@ -39,7 +47,7 @@ index 65bd8fb96..75e157945 100644
  	}
  
  	return 0;
-@@ -112,8 +125,11 @@ static int ufs_sprd_parse_dt(struct device *dev, struct ufs_hba *hba, struct ufs
+@@ -112,8 +126,11 @@ static int ufs_sprd_parse_dt(struct device *dev, struct ufs_hba *hba, struct ufs
  		if (!priv->sysci[i].name)
  			continue;
  		ret = ufs_sprd_get_syscon_reg(dev, &priv->sysci[i]);
@@ -53,7 +61,33 @@ index 65bd8fb96..75e157945 100644
  	}
  
  	/* Parse UFS vreg info */
-@@ -386,8 +402,9 @@ static void sprd_ufs_n6_h8_notify(struct ufs_hba *hba,
+@@ -257,6 +274,25 @@ static int ufs_sprd_n6_init(struct ufs_hba *hba)
+ 	if (ret != 0)
+ 		return ret;
+ 
++	/*
++	 * The 5.4 driver reparents the UFS hclk onto ufs_hclk_source before any
++	 * controller access. This driver never touched the clocks at all, and
++	 * touching the controller/PHY registers without the right parent hung
++	 * the AHB bus on the 7552n.
++	 */
++	{
++		struct clk *hclk = devm_clk_get(hba->dev, "ufs_hclk");
++		struct clk *hclk_src = devm_clk_get(hba->dev, "ufs_hclk_source");
++		int cret = 0;
++
++		if (!IS_ERR_OR_NULL(hclk) && !IS_ERR_OR_NULL(hclk_src))
++			cret = clk_set_parent(hclk, hclk_src);
++
++		dev_info(hba->dev, "ufs clocks: hclk=%ld src=%ld set_parent=%d\n",
++			 (long)PTR_ERR_OR_ZERO(hclk),
++			 (long)PTR_ERR_OR_ZERO(hclk_src), cret);
++	}
++
+ 	priv = ufs_sprd_get_priv_data(hba);
+ 
+ 	ret = regulator_enable(priv->vregi[SPRD_UFS_VDD_MPHY].vreg);
+@@ -386,8 +422,9 @@ static void sprd_ufs_n6_h8_notify(struct ufs_hba *hba,
  }
  
  static struct ufs_sprd_priv n6_ufs = {
@@ -65,7 +99,7 @@ index 65bd8fb96..75e157945 100644
  
  	.sysci[SPRD_UFS_ANLG] = { .name = "sprd,ufs-anlg-syscon", },
  	.sysci[SPRD_UFS_AON_APB] = { .name = "sprd,aon-apb-syscon", },
-@@ -407,6 +424,9 @@ static struct ufs_sprd_priv n6_ufs = {
+@@ -407,6 +444,9 @@ static struct ufs_sprd_priv n6_ufs = {
  
  static const struct of_device_id __maybe_unused ufs_sprd_of_match[] = {
  	{ .compatible = "sprd,ums9620-ufs", .data = &n6_ufs.ufs_hba_sprd_vops},
