@@ -1,0 +1,1476 @@
+dmesg
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x412fd050]
+[    0.000000] Linux version 6.18.54-7552n-probe1+ (root@ef1c12419a2d) (Ubuntu clang version 18.1.3 (1ubuntu1), Ubuntu LLD 18.1.3) #11 SMP Mon Oct 26 10:21:43 UTC 2026
+[    0.000000] Machine model: Spreadtrum UMS9620 SoC
+[    0.000000] earlycon: sprd_serial0 at MMIO 0x0000000020210000 (options '115200n8')
+[    0.000000] printk: legacy bootconsole [sprd_serial0] enabled
+[    0.000000] OF: reserved mem: Reserved memory: failed to reserve memory for node 'sysdump-uboot@b5000000': base 0x00000000b5000000, size 0 MiB
+[    0.000000] OF: reserved mem: 0x00000000b0000000..0x00000000b09e3fff (10128 KiB) map non-reusable logobuffer@b0000000
+[    0.000000] OF: reserved mem: 0x0000000080000000..0x0000000080000fff (4 KiB) map non-reusable ddrbist-mem@80000000
+[    0.000000] OF: reserved mem: 0x0000000080001000..0x0000000080001fff (4 KiB) map non-reusable sysdumpinfo-mem@80001000
+[    0.000000] OF: reserved mem: 0x0000000087800000..0x0000000087ffffff (8192 KiB) map non-reusable sipc-mem@87800000
+[    0.000000] OF: reserved mem: 0x0000000088000000..0x00000000a4ffffff (475136 KiB) map non-reusable cp-modem@88000000
+[    0.000000] OF: reserved mem: 0x00000000ae600000..0x00000000ae8fffff (3072 KiB) map non-reusable ch_ddr@ae600000
+[    0.000000] OF: reserved mem: 0x00000000af700000..0x00000000af9fffff (3072 KiB) map non-reusable audio-mem@af700000
+[    0.000000] OF: reserved mem: 0x00000000afa00000..0x00000000afffffff (6144 KiB) map non-reusable audiodsp-mem@afa00000
+[    0.000000] OF: reserved mem: 0x00000000bbe80000..0x00000000bbefffff (512 KiB) map non-reusable uboot_log-mem@bbe80000
+[    0.000000] OF: reserved mem: 0x00000000bd000000..0x00000000bd03ffff (256 KiB) map non-reusable sml-mem@bd000000
+[    0.000000] OF: reserved mem: 0x00000000bd060000..0x00000000be8fffff (25216 KiB) map non-reusable tos-mem@bd020000
+[    0.000000] OF: reserved mem: 0x00000000c3000000..0x00000000c30fffff (1024 KiB) map non-reusable sh-mem@c3000000
+[    0.000000] OF: reserved mem: node cma_share@f00000000 compatible matching fail
+[    0.000000] OF: reserved mem: 0x00000000fff70000..0x00000000fff7ffff (64 KiB) nomap non-reusable rebootescrow@fff70000
+[    0.000000] OF: reserved mem: 0x00000000fff80000..0x00000000fffbffff (256 KiB) map non-reusable ramoops@fff80000
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000080000000-0x00000000ffffffff]
+[    0.000000]   DMA32    empty
+[    0.000000]   Normal   [mem 0x0000000100000000-0x000000017fffefff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000080000000-0x00000000fff6ffff]
+[    0.000000]   node   0: [mem 0x00000000fff70000-0x00000000fff7ffff]
+[    0.000000]   node   0: [mem 0x00000000fff80000-0x000000017fffefff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000080000000-0x000000017fffefff]
+[    0.000000] On node 0, zone Normal: 1 pages in unavailable ranges
+[    0.000000] psci: probing for conduit method from DT.
+[    0.000000] psci: PSCIv1.0 detected in firmware.
+[    0.000000] psci: Using standard PSCI v0.2 function IDs
+[    0.000000] psci: MIGRATE_INFO_TYPE not supported.
+[    0.000000] psci: SMC Calling Convention v1.0
+[    0.000000] Failed to init bootconfig: Config data is empty.
+[    0.000000] percpu: Embedded 33 pages/cpu s94744 r8192 d32232 u135168
+[    0.000000] pcpu-alloc: s94744 r8192 d32232 u135168 alloc=33*4096
+[    0.000000] pcpu-alloc: [0] 0 [0] 1 [0] 2 [0] 3 [0] 4 [0] 5 [0] 6 [0] 7 
+[    0.000000] Detected VIPT I-cache on CPU0
+[    0.000000] CPU features: detected: GICv3 CPU interface
+[    0.000000] CPU features: detected: Virtualization Host Extensions
+[    0.000000] alternatives: applying boot alternatives
+[    0.000000] Kernel command line: earlycon=sprd_serial,0x20210000,115200n8 console=tty0 console=ttyS1,115200n8 loglevel=7 log_buf_len=4M rdinit=/init panic=10 clk_ignore_unused pd_ignore_unused regulator_ignore_unused fw_devlink=permissive
+[    0.000000] printk: log buffer data + meta data: 4194304 + 14680064 = 18874368 bytes
+[    0.000000] printk: early log buf free: 127280(97%)
+[    0.000000] Dentry cache hash table entries: 524288 (order: 10, 4194304 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 262144 (order: 9, 2097152 bytes, linear)
+[    0.000000] software IO TLB: area num 8.
+[    0.000000] software IO TLB: mapped [mem 0x00000000fbf70000-0x00000000fff70000] (64MB)
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 1048575
+[    0.000000] mem auto-init: stack:all(zero), heap alloc:off, heap free:off
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
+[    0.000000] ftrace: allocating 46516 entries in 182 pages
+[    0.000000] ftrace: allocated 182 pages with 5 groups
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu:     RCU event tracing is enabled.
+[    0.000000]  Rude variant of Tasks RCU enabled.
+[    0.000000]  Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.000000] RCU Tasks Rude: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=8.
+[    0.000000] RCU Tasks Trace: Setting shift to 3 and lim to 1 rcu_task_cb_adjust=1 rcu_task_cpu_ids=8.
+[    0.000000] NR_IRQS: 64, nr_irqs: 64, preallocated irqs: 0
+[    0.000000] GICv3: GIC: Using split EOI/Deactivate mode
+[    0.000000] GICv3: 256 SPIs implemented
+[    0.000000] GICv3: 0 Extended SPIs implemented
+[    0.000000] Root IRQ handler: gic_handle_irq
+[    0.000000] GICv3: GICv3 features: 16 PPIs
+[    0.000000] GICv3: GICD_CTLR.DS=0, SCR_EL3.FIQ=1
+[    0.000000] GICv3: CPU0: found redistributor 0 region 0:0x0000000012040000
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.000000] clocksource: sprd_suspend_timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 58327039986419 ns
+[    0.000000] arch_timer: cp15 timer running at 26.00MHz (phys).
+[    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x5ff13d5a9, max_idle_ns: 440795202370 ns
+[    0.000000] sched_clock: 56 bits at 26MHz, resolution 38ns, wraps every 4398046511088ns
+[    0.008300] Console: colour dummy device 80x25
+[    0.012587] printk: legacy console [tty0] enabled
+[    0.017590] serial port 1 not yet initialized
+[    0.021893] Calibrating delay loop (skipped), value calculated using timer frequency.. 52.00 BogoMIPS (lpj=104000)
+[    0.032164] pid_max: default: 32768 minimum: 301
+[    0.036839] LSM: initializing lsm=capability
+[    0.041200] Mount-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.048556] Mountpoint-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.057909] rcu: Hierarchical SRCU implementation.
+[    0.062551] rcu:     Max phase no-delay instances is 1000.
+[    0.067965] Timer migration: 1 hierarchy levels; 8 children per group; 1 crossnode level
+[    0.076371] smp: Bringing up secondary CPUs ...
+[    0.081154] Detected VIPT I-cache on CPU1
+[    0.081195] GICv3: CPU1: found redistributor 100 region 0:0x0000000012060000
+[    0.081228] CPU1: Booted secondary processor 0x0000000100 [0x412fd050]
+[    0.081683] Detected VIPT I-cache on CPU2
+[    0.081720] GICv3: CPU2: found redistributor 200 region 0:0x0000000012080000
+[    0.081752] CPU2: Booted secondary processor 0x0000000200 [0x412fd050]
+[    0.082261] Detected VIPT I-cache on CPU3
+[    0.082297] GICv3: CPU3: found redistributor 300 region 0:0x00000000120a0000
+[    0.082329] CPU3: Booted secondary processor 0x0000000300 [0x412fd050]
+[    0.082950] CPU features: detected: Spectre-v4
+[    0.082953] CPU features: detected: Spectre-BHB
+[    0.082955] Detected PIPT I-cache on CPU4
+[    0.082976] GICv3: CPU4: found redistributor 400 region 0:0x00000000120c0000
+[    0.083001] CPU4: Booted secondary processor 0x0000000400 [0x414fd0b0]
+[    0.083475] Detected PIPT I-cache on CPU5
+[    0.083499] GICv3: CPU5: found redistributor 500 region 0:0x00000000120e0000
+[    0.083525] CPU5: Booted secondary processor 0x0000000500 [0x414fd0b0]
+[    0.083995] Detected PIPT I-cache on CPU6
+[    0.084019] GICv3: CPU6: found redistributor 600 region 0:0x0000000012100000
+[    0.084045] CPU6: Booted secondary processor 0x0000000600 [0x414fd0b0]
+[    0.084720] Detected PIPT I-cache on CPU7
+[    0.084745] GICv3: CPU7: found redistributor 700 region 0:0x0000000012120000
+[    0.084770] CPU7: Booted secondary processor 0x0000000700 [0x414fd0b0]
+[    0.084817] smp: Brought up 1 node, 8 CPUs
+[    0.221091] SMP: Total of 8 processors activated.
+[    0.225799] CPU: All CPU(s) started at EL2
+[    0.229897] CPU features: detected: 32-bit EL0 Support
+[    0.235040] CPU features: detected: Data cache clean to the PoU not required for I/D coherence
+[    0.243583] CPU features: detected: CRC32 instructions
+[    0.248814] CPU features: detected: RCpc load-acquire (LDAPR)
+[    0.254478] CPU features: detected: PMUv3
+[    0.258575] CPU features: detected: Speculative Store Bypassing Safe (SSBS)
+[    0.265592] alternatives: applying system-wide alternatives
+[    0.272104] Memory: 3422072K/4194300K available (14528K kernel code, 2134K rwdata, 4924K rodata, 4544K init, 357K bss, 763264K reserved, 0K cma-reserved)
+[    0.286171] devtmpfs: initialized
+[    0.293814] posixtimers hash table entries: 4096 (order: 4, 65536 bytes, linear)
+[    0.301084] futex hash table entries: 2048 (131072 bytes on 1 NUMA nodes, total 128 KiB, linear).
+[    0.309973] 26096 pages in range for non-PLT usage
+[    0.309974] 517616 pages in range for PLT usage
+[    0.314752] pinctrl core: initialized pinctrl subsystem
+[    0.325339] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.331311] DMA: preallocated 512 KiB GFP_KERNEL pool for atomic allocations
+[    0.338307] DMA: preallocated 512 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    0.345973] DMA: preallocated 512 KiB GFP_KERNEL|GFP_DMA32 pool for atomic allocations
+[    0.353975] thermal_sys: Registered thermal governor 'step_wise'
+[    0.353977] thermal_sys: Registered thermal governor 'user_space'
+[    0.359937] cpuidle: using governor menu
+[    0.370754] sprd-audio: adapted legacy power domain and 9 consumers
+[    0.376902] hw-breakpoint: found 6 breakpoint and 4 watchpoint registers.
+[    0.383871] ASID allocator initialised with 65536 entries
+[    0.389673] pstore: Using crash dump compression: deflate
+[    0.395000] printk: legacy console [ramoops-1] enabled
+[    0.400357] pstore: Registered ramoops as persistent store backend
+[    0.406464] ramoops: using 0x40000@0xfff80000, ecc: 0
+[    0.414337] /soc/dpuvsp/dpu@31000000: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000
+[    0.422813] /soc/dpuvsp/dsi@31300000: Fixed dependency cycle(s) with /soc/dpuvsp/dpu@31000000
+[    0.431254] /soc/dpuvsp/dsi@31300000: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[    0.439190] /soc/dpuvsp/dsi@31300000/panel: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[    0.447463] /soc/dpuvsp/dsi1@31400000: Fixed dependency cycle(s) with /soc/dpuvsp/dphy1
+[    0.455482] /soc/dpuvsp/dphy: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000
+[    0.463319] /soc/dpuvsp/dphy: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000/panel
+[    0.471772] /soc/dpuvsp/dphy1: Fixed dependency cycle(s) with /soc/dpuvsp/dsi1@31400000
+[    0.479995] /soc/funnel@78002000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    0.487759] /soc/funnel@78002000: Fixed dependency cycle(s) with /soc/etb@78003000
+[    0.495264] /soc/etb@78003000: Fixed dependency cycle(s) with /soc/funnel@78002000
+[    0.502922] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b540000
+[    0.510503] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b440000
+[    0.517996] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b140000
+[    0.525664] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b040000
+[    0.533162] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etf@7a002000
+[    0.540744] /soc/etf@7a002000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    0.548410] /soc/etf@7a002000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    0.555991] /soc/etf@7a003000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    0.563572] /soc/etf@7a003000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    0.571067] /soc/funnel@7a004000: Fixed dependency cycle(s) with /soc/etf@7a003000
+[    0.578734] /soc/funnel@7a004000: Fixed dependency cycle(s) with /soc/etf@7a002000
+[    0.586311] /soc/funnel@7a004000: Fixed dependency cycle(s) with /soc/funnel@78002000
+[    0.594155] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b740000
+[    0.601735] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b640000
+[    0.609316] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b340000
+[    0.616810] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b240000
+[    0.624395] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etf@7a003000
+[    0.631982] /soc/etm@7b040000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    0.639562] /soc/etm@7b140000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    0.647142] /soc/etm@7b240000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    0.654724] /soc/etm@7b340000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    0.662391] /soc/etm@7b440000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    0.669972] /soc/etm@7b540000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    0.677552] /soc/etm@7b640000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    0.685134] /soc/etm@7b740000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    0.693775] /soc/dpuvsp/dpu@31000000: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000
+[    0.702250] /soc/dpuvsp/dsi@31300000: Fixed dependency cycle(s) with /soc/dpuvsp/dpu@31000000
+[    0.710690] /soc/dpuvsp/dsi@31300000: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[    0.718627] /soc/dpuvsp/dsi@31300000/panel: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[    0.726986] /soc/dpuvsp/dsi1@31400000: Fixed dependency cycle(s) with /soc/dpuvsp/dphy1
+[    0.734920] /soc/dpuvsp/dphy: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000
+[    0.742843] /soc/dpuvsp/dphy: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000/panel
+[    0.751210] /soc/dpuvsp/dphy1: Fixed dependency cycle(s) with /soc/dpuvsp/dsi1@31400000
+[    0.759165] /soc/dpuvsp/dpu@31000000: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000
+[    0.767890] /soc/dpuvsp/dpu@31000000: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000
+[    0.776278] /soc/dpuvsp/dsi@31300000: Fixed dependency cycle(s) with /soc/dpuvsp/dpu@31000000
+[    0.784901] /soc/dpuvsp/dsi@31300000: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[    0.792655] /soc/dpuvsp/dsi@31300000/panel: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[    0.801119] /soc/dpuvsp/dsi1@31400000: Fixed dependency cycle(s) with /soc/dpuvsp/dphy1
+[    0.809141] /soc/dpuvsp/dsi@31300000/panel: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[    0.817490] /soc/dpuvsp/dsi@31300000: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[    0.825255] /soc/dpuvsp/dphy: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000/panel
+[    0.833623] /soc/dpuvsp/dsi1@31400000: Fixed dependency cycle(s) with /soc/dpuvsp/dphy1
+[    0.841714] /soc/dpuvsp/dphy1: Fixed dependency cycle(s) with /soc/dpuvsp/dsi1@31400000
+[    0.851308] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/simclk1
+[    0.860298] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/simda1
+[    0.869270] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/simrst1
+[    0.878333] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/keyin0
+[    0.887220] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/keyin1
+[    0.896283] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/sd0_clk
+[    0.905258] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/emmc_cmd
+[    0.914408] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/emmc_d6
+[    0.923559] /soc/aon/pinctrl@2e0000: Fixed dependency cycle(s) with /soc/aon/pinctrl@2e0000/emmc_d7
+[    0.934789] /soc/funnel@78002000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    0.942471] /soc/funnel@78002000: Fixed dependency cycle(s) with /soc/etb@78003000
+[    0.950194] /soc/funnel@78002000: Fixed dependency cycle(s) with /soc/etb@78003000
+[    0.957650] /soc/etb@78003000: Fixed dependency cycle(s) with /soc/funnel@78002000
+[    0.965281] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b540000
+[    0.972797] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b440000
+[    0.980376] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b140000
+[    0.987957] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b040000
+[    0.995541] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etf@7a002000
+[    1.003253] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etf@7a002000
+[    1.010796] /soc/etf@7a002000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    1.018377] /soc/etf@7a002000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    1.025907] /soc/etf@7a003000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    1.033532] /soc/etf@7a003000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    1.041154] /soc/etf@7a003000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    1.048616] /soc/etf@7a002000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    1.056198] /soc/funnel@78002000: Fixed dependency cycle(s) with /soc/funnel@7a004000
+[    1.064123] /soc/funnel@7a004000: Fixed dependency cycle(s) with /soc/etf@7a003000
+[    1.071705] /soc/funnel@7a004000: Fixed dependency cycle(s) with /soc/etf@7a002000
+[    1.079281] /soc/funnel@7a004000: Fixed dependency cycle(s) with /soc/funnel@78002000
+[    1.087173] /soc/etf@7a003000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    1.094621] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b740000
+[    1.102194] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b640000
+[    1.109861] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b340000
+[    1.117357] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b240000
+[    1.125026] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etf@7a003000
+[    1.132666] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b040000
+[    1.140200] /soc/etm@7b040000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    1.147759] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b140000
+[    1.155276] /soc/etm@7b140000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    1.163008] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b240000
+[    1.170523] /soc/etm@7b240000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    1.178169] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b340000
+[    1.185684] /soc/etm@7b340000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    1.193331] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b440000
+[    1.200846] /soc/etm@7b440000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    1.208406] /soc/funnel@7a001000: Fixed dependency cycle(s) with /soc/etm@7b540000
+[    1.215920] /soc/etm@7b540000: Fixed dependency cycle(s) with /soc/funnel@7a001000
+[    1.223653] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b640000
+[    1.231175] /soc/etm@7b640000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    1.238824] /soc/funnel@7a005000: Fixed dependency cycle(s) with /soc/etm@7b740000
+[    1.246250] /soc/etm@7b740000: Fixed dependency cycle(s) with /soc/funnel@7a005000
+[    1.254673] OF: /debuglog: could not find phandle 1936749156
+[    1.262006] HugeTLB: registered 1.00 GiB page size, pre-allocated 0 pages
+[    1.268640] HugeTLB: 0 KiB vmemmap can be freed for a 1.00 GiB page
+[    1.274913] HugeTLB: registered 32.0 MiB page size, pre-allocated 0 pages
+[    1.281798] HugeTLB: 0 KiB vmemmap can be freed for a 32.0 MiB page
+[    1.288073] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    1.294784] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+[    1.301145] HugeTLB: registered 64.0 KiB page size, pre-allocated 0 pages
+[    1.307856] HugeTLB: 0 KiB vmemmap can be freed for a 64.0 KiB page
+[    1.314461] iommu: Default domain type: Translated
+[    1.319089] iommu: DMA domain TLB invalidation policy: strict mode
+[    1.325573] SCSI subsystem initialized
+[    1.329185] usbcore: registered new interface driver usbfs
+[    1.334651] usbcore: registered new interface driver hub
+[    1.339965] usbcore: registered new device driver usb
+[    1.345187] usb_phy_generic soc:ipa-apb:dummyphy: dummy supplies not allowed for exclusive requests (id=vbus)
+[    1.355074] pps_core: LinuxPPS API ver. 1 registered
+[    1.359924] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    1.369076] PTP clock support registered
+[    1.373299] sprd-trusty-core trusty: trusty version: Unisoc TEE v2.1.1, qogirn6pro, Built: 03:44:22 Mar  5 2024, c37ad1a7 (builder@zishcicd0122)
+[    1.386122] sprd-trusty-core trusty: selected api version: 2 (requested 3)
+[    1.393094] Advanced Linux Sound Architecture Driver Initialized.
+[    1.399239] Bluetooth: Core ver 2.22
+[    1.402764] NET: Registered PF_BLUETOOTH protocol family
+[    1.408076] Bluetooth: HCI device and connection manager initialized
+[    1.414351] Bluetooth: HCI socket layer initialized
+[    1.419317] Bluetooth: L2CAP socket layer initialized
+[    1.424372] Bluetooth: SCO socket layer initialized
+[    1.429368] vgaarb: loaded
+[    1.432024] clocksource: Switched to clocksource arch_sys_counter
+[    1.439659] VFS: Disk quotas dquot_6.6.0
+[    1.443422] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    1.453183] NET: Registered PF_INET protocol family
+[    1.458056] IP idents hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    1.466176] tcp_listen_portaddr_hash hash table entries: 2048 (order: 3, 32768 bytes, linear)
+[    1.474652] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    1.482308] TCP established hash table entries: 32768 (order: 6, 262144 bytes, linear)
+[    1.490329] TCP bind hash table entries: 32768 (order: 8, 1048576 bytes, linear)
+[    1.498086] TCP: Hash tables configured (established 32768 bind 32768)
+[    1.504606] MPTCP token hash table entries: 4096 (order: 5, 98304 bytes, linear)
+[    1.511968] UDP hash table entries: 2048 (order: 5, 131072 bytes, linear)
+[    1.518718] UDP-Lite hash table entries: 2048 (order: 5, 131072 bytes, linear)
+[    1.525984] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    1.531819] PCI: CLS 0 bytes, default 64
+[    1.535793] Unpacking initramfs...
+[    1.540346] kvm [1]: nv: 568 coarse grained trap handlers
+[    1.545726] kvm [1]: IPA Size Limit: 40 bits
+[    1.549876] kvm [1]: GICv3: no GICV resource entry
+[    1.554739] kvm [1]: disabling GICv2 emulation
+[    1.559206] kvm [1]: GIC system register CPU interface enabled
+[    1.565036] kvm [1]: vgic interrupt IRQ9
+[    1.568905] kvm [1]: VHE mode initialized successfully
+[    1.574720] Initialise system trusted keyrings
+[    1.579201] workingset: timestamp_bits=46 max_order=20 bucket_order=0
+[    1.585675] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    1.609505] Key type asymmetric registered
+[    1.613449] Asymmetric key parser 'x509' registered
+[    1.618455] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 245)
+[    1.636747] sprd-dma 20020000.dma-controller: no optional ashb eb clock
+[    1.644389] ums9620-ipa-sys-pd soc:aon:sipa-sys: IPA subsystem power domain registered
+[    1.652951] 20200000.serial: ttyS0 at MMIO 0x20200000 (irq = 19, base_baud = 1625000) is a SPX
+[    1.661454] serial port 1 not yet initialized
+[    1.666083] 20210000.serial: ttyS1 at MMIO 0x20210000 (irq = 20, base_baud = 1625000) is a SPX
+[    1.674664] printk: legacy console [ttyS1] enabled
+[    1.684168] printk: legacy bootconsole [sprd_serial0] disabled
+[    1.693765] Freeing initrd memory: 36384K
+[    1.704025] 20220000.serial: ttyS2 at MMIO 0x20220000 (irq = 21, base_baud = 1625000) is a SPX
+[    1.712737] 20230000.serial: ttyS3 at MMIO 0x20230000 (irq = 22, base_baud = 1625000) is a SPX
+[    1.724831] loop: module loaded
+[    1.727968] zram: Added device: zram0
+[    1.731719] sprd-adi 64400000.spi: no hardware spinlock supplied
+[    1.738931] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.748180] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.757417] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.766687] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.775942] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.785204] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.794462] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.803722] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.812981] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.822238] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.831485] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.840764] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.850003] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.859277] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.868537] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.877795] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.887055] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.896302] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.905561] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.914840] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.924091] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.933348] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.942611] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.951870] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.961129] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.970377] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.979642] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.988908] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    1.998174] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.007427] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.016685] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.025950] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.035216] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.044473] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.053735] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.062988] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.072238] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.081515] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.090768] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.100034] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.109275] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.118544] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.127803] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.137063] ump962x-regulator 64400000.spi:pmic@0:power-controller@2000: regulator debugfs is disabled
+[    2.146820] ump9621-regulator 64400000.spi:pmic@1:power-controller@2000: regulator debugfs is disabled
+[    2.156061] ump9621-regulator 64400000.spi:pmic@1:power-controller@2000: regulator debugfs is disabled
+[    2.165309] ump9621-regulator 64400000.spi:pmic@1:power-controller@2000: regulator debugfs is disabled
+[    2.174554] ump9621-regulator 64400000.spi:pmic@1:power-controller@2000: regulator debugfs is disabled
+[    2.183830] ump9621-regulator 64400000.spi:pmic@1:power-controller@2000: regulator debugfs is disabled
+[    2.193092] ump9621-regulator 64400000.spi:pmic@1:power-controller@2000: regulator debugfs is disabled
+[    2.202700] wireguard: WireGuard 1.0.0 loaded. See www.wireguard.com for information.
+[    2.210418] wireguard: Copyright (C) 2015-2019 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+[    2.220019] tun: Universal TUN/TAP device driver, 1.6
+[    2.225034] PPP generic driver version 2.4.2
+[    2.229283] usbcore: registered new interface driver ax88179_178a
+[    2.235278] usbcore: registered new interface driver cdc_ether
+[    2.241074] usbcore: registered new interface driver net1080
+[    2.246698] usbcore: registered new interface driver rndis_host
+[    2.252581] usbcore: registered new interface driver cdc_subset
+[    2.258465] usbcore: registered new interface driver zaurus
+[    2.264004] usbcore: registered new interface driver cdc_ncm
+[    2.269629] usbcore: registered new interface driver r8153_ecm
+[    2.276028] ums9620-ipa-sys-pd soc:aon:sipa-sys: power on
+[    2.282807] usbcore: registered new interface driver usb-storage
+[    2.288950] sc27xx-typec 64400000.spi:pmic@0:typec@380: failed to set typec rtrim -517
+[    2.297139] sprd-rtc 64400000.spi:pmic@0:rtc@200: registered as rtc0
+[    2.303413] sprd-rtc 64400000.spi:pmic@0:rtc@200: setting system clock to 2026-10-26T16:28:35 UTC (1793032115)
+[    2.313373] i2c_dev: i2c /dev entries driver
+[    2.319476] ump96xx-tsensor 64400000.spi:pmic@2:tsensor@20f8: failed to get v2t table id
+[    2.327457] ump96xx-tsensor 64400000.spi:pmic@2:tsensor@20f8: probe with driver ump96xx-tsensor failed with error -22
+[    2.338331] ump9620-wdt 64400000.spi:pmic@0:watchdog@40: LK ctrl 0xa, running with 60 s timeout
+[    2.346935] Bluetooth: HCI UART driver ver 2.3
+[    2.351332] Bluetooth: HCI UART protocol H4 registered
+[    2.356908] sdhci: Secure Digital Host Controller Interface driver
+[    2.362978] sdhci: Copyright(c) Pierre Ossman
+[    2.367304] sdhci-pltfm: SDHCI platform and OF driver helper
+[    2.373385] usbcore: registered new interface driver usbhid
+[    2.373419] sdhci_sprd_r11 22210000.sdio: Got CD GPIO
+[    2.378851] usbhid: USB HID core driver
+[    2.379405] [SPRD_ADC] calib err! big_scale_calib1:-517
+[    2.392875] [SPRD_ADC] failed to calib graphs from nvmem
+[    2.398752] armv8-pmu pmu: hw perfevents: no interrupt-affinity property, guessing.
+[    2.406912] hw perfevents: enabled with armv8_pmuv3 PMU driver, 7 (0,8000003f) counters available
+[    2.407179] mmc0: SDHCI controller on 22200000.sdio [22200000.sdio] using ADMA 64-bit
+[    2.416425] watchdog: NMI not fully supported
+[    2.427793] watchdog: Hard watchdog permanently disabled
+[    2.431659] mmc2: SDHCI controller on 22220000.sdio [22220000.sdio] using ADMA 64-bit
+[    2.432614] mmc1: SDHCI controller on 22210000.sdio [22210000.sdio] using ADMA 64-bit
+[    2.433265] sprd-trusty-virtio trusty:virtio: initializing
+[    2.454171] sprd-trusty-ipc virtio0: vring0: va(pa)  (____ptrval____)(0) qsz 64 notifyid 1
+[    2.462323] sprd-trusty-ipc virtio0: vring1: va(pa)  (____ptrval____)(0) qsz 64 notifyid 2
+[    2.470659] sprd-trusty-virtio trusty:virtio: initializing done
+[    2.470789] sprd-trusty-ipc virtio0: is online
+[    2.476584] usbcore: registered new interface driver snd-usb-audio
+[    2.487402] NET: Registered PF_INET6 protocol family
+[    2.492581] Segment Routing with IPv6
+[    2.496153] In-situ OAM (IOAM) with IPv6
+[    2.500063] NET: Registered PF_PACKET protocol family
+[    2.505062] bridge: filtering via arp/ip/ip6tables is no longer available by default. Update your scripts to load br_netfilter if you need this.
+[    2.518016] Bluetooth: RFCOMM TTY layer initialized
+[    2.521873] mmc0: Got command interrupt 0x00000001 even though no command operation was in progress.
+[    2.522794] Bluetooth: RFCOMM socket layer initialized
+[    2.531877] mmc0: sdhci: ============ SDHCI REGISTER DUMP ===========
+[    2.531880] mmc0: sdhci: Sys addr:  0x00000000 | Version:  0x00000004
+[    2.536992] Bluetooth: RFCOMM ver 1.11
+[    2.543388] mmc0: sdhci: Blk size:  0x00000000 | Blk cnt:  0x00000000
+[    2.543392] mmc0: sdhci: Argument:  0x00000000 | Trn mode: 0x00000003
+[    2.549793] Bluetooth: BNEP (Ethernet Emulation) ver 1.3
+[    2.553511] mmc0: sdhci: Present:   0x01f000f0 | Host ctl: 0x00000000
+[    2.559918] Bluetooth: BNEP socket layer initialized
+[    2.566320] mmc0: sdhci: Power:     0x00000000 | Blk gap:  0x00000000
+[    2.571598] Bluetooth: HIDP (Human Interface Emulation) ver 1.2
+[    2.578003] mmc0: sdhci: Wake-up:   0x00000000 | Clock:    0x0000cfc7
+[    2.582935] Bluetooth: HIDP socket layer initialized
+[    2.589339] mmc0: sdhci: Timeout:   0x00000000 | Int stat: 0x00000000
+[    2.595295] 8021q: 802.1Q VLAN Support v1.8
+[    2.601628] mmc0: sdhci: Int enab:  0x007f0003 | Sig enab: 0x007f0003
+[    2.601632] mmc0: sdhci: ACmd stat: 0x00000000 | Slot int: 0x00000000
+[    2.608069] Loading compiled-in X.509 certificates
+[    2.612963] mmc0: sdhci: Caps:      0x1e6d0080 | Caps_1:   0x08000007
+[    2.612967] mmc0: sdhci: Cmd:       0x00000102 | Max curr: 0x00ffffff
+[    2.619423] Key type .fscrypt registered
+[    2.623520] mmc0: sdhci: Resp[0]:   0x00000000 | Resp[1]:  0x00000000
+[    2.623524] mmc0: sdhci: Resp[2]:   0x00000000 | Resp[3]:  0x00000000
+[    2.629926] Key type fscrypt-provisioning registered
+[    2.634686] mmc0: sdhci: Host ctl2: 0x00001000
+[    2.646791] sprd-ssphy 25310000.ssphy: No separate ID extcon device
+[    2.647494] mmc0: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0x0000000000000000
+[    2.651393] switch dp/dm to usb
+[    2.657789] mmc0: sdhci: ============================================
+[    2.659121] mmc0: Failed to initialize a non-removable card
+[    2.664206] sprd-ssphy 25310000.ssphy: UMS9620 USB 3.1 PHY registered
+[    2.744278] sc27xx-typec 64400000.spi:pmic@0:typec@380: typec vbus notify off.
+[    2.751435] sc27xx_vbus_ok_bypass 834
+[    2.751477] sc27xx-typec 64400000.spi:pmic@0:typec@380: sc27xx_typec_interrupt enter line 783
+[    2.752425] thermal_sys: No trip points found for chg-sensor id=0
+[    2.755076] sc27xx-typec 64400000.spi:pmic@0:typec@380: sc27xx_typec_check: count=0 last=0.000000 delta=2.663061
+[    2.764170] thermal_sys: No trip points found for nr-sensor id=0
+[    2.769650] sc27xx-typec 64400000.spi:pmic@0:typec@380: now works as DRP and is in 2 state, event 1, dbg1 0x103, dbg2 0x900
+[    2.780411] thermal_sys: No trip points found for pa-sensor id=0
+[    2.803459] thermal_sys: No trip points found for thermal-sensor id=0
+[    2.810849] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    2.814385] mmc1: Got command interrupt 0x00000001 even though no command operation was in progress.
+[    2.819346] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    2.828425] mmc1: sdhci: ============ SDHCI REGISTER DUMP ===========
+[    2.828429] mmc1: sdhci: Sys addr:  0x00000000 | Version:  0x00000004
+[    2.833295] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    2.839676] mmc1: sdhci: Blk size:  0x00000000 | Blk cnt:  0x00000000
+[    2.839680] mmc1: sdhci: Argument:  0x00000000 | Trn mode: 0x00000003
+[    2.846482] input: gpio-keys as /devices/platform/gpio-keys/input/input0
+[    2.851876] mmc1: sdhci: Present:   0x01f00000 | Host ctl: 0x00000000
+[    2.851880] mmc1: sdhci: Power:     0x00000000 | Blk gap:  0x00000000
+[    2.858636] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    2.858664] cfg80211: Loading compiled-in X.509 certificates for regulatory database
+[    2.859188] Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+[    2.859376] Loaded X.509 cert 'wens: 61c038651aabdcf94bd0ac7ff06c7248db18c600'
+[    2.859413] clk: Not disabling unused clocks
+[    2.859414] PM: genpd: Not disabling unused power domains
+[    2.859418] ALSA device list:
+[    2.859420]   No soundcards found.
+[    2.859445] faux_driver regulatory: Direct firmware load for regulatory.db failed with error -2
+[    2.859448] cfg80211: failed to load regulatory.db
+[    2.864686] mmc1: sdhci: Wake-up:   0x00000000 | Clock:    0x0000cfc7
+[    2.864689] mmc1: sdhci: Timeout:   0x00000000 | Int stat: 0x00000000
+[    2.864693] mmc1: sdhci: Int enab:  0x007f0003 | Sig enab: 0x007f0003
+[    2.871351] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    2.877751] mmc1: sdhci: ACmd stat: 0x00000000 | Slot int: 0x00000000
+[    2.877755] mmc1: sdhci: Caps:      0x1e6d0080 | Caps_1:   0x08000007
+[    2.884169] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    2.892722] mmc1: sdhci: Cmd:       0x0000371a | Max curr: 0x00ffffff
+[    2.892726] mmc1: sdhci: Resp[0]:   0x00000000 | Resp[1]:  0x00000000
+[    2.998116] mmc1: sdhci: Resp[2]:   0x00000000 | Resp[3]:  0x00000000
+[    2.998120] mmc1: sdhci: Host ctl2: 0x00001000
+[    2.998123] mmc1: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0x0000000000000000
+[    3.008864] sprd_serial 20210000.serial: request TX DMA channel failed, ret = -19
+[    3.015952] mmc1: sdhci: ============================================
+[    3.029810] sprd_serial 20210000.serial: request RX DMA channel failed, ret = -19
+[    3.038540] Freeing unused kernel memory: 4544K
+[    3.043015] Run /init as init process
+[    3.046604]   with arguments:
+[    3.046605]     /init
+[    3.046607]   with environment:
+[    3.046608]     HOME=/
+[    3.046609]     TERM=linux
+[    3.053771] CHANGXING60-LINUX: stage=init-start pid=1
+[    3.083892] CHANGXING60-LINUX: stage=devfs-ready
+[    3.091149] [Awinic] aw87xxx_pa_init:driver version: v4.0.7
+[    3.096747] [Awinic] [6-0058]aw87xxx_malloc_init: struct aw87xxx devm_kzalloc and init down
+[    3.104999] [Awinic] [6-0058]aw87xxx_dtsi_parse: parse dev_index=[0]
+[    3.111313] [Awinic] [6-0058]aw87xxx_dtsi_parse: no reset gpio provided, hardware reset unavailable
+[    3.120310] [Awinic] [6-0058]aw87xxx_dtsi_parse: voltage_min parse failed, user default[0x00]
+[    3.128790] [Awinic] [6-0058]aw87xxx_device_parse_port_id_dt: read aw-rx-port-id failed,use default
+[    3.137789] [Awinic] [6-0058]aw87xxx_device_parse_port_id_dt: rx-port-id: 0x4000
+[    3.145145] [Awinic] [6-0058]aw87xxx_device_parse_topo_id_dt: read aw-rx-topo-id failed,use default
+[    3.154146] [Awinic] [6-0058]aw87xxx_device_parse_topo_id_dt: rx-topo-id: 0x1000ff01
+[    3.162188] [Awinic] [6-0058]aw87xxx_dev_get_chipid: read chipid[0x76] succeed
+[    3.169305] [Awinic] [6-0058]aw_dev_check_chip_model: product is pid_76 class
+[    3.176510] [Awinic] [6-0058]aw87xxx_fw_load_init: enter
+[    3.181718] [Awinic] [6-0058]aw_monitor_dtsi_parse: esd_enable parse failed, user default[disable]
+[    3.190630] [Awinic] [6-0058]aw87xxx_monitor_init: monitor init succeed
+[    3.197326] [Awinic] [6-0058]aw87xxx_i2c_probe: succeed, dev_index=[0], g_aw87xxx_dev_cnt= [1]
+[    3.206065] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    3.214570] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    3.219425] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    3.226280] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    3.235304] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    3.246159] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    3.257836] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    3.266926] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    3.275960] unisoc-mailbox 64600000.mailbox: probe done, version=0x200
+[    3.282628] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    3.291132] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    3.295985] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    3.301838] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    3.310005] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    3.320891] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    3.332576] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    3.341662] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    3.349725] [Audio:agdsp-pd]: agdsp_pd_probe: CONFIG_PM_GENERIC_DOMAINS_OF is enabled
+[    3.357450] [Audio:agdsp-pd]: agdsp_pd_probe: CONFIG_PM_GENERIC_DOMAINS is enabled
+[    3.364972] OF: /soc/agcp/agdsp-access: Read of boolean property 'sprd,ddr-addr-offset' with a value.
+[    3.374143] [Audio:agdsp-pd]: agdsp_pd_probe auto agcp access = 0
+[    3.380203] [Audio:agdsp-pd]: audcp_pmu_sleep_ctrl:reg:850,mask:8
+[    3.386256] [Audio:agdsp-pd]: audcp_pmu_slp_status:reg:860,mask:f000
+[    3.392574] [Audio:agdsp-pd]: audcp_pmu_pwr_status4:reg:544,mask:1f00
+[    3.398978] [Audio:agdsp-pd]: audcp_pmu_pwr_status3:reg:544,mask:1f0000
+[    3.405554] [Audio:agdsp-pd]: ap_access_ena:reg:14c,mask:20
+[    3.411093] [Audio:agdsp-pd]: ERR: Get the audcp glb syscon failed!
+[    3.417324] [Audio:agdsp-pd]: ERR: Get the audcp clk rf syscon failed!
+[    3.423813] [Audio:agdsp-pd]: ERR: Get the audcp dvfs apb rf syscon failed!
+[    3.430737] [Audio:agdsp-pd]: ERR: Get the audcp apb syscon failed!
+[    3.436968] sprd-smem: pool dst 5 is not existed!
+[    3.441713] [Audio:agdsp-pd]: agdsp access thread entry.
+[    3.441722] [Audio:agdsp-pd]: agdsp_access_initialize,pm_genpd_init ret = 0
+[    3.446937] [Audio:agdsp-pd]: Failed to open channel 0,dst=0,rval=-19
+[    3.454054] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    3.468829] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    3.473675] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    3.474406] [Audio:MEM] dsp_bin (addr, size): (0xafa00000, 0x600000)
+[    3.479524] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    3.485790] [Audio:MEM] audio_mem_sharkl5_parse_dt ddr32 (COMMD_PARAMS), (SMS), (AUD_STRUCT), (DSP_VBC), (SHM_NXP), (SHM_IVS_SMARTPA) (SHM_REG_DUMP)
+[    3.494006] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    3.507240] [Audio:MEM] ddr32 (addr, size) (0xaf980000, 0x400), (0xaf980400, 0xa10), (0xaf980e10, 0x400), (0xaf981210, 0x1400), (0xaf982610, 0x400), (0xaf982a10, 0x1000), (0xaf983a10, 0x400)
+[    3.518139] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    3.518143] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    3.535019] [Audio:MEM] audio_mem_sharkl5_parse_dt iram_ap_base=0x56800000
+[    3.546699] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    3.555788] [Audio:MEM] audio_mem_sharkl5_parse_dt iram_dsp_base=0x56800000
+[    3.577326] [Audio:MEM] audio_mem_sharkl5_parse_dt audio iram(OFFLOAD), (NORMAL_CAP NODE1), (NORMAL_CAP NODE2), (NORMAL_CAP DATA)
+[    3.588859] [Audio:MEM] iram(addr size), (0x56800000,0x5c00), (0x56805e00,0x200), (0x56807e00,0x200), (0x56806000,0x1e00)
+[    3.599808] [Audio:MEM] iram audcp aon (addr size), (0x65006400, 0x1000)
+[    3.606450] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf980e10, size=0x400
+[    3.613435] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf981210, size=0x1400
+[    3.620524] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf982610, size=0x400
+[    3.627533] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf983a10, size=0x400
+[    3.634542] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf982a10, size=0x1000
+[    3.641638] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf700000, size=0x200000
+[    3.648907] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf980000, size=0x400
+[    3.655916] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf980400, size=0xa10
+[    3.662926] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x56800000, size=0x5c00
+[    3.670022] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xaf900000, size=0x80000
+[    3.677206] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x0, size=0x0
+[    3.683435] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x0, size=0x0
+[    3.689666] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x0, size=0x0
+[    3.695897] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x0, size=0x0
+[    3.702130] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x0, size=0x0
+[    3.708358] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x0, size=0x0
+[    3.714590] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x0, size=0x0
+[    3.720820] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x56805e00, size=0x200
+[    3.727831] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x56807e00, size=0x200
+[    3.734841] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x56806000, size=0x1e00
+[    3.741935] [Audio:MEM] audio_mem_sharkl5_probe addr= 0xafa00000, size=0x600000
+[    3.749205] [Audio:MEM] audio_mem_sharkl5_probe addr= 0x65006400, size=0x1000
+[    3.756518] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    3.765022] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    3.769870] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    3.775719] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    3.775903] [Audio:SIPC] audio_sipc_probe in
+[    3.783884] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    3.788112] [Audio:SIPC] aud_ipc_init
+[    3.788114] [Audio:MEM] audio_mem_alloc mem_type=7 addr = 0xaf980400, size=0xa10
+[    3.799016] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    3.802658] [Audio:SIPC] audio_sipc_create: ioremap txbuf: vbase=0xffffffc081a45400, pbase=0xaf980400, size=0x500
+[    3.810009] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    3.821689] [Audio:SIPC] audio_sipc_create successfully
+[    3.821691] [Audio:MEM] audio_mem_alloc mem_type=6 addr = 0xaf980000, size=0x400
+[    3.831902] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    3.840992] [Audio:MEM] audio_mem_alloc mem_type=0 addr = 0xaf980e10, size=0x400
+[    3.868635] [Audio:MEM] audio_mem_alloc mem_type=1 addr = 0xaf981210, size=0x1400
+[    3.876055] [Audio:MEM] audio_mem_alloc mem_type=2 addr = 0xaf982610, size=0x400
+[    3.883398] [Audio:MEM] audio_mem_alloc mem_type=3 addr = 0xaf983a10, size=0x400
+[    3.890763] [Audio:MEM] audio_mem_alloc mem_type=4 addr = 0xaf982a10, size=0x1000
+[    3.898216] unisoc-mailbox 64600000.mailbox: startup chan-5
+[    3.903734] [Audio:SIPC] mailbox request success
+[    3.908357] [Audio:agdsp-pd]: agdsp_set_mboxchan,of_genpd_add_provider_simple ret = 0
+[    3.908505] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    3.924683] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    3.929531] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    3.935381] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    3.935859] [Audio:PIPE] aud_pipe_data->channel:2
+[    3.943547] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    3.943550] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    3.948214] [Audio:PIPE] audio_pipe_probe:name=audio_pipe_voice
+[    3.959114] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    3.959116] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    3.970925] [Audio:PIPE] aud_pipe_data->channel:8
+[    3.976850] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    3.985770] [Audio:PIPE] audio_pipe_probe:name=audio_pipe_effect
+[    3.993472] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    3.998219] [Audio:PIPE] aud_pipe_data->channel:9
+[    4.006719] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    4.012679] [Audio:PIPE] audio_pipe_probe:name=audio_pipe_recordproc
+[    4.017585] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    4.022256] [Audio:PIPE] aud_pipe_data->channel:11
+[    4.028005] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    4.034314] [Audio:PIPE] audio_pipe_probe:name=audio_pipe_bthal
+[    4.042536] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    4.047373] [Audio:PIPE] aud_pipe_data->channel:13
+[    4.058200] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    4.058203] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    4.058366] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    4.064087] [Audio:PIPE] audio_pipe_probe:name=audio_pipe_trigger_rx
+[    4.075771] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    4.080589] [Audio:PIPE] aud_pipe_data->channel:14
+[    4.089620] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    4.097314] [Audio:PIPE] audio_pipe_probe:name=audio_pipe_trigger_tx
+[    4.105934] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    4.142206] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    4.142731] [Audio:DSPDUMP] audio_dsp_probe in
+[    4.153049] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    4.153053] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    4.157465] [Audio:DSPDUMP] audio_dsp_parse_dt, no sprd-txblocknum
+[    4.169143] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    4.169321] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    4.178238] [Audio:DSPDUMP] audio_dsp_parse_dt, no sprd-txblocknum
+[    4.184378] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    4.192077] [Audio:DSPDUMP] audio_dsp_probe:name=audio_dsp_log, dst=1, channel=4
+[    4.200650] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    4.206788] [Audio:DSPDUMP] txblocknum=0,txblocksize=0 rxblocknum=8,rxblocksize=8192
+[    4.211682] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    4.218991] [Audio:DSPDUMP] begin to creat sblock
+[    4.224792] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    4.232493] [Audio:SBLCK] audio_sblock_ch_open aud_smsg_ch_opened dst 1,channel=4
+[    4.240710] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    4.240713] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    4.240714] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    4.292291] [Audio:MEM] audio_mem_alloc mem_type=5 addr = 0xaf700000, size=0x100e0
+[    4.299756] [Audio:SBLCK] audio_sblock_create smem_addr is 0xaf700000
+[    4.306193] [Audio:SBLCK] summer : poolhd->rxblk_wrptr 8
+[    4.311525] [Audio:SBLCK] audio_sblock_thread: send smem_addr  to dsp,  sblock->channel=4
+[    4.311584] [Audio:DSPDUMP] dsp_log_tp_probe success  audio_dsp_log
+[    4.319584] [Audio:SMSG] warning aud_smsg_recv cache is empty!
+[    4.319586] [Audio:SIPC] aud_recv_cmd channel =4 cmd=33 ENODATA
+[    4.325841] [Audio:DSPDUMP] audio_dsp_probe in
+[    4.325976] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    4.325978] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    4.325987] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    4.326037] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    4.326044] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    4.326047] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    4.326049] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    4.326051] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    4.331609] [Audio:SIPC] aud_send_msg,cmd: 0x21, value0: 0x1, value1: 0xaf700000,
+[    4.337496] [Audio:DSPDUMP] audio_dsp_parse_dt, no sprd-txblocknum
+[    4.341907] [Audio:SIPC]  value2: 0x100e0, value3: 0x0
+[    4.350475] [Audio:DSPDUMP] audio_dsp_parse_dt, no sprd-txblocknum
+[    4.355321] [Audio:SMSG] aud_smsg_send: dst=1, channel=4
+[    4.361120] [Audio:DSPDUMP] audio_dsp_probe:name=audio_dsp_pcm, dst=1, channel=3
+[    4.371591] [Audio:SIPC] aud_recv_cmd, chan: 0x4, cmd: 0x21, value0: 0x1, value1: 0xaf700000,
+[    4.380245] [Audio:DSPDUMP] txblocknum=0,txblocksize=0 rxblocknum=8,rxblocksize=8192
+[    4.391929] [Audio:SIPC]  value2: 0x100e0, value3: 0x0, timeout: -1
+[    4.401014] [Audio:DSPDUMP] begin to creat sblock
+[    4.401016] [Audio:SBLCK] audio_sblock_ch_open aud_smsg_ch_opened dst 1,channel=3
+[    4.408715] [Audio:SIPC] aud_send_cmd_no_param channel=4, cmd=33 repeat_count=1
+[    4.416159] [Audio:MEM] audio_mem_alloc mem_type=5 addr = 0xaf711000, size=0x100e0
+[    4.422301] [Audio:SIPC] aud_send_cmd_no_param out,channel = 4 cmd =33 ret-value:0,repeat_count=1
+[    4.427410] [Audio:SBLCK] audio_sblock_create smem_addr is 0xaf711000
+[    4.433554] [Audio:SBLCK] aud_send_cmd_noparam returned.
+[    4.438879] [Audio:SBLCK] summer : poolhd->rxblk_wrptr 8
+[    4.446187] [Audio:SBLCK] audio_sblock_thread listen to smsg from dsp
+[    4.527813] [Audio:SBLCK] audio_sblock_thread: send smem_addr  to dsp,  sblock->channel=3
+[    4.527881] [Audio:DSPDUMP] dsp_log_tp_probe success  audio_dsp_pcm
+[    4.535871] [Audio:SMSG] warning aud_smsg_recv cache is empty!
+[    4.535872] [Audio:SIPC] aud_recv_cmd channel =3 cmd=33 ENODATA
+[    4.542119] [Audio:DSPDUMP] audio_dsp_probe in
+[    4.542254] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    4.542256] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    4.542265] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    4.542315] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    4.542323] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    4.542325] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    4.542328] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    4.542330] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    4.547897] [Audio:SIPC] aud_send_msg,cmd: 0x21, value0: 0x1, value1: 0xaf711000,
+[    4.553783] [Audio:DSPDUMP] sprd-usemem-bytes 524288
+[    4.558195] [Audio:SIPC]  value2: 0x100e0, value3: 0x0
+[    4.566777] [Audio:DSPDUMP] audio_dsp_log.c: dsp_mem_dump: dump1_p:56200000,size:12288, 2:65009400, 4096,3:89300000,389120
+[    4.571610] [Audio:SMSG] aud_smsg_send: dst=1, channel=3
+[    4.573864] [Audio:SIPC] aud_recv_cmd, chan: 0x3, cmd: 0x21, value0: 0x1, value1: 0xaf711000,
+[    4.577409] [Audio:DSPDUMP] audio_dsp_probe:name=audio_dsp_mem, dst=1, channel=5
+[    4.585630] [Audio:SIPC]  value2: 0x100e0, value3: 0x0, timeout: -1
+[    4.596533] [Audio:DSPDUMP] txblocknum=0,txblocksize=0 rxblocknum=0,rxblocksize=0
+[    4.608214] [Audio:SIPC] aud_send_cmd_no_param channel=3, cmd=33 repeat_count=1
+[    4.617302] [Audio:DSPDUMP] channel 5 open ok
+[    4.625003] [Audio:SIPC] aud_send_cmd_no_param out,channel = 3 cmd =33 ret-value:0,repeat_count=1
+[    4.632445] [Audio:MEM] audio_mem_alloc mem_type=9 addr = 0xaf900000, size=0x80000
+[    4.637378] [Audio:SBLCK] aud_send_cmd_noparam returned.
+[    4.642485] [Audio:DSPDUMP] aud_dsp_addr: mem: mem type 9, mem_addr af900000
+[    4.653475] [Audio:SBLCK] audio_sblock_thread listen to smsg from dsp
+[    4.658753] [Audio:DSPDUMP] aud_dsp_addr: mem: dsp space mem_addr af900000
+[    4.741908] [Audio:DSPDUMP] dsp_log_tp_probe success  audio_dsp_mem
+[    4.748078] [Audio:DSPDUMP] audio_dsp_probe in
+[    4.748466] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    4.752476] [Audio:DSPDUMP] audio_dsp_probe:name=audio_dsp_call_info, dst=1, channel=16
+[    4.752478] [Audio:DSPDUMP] txblocknum=0,txblocksize=0 rxblocknum=0,rxblocksize=0
+[    4.752481] [Audio:DSPDUMP] channel 16 open ok
+[    4.752482] [Audio:MEM] audio_mem_alloc mem_type=5 addr = 0xaf722000, size=0x200
+[    4.752484] [Audio:DSPDUMP] aud_dsp_addr: mem: mem type 5, mem_addr af722000
+[    4.761052] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    4.769003] [Audio:DSPDUMP] aud_dsp_addr: mem: dsp space mem_addr af722000
+[    4.769070] [Audio:DSPDUMP] dsp_log_tp_probe success  audio_dsp_call_info
+[    4.776471] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    4.819645] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    4.827828] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    4.838713] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    4.850395] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    4.859480] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    4.867415] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    4.875915] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    4.880763] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    4.888970] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    4.889020] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    4.896211] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    4.904391] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    4.911685] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    4.922556] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    4.929857] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    4.941507] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    4.948806] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    4.957863] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    4.965163] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    4.973004] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    4.980141] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    4.988673] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    4.995972] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    5.000799] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    5.008089] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    5.013905] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    5.021156] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    5.029349] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    5.036642] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    5.047516] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    5.054814] [ASoC:POWER] sprd_audio_power_config_reg_vars regmap exist return 0
+[    5.066469] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    5.074324] CHANGXING60-LINUX: stage=audio-power-devices bound=13/13 wait=0s
+[    5.082826] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    5.082996] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    5.106174] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    5.106387] fsa4480_init: get the function
+[    5.110958] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    5.111016] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    5.129060] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    5.139945] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    5.151627] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    5.152836] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[    5.160711] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    5.176309] [ASoC:ump9620] sprd_codec_probe
+[    5.180455] [ASoC:ump9620] clk26m_sinout_pmic reg 0x350, mask 0x40
+[    5.186601] [ASoC:ump9620] sprd_codec_ana_probe adi_rgmp (____ptrval____), val 0x1000
+[    5.194513] [ASoC: COM ] set_agcp_ahb_offset agcp_ahb_set_offset 0x1000, agcp_ahb_clr_offset 0x2000
+[    5.194532] platform 56360000.audio-codec: Get the sprd,anlg-phy-g-syscon failed -19
+[    5.211179] platform 56360000.audio-codec: <-- agdsp_pd is enabled for THIS device now
+[    5.219063] [ASoC:ump9620] ana_chip_id 0x7520a002, ver_id a002
+[    5.224910] [ASoC:POWER] audio power  1  enable, vreg_enable
+[    5.230534] [ASoC:POWER] vreg_disable 539
+[    5.234608] sprd-codec-ump9620 64400000.spi:pmic@0:audio-codec@1000: <-- agdsp_pd is enabled for THIS device now
+[    5.244905] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    5.244972] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[    5.246426] CHANGXING60-LINUX: stage=audio-codec-bound ok=1 seen=1 wait=0s
+[    5.253404] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    5.275053] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    5.280923] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    5.282246] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[    5.289081] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    5.296946] [ASoC: VBC ] vbc_drv_probe: 14597:vbc_drv_probe: to setup vbc dt
+[    5.307846] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    5.314856] [ASoC: VBC ] sprd_vbc_codec_probe: 6458:sprd_vbc_codec_probe
+[    5.326539] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    5.333203] [ASoC: VBC ] sprd_vbc_codec_probe: 6468:ERR: [sprd_vbc_codec_probe] Get the aon pre div clk syscon failed!
+[    5.342289] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    5.352933] [ASoC: VBC ] sprd_vbc_codec_probe: 6478:ERR: [sprd_vbc_codec_probe] Get the anlg phy g3 syscon failed!
+[    5.360857] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    5.371116] [ASoC: VBC ] vbc_of_setup: 14572:get pinctrl device!
+[    5.379503] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    5.379534] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    5.385506] [ASoC: VBC ] vbc_turning_ndp_init: 3488:vbc_turning_ndp_init,alloc dev id 0x1fd00000, major =509, minor = 0!
+[    5.406970] [ASoC: VBC ] vbc_turning_ndp_init: 3492:vbc_turning_ndp_init,alloc dev id 533725184 for NO.0!
+[    5.416458] [ASoC: VBC ] vbc_turning_ndp_init: 3506:vbc_turning_ndp_init,ndp_name = vbc_turning0 !
+[    5.425480] [ASoC: VBC ] vbc_turning_ndp_init: 3492:vbc_turning_ndp_init,alloc dev id 533725185 for NO.1!
+[    5.434932] [ASoC: VBC ] vbc_turning_ndp_init: 3506:vbc_turning_ndp_init,ndp_name = vbc_turning1 !
+[    5.443905] [ASoC: VBC ] vbc_turning_ndp_init: 3492:vbc_turning_ndp_init,alloc dev id 533725186 for NO.2!
+[    5.453362] [ASoC: VBC ] vbc_turning_ndp_init: 3506:vbc_turning_ndp_init,ndp_name = vbc_turning2 !
+[    5.462325] [ASoC: VBC ] vbc_turning_ndp_init: 3492:vbc_turning_ndp_init,alloc dev id 533725187 for NO.3!
+[    5.471794] [ASoC: VBC ] vbc_turning_ndp_init: 3506:vbc_turning_ndp_init,ndp_name = vbc_turning3 !
+[    5.480781] [ASoC: VBC ] vbc_turning_ndp_init: 3529:vbc_turning_ndp_init: success.
+[    5.488240] vbc-v4 56510000.vbc: <-- agdsp_pd is enabled for THIS device now
+[    5.495428] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    5.495682] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[    5.503584] [ASoC:BOARD] 7552n-defer: get_dai_name(cpu) node=/sound@0/sprd-audio-card,dai-link@0/cpu -> -517 EPROBE_DEFER
+[    5.524440] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CPU node=/sound@0/sprd-audio-card,dai-link@0/cpu ret=-517
+[    5.536116] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    5.545203] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    5.545918] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[    5.553080] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    5.560807] vbc-dai-fe sprd-fe-dai: <-- agdsp_pd is enabled for THIS device now
+[    5.569344] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    5.569357] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    5.577058] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[    5.581528] OF: /sound@0: Read of boolean property 'sprd-audio-card,routing' with a value.
+[    5.605457] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@0/codec ret=-2
+[    5.606080] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[    5.617329] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@1/codec ret=-2
+[    5.625165] [ASoC: TDM ] tdm_drv_probe
+[    5.637020] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@2/codec ret=-2
+[    5.640848] tdm 563a0000.sprd-tdm-audio: <-- agdsp_pd is enabled for THIS device now
+[    5.652597] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@3/codec ret=-2
+[    5.652604] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@4/codec ret=-2
+[    5.660784] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[    5.672169] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@5/codec ret=-2
+[    5.705843] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@6/codec ret=-2
+[    5.706502] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[    5.717674] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@7/codec ret=-2
+[    5.717682] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@8/codec ret=-2
+[    5.725547] [ASoC: pdm] pdm_probe
+[    5.737403] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@9/codec ret=-2
+[    5.749270] [ASoC: pdm] pdm_parse_dt_ums9620 set_offset 0x0, clr_offset 0x0
+[    5.752548] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@10/codec ret=-2
+[    5.764424] [ASoC: pdm] pdm_parse_dt_ums9620 clk_membase 0xffffffc081aad000, clk_memphys 0x56394000, end 0x563943ff, reg_size 0x400
+[    5.771325] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@11/codec ret=-2
+[    5.783273] [ASoC: pdm] pdm_probe membase 0xffffffc0822b2000, memphys 0x56370000, end 0x56371fff, reg_size 0x2000
+[    5.795048] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@12/codec ret=-2
+[    5.806984] [ASoC: pdm] pdm_probe successful
+[    5.817192] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@13/codec ret=-2
+[    5.829131] pdm 56370000.pdm-dmic: <-- agdsp_pd is enabled for THIS device now
+[    5.833375] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@14/codec ret=-2
+[    5.845648] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[    5.852499] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@15/codec ret=-2
+[    5.886387] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@16/codec ret=-2
+[    5.898283] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@17/codec ret=-2
+[    5.910303] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@28/codec ret=-2
+[    5.911067] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[    5.922175] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@29/codec ret=-2
+[    5.922184] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@30/codec ret=-2
+[    5.930051] sprd-pcm-audio sprd-pcm-audio: <-- agdsp_pd is enabled for THIS device now
+[    5.941991] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@31/codec ret=-2
+[    5.954068] sprd-pcm-audio sprd-pcm-iis: <-- agdsp_pd is enabled for THIS device now
+[    5.961808] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@32/codec ret=-2
+[    5.974178] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[    5.981456] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@33/codec ret=-2
+[    6.015313] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@34/codec ret=-2
+[    6.016092] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[    6.027232] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@35/codec ret=-2
+[    6.035105] [ASoC:COMPR] sprd_platform_compr_probe, line: 2242
+[    6.047048] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@36/codec ret=-2
+[    6.052844] [ASoC:COMPR] sprd_platform_compr_probe E,devname:sprd-compr-audio, drivername:sprd-compr-platform
+[    6.064789] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@37/codec ret=-2
+[    6.074657] [ASoC:COMPR] sprd_platform_compr_probe, line: 2251
+[    6.086597] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@38/codec ret=-2
+[    6.092394] sprd-compr-platform sprd-compr-audio: <-- agdsp_pd is enabled for THIS device now
+[    6.104336] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@39/codec ret=-2
+[    6.113276] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[    6.124764] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@40/codec ret=-2
+[    6.146692] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@41/codec ret=-2
+[    6.155190] CHANGXING60-LINUX: stage=modules-done loaded=23 failed=0
+[    6.158595] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@42/codec ret=-2
+[    6.176863] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@43/codec ret=-2
+[    6.188800] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@44/codec ret=-2
+[    6.200743] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@45/codec ret=-2
+[    6.212687] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@46/codec ret=-2
+[    6.224627] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@47/codec ret=-2
+[    6.236570] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@48/codec ret=-2
+[    6.248513] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@49/codec ret=-2
+[    6.260461] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@51/codec ret=-2
+[    6.272396] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@52/codec ret=-2
+[    6.284339] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@68/codec ret=-2
+[    6.296282] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@69/codec ret=-2
+[    6.308223] [ASoC:BOARD] 7552n-defer: link=sprd-audio-card,dai-link role=CODEC node=/sound@0/sprd-audio-card,dai-link@90/codec ret=-2
+[    6.320175] [ASoC:BOARD] sprd_asoc_card_parse_hook hook aw87xx iic pa!
+[    6.326658] [ASoC:BOARD] hook_general_spk id: 0, gpio: 0, mode: 0, on: 0
+[    6.333358] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[    6.341718] vbc-rxpx-codec-sc27xx sound@0: 7552n: agdsp_access_enable -> 0
+[    6.348999] [ASoC:COMPR] sprd_compr_probe, line: 2157
+[    6.354008] [ASoC:COMPR] sprd_compr_probe, line: 2198
+[    6.359004] [ASoC: VBC ] vbc_codec_soc_probe: 6324:vbc_codec_soc_probe
+[    6.366209] [ASoC:HDST9620] sprd_headset_parse_dt: parse 'impd-en'' failed!
+[    6.373064] [ASoC:HDST9620] sprd_headset_parse_dt :no match found for switch gpio.
+[    6.380594] [ASoC:HDST9620] use GPIO_966 for 'aud_int_all', debounce: 10
+[    6.387252] [ASoC:HDST9620] half_adc_gnd 170, one_half_adc_gnd 498, sprd_adc_gnd 328
+[    6.387253] [ASoC:HDST9620] threshold_3pole 2950, sprd_half_adc_gnd 170, coefficient 884520, irq_threshold_button 4
+[    6.394952] [ASoC:HDST9620] device tree data: adc_min 0 adc_max 480 code 226
+[    6.412347] [ASoC:HDST9620] device tree data: adc_min 481 adc_max 990 code 115
+[    6.419527] [ASoC:HDST9620] device tree data: adc_min 991 adc_max 2500 code 114
+[    6.426806] platform sprd-headset: not support typec analog headset
+[    6.433029] [ASoC:HDST9620] automatic EU/US type switch is unsupported
+[    6.439535] [ASoC:HDST9620] headset_detect_probe success
+[    6.444808] [ASoC:HDST9620] sprd_headset_soc_probe adie_chip_id 0x7520 0xa002
+[    6.452105] [ASoC:HDST9620] sprd_headset_power_set name CLK_DCL_32K, power_on 1, en 0
+[    6.459823] [ASoC:POWER] audio power  1  enable, vreg_enable
+[    6.465503] [ASoC:HDST9620] sprd_headset_power_set name DIG_CLK_INTC, power_on 1, en 0
+[    6.473356] [ASoC:HDST9620] sprd_headset_regulator_init PMU0(0000) 2420, PMU1(0004) 0, DCL1(0100) 700, CLK0(0068) 2000
+[    6.484053] [ASoC:HDST9620] sprd_hmicbias_polling_init HID0(144) 3888, HID1(148) 101, HID2(14C) 8080, HID3(150) 8, HID4(154) 20
+[    6.484164] [ASoC:HDST9620] sprd_headset_eic_init INT0(0200) 0, INT1(0204) ffff, INT6(0218) 0
+[    6.504000] [ASoC:HDST9620] sprd_headset_clear_all_eic clear all internal eic
+[    6.511150] [ASoC:HDST9620] sprd_set_all_eic_trig_level set all internal eic trig level to high
+[    6.519749] [ASoC:HDST9620] sprd_headset_all_eic_enable disable all internal eic
+[    6.527113] [ASoC:HDST9620] intc force clear, INT8(220.MIS) 0, bits ffff
+[    6.533813] [ASoC:HDST9620] sprd_headset_eic_init STS0(184) 2000, INT5(214.IEV) ffff, INT6(218.IE) 0, INT7(21C.RIS) 0, INT8(220.MIS) 0, INT11(22C.STS1) 0, INT32(280.INTC.EN) 4000, INT34(288) 0
+[    6.534108] [ASoC:HDST9620] sprd_headset_debug_sysfs_init success
+[    6.557139] [ASoC:HDST9620] sprd_get_adc_cal_from_efuse enter
+[    6.563015] [ASoC:HDST9620] sprd_get_adc_cal_from_efuse test[0] 0x12c0 4800, test[1] 0xc920 51488, test[2] 0x8a79 35449
+[    6.573672] [ASoC:HDST9620] sprd_get_adc_cal_from_efuse d[0] 0x12c 300 d[1] 0xc92 3218 d[2] 0x79 121 d[3] 0x8a 138
+[    6.583978] [ASoC:HDST9620] sprd_get_adc_cal_from_efuse adie_chip_id 0x7520 0xa002
+[    6.591497] [ASoC:HDST9620] sprd_get_adc_cal_from_efuse A 300, B 3218 E1 2642 E2 1524
+[    6.602914] [ASoC:HDST9620] sprd_headset_eic_plugin_enable STS0(184) 2000, INT5(214.IEV) ffff, INT6(218.IE) 1000, INT7(21C.RIS) 0, INT8(220.MIS) 0, INT11(22C.STS1) 0, INT32(280.INTC.EN) 4000, INT34(288) 0
+[    6.602960] [ASoC:HDST9620] sprd_headset_soc_probe STS0(184) 2000, INT5(214.IEV) ffff, INT6(218.IE) 1000, INT7(21C.RIS) 0, INT8(220.MIS) 0, INT11(22C.STS1) 0, INT32(280.INTC.EN) 4000, INT34(288) 0
+[    6.621591] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[    6.648109] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_NORMAL_AP01_P, Sink = FE_IF_NORMAL_AP01_P
+[    6.657645] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_NORMAL_AP01_C, Sink = FE_DAI_NORMAL_AP01_C
+[    6.667250] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_NORMAL_AP23_P, Sink = FE_IF_NORMAL_AP23_P
+[    6.676856] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_NORMAL_AP23_C, Sink = FE_DAI_NORMAL_AP23_C
+[    6.686462] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_CAP_DSP_C, Sink = FE_DAI_CAP_DSP_C
+[    6.695371] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_FAST_P, Sink = FE_IF_FAST_P
+[    6.703769] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_OFFLOAD_P, Sink = FE_IF_OFFLOAD_P
+[    6.712683] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_VOICE_P, Sink = FE_IF_VOICE_P
+[    6.721248] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_VOICE_C, Sink = FE_DAI_VOICE_C
+[    6.729819] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_VOIP_P, Sink = FE_IF_VOIP_P
+[    6.738212] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_VOIP_C, Sink = FE_DAI_VOIP_C
+[    6.746607] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_FM_P, Sink = FE_IF_FM_P
+[    6.754654] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_FM_CAP_C, Sink = FE_DAI_FM_CAP_C
+[    6.763394] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_VOICE_CAP_C, Sink = FE_DAI_VOICE_CAP_C
+[    6.772654] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_LOOP_P, Sink = FE_IF_LOOP_P
+[    6.781048] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_LOOP_C, Sink = FE_DAI_LOOP_C
+[    6.789442] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_A2DP_OFFLOAD_P, Sink = FE_IF_A2DP_OFFLOAD_P
+[    6.799221] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_A2DP_PCM_P, Sink = FE_IF_A2DP_PCM_P
+[    6.808304] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_FM_CAP_DSP_C, Sink = FE_DAI_FM_CAP_DSP_C
+[    6.817741] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_BTSCO_CAP_DSP_C, Sink = FE_DAI_BTSCO_CAP_DSP_C
+[    6.827689] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_FM_DSP_P, Sink = FE_IF_FM_DSP_P
+[    6.836434] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_DUMP_C, Sink = FE_DAI_DUMP_C
+[    6.844829] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_BTCAP_AP_C, Sink = FE_DAI_BTCAP_AP_C
+[    6.853911] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP01_CODEC_P, Sink = BE_DAI_NORMAL_AP01_CODEC_P
+[    6.866463] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_NORMAL_AP01_CODEC_C, Sink = BE_IF_NORMAL_AP01_CODEC_C
+[    6.879011] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP23_CODEC_P, Sink = BE_DAI_NORMAL_AP23_CODEC_P
+[    6.891559] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_NORMAL_AP23_CODEC_C, Sink = BE_IF_NORMAL_AP23_CODEC_C
+[    6.904107] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_CAP_DSP_CODEC_C, Sink = BE_IF_CAP_DSP_CODEC_C
+[    6.915958] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FAST_CODEC_P, Sink = BE_DAI_FAST_CODEC_P
+[    6.927298] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_OFFLOAD_CODEC_P, Sink = BE_DAI_OFFLOAD_CODEC_P
+[    6.939150] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOICE_CODEC_P, Sink = BE_DAI_VOICE_CODEC_P
+[    6.950661] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOICE_CODEC_C, Sink = BE_IF_VOICE_CODEC_C
+[    6.962174] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOIP_CODEC_P, Sink = BE_DAI_VOIP_CODEC_P
+[    6.973510] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOIP_CODEC_C, Sink = BE_IF_VOIP_CODEC_C
+[    6.984847] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FM_CODEC_P, Sink = BE_DAI_FM_CODEC_P
+[    6.995837] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_LOOP_CODEC_P, Sink = BE_DAI_LOOP_CODEC_P
+[    7.007173] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_LOOP_CODEC_C, Sink = BE_IF_LOOP_CODEC_C
+[    7.018510] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FM_DSP_CODEC_P, Sink = BE_DAI_FM_DSP_CODEC_P
+[    7.030193] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP01_USB_P, Sink = BE_DAI_NORMAL_AP01_USB_P
+[    7.042394] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_NORMAL_AP01_USB_C, Sink = BE_IF_NORMAL_AP01_USB_C
+[    7.054598] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP23_USB_P, Sink = BE_DAI_NORMAL_AP23_USB_P
+[    7.066799] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_NORMAL_AP23_USB_C, Sink = BE_IF_NORMAL_AP23_USB_C
+[    7.079001] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_CAP_DSP_USB_C, Sink = BE_IF_CAP_DSP_USB_C
+[    7.090506] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FAST_USB_P, Sink = BE_DAI_FAST_USB_P
+[    7.101501] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_OFFLOAD_USB_P, Sink = BE_DAI_OFFLOAD_USB_P
+[    7.113006] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOICE_USB_P, Sink = BE_DAI_VOICE_USB_P
+[    7.124170] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOICE_USB_C, Sink = BE_IF_VOICE_USB_C
+[    7.135337] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOIP_USB_P, Sink = BE_DAI_VOIP_USB_P
+[    7.146327] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOIP_USB_C, Sink = BE_IF_VOIP_USB_C
+[    7.157319] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FM_USB_P, Sink = BE_DAI_FM_USB_P
+[    7.167962] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_LOOP_USB_P, Sink = BE_DAI_LOOP_USB_P
+[    7.178953] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_LOOP_USB_C, Sink = BE_IF_LOOP_USB_C
+[    7.189943] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FM_DSP_USB_P, Sink = BE_DAI_FM_DSP_USB_P
+[    7.201281] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_OFFLOAD_A2DP_P, Sink = BE_DAI_OFFLOAD_A2DP_P
+[    7.212962] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_PCM_A2DP_P, Sink = BE_DAI_PCM_A2DP_P
+[    7.223948] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOICE_BT_P, Sink = BE_DAI_VOICE_BT_P
+[    7.234939] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOICE_BT_C, Sink = BE_IF_VOICE_BT_C
+[    7.245934] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOIP_BT_P, Sink = BE_DAI_VOIP_BT_P
+[    7.256751] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOIP_BT_C, Sink = BE_IF_VOIP_BT_C
+[    7.267570] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_LOOP_BT_P, Sink = BE_DAI_LOOP_BT_P
+[    7.278386] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_LOOP_BT_C, Sink = BE_IF_LOOP_BT_C
+[    7.289203] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_CAP_BT_C, Sink = BE_IF_CAP_BT_C
+[    7.299843] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOICE_CAP_C, Sink = BE_IF_VOICE_CAP_C
+[    7.311011] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_FM_CAP_C, Sink = BE_IF_CAP_FM_CAP_C
+[    7.321996] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_CAP_DSP_FM_C, Sink = BE_IF_CAP_DSP_FM_C
+[    7.333333] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_CAP_DSP_BTSCO_C, Sink = BE_IF_CAP_DSP_BTSCO_C
+[    7.345190] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_DUMP_C, Sink = BE_IF_DUMP_C
+[    7.355487] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FAST_BTSCO_P, Sink = BE_DAI_FAST_BTSCO_P
+[    7.356043] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[    7.366827] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP01_BTSCO_P, Sink = BE_DAI_NORMAL_AP01_BTSCO_P
+[    7.387770] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_VOICE_PCM_P, Sink = FE_IF_VOICE_PCM_P
+[    7.397031] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOICE_PCM_P, Sink = BE_DAI_VOICE_PCM_P
+[    7.408193] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_MM_P, Sink = FE_IF_MM_P
+[    7.416240] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_ID_FAST_P_SMART_AMP, Sink = BE_DAI_ID_FAST_P_SMART_AMP
+[    7.429401] vbc-rxpx-codec-sc27xx sound@0: ASoC: driver name too long 'sprdphone-sc2730' -> 'sprdphone-sc273'
+[    7.439205] vbc-rxpx-codec-sc27xx sound@0: ASoC: unknown pin inter HP PA
+[    7.445860] vbc-rxpx-codec-sc27xx sound@0: ASoC: unknown pin inter Spk PA
+[    7.452609] vbc-rxpx-codec-sc27xx sound@0: ASoC: unknown pin inter Ear PA
+[    7.459354] [ASoC:BOARD] sprd_add_hwdep_dev: enter
+[    7.464116] [ASoC:BOARD] sprd_add_hwdep_dev: exit
+[    7.470842] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[    7.471835] input: sprdphone-sc2730 Headset Jack as /devices/platform/sound@0/sound/card0/input1
+[    7.489546] input: sprdphone-sc2730 Headset Keyboard as /devices/platform/sound@0/sound/card0/input2
+[    7.498732] vbc-rxpx-codec-sc27xx sound@0: 7552n: snd_soc_register_card -> 0 (links=57)
+[    7.506974] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    7.507114] CHANGXING60-LINUX: stage=audio-card-rebind rc=1 err=[]
+[    7.515469] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    7.515485] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    7.523143] CHANGXING60-LINUX: stage=audio-dev 56360000.audio-codec bound=NONE
+[    7.541136] CHANGXING60-LINUX: stage=audio-dev 64400000.spi:pmic@0:audio-codec@1000 bound=sprd-codec-ump9620
+[    7.552361] CHANGXING60-LINUX: stage=audio-cards [ 0 [sprdphonesc2730]: sprdphone-sc273 - sprdphone-sc2730|                      sprdphone-sc2730|]
+[    7.566918] CHANGXING60-LINUX: stage=modules-done-block loop0,loop1,loop10,loop11,loop12,loop13,loop14,loop15,loop2,loop3,loop4,loop5,loop6,loop7,loop8,loop9,zram0,
+[    7.582436] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal  ,64280000.thermal       ,64290000.thermal       ,642a0000.thermal       ,64a00000.usb   ,
+[    7.597163] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_serial,ufshcd-sprd,
+[    7.647984] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+[    7.668578] CHANGXING60-LINUX: dmesg: [    4.542265] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    7.678425] CHANGXING60-LINUX: dmesg: [    4.542328] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    7.691631] CHANGXING60-LINUX: dmesg: [    4.542330] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    7.703329] CHANGXING60-LINUX: dmesg: [    4.748466] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    7.715891] CHANGXING60-LINUX: dmesg: [    4.761052] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    7.724515] CHANGXING60-LINUX: dmesg: [    4.776471] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    7.734275] CHANGXING60-LINUX: dmesg: [    4.850395] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    7.747283] CHANGXING60-LINUX: dmesg: [    4.859480] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    7.758919] CHANGXING60-LINUX: dmesg: [    4.867415] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    7.771270] CHANGXING60-LINUX: dmesg: [    4.875915] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    7.780055] CHANGXING60-LINUX: dmesg: [    4.880763] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    7.789682] CHANGXING60-LINUX: dmesg: [    4.941507] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    7.802712] CHANGXING60-LINUX: dmesg: [    4.957863] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    7.814355] CHANGXING60-LINUX: dmesg: [    4.973004] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    7.826827] CHANGXING60-LINUX: dmesg: [    4.988673] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    7.835608] CHANGXING60-LINUX: dmesg: [    5.000799] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    7.845371] CHANGXING60-LINUX: dmesg: [    5.066469] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    7.858257] CHANGXING60-LINUX: dmesg: [    5.082826] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    7.869769] CHANGXING60-LINUX: dmesg: [    5.082996] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    7.882111] CHANGXING60-LINUX: dmesg: [    5.106174] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    7.890896] CHANGXING60-LINUX: dmesg: [    5.110958] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    7.900496] CHANGXING60-LINUX: dmesg: [    5.151627] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    7.913520] CHANGXING60-LINUX: dmesg: [    5.160711] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    7.925138] CHANGXING60-LINUX: dmesg: [    5.180455] [ASoC:ump9620] clk26m_sinout_pmic reg 0x350, mask 0x40
+[    7.935206] CHANGXING60-LINUX: dmesg: [    5.194532] platform 56360000.audio-codec: Get the sprd,anlg-phy-g-syscon failed -19
+[    7.946833] CHANGXING60-LINUX: dmesg: [    5.244905] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    7.959195] CHANGXING60-LINUX: dmesg: [    5.253404] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    7.967826] CHANGXING60-LINUX: dmesg: [    5.275053] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    7.977423] CHANGXING60-LINUX: dmesg: [    5.326539] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    7.990327] CHANGXING60-LINUX: dmesg: [    5.333203] [ASoC: VBC ] sprd_vbc_codec_probe: 6468:ERR: [sprd_vbc_codec_probe] Get the aon pre div clk syscon failed!
+[    8.004916] CHANGXING60-LINUX: dmesg: [    5.342289] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    8.016576] CHANGXING60-LINUX: dmesg: [    5.352933] [ASoC: VBC ] sprd_vbc_codec_probe: 6478:ERR: [sprd_vbc_codec_probe] Get the anlg phy g3 syscon failed!
+[    8.030815] CHANGXING60-LINUX: dmesg: [    5.360857] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    8.043280] CHANGXING60-LINUX: dmesg: [    5.379503] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    8.051912] CHANGXING60-LINUX: dmesg: [    5.379534] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    8.061526] CHANGXING60-LINUX: dmesg: [    5.536116] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[    8.074557] CHANGXING60-LINUX: dmesg: [    5.545203] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[    8.086063] CHANGXING60-LINUX: dmesg: [    5.553080] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    8.098546] CHANGXING60-LINUX: dmesg: [    5.569344] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    8.107323] CHANGXING60-LINUX: dmesg: [    5.569357] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    8.117089] CHANGXING60-LINUX: dmesg: [    5.764424] [ASoC: pdm] pdm_parse_dt_ums9620 clk_membase 0xffffffc081aad000, clk_memphys 0x56394000, end 0x563943ff, reg_size 0x400
+[    8.132676] CHANGXING60-LINUX: dmesg: [    5.783273] [ASoC: pdm] pdm_probe membase 0xffffffc0822b2000, memphys 0x56370000, end 0x56371fff, reg_size 0x2000
+[    8.146680] CHANGXING60-LINUX: dmesg: [    6.155190] CHANGXING60-LINUX: stage=modules-done loaded=23 failed=0
+[    8.156948] CHANGXING60-LINUX: dmesg: [    6.333358] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[    8.169139] CHANGXING60-LINUX: dmesg: [    6.366209] [ASoC:HDST9620] sprd_headset_parse_dt: parse 'impd-en'' failed!
+[    8.179998] CHANGXING60-LINUX: dmesg: [    6.452105] [ASoC:HDST9620] sprd_headset_power_set name CLK_DCL_32K, power_on 1, en 0
+[    8.191731] CHANGXING60-LINUX: dmesg: [    6.465503] [ASoC:HDST9620] sprd_headset_power_set name DIG_CLK_INTC, power_on 1, en 0
+[    8.203559] CHANGXING60-LINUX: dmesg: [    6.473356] [ASoC:HDST9620] sprd_headset_regulator_init PMU0(0000) 2420, PMU1(0004) 0, DCL1(0100) 700, CLK0(0068) 2000
+[    8.218181] CHANGXING60-LINUX: dmesg: [    7.030193] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP01_USB_P, Sink = BE_DAI_NORMAL_AP01_USB_P
+[    8.234347] CHANGXING60-LINUX: dmesg: [    7.042394] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_NORMAL_AP01_USB_C, Sink = BE_IF_NORMAL_AP01_USB_C
+[    8.250385] CHANGXING60-LINUX: dmesg: [    7.054598] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP23_USB_P, Sink = BE_DAI_NORMAL_AP23_USB_P
+[    8.266583] CHANGXING60-LINUX: dmesg: [    7.066799] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_NORMAL_AP23_USB_C, Sink = BE_IF_NORMAL_AP23_USB_C
+[    8.282759] CHANGXING60-LINUX: dmesg: [    7.079001] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_CAP_DSP_USB_C, Sink = BE_IF_CAP_DSP_USB_C
+[    8.298109] CHANGXING60-LINUX: dmesg: [    7.090506] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FAST_USB_P, Sink = BE_DAI_FAST_USB_P
+[    8.313072] CHANGXING60-LINUX: dmesg: [    7.101501] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_OFFLOAD_USB_P, Sink = BE_DAI_OFFLOAD_USB_P
+[    8.328414] CHANGXING60-LINUX: dmesg: [    7.113006] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOICE_USB_P, Sink = BE_DAI_VOICE_USB_P
+[    8.343570] CHANGXING60-LINUX: dmesg: [    7.124170] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOICE_USB_C, Sink = BE_IF_VOICE_USB_C
+[    8.358694] CHANGXING60-LINUX: dmesg: [    7.135337] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOIP_USB_P, Sink = BE_DAI_VOIP_USB_P
+[    8.373643] CHANGXING60-LINUX: dmesg: [    7.146327] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOIP_USB_C, Sink = BE_IF_VOIP_USB_C
+[    8.384044] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[    8.388601] CHANGXING60-LINUX: dmesg: [    7.157319] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FM_USB_P, Sink = BE_DAI_FM_USB_P
+[    8.411187] CHANGXING60-LINUX: dmesg: [    7.167962] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_LOOP_USB_P, Sink = BE_DAI_LOOP_USB_P
+[    8.425992] CHANGXING60-LINUX: dmesg: [    7.178953] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_LOOP_USB_C, Sink = BE_IF_LOOP_USB_C
+[    8.440968] CHANGXING60-LINUX: dmesg: [    7.189943] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FM_DSP_USB_P, Sink = BE_DAI_FM_DSP_USB_P
+[    8.456279] CHANGXING60-LINUX: dmesg: [    7.356043] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[    8.468611] CHANGXING60-LINUX: dmesg: [    7.506974] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[    8.481062] CHANGXING60-LINUX: dmesg: [    7.515469] musb-sprd 64a00000.usb: musb dr_mode: 3
+[    8.489846] CHANGXING60-LINUX: dmesg: [    7.515485] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[    8.499477] CHANGXING60-LINUX: dmesg: [    7.582436] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal ,64280000.thermal       ,64290000.thermal       ,642a0000.thermal       ,64a00000.usb   ,
+[    8.516708] CHANGXING60-LINUX: dmesg: [    7.597163] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_serial,ufshcd-sprd,
+[    8.569918] CHANGXING60-LINUX: dmesg: [    7.647984] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+[    9.404053] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   10.428052] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   11.452051] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   16.189166] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   16.197711] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   16.202567] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   16.208427] platform 64270000.thermal: deferred probe pending: (reason unknown)
+[   16.215641] platform 64280000.thermal: deferred probe pending: (reason unknown)
+[   16.222908] platform 64290000.thermal: deferred probe pending: (reason unknown)
+[   16.230183] platform 642a0000.thermal: deferred probe pending: (reason unknown)
+[   16.237445] platform 64a00000.usb: deferred probe pending: (reason unknown)
+[   16.244377] ums9620-ipa-sys-pd soc:aon:sipa-sys: sync_state() pending due to 25210000.pamu3
+[   16.252677] ums9620-ipa-sys-pd soc:aon:sipa-sys: sync_state() pending due to 31880000.dpu1
+[   16.260897] ums9620-ipa-sys-pd soc:aon:sipa-sys: sync_state() pending due to soc:ipa-apb:sipa-dele
+[   16.269811] ums9620-ipa-sys-pd soc:aon:sipa-sys: sync_state() pending due to 25220000.sipa
+[   16.278035] sprd-agdsp-pd soc:agcp:agdsp-access: sync_state() pending due to 56360000.audio-codec
+[   16.286858] sprd-agdsp-pd soc:agcp:agdsp-access: sync_state() pending due to soc:agcp:voice_trigger_irq
+[   29.030490] CHANGXING60-LINUX: stage=persist-target dev=none rootdisk=sda
+[   29.043063] CHANGXING60-LINUX: stage=usb-phy-state dummyphy_dev=[/sys/bus/platform/devices/soc:ipa-apb:dummyphy,] dummyphy_drv=[../../../../../bus/platform/drivers/usb_phy_generic,] phyclass=[] udc=[25100000.dwc3,] deferred=[64270000.thermal     64280000.thermal        64290000.thermal        642a0000.thermal        64a00000.usb    ]
+[   29.071244] CHANGXING60-LINUX: stage=usb-configfs
+[   29.077851] CHANGXING60-LINUX: stage=usb-netfn ncm
+[   29.083937] CHANGXING60-LINUX: stage=usb-wait-udc
+[   29.090162] CHANGXING60-LINUX: stage=udc udc=25100000.dwc3 available=25100000.dwc3,
+[   30.099881] CHANGXING60-LINUX: stage=usb-bind-start
+[   30.105477] configfs-gadget.linux gadget.0: HOST MAC 02:50:00:00:77:02
+[   30.111898] configfs-gadget.linux gadget.0: MAC 02:50:00:00:77:01
+[   30.142110] CHANGXING60-LINUX: stage=usb-bind-done rc=0
+[   30.142578] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   30.150373] CHANGXING60-LINUX: stage=usb0-netdevs lo,usb0,
+[   30.155794] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   30.164126] CHANGXING60-LINUX: stage=rootfs-unavailable losetup: /dev/sda: No such file or directory
+[   30.166107] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   30.176592] CHANGXING60-LINUX: stage=rootfs-unavailable-block loop0,loop1,loop10,loop11,loop12,loop13,loop14,loop15,loop2,loop3,loop4,loop5,loop6,loop7,loop8,loop9,zram0,
+[   30.197297] CHANGXING60-LINUX: stage=rootfs-unavailable-deferred 64270000.thermal    ,64280000.thermal       ,64290000.thermal       ,642a0000.thermal       ,64a00000.usb   ,
+[   30.212499] CHANGXING60-LINUX: stage=rootfs-unavailable-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_serial,ufshcd-sprd,
+[   30.263865] CHANGXING60-LINUX: stage=rootfs-unavailable-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+[   30.288198] CHANGXING60-LINUX: dmesg: [    7.959195] CHANGXING60-LINUX: dmesg: [    5.253404] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   30.300809] CHANGXING60-LINUX: dmesg: [    7.967826] CHANGXING60-LINUX: dmesg: [    5.275053] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   30.314171] CHANGXING60-LINUX: dmesg: [    7.977423] CHANGXING60-LINUX: dmesg: [    5.326539] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[   30.331094] CHANGXING60-LINUX: dmesg: [    7.990327] CHANGXING60-LINUX: dmesg: [    5.333203] [ASoC: VBC ] sprd_vbc_codec_probe: 6468:ERR: [sprd_vbc_codec_probe] Get the aon pre div clk syscon failed!
+[   30.349334] CHANGXING60-LINUX: dmesg: [    8.004916] CHANGXING60-LINUX: dmesg: [    5.342289] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[   30.364401] CHANGXING60-LINUX: dmesg: [    8.016576] CHANGXING60-LINUX: dmesg: [    5.352933] [ASoC: VBC ] sprd_vbc_codec_probe: 6478:ERR: [sprd_vbc_codec_probe] Get the anlg phy g3 syscon failed!
+[   30.382210] CHANGXING60-LINUX: dmesg: [    8.030815] CHANGXING60-LINUX: dmesg: [    5.360857] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   30.398284] CHANGXING60-LINUX: dmesg: [    8.043280] CHANGXING60-LINUX: dmesg: [    5.379503] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   30.410501] CHANGXING60-LINUX: dmesg: [    8.051912] CHANGXING60-LINUX: dmesg: [    5.379534] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   30.423910] CHANGXING60-LINUX: dmesg: [    8.061526] CHANGXING60-LINUX: dmesg: [    5.536116] vbc-rxpx-codec-sc27xx sound@0: asoc_sprd_card_parse_of: Parsing dai link 0 failed(-517)!
+[   30.440597] CHANGXING60-LINUX: dmesg: [    8.074557] CHANGXING60-LINUX: dmesg: [    5.545203] vbc-rxpx-codec-sc27xx sound@0: Count 'sprd,spk-ext-pa-info' failed!(-22)
+[   30.455807] CHANGXING60-LINUX: dmesg: [    8.086063] CHANGXING60-LINUX: dmesg: [    5.553080] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   30.471806] CHANGXING60-LINUX: dmesg: [    8.098546] CHANGXING60-LINUX: dmesg: [    5.569344] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   30.483987] CHANGXING60-LINUX: dmesg: [    8.107323] CHANGXING60-LINUX: dmesg: [    5.569357] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   30.497422] CHANGXING60-LINUX: dmesg: [    8.117089] CHANGXING60-LINUX: dmesg: [    5.764424] [ASoC: pdm] pdm_parse_dt_ums9620 clk_membase 0xffffffc081aad000, clk_memphys 0x56394000, end 0x563943ff, reg_size 0x400
+[   30.516773] CHANGXING60-LINUX: dmesg: [    8.132676] CHANGXING60-LINUX: dmesg: [    5.783273] [ASoC: pdm] pdm_probe membase 0xffffffc0822b2000, memphys 0x56370000, end 0x56371fff, reg_size 0x2000
+[   30.534562] CHANGXING60-LINUX: dmesg: [    8.146680] CHANGXING60-LINUX: dmesg: [    6.155190] CHANGXING60-LINUX: stage=modules-done loaded=23 failed=0
+[   30.548363] CHANGXING60-LINUX: dmesg: [    8.156948] CHANGXING60-LINUX: dmesg: [    6.333358] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   30.564235] CHANGXING60-LINUX: dmesg: [    8.169139] CHANGXING60-LINUX: dmesg: [    6.366209] [ASoC:HDST9620] sprd_headset_parse_dt: parse 'impd-en'' failed!
+[   30.578783] CHANGXING60-LINUX: dmesg: [    8.179998] CHANGXING60-LINUX: dmesg: [    6.452105] [ASoC:HDST9620] sprd_headset_power_set name CLK_DCL_32K, power_on 1, en 0
+[   30.594197] CHANGXING60-LINUX: dmesg: [    8.191731] CHANGXING60-LINUX: dmesg: [    6.465503] [ASoC:HDST9620] sprd_headset_power_set name DIG_CLK_INTC, power_on 1, en 0
+[   30.609546] CHANGXING60-LINUX: dmesg: [    8.203559] CHANGXING60-LINUX: dmesg: [    6.473356] [ASoC:HDST9620] sprd_headset_regulator_init PMU0(0000) 2420, PMU1(0004) 0, DCL1(0100) 700, CLK0(0068) 2000
+[   30.627764] CHANGXING60-LINUX: dmesg: [    8.218181] CHANGXING60-LINUX: dmesg: [    7.030193] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP01_USB_P, Sink = BE_DAI_NORMAL_AP01_USB_P
+[   30.647465] CHANGXING60-LINUX: dmesg: [    8.234347] CHANGXING60-LINUX: dmesg: [    7.042394] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_NORMAL_AP01_USB_C, Sink = BE_IF_NORMAL_AP01_USB_C
+[   30.667188] CHANGXING60-LINUX: dmesg: [    8.250385] CHANGXING60-LINUX: dmesg: [    7.054598] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_NORMAL_AP23_USB_P, Sink = BE_DAI_NORMAL_AP23_USB_P
+[   30.687046] CHANGXING60-LINUX: dmesg: [    8.266583] CHANGXING60-LINUX: dmesg: [    7.066799] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_NORMAL_AP23_USB_C, Sink = BE_IF_NORMAL_AP23_USB_C
+[   30.706868] CHANGXING60-LINUX: dmesg: [    8.282759] CHANGXING60-LINUX: dmesg: [    7.079001] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_CAP_DSP_USB_C, Sink = BE_IF_CAP_DSP_USB_C
+[   30.726004] CHANGXING60-LINUX: dmesg: [    8.298109] CHANGXING60-LINUX: dmesg: [    7.090506] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FAST_USB_P, Sink = BE_DAI_FAST_USB_P
+[   30.744641] CHANGXING60-LINUX: dmesg: [    8.313072] CHANGXING60-LINUX: dmesg: [    7.101501] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_OFFLOAD_USB_P, Sink = BE_DAI_OFFLOAD_USB_P
+[   30.763830] CHANGXING60-LINUX: dmesg: [    8.328414] CHANGXING60-LINUX: dmesg: [    7.113006] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOICE_USB_P, Sink = BE_DAI_VOICE_USB_P
+[   30.782647] CHANGXING60-LINUX: dmesg: [    8.343570] CHANGXING60-LINUX: dmesg: [    7.124170] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOICE_USB_C, Sink = BE_IF_VOICE_USB_C
+[   30.801414] CHANGXING60-LINUX: dmesg: [    8.358694] CHANGXING60-LINUX: dmesg: [    7.135337] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_VOIP_USB_P, Sink = BE_DAI_VOIP_USB_P
+[   30.819890] CHANGXING60-LINUX: dmesg: [    8.373643] CHANGXING60-LINUX: dmesg: [    7.146327] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_VOIP_USB_C, Sink = BE_IF_VOIP_USB_C
+[   30.838479] CHANGXING60-LINUX: dmesg: [    8.384044] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   30.850713] CHANGXING60-LINUX: dmesg: [    8.388601] CHANGXING60-LINUX: dmesg: [    7.157319] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FM_USB_P, Sink = BE_DAI_FM_USB_P
+[   30.868975] CHANGXING60-LINUX: dmesg: [    8.411187] CHANGXING60-LINUX: dmesg: [    7.167962] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_LOOP_USB_P, Sink = BE_DAI_LOOP_USB_P
+[   30.887454] CHANGXING60-LINUX: dmesg: [    8.425992] CHANGXING60-LINUX: dmesg: [    7.178953] [ASoC: VBC ] sprd_dai_vbc_probe: 6713:Add route for capture:  Src = BE_DAI_LOOP_USB_C, Sink = BE_IF_LOOP_USB_C
+[   30.906098] CHANGXING60-LINUX: dmesg: [    8.440968] CHANGXING60-LINUX: dmesg: [    7.189943] [ASoC: VBC ] sprd_dai_vbc_probe: 6703:Add route for playback: Src = BE_IF_FM_DSP_USB_P, Sink = BE_DAI_FM_DSP_USB_P
+[   30.924905] CHANGXING60-LINUX: dmesg: [    8.456279] CHANGXING60-LINUX: dmesg: [    7.356043] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   30.940947] CHANGXING60-LINUX: dmesg: [    8.468611] CHANGXING60-LINUX: dmesg: [    7.506974] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   30.957111] CHANGXING60-LINUX: dmesg: [    8.481062] CHANGXING60-LINUX: dmesg: [    7.515469] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   30.969413] CHANGXING60-LINUX: dmesg: [    8.489846] CHANGXING60-LINUX: dmesg: [    7.515485] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   30.982717] CHANGXING60-LINUX: dmesg: [    8.499477] CHANGXING60-LINUX: dmesg: [    7.582436] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal        ,64280000.thermal       ,64290000.thermal       ,642a0000.thermal       ,64a00000.usb   ,
+[   31.003560] CHANGXING60-LINUX: dmesg: [    8.516708] CHANGXING60-LINUX: dmesg: [    7.597163] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_serial,ufshcd-sprd,
+[   31.060457] CHANGXING60-LINUX: dmesg: [    8.569918] CHANGXING60-LINUX: dmesg: [    7.647984] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+[   31.077103] CHANGXING60-LINUX: dmesg: [    9.404053] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   31.089512] CHANGXING60-LINUX: dmesg: [   10.428052] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   31.101985] CHANGXING60-LINUX: dmesg: [   11.452051] aw87xxx_pa 6-0058: Direct firmware load for aw87xxx_acf.bin failed with error -2
+[   31.114432] CHANGXING60-LINUX: dmesg: [   16.189166] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   31.127038] CHANGXING60-LINUX: dmesg: [   16.197711] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   31.135661] CHANGXING60-LINUX: dmesg: [   16.202567] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   31.145505] CHANGXING60-LINUX: dmesg: [   16.208427] platform 64270000.thermal: deferred probe pending: (reason unknown)
+[   31.156641] CHANGXING60-LINUX: dmesg: [   16.215641] platform 64280000.thermal: deferred probe pending: (reason unknown)
+[   31.167709] CHANGXING60-LINUX: dmesg: [   16.222908] platform 64290000.thermal: deferred probe pending: (reason unknown)
+[   31.179011] CHANGXING60-LINUX: dmesg: [   16.230183] platform 642a0000.thermal: deferred probe pending: (reason unknown)
+[   31.190169] CHANGXING60-LINUX: dmesg: [   16.237445] platform 64a00000.usb: deferred probe pending: (reason unknown)
+[   31.201026] CHANGXING60-LINUX: dmesg: [   29.043063] CHANGXING60-LINUX: stage=usb-phy-state dummyphy_dev=[/sys/bus/platform/devices/soc:ipa-apb:dummyphy,] dummyphy_drv=[../../../../../bus/platform/drivers/usb_phy_generic,] phyclass=[] udc=[25100000.dwc3,] deferred=[64270000.thermal    64280000.thermal        64290000.thermal        642a0000.thermal        64a00000.usb    ]
+[   31.232508] CHANGXING60-LINUX: dmesg: [   29.071244] CHANGXING60-LINUX: stage=usb-configfs
+[   31.241172] CHANGXING60-LINUX: dmesg: [   29.077851] CHANGXING60-LINUX: stage=usb-netfn ncm
+[   31.249811] CHANGXING60-LINUX: dmesg: [   29.083937] CHANGXING60-LINUX: stage=usb-wait-udc
+[   31.258401] CHANGXING60-LINUX: dmesg: [   29.090162] CHANGXING60-LINUX: stage=udc udc=25100000.dwc3 available=25100000.dwc3,
+[   31.270011] CHANGXING60-LINUX: dmesg: [   30.099881] CHANGXING60-LINUX: stage=usb-bind-start
+[   31.278874] CHANGXING60-LINUX: dmesg: [   30.142110] CHANGXING60-LINUX: stage=usb-bind-done rc=0
+[   31.287867] CHANGXING60-LINUX: dmesg: [   30.142578] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   31.300333] CHANGXING60-LINUX: dmesg: [   30.150373] CHANGXING60-LINUX: stage=usb0-netdevs lo,usb0,
+[   31.309842] CHANGXING60-LINUX: dmesg: [   30.155794] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   31.318728] CHANGXING60-LINUX: dmesg: [   30.166107] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   31.328648] CHANGXING60-LINUX: dmesg: [   30.197297] CHANGXING60-LINUX: stage=rootfs-unavailable-deferred 64270000.thermal   ,64280000.thermal       ,64290000.thermal       ,642a0000.thermal       ,64a00000.usb   ,
+[   31.346491] CHANGXING60-LINUX: dmesg: [   30.212499] CHANGXING60-LINUX: stage=rootfs-unavailable-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_serial,ufshcd-sprd,
+[   31.400332] CHANGXING60-LINUX: dmesg: [   30.263865] CHANGXING60-LINUX: stage=rootfs-unavailable-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+[   31.414179] CHANGXING60-LINUX: stage=misc-NOT-FOUND
+[   31.420776] CHANGXING60-LINUX: stage=usb0 usb0      Link encap:Ethernet  HWaddr 02:50:00:00:77:01  
+[   31.433049] CHANGXING60-LINUX: stage=ttyGS0-console on
+[   31.438656] CHANGXING60-LINUX: stage=ready
+[   32.566358] CHANGXING60-LINUX: stage=android-chroot-ready nodes=ls: /dev/modem: No such file or directory,ls: /dev/pmsys: No such file or directory,ls: /dev/sctl_pm: No such file or directory,/dev/trusty-ipc-dev0,
+[   32.585563] CHANGXING60-LINUX: stage=modem_control-started pid=1042
+[   33.052416] random: crng init done
+[   33.852041] regulator: Not disabling unused regulators
+[   36.441706] CHANGXING60-LINUX: stage=usb0-stats rx 6930 63 tx 2060 9 leases=[] arp=[]
+[   41.452217] CHANGXING60-LINUX: stage=usb0-stats rx 18500 143 tx 2180 10 leases=[] arp=[]
+[   46.463737] CHANGXING60-LINUX: stage=usb0-stats rx 24115 188 tx 2300 11 leases=[] arp=[]
+[   51.475759] CHANGXING60-LINUX: stage=usb0-stats rx 25789 206 tx 2300 11 leases=[] arp=[]
+[   56.487356] CHANGXING60-LINUX: stage=usb0-stats rx 26871 215 tx 2300 11 leases=[] arp=[]
+[   61.498950] CHANGXING60-LINUX: stage=usb0-stats rx 27294 218 tx 2300 11 leases=[] arp=[]
+[   66.510541] CHANGXING60-LINUX: stage=usb0-stats rx 27684 221 tx 2420 12 leases=[] arp=[]
+[   71.522000] CHANGXING60-LINUX: stage=usb0-stats rx 28107 224 tx 2420 12 leases=[] arp=[]
+[   76.534104] CHANGXING60-LINUX: stage=usb0-stats rx 28389 226 tx 2420 12 leases=[] arp=[]
+[   81.546105] CHANGXING60-LINUX: stage=usb0-stats rx 28812 229 tx 2420 12 leases=[] arp=[]
+[   86.558103] CHANGXING60-LINUX: stage=usb0-stats rx 29248 233 tx 2420 12 leases=[] arp=[]
+[   91.569943] CHANGXING60-LINUX: stage=usb0-stats rx 29671 236 tx 2420 12 leases=[] arp=[]
+[   96.581806] CHANGXING60-LINUX: stage=usb0-stats rx 30061 239 tx 2420 12 leases=[] arp=[]
+[  101.592934] CHANGXING60-LINUX: stage=usb0-stats rx 30713 243 tx 2540 13 leases=[] arp=[]
+[  106.606094] CHANGXING60-LINUX: stage=usb0-stats rx 30995 245 tx 2540 13 leases=[] arp=[]
+[  111.618043] CHANGXING60-LINUX: stage=usb0-stats rx 31708 255 tx 3448 20 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  115.430973] [ASoC:ump9620] dac switch 0x0,shift 5, get 0
+[  115.436198] [ASoC:ump9620] dac switch 0x0,shift 4, get 0
+[  115.441483] [ASoC: VBC ] dsp_audio_aec_enable_get: 5349:dsp_audio_aec_enable_get value = 0
+[  115.449687] [ASoC: VBC ] dsp_audio_avc_enable_get: 5409:dsp_audio_avc_enable_get value = 0
+[  115.457912] [ASoC: VBC ] dsp_audio_ns_enable_get: 5379:dsp_audio_ns_enable_get value = 0
+[  115.465955] [ASoC: VBC ] dsp_audio_zoom_ratio_get: 5267:dsp_audio_zoom_ratio_get value = 0
+[  115.474174] [ASoC: VBC ] dsp_audio_zoom_ratio_get: 5267:dsp_audio_zoom_ratio_get value = 0
+[  115.482396] [ASoC: VBC ] dsp_audio_zoom_st_get: 5237:dsp_audio_zoom_st_get value = 0
+[  115.490102] [ASoC:ump9620] chip_id 0x7520a002, ver_id 0xa002, hw_index 8
+[  115.496779] [ASoC:ump9620] sprd_codec_get_ana_chip_id ana_chip_ver_id = a002
+[  115.503770] [ASoC:ump9620] sprd_codec_get_ana_chip_id ana_chip_ver_id = a002
+[  115.511081] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[  115.518918] [ASoC:ump9620] dac switch 0x0,shift 1, get 0
+[  115.524368] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[  115.532042] [ASoC:ump9620] dac switch 0x0,shift 0, get 0
+[  115.539598] [ASoC:ump9620] dac switch 0x0,shift 3, get 0
+[  115.544817] [ASoC:ump9620] dac switch 0x0,shift 2, get 0
+[  115.550116] [ASoC: VBC ] dsp_incall_music_mix_voice_dl_enable_get: 5469:dsp_incall_music_mix_voice_dl_enable_get value = 0
+[  115.561073] [ASoC: VBC ] dsp_incall_music_mix_voice_dl_enable_get: 5469:dsp_incall_music_mix_voice_dl_enable_get value = 0
+[  115.572093] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  115.576908] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  115.581759] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  115.586599] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  115.592604] [ASoC: VBC ] dsp_voice_volume_dl_enable_get: 4557:dsp_voice_volume_dl_enable_get value = 0
+[  115.601801] [ASoC: VBC ] dsp_voice_volume_ramp_enable_get: 5439:dsp_voice_volume_ramp_enable_get value = 0
+[  115.611411] [ASoC: VBC ] dsp_voice_volume_ul_enable_get: 4527:dsp_voice_volume_ul_enable_get value = 0
+[  115.620663] [ASoC: VBC ] vbc_audio_voice_ai2_get: 4037:vbc_audio_voice_ai2_get value = 0
+[  115.628703] [ASoC: VBC ] vbc_audio_voice_ai2_get: 4037:vbc_audio_voice_ai2_get value = 0
+[  116.636428] CHANGXING60-LINUX: stage=usb0-stats rx 3645696 2684 tx 83600 224 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  121.655942] CHANGXING60-LINUX: stage=usb0-stats rx 3646199 2689 tx 83704 225 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  126.675417] CHANGXING60-LINUX: stage=usb0-stats rx 3646481 2691 tx 83704 225 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  131.695249] CHANGXING60-LINUX: stage=usb0-stats rx 3646904 2694 tx 83704 225 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  131.789638] [Audio:agdsp-pd]: sprd_agdsp_pw_on, ap_enable_cnt=1, cp_enable_cnt=0.cnt=1
+[  131.797458] [ASoC: VBC ] scene_normal_startup: 8259:scene_normal_startup dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback
+[  131.810428] [ASoC: VBC ] get_startup_scene_dac_id: 6981:get_startup_scene_dac_id scene is VBC_DAI_ID_NORMAL_AP01(id 0) dac_id = 0
+[  131.822020] [ASoC: VBC ] get_startup_scene_adc_id: 7070:get_startup_scene_adc_id scene is VBC_DAI_ID_NORMAL_AP01(id 0) adc_id = 0
+[  131.833618] [Audio:SIPC] audio_cmd_copy, write cmd para: txbuf_addr_v=0xffffffc081a3d000, tx_len=620
+[  131.842703] [Audio:SMSG] warning aud_smsg_recv cache is empty!
+[  131.848500] [Audio:SIPC] aud_recv_cmd channel =0 cmd=4 ENODATA
+[  131.854297] [Audio:SIPC] aud_send_cmd in,cmd =4 id:0 ret-value:0
+[  131.860268] [Audio:SIPC] aud_send_msg,cmd: 0x4, value0: 0x0, value1: 0x0,
+[  131.860270] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0
+[  131.872390] [Audio:SMSG] aud_smsg_send: dst=1, channel=0
+[  131.877664] [Audio:SIPC] aud_send_cmd 696 wait dsp
+[  131.882423] [Audio:SIPC] aud_recv_cmd, chan: 0x0, cmd: 0x4, value0: 0x0, value1: 0x0,
+[  131.882425] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  131.896789] [Audio:SIPC] aud_send_cmd out,cmd =4 id:0 ret-value:0,repeat_count=1
+[  131.904144] [ASoC: VBC ] set_normal_p_running_status: 6827:set_normal_p_running_status is_startup=true
+[  131.913406] [ASoC:HDST9620] sprd_enable_hmicbias_polling no headset insert!
+[  131.920332] [ASoC: PCM ] sprd_pcm_open FE_DAI_ID_NORMAL_AP01 Open Playback
+[  131.927168] [Audio:MEM] audio_mem_alloc mem_type=5 addr = 0xaf723000, size=0xff0
+[  131.934636] [Audio:MEM] audio_mem_alloc mem_type=5 addr = 0xaf724000, size=0xff0
+[  131.941974] [ASoC: PCM ] rtd->dma_cfg_virt[0] =0xffffffc081ab5000, rtd->dma_cfg_phy[0] =0xaf723000,
+[  131.941977] [ASoC: PCM ] rtd->dma_cfg_virt[1]=0xffffffc081ce5000,rtd->dma_cfg_phy[1]=0xaf724000,
+[  131.950931] [ASoC: PCM ] runtime->hw.periods_max*(sizeof(struct sprd_dma_cfg)=4080,
+[  131.959673] [ASoC: PCM ] sizeof(struct sprd_dma_cfg) = 136, size_inout=4080
+[  131.974203] [ASoC: PCM ] sprd_pcm_preallocate_dma_ddr32_buffer alloc size = 0x20000 for data
+[  131.982598] [Audio:MEM] audio_mem_alloc mem_type=5 addr = 0xaf725000, size=0x20000
+[  131.990141] [ASoC: PCM ] sprd_pcm_preallocate_dma_ddr32_buffer, sprd_pcm_preallocate_dma_buffer buf->area(virt)=0xffffffc08531d000, buf->addr(phy)=0xaf725000, size=131072
+[  132.005414] [ASoC:ump9620] Playback rate is [48000], ivsence_dmic_type 0
+[  132.012008] [ASoC: VBC ] scene_normal_hw_params: 8372:scene_normal_hw_params dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback
+[  132.025331] [ASoC: VBC ] scene_normal_hw_params: 8395:scene_normal_hw_params data_fmt=VBC_DAT_L16, chan=2, rate =48000
+[  132.035975] [ASoC: VBC ] get_normal_p_running_status: 6842:get_normal_p_running_status is_startup=true
+[  132.045238] [ASoC: VBC ] ap_vbc_set_watermark fifo_id=AP01_PLY_FIFO, watermark_type = EMPTY_WATERMARK, watermark = 80
+[  132.055795] [ASoC: VBC ] fifo_id =AP01_PLY_FIFO dat_fmt =VBC_DAT_L16
+[  132.062113] [ASoC: FE.VBC ] fe_hw_params fe dai: FE_DAI_ID_NORMAL_AP01(0) playback
+[  132.069640] [ASoC: PCM ] (pcm) sprd_pcm_hw_params, cpudai_id=0
+[  132.075434] [ASoC: PCM ] chan=2 totsize=96000 period=24000
+[  132.080887] [ASoC: PCM ] desc->src_step  =4, des_step=0, datawidth =2
+[  132.087370] [ASoC: PCM ] Chan0 DMA ID=2
+[  132.091111] [ASoC: PCM ] Chan1 DMA ID=1
+[  132.094908] [ASoC: PCM ] dma_buff_phys[0] 2943504384
+[  132.099838] [ASoC: PCM ] dma_buff_phys[1] 2943504386
+[  132.104774] [ASoC: PCM ] sprd_pcm_hw_params, block 12000
+[  132.110053] [ASoC: PCM ] src_dw=2, dst_dw=2 frag=0, burst:160, slave_id=2, step=4, ll_cfg_virt_addr=000000000c4f06b5, ll_cfg_phy_addr=2943496192 ,dst_addr:1448148996, src_addr:2943504384,chan=0
+[  132.127189] [ASoC: PCM ] src_dw=2, dst_dw=2 frag=0, burst:160, slave_id=1, step=4, ll_cfg_virt_addr=000000005ee6701a, ll_cfg_phy_addr=2943500288 ,dst_addr:1448148992, src_addr:2943504386,chan=1
+[  132.144324] [ASoC: PCM ] sg_dma_len=24000, periods=4, sg_dma_address=00000000c3e9ac7b, flag:0, chan=0 node=0
+[  132.154101] [ASoC: PCM ] sg_dma_len=24000, periods=4, sg_dma_address=00000000cdec6081, flag:0, chan=1 node=0
+[  132.163879] [ASoC: PCM ] sg_dma_len=24000, periods=4, sg_dma_address=000000004ca3a259, flag:0, chan=0 node=1
+[  132.173658] [ASoC: PCM ] sg_dma_len=24000, periods=4, sg_dma_address=00000000f7046a9f, flag:0, chan=1 node=1
+[  132.183437] [ASoC: PCM ] sg_dma_len=24000, periods=4, sg_dma_address=00000000d5b9886f, flag:0, chan=0 node=2
+[  132.193216] [ASoC: PCM ] sg_dma_len=24000, periods=4, sg_dma_address=00000000676fa772, flag:0, chan=1 node=2
+[  132.202994] [ASoC: PCM ] sg_dma_len=24000, periods=4, sg_dma_address=0000000015d07b1f, flag:0, chan=0 node=3
+[  132.212773] [ASoC: PCM ] sg_dma_len=24000, periods=4, sg_dma_address=000000003f335eed, flag:0, chan=1 node=3
+[  132.222553] [ASoC: PCM ] Node Size:4
+[  132.226103] [ASoC: PCM ] return 0
+[  132.229542] [ASoC: VBC ] scene_normal_trigger: 8567:scene_normal_trigger dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback, cmd=1
+[  132.243054] [ASoC: VBC ] get_normal_p_running_status: 6842:get_normal_p_running_status is_startup=true
+[  132.252314] [ASoC: VBC ] ap_vbc_fifo_clear fifo=AP01_PLY_FIFO
+[  132.258026] [ASoC: VBC ] ap_vbc_fifo_enable fifo_id=AP01_PLY_FIFO, vbc_chan =VBC_ALL_CHAN, enable=1
+[  132.267024] [ASoC: VBC ] ap_vbc_aud_dma_chn_en fifo_id=AP01_PLY_FIFO, vbc_chan =VBC_ALL_CHAN, enable=1
+[  132.276284] [Audio:SIPC] aud_send_cmd_no_wait no wait
+[  132.281302] [Audio:SIPC] aud_send_msg,cmd: 0x7, value0: 0x0, value1: 0x0,
+[  132.281304] [Audio:SIPC]  value2: 0x1, value3: 0x0
+[  132.292812] [Audio:SMSG] aud_smsg_send: dst=1, channel=0
+[  132.298095] [ASoC: PCM ] sprd_pcm_trigger, FE_DAI_ID_NORMAL_AP01 cpu_dai->id = 0 Trigger Playback cmd:1
+[  132.307449] [ASoC: PCM ] pcm Start branch=SUBMIT ch[0]=chan cookie=0x2 desc=set
+[  132.314707] [ASoC: PCM ] pcm Start branch=SUBMIT ch[1]=chan cookie=0x2 desc=set
+[  132.321976] [ASoC: PCM ] pcm Start branch=SUBMIT
+[  132.326589] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  132.333225] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  132.339630] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  132.346379] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  132.352870] [ASoC: PCM ] now_pointer 31:280
+[  132.357023] [ASoC: PCM ] x:a0
+[  132.359965] [ASoC: PCM ] x out:a0
+[  132.451990] [ASoC: PCM ] sprd-tick: callbacks=1 ticking=1 tick_ns=125000000
+[  132.458859] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  132.465505] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  132.471911] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  132.478659] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  132.485150] [ASoC: PCM ] now_pointer 31:280
+[  132.489302] [ASoC: PCM ] x:a0
+[  132.492245] [ASoC: PCM ] x out:a0
+[  132.576982] [ASoC: PCM ] sprd-tick: callbacks=2 ticking=1 tick_ns=125000000
+[  132.583850] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  132.590498] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  132.596903] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  132.603651] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  132.610142] [ASoC: PCM ] now_pointer 31:280
+[  132.614295] [ASoC: PCM ] x:a0
+[  132.617237] [ASoC: PCM ] x out:a0
+[  132.701570] [ASoC: PCM ] sprd-tick: callbacks=3 ticking=1 tick_ns=125000000
+[  132.708434] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  132.715082] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  132.721488] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  132.728236] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  132.734727] [ASoC: PCM ] now_pointer 31:280
+[  132.738880] [ASoC: PCM ] x:a0
+[  132.741822] [ASoC: PCM ] x out:a0
+[  132.827372] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  132.833971] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  132.840370] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  132.847118] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  132.853608] [ASoC: PCM ] now_pointer 31:280
+[  132.857762] [ASoC: PCM ] x:a0
+[  132.860704] [ASoC: PCM ] x out:a0
+[  132.952007] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  132.958605] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  132.965004] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  132.971753] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  132.978243] [ASoC: PCM ] now_pointer 31:280
+[  132.982397] [ASoC: PCM ] x:a0
+[  132.985340] [ASoC: PCM ] x out:a0
+[  133.026486] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  133.033085] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  133.039484] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  133.046231] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  133.052723] [ASoC: PCM ] now_pointer 31:280
+[  133.056876] [ASoC: PCM ] x:a0
+[  133.059818] [ASoC: PCM ] x out:a0
+[  133.078090] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  133.084689] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  133.091088] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  133.097836] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  133.104327] [ASoC: PCM ] now_pointer 31:280
+[  133.108480] [ASoC: PCM ] x:a0
+[  133.111422] [ASoC: PCM ] x out:a0
+[  133.202251] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  133.208850] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  133.215248] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  133.221997] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  133.228487] [ASoC: PCM ] now_pointer 31:280
+[  133.232640] [ASoC: PCM ] x:a0
+[  133.235583] [ASoC: PCM ] x out:a0
+[  133.328078] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  133.334676] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  133.341075] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  133.347823] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  133.354313] [ASoC: PCM ] now_pointer 31:280
+[  133.358467] [ASoC: PCM ] x:a0
+[  133.361409] [ASoC: PCM ] x out:a0
+[  133.451580] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  133.458174] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  133.464574] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  133.471323] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  133.477812] [ASoC: PCM ] now_pointer 31:280
+[  133.481966] [ASoC: PCM ] x:a0
+[  133.484908] [ASoC: PCM ] x out:a0
+[  133.576993] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  133.583591] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  133.589990] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  133.596739] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  133.603229] [ASoC: PCM ] now_pointer 31:280
+[  133.607383] [ASoC: PCM ] x:a0
+[  133.610325] [ASoC: PCM ] x out:a0
+[  133.628385] [ASoC: PCM ] sprd_pcm_trigger, FE_DAI_ID_NORMAL_AP01 cpu_dai->id = 0 Trigger Playback cmd:0
+[  133.637669] [ASoC: PCM ] sprd-tick-stop: total=10 tick_ns=125000000
+[  133.643892] [ASoC: PCM ] pcm Stop
+[  133.647183] [ASoC: PCM ] pcm E
+[  133.650212] [ASoC: VBC ] scene_normal_trigger: 8567:scene_normal_trigger dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback, cmd=0
+[  133.663797] [ASoC: VBC ] get_normal_p_running_status: 6842:get_normal_p_running_status is_startup=true
+[  133.673058] [ASoC: VBC ] ap_vbc_aud_dma_chn_en fifo_id=AP01_PLY_FIFO, vbc_chan =VBC_ALL_CHAN, enable=0
+[  133.682318] [ASoC: VBC ] ap_vbc_fifo_enable fifo_id=AP01_PLY_FIFO, vbc_chan =VBC_ALL_CHAN, enable=0
+[  133.691333] [ASoC: PCM ] sprd_pcm_hw_free, FE_DAI_ID_NORMAL_AP01 cpu_dai->id = 0 Playback
+[  133.699452] [ASoC: PCM ] sprd_pcm_hw_free release id=0
+[  133.704570] [ASoC: PCM ] sprd_pcm_hw_free release id=1
+[  133.709676] [ASoC: FE.VBC ] fe_hw_free fe dai: FE_DAI_ID_NORMAL_AP01(0) playback
+[  133.717061] [ASoC: VBC ] scene_normal_hw_free: 8425:scene_normal_hw_free dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback
+[  133.730037] [ASoC:HDST9620] sprd_enable_hmicbias_polling no headset insert!
+[  133.736927] [ASoC: VBC ] scene_normal_shutdown: 8315:scene_normal_shutdown dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback
+[  133.750083] [ASoC: VBC ] get_normal_p_running_status: 6842:get_normal_p_running_status is_startup=true
+[  133.759341] [ASoC: VBC ] get_startup_scene_dac_id: 6981:get_startup_scene_dac_id scene is VBC_DAI_ID_NORMAL_AP01(id 0) dac_id = 0
+[  133.770936] [ASoC: VBC ] get_startup_scene_adc_id: 7070:get_startup_scene_adc_id scene is VBC_DAI_ID_NORMAL_AP01(id 0) adc_id = 0
+[  133.782531] [Audio:SIPC] audio_cmd_copy, write cmd para: txbuf_addr_v=0xffffffc081a3d000, tx_len=620
+[  133.791617] [Audio:SMSG] warning aud_smsg_recv cache is empty!
+[  133.797413] [Audio:SIPC] aud_recv_cmd channel =0 cmd=5 ENODATA
+[  133.803211] [Audio:SIPC] aud_send_cmd in,cmd =5 id:0 ret-value:0
+[  133.809184] [Audio:SIPC] aud_send_msg,cmd: 0x5, value0: 0x0, value1: 0x0,
+[  133.809186] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0
+[  133.821299] [Audio:SMSG] aud_smsg_send: dst=1, channel=0
+[  133.826581] [Audio:SIPC] aud_send_cmd 696 wait dsp
+[  133.831337] [Audio:SIPC] aud_recv_cmd, chan: 0x0, cmd: 0x5, value0: 0x0, value1: 0x0,
+[  133.831339] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  133.845703] [Audio:SIPC] aud_send_cmd out,cmd =5 id:0 ret-value:0,repeat_count=1
+[  133.853063] [ASoC: VBC ] set_normal_p_running_status: 6827:set_normal_p_running_status is_startup=false
+[  133.862410] [ASoC: PCM ] sprd_pcm_close FE_DAI_ID_NORMAL_AP01 Close Playback
+[  133.869688] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[  136.715128] CHANGXING60-LINUX: stage=usb0-stats rx 3647816 2706 tx 86248 235 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  141.734907] CHANGXING60-LINUX: stage=usb0-stats rx 3648359 2712 tx 86428 236 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  146.755164] CHANGXING60-LINUX: stage=usb0-stats rx 3648823 2717 tx 86520 237 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  151.774529] CHANGXING60-LINUX: stage=usb0-stats rx 3649625 2727 tx 87476 243 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  156.794228] CHANGXING60-LINUX: stage=usb0-stats rx 3650027 2732 tx 87656 244 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  161.814433] CHANGXING60-LINUX: stage=usb0-stats rx 3650676 2737 tx 87748 245 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  166.834014] CHANGXING60-LINUX: stage=usb0-stats rx 3651552 2742 tx 87748 245 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  171.853879] CHANGXING60-LINUX: stage=usb0-stats rx 3652373 2751 tx 88836 252 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  176.874173] CHANGXING60-LINUX: stage=usb0-stats rx 3653713 2771 tx 88940 253 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  181.893558] CHANGXING60-LINUX: stage=usb0-stats rx 3654136 2774 tx 88940 253 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  186.913536] CHANGXING60-LINUX: stage=usb0-stats rx 3654712 2782 tx 90652 259 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  191.932111] CHANGXING60-LINUX: stage=usb0-stats rx 3655215 2787 tx 90756 260 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  196.952690] CHANGXING60-LINUX: stage=usb0-stats rx 3655497 2789 tx 90756 260 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  201.971463] CHANGXING60-LINUX: stage=usb0-stats rx 3655920 2792 tx 90756 260 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]

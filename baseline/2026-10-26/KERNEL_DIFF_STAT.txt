@@ -1,0 +1,20 @@
+ arch/arm64/boot/dts/sprd/Makefile                  |   2 +-
+ drivers/clk/sprd/Kconfig                           |   4 +
+ drivers/clk/sprd/Makefile                          |   2 +
+ drivers/pinctrl/sprd/Kconfig                       |   5 +
+ drivers/pinctrl/sprd/Makefile                      |   2 +
+ drivers/pmdomain/Kconfig                           |   6 +
+ drivers/pmdomain/Makefile                          |   2 +
+ drivers/pwm/pwm-sprd.c                             |   1 +
+ drivers/regulator/ump9620-regulator.c              |   1 +
+ drivers/thermal/sprd_thermal_r5p0.c                | 202 +++++++++++----------
+ drivers/ufs/host/ufs-sprd.c                        |  18 +-
+ drivers/unisoc_platform/sprd_audio/Makefile        |   2 +
+ .../unisoc_platform/sprd_wlan_combo/sc2355/sae.h   | 114 ++++++------
+ drivers/usb/dwc3/core.c                            |   1 +
+ drivers/usb/dwc3/dwc3-of-simple.c                  |   1 +
+ drivers/usb/phy/Kconfig                            |   6 +
+ drivers/usb/phy/Makefile                           |   2 +
+ drivers/usb/phy/phy-generic.c                      |   1 +
+ .../soc/sprd/unisoc/machine/sprd-asoc-card-utils.c |  35 +++-
+ 19 files changed, 249 insertions(+), 158 deletions(-)

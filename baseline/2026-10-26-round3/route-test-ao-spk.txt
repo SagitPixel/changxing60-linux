@@ -1,0 +1,134 @@
+cat /tmp/trace2.txt; echo '=== before ==='; cat /tmp/route-before.txt
+=== s1 55.%N alive=Y ===
+state: OPEN
+hw_ptr      : 0
+appl_ptr    : 0
+  Normal-Playback    Normal-Playback: Off  in 0 out 20
+  DAC                DAC: Off  in 0 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: Off  in 0 out 0
+  CLK_DAC            CLK_DAC: Off  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: Off  in 0 out 1
+  SPK PA             SPK PA: Off  in 0 out 1
+  SPK Pin            SPK Pin: Off  in 0 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: Off  in 0 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 20
+=== s2 55.%N alive=Y ===
+state: SETUP
+hw_ptr      : 0
+appl_ptr    : 0
+  Normal-Playback    Normal-Playback: On  in 1 out 20
+  DAC                DAC: On  in 1 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: On  in 0 out 0
+  CLK_DAC            CLK_DAC: On  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: On  in 20 out 1
+  SPK PA             SPK PA: On  in 20 out 1
+  SPK Pin            SPK Pin: On  in 20 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: On  in 1 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: On  in 1 out 20
+=== s3 56.%N alive=Y ===
+state: RUNNING
+hw_ptr      : 160
+appl_ptr    : 24160
+  Normal-Playback    Normal-Playback: On  in 1 out 20
+  DAC                DAC: On  in 1 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: On  in 0 out 0
+  CLK_DAC            CLK_DAC: On  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: On  in 20 out 1
+  SPK PA             SPK PA: On  in 20 out 1
+  SPK Pin            SPK Pin: On  in 20 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: On  in 1 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: On  in 1 out 20
+=== s4 56.%N alive=Y ===
+state: RUNNING
+hw_ptr      : 160
+appl_ptr    : 24160
+  Normal-Playback    Normal-Playback: On  in 1 out 20
+  DAC                DAC: On  in 1 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: On  in 0 out 0
+  CLK_DAC            CLK_DAC: On  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: On  in 20 out 1
+  SPK PA             SPK PA: On  in 20 out 1
+  SPK Pin            SPK Pin: On  in 20 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: On  in 1 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: On  in 1 out 20
+=== s5 57.%N alive=Y ===
+state: RUNNING
+hw_ptr      : 160
+appl_ptr    : 24160
+  Normal-Playback    Normal-Playback: On  in 1 out 20
+  DAC                DAC: On  in 1 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: On  in 0 out 0
+  CLK_DAC            CLK_DAC: On  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: On  in 20 out 1
+  SPK PA             SPK PA: On  in 20 out 1
+  SPK Pin            SPK Pin: On  in 20 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: On  in 1 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: On  in 1 out 20
+=== s6 57.%N alive=Y ===
+closed
+  Normal-Playback    Normal-Playback: Off  in 0 out 20
+  DAC                DAC: Off  in 0 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: Off  in 0 out 0
+  CLK_DAC            CLK_DAC: Off  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: Off  in 0 out 1
+  SPK PA             SPK PA: Off  in 0 out 1
+  SPK Pin            SPK Pin: Off  in 0 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: Off  in 0 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 20
+=== s7 58.%N alive=N ===
+closed
+  Normal-Playback    Normal-Playback: Off  in 0 out 20
+  DAC                DAC: Off  in 0 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: Off  in 0 out 0
+  CLK_DAC            CLK_DAC: Off  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: Off  in 0 out 1
+  SPK PA             SPK PA: Off  in 0 out 1
+  SPK Pin            SPK Pin: Off  in 0 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: Off  in 0 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 20
+=== s8 58.%N alive=N ===
+closed
+  Normal-Playback    Normal-Playback: Off  in 0 out 20
+  DAC                DAC: Off  in 0 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: Off  in 0 out 0
+  CLK_DAC            CLK_DAC: Off  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: Off  in 0 out 1
+  SPK PA             SPK PA: Off  in 0 out 1
+  SPK Pin            SPK Pin: Off  in 0 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: Off  in 0 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 20
+=== s9 58.%N alive=N ===
+closed
+  Normal-Playback    Normal-Playback: Off  in 0 out 20
+  DAC                DAC: Off  in 0 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: Off  in 0 out 0
+  CLK_DAC            CLK_DAC: Off  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: Off  in 0 out 1
+  SPK PA             SPK PA: Off  in 0 out 1
+  SPK Pin            SPK Pin: Off  in 0 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: Off  in 0 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 20
+=== s10 59.%N alive=N ===
+closed
+  Normal-Playback    Normal-Playback: Off  in 0 out 20
+  DAC                DAC: Off  in 0 out 10 - R65535(0xffff) mask 0x1
+  Digital Power      Digital Power: Off  in 0 out 0
+  CLK_DAC            CLK_DAC: Off  in 0 out 0 - R12392(0x3068) mask 0x100
+  AO EN              AO EN: Off  in 0 out 1
+  SPK PA             SPK PA: Off  in 0 out 1
+  SPK Pin            SPK Pin: Off  in 0 out 1
+  S_NORMAL_AP01_P_CODEC S_NORMAL_AP01_P_CODEC: Off  in 0 out 20
+  BE_IF_NORMAL_AP01_CODEC_P BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 20
+=== aplay rc=1 ===
+Playing WAVE '/tmp/t.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+aplay: pcm_write:2178: write error: Input/output error
+=== before ===
+S_NORMAL_AP01_P_CODEC SWITCH   Mono: Playback [on]
+AOL EAR Sel                    Item0: 'EAR'
+AO Mixer AOL                   Mono: Playback [off]
+AO Mixer AOR                   Mono: Playback [off]
+DA AOR                         Mono: Playback [off]
+Speaker Mute                   Mono: Playback [off]
+Speaker Function               Mono: Playback [off]
+Earpiece Function              Mono: Playback [off]
+EAR_AOL Mixer DACAOL           Mono: Playback [off]

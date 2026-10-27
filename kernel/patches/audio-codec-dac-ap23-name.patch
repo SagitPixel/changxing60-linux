@@ -1,0 +1,31 @@
+UMP9620: give the AP23 DAC a unique DAPM name, as in e5-6.18.
+
+The vendor source names both AP01 and AP23 widgets DAC. Keep their
+stream names, events and register bits; connect both to the existing
+digital output switches. This is a source-level backport, not proof
+that it caused the 7552N call failure. Hardware validation pending.
+
+--- a/sprd/codec/sprd/ump9620/codec/sprd-codec.c
++++ b/sprd/codec/sprd/ump9620/codec/sprd-codec.c
+@@ -3415,7 +3415,7 @@
+ 	SND_SOC_DAPM_DAC_E("DAC", "Normal-Playback",
+ 			   FUN_REG(SPRD_CODEC_PLAYBACK), 0, 0, chan_event,
+ 			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
+-	SND_SOC_DAPM_DAC_E("DAC", "Normal-Playback-AP23",
++	SND_SOC_DAPM_DAC_E("DAC AP23", "Normal-Playback-AP23",
+ 			   FUN_REG(SPRD_CODEC_PLAYBACK), 0, 0, chan_event,
+ 			   SND_SOC_DAPM_PRE_PMU | SND_SOC_DAPM_POST_PMD),
+ 	SND_SOC_DAPM_PGA_S("Digital DACL Switch", -4, SOC_REG(AUD_TOP_CTL),
+@@ -3664,9 +3664,12 @@
+ 
+ /* DA route */
+ 	{"DAC", NULL, "CLK_DAC"},
++	{"DAC AP23", NULL, "CLK_DAC"},
+ 
+ 	{"Digital DACL Switch", NULL, "DAC"},
+ 	{"Digital DACR Switch", NULL, "DAC"},
++	{"Digital DACL Switch", NULL, "DAC AP23"},
++	{"Digital DACR Switch", NULL, "DAC AP23"},
+ 
+ 	{"ADie Digital DACL Switch", NULL, "Digital DACL Switch"},
+ 	{"ADie Digital DACR Switch", NULL, "Digital DACR Switch"},

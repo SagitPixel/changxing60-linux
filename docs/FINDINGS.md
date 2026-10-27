@@ -643,6 +643,11 @@ the approach:
 ## Audio
 
 ### 24. No internal audio hardware
+
+> 2026-10-25 后续设备复核：下文部分旧推断已被新实测修正。当前 VOICE 后端可双向 start，
+> 播放 codec 能点亮；补主麦开关后采集 codec 也能点亮，通话时可读出 7100 字节 DSP 原始日志。
+> 已修复缺少 Python ctypes 和主麦路由遗漏，但用户试听仍双向无声，并出现约 30 秒通话释放。
+> 详见[设备复核记录](VOICE-DEVICE-ROUND-2026-10-25.md)，不要把旧的全 Off、无观测手段判断当作当前状态。
 * The DT enables a sound card, the UMP9620 codec and an AW883xx amplifier at `6-0034`, and Android disables audio.
   With `i2c-dev`, nothing answers at 0x34 (nor at the bq2560x address 0x6b), and there is no AGDSP firmware partition.
   The board has no speaker path; only Bluetooth or USB-host audio devices are possible.

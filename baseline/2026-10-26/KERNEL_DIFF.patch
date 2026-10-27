@@ -1,0 +1,805 @@
+diff --git a/arch/arm64/boot/dts/sprd/Makefile b/arch/arm64/boot/dts/sprd/Makefile
+index 3ce81ad71..3bd650f55 100644
+--- a/arch/arm64/boot/dts/sprd/Makefile
++++ b/arch/arm64/boot/dts/sprd/Makefile
+@@ -3,4 +3,4 @@ dtb-$(CONFIG_ARCH_SPRD) += sc9836-openphone.dtb \
+ 			sp9860g-1h10.dtb	\
+ 			sp9863a-1h10.dtb	\
+ 			ums512-1h10.dtb		\
+-			ums9620-2h10.dtb
++			ums9620-2h10.dtb ums9620-7552n-probe.dtb
+diff --git a/drivers/clk/sprd/Kconfig b/drivers/clk/sprd/Kconfig
+index 745ce546f..b35b08394 100644
+--- a/drivers/clk/sprd/Kconfig
++++ b/drivers/clk/sprd/Kconfig
+@@ -40,3 +40,7 @@ config SPRD_UMS9621_CLK
+ 	  (qogirn6lite), with the resets they hold.
+ 	  Say Y if you want to use peripheral devices on ums9621 SoC.
+ endif
++
++config SPRD_UMS9620_CLK
++	bool "Unisoc UMS9620 clocks"
++	depends on ARM64 && SPRD_COMMON_CLK
+diff --git a/drivers/clk/sprd/Makefile b/drivers/clk/sprd/Makefile
+index 311de8f95..7ce0caf40 100644
+--- a/drivers/clk/sprd/Makefile
++++ b/drivers/clk/sprd/Makefile
+@@ -14,3 +14,5 @@ obj-$(CONFIG_SPRD_SC9860_CLK)	+= sc9860-clk.o
+ obj-$(CONFIG_SPRD_SC9863A_CLK)	+= sc9863a-clk.o
+ obj-$(CONFIG_SPRD_UMS512_CLK)	+= ums512-clk.o
+ obj-$(CONFIG_SPRD_UMS9621_CLK)	+= ums9621-clk.o
++
++obj-$(CONFIG_SPRD_UMS9620_CLK) += ums9620-clk.o
+diff --git a/drivers/pinctrl/sprd/Kconfig b/drivers/pinctrl/sprd/Kconfig
+index a960fbff5..95f22f7f0 100644
+--- a/drivers/pinctrl/sprd/Kconfig
++++ b/drivers/pinctrl/sprd/Kconfig
+@@ -28,3 +28,8 @@ config PINCTRL_SPRD_QOGIRN6LITE
+ 	help
+ 	  Enable the UMS9621/QogirN6Lite pad and peripheral matrix controller.
+ 	  This includes the IIS matrix used for Bluetooth SCO audio.
++
++config PINCTRL_SPRD_QOGIRN6PRO
++	tristate "Unisoc QogirN6Pro pinctrl"
++	depends on OF && ARCH_SPRD
++	select PINCTRL_SPRD
+diff --git a/drivers/pinctrl/sprd/Makefile b/drivers/pinctrl/sprd/Makefile
+index 9e258f2a7..5071c8d41 100644
+--- a/drivers/pinctrl/sprd/Makefile
++++ b/drivers/pinctrl/sprd/Makefile
+@@ -2,3 +2,5 @@
+ obj-$(CONFIG_PINCTRL_SPRD)		+= pinctrl-sprd.o
+ obj-$(CONFIG_PINCTRL_SPRD_SC9860)	+= pinctrl-sprd-sc9860.o
+ obj-$(CONFIG_PINCTRL_SPRD_QOGIRN6LITE) += pinctrl-sprd-qogirn6lite.o
++
++obj-$(CONFIG_PINCTRL_SPRD_QOGIRN6PRO) += pinctrl-sprd-qogirn6pro.o
+diff --git a/drivers/pmdomain/Kconfig b/drivers/pmdomain/Kconfig
+index 23076ae90..3ee7662e6 100644
+--- a/drivers/pmdomain/Kconfig
++++ b/drivers/pmdomain/Kconfig
+@@ -22,3 +22,9 @@ source "drivers/pmdomain/ti/Kconfig"
+ source "drivers/pmdomain/xilinx/Kconfig"
+ 
+ endmenu
++
++config SPRD_UMS9620_IPA_PD
++	bool "Unisoc UMS9620 IPA power domain"
++	depends on ARCH_SPRD && PM
++	select PM_GENERIC_DOMAINS
++	select MFD_SYSCON
+diff --git a/drivers/pmdomain/Makefile b/drivers/pmdomain/Makefile
+index ebc802f13..e57c72fd0 100644
+--- a/drivers/pmdomain/Makefile
++++ b/drivers/pmdomain/Makefile
+@@ -19,3 +19,5 @@ obj-y					+= thead/
+ obj-y					+= ti/
+ obj-y					+= xilinx/
+ obj-y					+= core.o governor.o
++
++obj-y += sprd/
+diff --git a/drivers/pwm/pwm-sprd.c b/drivers/pwm/pwm-sprd.c
+index 35eb39eef..5106a89bd 100644
+--- a/drivers/pwm/pwm-sprd.c
++++ b/drivers/pwm/pwm-sprd.c
+@@ -310,6 +310,7 @@ static const struct sprd_pwm_data ums9620_pwm_data = {
+ static const struct of_device_id sprd_pwm_of_match[] = {
+ 	{ .compatible = "sprd,ums512-pwm", .data = &ums512_pwm_data },
+ 	{ .compatible = "sprd,ums9620-pwm", .data = &ums9620_pwm_data },
++	{ .compatible = "sprd,qogirn6pro-pwm", .data = &ums9620_pwm_data },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, sprd_pwm_of_match);
+diff --git a/drivers/regulator/ump9620-regulator.c b/drivers/regulator/ump9620-regulator.c
+index c84c54e40..ca2f5ca35 100644
+--- a/drivers/regulator/ump9620-regulator.c
++++ b/drivers/regulator/ump9620-regulator.c
+@@ -569,6 +569,7 @@ static void ump9620_regulator_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id ump9620_regulator_match[] = {
+ 	{ .compatible = "sprd,ump9620-regulator" },
++	{ .compatible = "sprd,ump962x-regulator" },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, ump9620_regulator_match);
+diff --git a/drivers/thermal/sprd_thermal_r5p0.c b/drivers/thermal/sprd_thermal_r5p0.c
+index 7d56b82a8..06ad955aa 100644
+--- a/drivers/thermal/sprd_thermal_r5p0.c
++++ b/drivers/thermal/sprd_thermal_r5p0.c
+@@ -1,14 +1,13 @@
+ // SPDX-License-Identifier: GPL-2.0
+ // Copyright (C) 2018 Spreadtrum Communications Inc.
+ 
+-#include <linux/of.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+ #include <linux/nvmem-consumer.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/thermal.h>
+ #include <linux/slab.h>
+@@ -99,7 +98,8 @@
+ #define SPRD_TEMP_HIGH			120000
+ #define SPRD_OTPTEMP			120000
+ #define SPRD_HOTTEMP			75000
+-#define SPRD_RAW_DATA_HIGH		1023
++#define SPRD_RAW_DATA_LOW		0
++#define SPRD_RAW_DATA_HIGH		1000
+ #define SPRD_THM_SEN_NUM		8
+ #define SPRD_THM_DT_OFFSET		24
+ #define SPRD_THM_RATION_OFFSET		17
+@@ -108,7 +108,7 @@
+ #define SPRD_THM_RDYST_POLLING_TIME	10
+ #define SPRD_THM_RDYST_TIMEOUT		700
+ #define SPRD_THM_TEMP_READY_POLL_TIME	10000
+-#define SPRD_THM_TEMP_READY_TIMEOUT	800000
++#define SPRD_THM_TEMP_READY_TIMEOUT	600000
+ 
+ struct sprd_thermal_sensor {
+ 	struct thermal_zone_device *thmzone_dev;
+@@ -139,11 +139,9 @@ struct sprd_thermal_data {
+ 	struct clk *clk;
+ 	struct list_head senlist;
+ 	void __iomem *regbase;
+-	struct delayed_work wait_temp_ready_work;
+ 	int ratio_off;
+ 	u32 ratio_sign;
+ 	const struct sprd_thm_variant_data *var_data;
+-	atomic_t quit_worker_flag;
+ };
+ 
+ /*
+@@ -175,7 +173,7 @@ static int sprd_thm_cal_read(struct device_node *np, const char *cell_id, u32 *v
+ {
+ 	struct nvmem_cell *cell;
+ 	void *buf;
+-	size_t len = 0;
++	size_t len;
+ 
+ 	cell = of_nvmem_cell_get(np, cell_id);
+ 	if (IS_ERR(cell))
+@@ -223,7 +221,9 @@ static int sprd_thm_sen_efuse_cal(struct device_node *np,
+ 
+ static int sprd_rawdata_to_temp_v1(struct sprd_thermal_sensor *sen)
+ {
+-	if (sen->rawdata > SPRD_RAW_DATA_HIGH)
++	if (sen->rawdata < SPRD_RAW_DATA_LOW)
++		sen->rawdata = SPRD_RAW_DATA_LOW;
++	else if (sen->rawdata > SPRD_RAW_DATA_HIGH)
+ 		sen->rawdata = SPRD_RAW_DATA_HIGH;
+ 
+ 	/*
+@@ -251,12 +251,10 @@ static int sprd_temp_to_rawdata_v1(int temp, struct sprd_thermal_sensor *sen)
+ 	return rawval >= SPRD_RAW_DATA_HIGH ? (SPRD_RAW_DATA_HIGH - 1) : rawval;
+ }
+ 
+-static int sprd_thm_temp_read(struct thermal_zone_device *tzd, int *temp)
++static int sprd_thm_temp_read(struct thermal_zone_device *tz, int *temp)
+ {
+-	void *devdata = thermal_zone_device_priv(tzd);
+-
+-	struct sprd_thermal_sensor *sen = devdata;
+-	int sensor_temp = 0;
++	struct sprd_thermal_sensor *sen = thermal_zone_device_priv(tz);
++	int sensor_temp;
+ 
+ 	if (sen->ready) {
+ 		sen->rawdata = readl(sen->base + sen->temp) & SPRD_THM_RAW_READ_MSK;
+@@ -273,9 +271,9 @@ static int sprd_thm_temp_read(struct thermal_zone_device *tzd, int *temp)
+ static int sprd_thm_poll_ready_status(struct sprd_thermal_data *thm)
+ {
+ 	u32 thm_ctl_val;
+-	int ret = 0;
++	int ret;
+ 
+-	/* Judge the state of SET_RDY_ST, When SET_RDY_ST is 0, SET_RDY can set to 1 */
++	/* Wait for thm ready status before config thm parameter */
+ 	ret = readl_poll_timeout(thm->regbase + SPRD_THM_CTL,
+ 				 thm_ctl_val,
+ 				 !(thm_ctl_val & SPRD_THM_SET_RDY_ST),
+@@ -284,35 +282,23 @@ static int sprd_thm_poll_ready_status(struct sprd_thermal_data *thm)
+ 	if (ret)
+ 		return ret;
+ 
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_MON_EN, SPRD_THM_MON_EN);
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_SET_RDY, SPRD_THM_SET_RDY);
+-	return 0;
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_MON_EN,
++			     SPRD_THM_MON_EN);
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_SET_RDY,
++			     SPRD_THM_SET_RDY);
++	return ret;
+ }
+ 
+-static void sprd_thm_wait_temp_ready_work(struct work_struct *work)
++static int sprd_thm_wait_temp_ready(struct sprd_thermal_data *thm)
+ {
+-	struct delayed_work *dwork = to_delayed_work(work);
+-	struct sprd_thermal_data *thm = container_of(dwork, struct sprd_thermal_data,
+-						     wait_temp_ready_work);
+-	struct sprd_thermal_sensor *sen, *temp;
+-	u32 val = 0;
+-	int ret = 0;
+-
+-	/* Wait for first temperature data ready before reading temperature */
+-	ret = readl_poll_timeout(thm->regbase + SPRD_THM_INTERNAL_STS1, val,
+-				 (val & SPRD_THM_TEMPER_RDY) | atomic_read(&thm->quit_worker_flag),
+-				 SPRD_THM_TEMP_READY_POLL_TIME,
+-				 SPRD_THM_TEMP_READY_TIMEOUT);
+-	if (ret == 0) {
+-		if (atomic_read(&thm->quit_worker_flag))
+-			return;
+-		list_for_each_entry_safe(sen, temp, &thm->senlist, node)
+-			sen->ready = true;
+-	} else {
+-		pr_err("temp ready maybe time out 800ms\n");
+-		list_for_each_entry_safe(sen, temp, &thm->senlist, node)
+-			sen->ready = false;
+-	}
++	u32 thm_intern_val;
++
++	/* Wait for first temperature data ready before get temperature */
++	return readl_poll_timeout(thm->regbase + SPRD_THM_INTERNAL_STS1,
++				  thm_intern_val,
++				  !(thm_intern_val & SPRD_THM_TEMPER_RDY),
++				  SPRD_THM_TEMP_READY_POLL_TIME,
++				  SPRD_THM_TEMP_READY_TIMEOUT);
+ }
+ 
+ static void sprd_thm_sen_threshold_config(struct sprd_thermal_sensor *sen)
+@@ -390,7 +376,8 @@ static void sprd_thm_para_config(struct sprd_thermal_data *thm)
+ {
+ 	sprd_thm_update_bits(thm->regbase + SPRD_THM_DET_PERIOD,
+ 			     SPRD_DET_PERIOD_MASK, SPRD_DET_PERIOD);
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_MON_CTL, SPRD_MON_MODE_MASK, SPRD_MON_MODE);
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_MON_CTL,
++			     SPRD_MON_MODE_MASK, SPRD_MON_MODE);
+ 	sprd_thm_update_bits(thm->regbase + SPRD_THM_MON_PERIOD,
+ 			     SPRD_MON_PERIOD_MASK, SPRD_MON_PERIOD);
+ }
+@@ -398,11 +385,15 @@ static void sprd_thm_para_config(struct sprd_thermal_data *thm)
+ static void sprd_thm_sen_init(struct sprd_thermal_data *thm,
+ 				struct sprd_thermal_sensor *sen)
+ {
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_INT_EN, sen->overheat_alarm_en,
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_INT_EN,
++			     sen->overheat_alarm_en,
+ 			     sen->overheat_alarm_en);
+-	sprd_thm_update_bits(thm->regbase + sen->overheat_hot_thres, SPRD_OVERHEAT_HOT_THRES_MASK,
+-			     ((sen->otp_rawdata << SPRD_THM_OTP_TRIP_SHIFT) | sen->hot_rawdata));
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, sen->enable, sen->enable);
++	sprd_thm_update_bits(thm->regbase + sen->overheat_hot_thres,
++			     SPRD_OVERHEAT_HOT_THRES_MASK,
++			     ((sen->otp_rawdata << SPRD_THM_OTP_TRIP_SHIFT) |
++			      sen->hot_rawdata));
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, sen->enable,
++			     sen->enable);
+ }
+ 
+ static int sprd_thm_set_ready(struct sprd_thermal_data *thm)
+@@ -416,7 +407,8 @@ static int sprd_thm_set_ready(struct sprd_thermal_data *thm)
+ 	sprd_thm_update_bits(thm->regbase + SPRD_THM_INT_EN1,
+ 			     SPRD_THM_BIT_INT_EN, SPRD_THM_BIT_INT_EN);
+ 	writel(SPRD_INT_CLR, thm->regbase + SPRD_THM_INT_CLR);
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_EN, SPRD_THM_EN);
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL,
++			     SPRD_THM_EN, SPRD_THM_EN);
+ 	return 0;
+ }
+ 
+@@ -430,9 +422,10 @@ static int sprd_thm_probe(struct platform_device *pdev)
+ 	struct device_node *sen_child;
+ 	struct sprd_thermal_data *thm;
+ 	struct sprd_thermal_sensor *sen;
++	struct sprd_thermal_sensor *temp, *pos;
+ 	struct resource *res;
+ 	const struct sprd_thm_variant_data *pdata;
+-	int ret = 0;
++	int ret;
+ 
+ 	pdata = of_device_get_match_data(&pdev->dev);
+ 	if (!pdata) {
+@@ -447,8 +440,8 @@ static int sprd_thm_probe(struct platform_device *pdev)
+ 	thm->var_data = pdata;
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	thm->regbase = devm_ioremap_resource(&pdev->dev, res);
+-	if (!thm->regbase)
+-		return -ENOMEM;
++	if (IS_ERR(thm->regbase))
++		return PTR_ERR(thm->regbase);
+ 
+ 	thm->clk = devm_clk_get(&pdev->dev, "enable");
+ 	if (IS_ERR(thm->clk)) {
+@@ -473,87 +466,88 @@ static int sprd_thm_probe(struct platform_device *pdev)
+ 		sen = devm_kzalloc(&pdev->dev, sizeof(*sen), GFP_KERNEL);
+ 		if (!sen) {
+ 			ret = -ENOMEM;
+-			goto of_put;
++			goto disable_clk;
+ 		}
+ 
+ 		ret = of_property_read_u32(sen_child, "reg", &sen->id);
+ 		if (ret) {
+ 			dev_err(&pdev->dev, "get sensor reg failed");
+-			goto of_put;
++			goto disable_clk;
+ 		}
+ 
+ 		ret = sprd_thm_sen_config(sen);
+ 		if (ret)
+-			goto of_put;
++			goto disable_clk;
+ 
+ 		sen->ready = false;
+ 		sen->base = thm->regbase;
+ 		sen->dev = &pdev->dev;
+-		sen->lasttemp = 25000;
+ 
+ 		ret = sprd_thm_sen_efuse_cal(sen_child, thm, sen);
+ 		if (ret) {
+ 			dev_err(&pdev->dev, "efuse cal analysis failed");
+-			goto of_put;
++			goto disable_clk;
+ 		}
+ 
+ 		sprd_thm_sen_threshold_config(sen);
+ 		sprd_thm_sen_init(thm, sen);
+ 
+ 		sen->thmzone_dev =
+-		    devm_thermal_of_zone_register(sen->dev, sen->id, sen, &sprd_thm_ops);
+-		if (IS_ERR_OR_NULL(sen->thmzone_dev)) {
+-			dev_err(&pdev->dev, "register thermal zone failed %d\n", sen->id);
+-			ret = PTR_ERR(sen->thmzone_dev);
+-			goto of_put;
++		    devm_thermal_of_zone_register(sen->dev, sen->id,
++						  sen, &sprd_thm_ops);
++		if (IS_ERR(sen->thmzone_dev)) {
++			/* a sensor without a thermal zone is not fatal */
++			dev_warn(&pdev->dev, "no thermal zone for sensor %d (%ld)\n",
++				 sen->id, PTR_ERR(sen->thmzone_dev));
++			continue;
+ 		}
+ 
+ 		list_add_tail(&sen->node, &thm->senlist);
+ 	}
+ 
+-	platform_set_drvdata(pdev, thm);
+-	ret = sprd_thm_set_ready(thm);
++	sprd_thm_set_ready(thm);
++	ret = sprd_thm_wait_temp_ready(thm);
+ 	if (ret)
+-		goto of_put;
++		goto disable_clk;
+ 
+-	INIT_DELAYED_WORK(&thm->wait_temp_ready_work, sprd_thm_wait_temp_ready_work);
+-	schedule_delayed_work(&thm->wait_temp_ready_work, 0);
++	list_for_each_entry_safe(pos, temp, &thm->senlist, node)
++		pos->ready = true;
+ 
++	platform_set_drvdata(pdev, thm);
+ 	return 0;
+ 
+-of_put:
+-	of_node_put(sen_child);
+ disable_clk:
+ 	clk_disable_unprepare(thm->clk);
+ 	return ret;
+ }
+ 
+-static int sprd_thm_suspend(struct platform_device *pdev, pm_message_t state)
++static int sprd_thm_hw_suspend(struct sprd_thermal_data *thm)
+ {
+-	struct sprd_thermal_data *thm = dev_get_drvdata(&pdev->dev);
+ 	struct sprd_thermal_sensor *sen, *temp;
+-
+-	atomic_set(&thm->quit_worker_flag, 1);
+-	cancel_delayed_work_sync(&thm->wait_temp_ready_work);
++	int ret;
+ 
+ 	list_for_each_entry_safe(sen, temp, &thm->senlist, node) {
+-		sen->ready = false;
+-		sprd_thm_update_bits(sen->base + SPRD_THM_CTL, sen->enable, 0x0);
++		sprd_thm_update_bits(sen->base + SPRD_THM_CTL,
++				     sen->enable, 0x0);
+ 	}
+ 
+-	/* Bug 1550142 Deepsleep AVDD1V8 power consumption is too high */
+-	writel(0x00, thm->regbase + SPRD_THM_CTL);
++	ret = sprd_thm_poll_ready_status(thm);
++	if (ret)
++		return ret;
+ 
+-	return 0;
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL,
++			     SPRD_THM_EN, 0x0);
++	return ret;
+ }
+ 
+ static int sprd_thm_hw_resume(struct sprd_thermal_data *thm)
+ {
+ 	struct sprd_thermal_sensor *sen, *temp;
+-	int ret = 0;
++	int ret;
+ 
+ 	list_for_each_entry_safe(sen, temp, &thm->senlist, node) {
+-		sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, sen->enable, sen->enable);
++		sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL,
++				     sen->enable, sen->enable);
+ 	}
+ 
+ 	ret = sprd_thm_poll_ready_status(thm);
+@@ -561,36 +555,58 @@ static int sprd_thm_hw_resume(struct sprd_thermal_data *thm)
+ 		return ret;
+ 
+ 	writel(SPRD_INT_CLR, thm->regbase + SPRD_THM_INT_CLR);
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_EN, SPRD_THM_EN);
+-	return 0;
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL,
++			     SPRD_THM_EN, SPRD_THM_EN);
++	return sprd_thm_wait_temp_ready(thm);
++}
++
++static int sprd_thm_suspend(struct platform_device *pdev, pm_message_t state)
++{
++	struct sprd_thermal_data *thm = dev_get_drvdata(&pdev->dev);
++	struct sprd_thermal_sensor *sen, *temp;
++	int ret;
++
++	list_for_each_entry_safe(sen, temp, &thm->senlist, node)
++		sen->ready = false;
++
++	ret = sprd_thm_hw_suspend(thm);
++	if (ret)
++		dev_info(&pdev->dev, "thermal suspend fail\n");
++
++	writel(0x00, thm->regbase + SPRD_THM_CTL);
++	udelay(2000);
++
++	clk_disable_unprepare(thm->clk);
++
++	return ret;
+ }
+ 
+ static int sprd_thm_resume(struct platform_device *pdev)
+ {
+ 	struct sprd_thermal_data *thm = dev_get_drvdata(&pdev->dev);
+-	int ret = 0;
++	struct sprd_thermal_sensor *sen, *temp;
++	int ret;
+ 
+-	ret = sprd_thm_hw_resume(thm);
++	ret = clk_prepare_enable(thm->clk);
+ 	if (ret)
+ 		return ret;
+ 
+-	atomic_set(&thm->quit_worker_flag, 0);
+-	schedule_delayed_work(&thm->wait_temp_ready_work, 0);
++	ret = sprd_thm_hw_resume(thm);
++	if (ret)
++		goto disable_clk;
+ 
++	list_for_each_entry_safe(sen, temp, &thm->senlist, node)
++		sen->ready = true;
+ 	return 0;
++
++disable_clk:
++	clk_disable_unprepare(thm->clk);
++	return ret;
+ }
+ 
+ static void sprd_thm_remove(struct platform_device *pdev)
+ {
+ 	struct sprd_thermal_data *thm = platform_get_drvdata(pdev);
+-	struct sprd_thermal_sensor *sen, *temp;
+-
+-	atomic_set(&thm->quit_worker_flag, 1);
+-	cancel_delayed_work_sync(&thm->wait_temp_ready_work);
+-
+-	list_for_each_entry_safe(sen, temp, &thm->senlist, node) {
+-		devm_thermal_of_zone_unregister(&pdev->dev, sen->thmzone_dev);
+-	}
+ 
+ 	clk_disable_unprepare(thm->clk);
+ }
+diff --git a/drivers/ufs/host/ufs-sprd.c b/drivers/ufs/host/ufs-sprd.c
+index 65bd8fb96..d990366d3 100644
+--- a/drivers/ufs/host/ufs-sprd.c
++++ b/drivers/ufs/host/ufs-sprd.c
+@@ -31,12 +31,18 @@ static struct ufs_sprd_priv *ufs_sprd_get_priv_data(struct ufs_hba *hba)
+ static void ufs_sprd_regmap_update(struct ufs_sprd_priv *priv, unsigned int index,
+ 				unsigned int reg, unsigned int bits,  unsigned int val)
+ {
++	/* 7552n: the vendor dtb has no syscon phandles, so these regmaps are NULL.
++	 * Writing through them crashed the HCE enable path with an Oops. */
++	if (!priv->sysci[index].regmap)
++		return;
+ 	regmap_update_bits(priv->sysci[index].regmap, reg, bits, val);
+ }
+ 
+ static void ufs_sprd_regmap_read(struct ufs_sprd_priv *priv, unsigned int index,
+ 				unsigned int reg, unsigned int *val)
+ {
++	if (!priv->sysci[index].regmap)
++		return;
+ 	regmap_read(priv->sysci[index].regmap, reg, val);
+ }
+ 
+@@ -112,8 +118,11 @@ static int ufs_sprd_parse_dt(struct device *dev, struct ufs_hba *hba, struct ufs
+ 		if (!priv->sysci[i].name)
+ 			continue;
+ 		ret = ufs_sprd_get_syscon_reg(dev, &priv->sysci[i]);
+-		if (ret)
+-			goto out;
++		if (ret) {
++			/* 7552n: vendor dtb does not carry these syscon phandles */
++			dev_warn(dev, "skip syscon %s (%d)\n", priv->sysci[i].name, ret);
++			ret = 0;
++		}
+ 	}
+ 
+ 	/* Parse UFS vreg info */
+@@ -386,8 +395,9 @@ static void sprd_ufs_n6_h8_notify(struct ufs_hba *hba,
+ }
+ 
+ static struct ufs_sprd_priv n6_ufs = {
+-	.rci[SPRD_UFSHCI_SOFT_RST] = { .name = "controller", },
+-	.rci[SPRD_UFS_DEV_RST] = { .name = "device", },
++	/* 7552n: the stock vendor dtb names these ufs_soft_rst / ufsdev_soft_rst */
++	.rci[SPRD_UFSHCI_SOFT_RST] = { .name = "ufs_soft_rst", },
++	.rci[SPRD_UFS_DEV_RST] = { .name = "ufsdev_soft_rst", },
+ 
+ 	.sysci[SPRD_UFS_ANLG] = { .name = "sprd,ufs-anlg-syscon", },
+ 	.sysci[SPRD_UFS_AON_APB] = { .name = "sprd,aon-apb-syscon", },
+diff --git a/drivers/unisoc_platform/sprd_audio/Makefile b/drivers/unisoc_platform/sprd_audio/Makefile
+index d355f4e24..576267f87 100644
+--- a/drivers/unisoc_platform/sprd_audio/Makefile
++++ b/drivers/unisoc_platform/sprd_audio/Makefile
+@@ -25,3 +25,5 @@ obj-$(CONFIG_UNISOC_AUDIO_CP_DVFS)		+= audiodvfs/
+ obj-$(CONFIG_UNISOC_AUDIO_DSP_DUMP)		+= audiodspdump/
+ obj-$(CONFIG_UNISOC_AUDIO_VOICE_TRIGGER_IRQ)	+= voice_trigger_irq/
+ obj-$(CONFIG_UNISOC_AUDIO_MCDT_R2P0)		+= mcdt/mcdt_r2p0/
++
++obj-y += audio-legacy-dt.o
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
+index feeba3d6d..b21dedd91 100644
+--- a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
++++ b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
+@@ -1,57 +1,57 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/* SC2355 firmware SAE; shared by SDIO and PCIe. Included by cmdevt.c. */
+-static int sc2355_prepare_sae(struct sprd_priv *priv, struct sprd_vif *vif,
+-			    struct cfg80211_ap_settings *settings)
+-{
+-	struct sc2355_sae_password {
+-		__le16 request_type;
+-		__le16 entry_type, entry_len;
+-		__le16 password_type, password_len;
+-		u8 data[];
+-	} __packed;
+-	const struct cfg80211_crypto_settings *crypto = &settings->crypto;
+-	struct sc2355_sae_password *p;
+-	struct sprd_msg *msg;
+-	bool sae = false;
+-	int i;
+-
+-	for (i = 0; i < crypto->n_akm_suites; i++) {
+-		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_FT_OVER_SAE)
+-			return -EOPNOTSUPP;
+-		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_SAE)
+-			sae = true;
+-	}
+-	if (!sae)
+-		return 0; /* Preserve the existing WPA2/EAP/open path. */
+-	if (!(priv->extend_feature & SPRD_EXTEND_SOATAP_WPA3) ||
+-	    !(priv->fw_capa & SPRD_CAPA_AP_SME) ||
+-	    !(priv->fw_std & SPRD_STD_11W))
+-		return -EOPNOTSUPP;
+-	/* The recovered BSP interface supports hunting-and-pecking. Do not
+-	 * advertise H2E while feeding the firmware a legacy password entry.
+-	 */
+-	if (crypto->sae_pwe == NL80211_SAE_PWE_HASH_TO_ELEMENT ||
+-	    crypto->sae_pwe == NL80211_SAE_PWE_BOTH)
+-		return -EOPNOTSUPP;
+-	if (!crypto->sae_pwd || !crypto->sae_pwd_len ||
+-	    crypto->sae_pwd_len > 63)
+-		return -EINVAL;
+-
+-	/* Same wire format as Android's vendor command 43:
+-	 * request 2, ENTRY(0), PWD(7), END(255), 16-bit LE TLV headers.
+-	 * No terminator is included in the password length. Four-way/EAPOL
+-	 * remains in hostapd, using the firmware's 40:45:da:04 PMK indication.
+-	 */
+-	msg = get_cmdbuf(priv, vif, sizeof(*p) + crypto->sae_pwd_len + 4,
+-			 CMD_SET_SAE_PARAM);
+-	if (!msg)
+-		return -ENOMEM;
+-	p = (struct sc2355_sae_password *)msg->data;
+-	memset(p, 0, sizeof(*p) + crypto->sae_pwd_len + 4);
+-	p->request_type = cpu_to_le16(SPRD_SAE_PASSWORD_ENTRY);
+-	p->password_type = cpu_to_le16(7);
+-	p->password_len = cpu_to_le16(crypto->sae_pwd_len);
+-	memcpy(p->data, crypto->sae_pwd, crypto->sae_pwd_len);
+-	p->data[crypto->sae_pwd_len] = 0xff;
+-	return send_cmd_recv_rsp(priv, msg, NULL, NULL);
+-}
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* SC2355 firmware SAE; shared by SDIO and PCIe. Included by cmdevt.c. */
++static int sc2355_prepare_sae(struct sprd_priv *priv, struct sprd_vif *vif,
++			    struct cfg80211_ap_settings *settings)
++{
++	struct sc2355_sae_password {
++		__le16 request_type;
++		__le16 entry_type, entry_len;
++		__le16 password_type, password_len;
++		u8 data[];
++	} __packed;
++	const struct cfg80211_crypto_settings *crypto = &settings->crypto;
++	struct sc2355_sae_password *p;
++	struct sprd_msg *msg;
++	bool sae = false;
++	int i;
++
++	for (i = 0; i < crypto->n_akm_suites; i++) {
++		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_FT_OVER_SAE)
++			return -EOPNOTSUPP;
++		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_SAE)
++			sae = true;
++	}
++	if (!sae)
++		return 0; /* Preserve the existing WPA2/EAP/open path. */
++	if (!(priv->extend_feature & SPRD_EXTEND_SOATAP_WPA3) ||
++	    !(priv->fw_capa & SPRD_CAPA_AP_SME) ||
++	    !(priv->fw_std & SPRD_STD_11W))
++		return -EOPNOTSUPP;
++	/* The recovered BSP interface supports hunting-and-pecking. Do not
++	 * advertise H2E while feeding the firmware a legacy password entry.
++	 */
++	if (crypto->sae_pwe == NL80211_SAE_PWE_HASH_TO_ELEMENT ||
++	    crypto->sae_pwe == NL80211_SAE_PWE_BOTH)
++		return -EOPNOTSUPP;
++	if (!crypto->sae_pwd || !crypto->sae_pwd_len ||
++	    crypto->sae_pwd_len > 63)
++		return -EINVAL;
++
++	/* Same wire format as Android's vendor command 43:
++	 * request 2, ENTRY(0), PWD(7), END(255), 16-bit LE TLV headers.
++	 * No terminator is included in the password length. Four-way/EAPOL
++	 * remains in hostapd, using the firmware's 40:45:da:04 PMK indication.
++	 */
++	msg = get_cmdbuf(priv, vif, sizeof(*p) + crypto->sae_pwd_len + 4,
++			 CMD_SET_SAE_PARAM);
++	if (!msg)
++		return -ENOMEM;
++	p = (struct sc2355_sae_password *)msg->data;
++	memset(p, 0, sizeof(*p) + crypto->sae_pwd_len + 4);
++	p->request_type = cpu_to_le16(SPRD_SAE_PASSWORD_ENTRY);
++	p->password_type = cpu_to_le16(7);
++	p->password_len = cpu_to_le16(crypto->sae_pwd_len);
++	memcpy(p->data, crypto->sae_pwd, crypto->sae_pwd_len);
++	p->data[crypto->sae_pwd_len] = 0xff;
++	return send_cmd_recv_rsp(priv, msg, NULL, NULL);
++}
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index f0a9bb575..c153734b1 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -2821,6 +2821,7 @@ static const struct of_device_id of_dwc3_match[] = {
+ 	{
+ 		.compatible = "synopsys,dwc3"
+ 	},
++	{ .compatible = "snps,sprd-dwc3" },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, of_dwc3_match);
+diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
+index c11614333..a9c0a4bdd 100644
+--- a/drivers/usb/dwc3/dwc3-of-simple.c
++++ b/drivers/usb/dwc3/dwc3-of-simple.c
+@@ -171,6 +171,7 @@ static const struct dev_pm_ops dwc3_of_simple_dev_pm_ops = {
+ static const struct of_device_id of_dwc3_simple_match[] = {
+ 	{ .compatible = "rockchip,rk3399-dwc3" },
+ 	{ .compatible = "sprd,sc9860-dwc3" },
++	{ .compatible = "sprd,qogirn6pro-dwc3" },
+ 	{ .compatible = "allwinner,sun50i-h6-dwc3" },
+ 	{ .compatible = "hisilicon,hi3670-dwc3" },
+ 	{ .compatible = "hisilicon,hi3798mv200-dwc3" },
+diff --git a/drivers/usb/phy/Kconfig b/drivers/usb/phy/Kconfig
+index ec1102cb4..72883ffa9 100644
+--- a/drivers/usb/phy/Kconfig
++++ b/drivers/usb/phy/Kconfig
+@@ -179,3 +179,9 @@ config SPRD_QOGIRN6LITE_USB2_PHY
+ 	  controller.
+ 
+ endmenu
++
++config USB_SPRD_UMS9620_SSPHY
++	bool "Unisoc UMS9620 USB PHY"
++	depends on ARCH_SPRD
++	select USB_PHY
++	select MFD_SYSCON
+diff --git a/drivers/usb/phy/Makefile b/drivers/usb/phy/Makefile
+index 37f476719..23c682948 100644
+--- a/drivers/usb/phy/Makefile
++++ b/drivers/usb/phy/Makefile
+@@ -24,3 +24,5 @@ obj-$(CONFIG_USB_ULPI_VIEWPORT)		+= phy-ulpi-viewport.o
+ obj-$(CONFIG_KEYSTONE_USB_PHY)		+= phy-keystone.o
+ obj-$(CONFIG_SPRD_BC1P2)		+= sprd-bc1p2.o
+ obj-$(CONFIG_SPRD_QOGIRN6LITE_USB2_PHY)	+= phy-sprd-qogirn6lite.o
++
++obj-$(CONFIG_USB_SPRD_UMS9620_SSPHY) += phy-sprd-ums9620-ssphy.o
+diff --git a/drivers/usb/phy/phy-generic.c b/drivers/usb/phy/phy-generic.c
+index 8423be59e..332f3b33a 100644
+--- a/drivers/usb/phy/phy-generic.c
++++ b/drivers/usb/phy/phy-generic.c
+@@ -338,6 +338,7 @@ static void usb_phy_generic_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id nop_xceiv_dt_ids[] = {
+ 	{ .compatible = "usb-nop-xceiv" },
++	{ .compatible = "sprd,usb-dummy-phy" },
+ 	{ }
+ };
+ 
+diff --git a/sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c b/sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c
+index e6d987cb3..bc0bea020 100755
+--- a/sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c
++++ b/sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c
+@@ -678,6 +678,25 @@ static int asoc_sprd_card_dai_link_of(struct device_node *node,
+ 	return ret;
+ }
+ 
++/* The qogirn6pro vendor tree includes the optional DP audio pair.
++ * Its AGCP IIS provider is not part of the phone audio build. Do not let
++ * those links prevent the independent phone sound card from registering.
++ */
++static bool sprd_card_link_enabled(struct device_node *node)
++{
++	const char *name;
++
++	if (!of_device_is_available(node))
++		return false;
++	if (IS_ENABLED(CONFIG_DRM_SPRD_DPU1) ||
++	    !of_machine_is_compatible("sprd,ums9620"))
++		return true;
++	if (of_property_read_string(node, "link-name", &name))
++		return true;
++	return strcmp(name, "AGCP_IIS0_TX") &&
++	       strcmp(name, "DisplayPort MultiMedia");
++}
++
+ static int asoc_sprd_card_parse_of(struct device_node *node,
+ 				   struct sprd_card_data *priv)
+ {
+@@ -740,6 +759,8 @@ static int asoc_sprd_card_parse_of(struct device_node *node,
+ 		int i = 0;
+ 
+ 		for_each_child_of_node(node, np) {
++			if (!sprd_card_link_enabled(np))
++				continue;
+ 			dev_dbg(dev, "\tlink %d:\n", i);
+ 			ret = asoc_sprd_card_dai_link_of(np, priv, i, false);
+ 			if (ret < 0) {
+@@ -819,10 +840,18 @@ int asoc_sprd_card_probe(struct platform_device *pdev,
+ 	}
+ 	 arch_audio_set_agcp_ahb_gpr(agcp_ahb_gpr);
+ 	/* Get the number of DAI links */
+-	if (np && of_get_child_by_name(np, "sprd-audio-card,dai-link"))
+-		num_links = of_get_child_count(np);
+-	else
++	if (np && of_get_child_by_name(np, "sprd-audio-card,dai-link")) {
++		struct device_node *child;
++
++		num_links = 0;
++		for_each_child_of_node(np, child)
++			if (sprd_card_link_enabled(child))
++				num_links++;
++	} else {
+ 		num_links = 1;
++	}
++	if (!num_links)
++		return -ENODEV;
+ 
+ 	/* Allocate the private data and the DAI link array */
+ 	priv = devm_kzalloc(dev,

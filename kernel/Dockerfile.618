@@ -1,0 +1,17 @@
+FROM ubuntu:24.04
+LABEL purpose="Build Linux 6.18+ for arm64 (Unisoc UMS9620)"
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        clang-18 lld-18 llvm-18 \
+        gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu libc6-dev-arm64-cross \
+        bc bison flex libssl-dev libelf-dev libdw-dev \
+        cpio xz-utils gzip tar ca-certificates lz4 kmod \
+        autoconf automake libtool pkg-config wget curl bzip2 \
+        python3 git make rsync file && \
+    rm -rf /var/lib/apt/lists/* && \
+    for t in clang ld.lld llvm-ar llvm-nm llvm-objcopy llvm-objdump \
+             llvm-readelf llvm-strip llvm-symbolizer; do \
+        v=$(ls /usr/bin/$t-18 2>/dev/null | head -1); \
+        [ -n "$v" ] && update-alternatives --install /usr/bin/$t $t "$v" 100; \
+    done
+WORKDIR /work

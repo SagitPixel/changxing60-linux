@@ -1,0 +1,42 @@
+cat /tmp/replay.txt
+### 1. 首次播放（完整 5 秒）
+aplay1 rc=1
+--- 关闭后 读1 ---
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=1 stopped=1 total=4
+149291228663 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+149596798855 play=1 smp=2 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+149916787778 play=1 smp=3 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+150236876508 play=1 smp=4 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+--- 关闭后 读2 ---
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=1 stopped=1 total=4
+149291228663 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+149596798855 play=1 smp=2 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+149916787778 play=1 smp=3 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+150236876508 play=1 smp=4 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+### 2. 重新播放（1 秒后提前终止）
+aplay2 rc=0
+--- 关闭后 读3 ---
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=2 stopped=1 total=6
+149291228663 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+149596798855 play=1 smp=2 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+149916787778 play=1 smp=3 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+150236876508 play=1 smp=4 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+155614538235 play=2 smp=5 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+155936010504 play=2 smp=6 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+--- 关闭后 读4 ---
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=2 stopped=1 total=6
+149291228663 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+149596798855 play=1 smp=2 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+149916787778 play=1 smp=3 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+150236876508 play=1 smp=4 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+155614538235 play=2 smp=5 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+155936010504 play=2 smp=6 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+### aplay 输出
+Playing WAVE '/tmp/t.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+aplay: pcm_write:2178: write error: Input/output error
+Playing WAVE '/tmp/t.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+Aborted by signal Terminated...

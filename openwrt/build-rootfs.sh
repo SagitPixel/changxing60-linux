@@ -130,7 +130,8 @@ apk_retry add wpad-basic-mbedtls wifi-scripts iwinfo wireless-regdb iw bash ip-f
 # use "apk add <pkg>" only: "apk upgrade" would pull the armsr 6.12 kernel package at this rootfs.
 apk_retry add ethtool strace lsof iperf3 mtr socat drill usbutils htop iftop nload openssl-util >/dev/null
 # No interpreter, no python3 -- that has cost time twice now (a one-off check with no way to run it).
-apk_retry add python3-light >/dev/null
+# ctypes is split out of python3-light; the voice audio hook imports it at startup.
+apk_retry add python3-light python3-ctypes >/dev/null
 # Call audio needs libasound.so.2 for the PCM half of the voice path (changxing60-voice-audio),
 # and amixer to read the card back by hand. These come from the OpenWrt feed and NOT from our
 # cross toolchain: this rootfs is musl and changxing60-cross is glibc, so a cross-built

@@ -133,6 +133,47 @@ while read module; do
     esac
     if insmod "$file" 2>/run/insmod.err; then
         loaded=$((loaded + 1))
+        case "$module" in
+            snd-soc-sprd-codec-ump9620-power.ko)
+                # power-dev created the sprd-audio-power* platform devices; this driver
+                # binds them and registers the real audio regulators (VB / BIAS /
+                # DAHPL_CHN ...). The codec must not probe before they exist, or it
+                # latches dummy regulators and never recovers. Wait for the bind.
+                pw=0; tot=0; bnd=0
+                while [ $pw -lt 20 ]; do
+                    tot=0; bnd=0
+                    for d in /sys/bus/platform/devices/sprd-audio-power*; do
+                        [ -e "$d" ] || continue
+                        tot=$((tot + 1))
+                        [ -e "$d/driver" ] && bnd=$((bnd + 1))
+                    done
+                    [ $tot -gt 0 ] && [ "$tot" = "$bnd" ] && break
+                    pw=$((pw + 1)); sleep 1
+                done
+                log "stage=audio-power-devices bound=$bnd/$tot wait=${pw}s"
+                ;;
+            snd-soc-sprd-codec-ump9620.ko)
+                # Only the analog codec in the PMIC is ours to wait for. The other node
+                # (56360000.audio-codec, "unisoc,audio-codec-dig-agcp") has no driver in
+                # this tree at all -- it is a power-domain consumer and a phandle target,
+                # not a device that binds. Including it in the test made the loop spin the
+                # full 20 s every boot.
+                cw=0; cok=0
+                while [ $cw -lt 20 ]; do
+                    cok=1; seen=0
+                    for d in /sys/bus/platform/devices/*pmic*:audio-codec*; do
+                        [ -e "$d" ] || continue
+                        seen=$((seen + 1))
+                        [ -e "$d/driver" ] || cok=0
+                    done
+                    # and the component has to be in the ASoC list, not merely bound
+                    grep -q "audio-codec@" /sys/kernel/debug/asoc/components 2>/dev/null || cok=0
+                    [ "$seen" -gt 0 ] && [ $cok -eq 1 ] && break
+                    cw=$((cw + 1)); sleep 1
+                done
+                log "stage=audio-codec-bound ok=$cok seen=$seen wait=${cw}s"
+                ;;
+        esac
     else
         failed=$((failed + 1))
         log "insmod-fail $module $(cat /run/insmod.err)"
@@ -140,6 +181,23 @@ while read module; do
 done < /etc/module-order
 mdev -s
 log "stage=modules-done loaded=$loaded failed=$failed"
+# sound@0 was probed while the codecs were still missing and gave up; now that every
+# audio module is in, rebind it once. One deterministic rebind, not a retry loop.
+if [ -e /sys/bus/platform/drivers/vbc-rxpx-codec-sc27xx/bind ]; then
+    rberr=$(echo sound@0 > /sys/bus/platform/drivers/vbc-rxpx-codec-sc27xx/bind 2>&1)
+    log "stage=audio-card-rebind rc=$? err=[$rberr]"
+fi
+# binding state, not just "insmod returned 0" -- a loaded module whose device never bound
+# is what cost us the last two rounds
+for d in /sys/bus/platform/devices/*audio-codec*; do
+    [ -e "$d" ] || continue
+    if [ -e "$d/driver" ]; then
+        log "stage=audio-dev $(basename "$d") bound=$(basename "$(readlink -f "$d/driver")")"
+    else
+        log "stage=audio-dev $(basename "$d") bound=NONE"
+    fi
+done
+log "stage=audio-cards [$(tr '\n' '|' < /proc/asound/cards 2>/dev/null)]"
 diag modules-done
 
 # Locate misc now; whether slot a is restored is decided once the rootfs is known.

@@ -158,6 +158,15 @@ ROUTES = {
     'VBC_VOLUME': '7',
     'Speaker Mute': 'off', 'Earpiece Mute': 'off', 'Mic Function': 'on',
 }
+# The endpoint switch alone does not connect the analog microphone to the ADC.
+# These controls match the primary-mic path in the factory call snapshot. On
+# 7552N, enabling them changes Normal-Capture-AP01 from Off/in 0 to On/in 2.
+# That establishes a powered capture path; audible call audio is still unproven.
+MIC_CAPTURE = {
+    'ADC_1 Gain ADC_1 Capture Volume': '7',
+    'ADC_1 Mixer MIC1PGA_1 Switch': 'on',
+    'AUD ADC0L Switch': 'on', 'AUD ADC0R Switch': 'on',
+}
 # Earpiece: the codec drives EAR_HPL, not the alternative EAR_AOL path.
 RECEIVER = {
     'Speaker Function': 'off',
@@ -232,7 +241,7 @@ FW_HEADER = struct.Struct('<16sII')
 FW_MAGIC = b'audio_profile'
 
 VOICE_CONTROLS = tuple(dict.fromkeys(
-    (*ROUTES, *RECEIVER, *SPEAKER, *ANALOG_GAINS, *PROFILES, *BLUETOOTH, *BT_SRC, *CODEC_IIS)))
+    (*ROUTES, *RECEIVER, *SPEAKER, *MIC_CAPTURE, *ANALOG_GAINS, *PROFILES, *BLUETOOTH, *BT_SRC, *CODEC_IIS)))
 
 
 class Failure(RuntimeError):
@@ -771,9 +780,17 @@ class VoiceAudio:
         self.put('Speaker Function', 'off')
         self.put('Earpiece Function', 'off')
         if self.bluetooth:
+            # Release only this call's analog-mic changes when switching to HFP.
+            for name in MIC_CAPTURE:
+                if name in self.saved:
+                    self.put(name, self.saved[name])
             for name, value in BLUETOOTH.items():
                 self.put(name, value)
             return
+        for name, value in MIC_CAPTURE.items():
+            if 'Capture Volume' in name:
+                value = self.codec_gain(name, int(value))
+            self.put(name, value)
         for name, value in (SPEAKER if self.speaker else RECEIVER).items():
             self.put(name, value)
 

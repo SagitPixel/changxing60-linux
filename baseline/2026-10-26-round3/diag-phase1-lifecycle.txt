@@ -1,0 +1,33 @@
+cat /tmp/lc.txt
+### A. 播放前
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=0 stopped=1 total=0
+state=no_sample
+### B. 播放中
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=1 stopped=0 total=1
+289614721216 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+### C. 停止后 rc=1
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=1 stopped=1 total=4
+289614721216 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+289916435985 play=1 smp=2 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+290236707601 play=1 smp=3 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+290556767716 play=1 smp=4 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+### D. 停止+2s（total 应不再增长）
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=1 stopped=1 total=4
+289614721216 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+289916435985 play=1 smp=2 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+290236707601 play=1 smp=3 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+290556767716 play=1 smp=4 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+### E. 再等 2s
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=0
+play_seq=1 stopped=1 total=4
+289614721216 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+289916435985 play=1 smp=2 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+290236707601 play=1 smp=3 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+290556767716 play=1 smp=4 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+### F. aplay 输出
+Playing WAVE '/tmp/t.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+aplay: pcm_write:2178: write error: Input/output error

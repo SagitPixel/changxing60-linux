@@ -1,0 +1,330 @@
+cat /tmp/play-trace.txt
+=== aplay start: Mon Oct 26 12:14:21 UTC 2026 ===
+--- crossbar ---
+  Mono: Playback [on]
+--- sample 1  t=0s  pid_alive=Y ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 2  t=1s  pid_alive=Y ---
+[status]
+state: OPEN
+owner_pid   : 1538
+trigger_time: 0.000000000
+tstamp      : 0.000000000
+delay       : 0
+avail       : 0
+avail_max   : 0
+-----
+hw_ptr      : 0
+appl_ptr    : 0
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 3  t=1s  pid_alive=Y ---
+[status]
+state: RUNNING
+owner_pid   : 1538
+trigger_time: 142.963562205
+tstamp      : 0.000000000
+delay       : 24000
+avail       : 0
+avail_max   : 18000
+-----
+hw_ptr      : 160
+appl_ptr    : 24160
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 1 out 0
+FE_IF_NORMAL_AP01_P: Off  in 1 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 1 out 0
+Normal-Playback: Off  in 1 out 0
+DAC: Off  in 1 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 4  t=1s  pid_alive=Y ---
+[status]
+state: RUNNING
+owner_pid   : 1538
+trigger_time: 142.963562205
+tstamp      : 0.000000000
+delay       : 24000
+avail       : 0
+avail_max   : 0
+-----
+hw_ptr      : 160
+appl_ptr    : 24160
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 1 out 0
+FE_IF_NORMAL_AP01_P: Off  in 1 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 1 out 0
+Normal-Playback: Off  in 1 out 0
+DAC: Off  in 1 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 5  t=2s  pid_alive=Y ---
+[status]
+state: RUNNING
+owner_pid   : 1538
+trigger_time: 142.963562205
+tstamp      : 0.000000000
+delay       : 24000
+avail       : 0
+avail_max   : 0
+-----
+hw_ptr      : 160
+appl_ptr    : 24160
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 1 out 0
+FE_IF_NORMAL_AP01_P: Off  in 1 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 1 out 0
+Normal-Playback: Off  in 1 out 0
+DAC: Off  in 1 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 6  t=2s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 7  t=3s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 8  t=3s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 9  t=4s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 10  t=4s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 11  t=4s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 12  t=5s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 13  t=5s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 14  t=6s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 15  t=6s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 16  t=7s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 17  t=7s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 18  t=7s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 19  t=8s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 20  t=8s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 21  t=9s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 22  t=9s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 23  t=9s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+--- sample 24  t=10s  pid_alive=N ---
+[status]
+closed
+[dapm]
+S_NORMAL_AP01_P_CODEC: Off  in 0 out 0
+FE_IF_NORMAL_AP01_P: Off  in 0 out 0
+BE_IF_NORMAL_AP01_CODEC_P: Off  in 0 out 0
+Normal-Playback: Off  in 0 out 0
+DAC: Off  in 0 out 0 - R65535(0xffff) mask 0x1
+Digital Power: Off  in 0 out 0
+=== aplay exit rc=1 after 10s ===
+[aplay output]
+Playing WAVE '/tmp/t.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+aplay: pcm_write:2178: write error: Input/output error
+[hw_params]
+closed
+[sw_params]
+closed
+[dmesg tail]
+[  144.330176] [ASoC: PCM ] now_pointer 1:18446744072358089344,dsp:af725280
+[  144.336831] [ASoC: PCM ] now_pointer 2:280,runtime->dma_addr:af725000
+[  144.343233] [ASoC: PCM ] now_pointer 21:18446744072358089346,dsp:af725282
+[  144.349982] [ASoC: PCM ] now_pointer 22:280,runtime->dma_addr:af725000
+[  144.356472] [ASoC: PCM ] now_pointer 31:280
+[  144.360625] [ASoC: PCM ] x:a0
+[  144.363568] [ASoC: PCM ] x out:a0
+[  144.384083] [ASoC: PCM ] sprd_pcm_trigger, FE_DAI_ID_NORMAL_AP01 cpu_dai->id = 0 Trigger Playback cmd:0
+[  144.393356] [ASoC: PCM ] pcm Stop
+[  144.396645] [ASoC: PCM ] pcm E
+[  144.399673] [ASoC: VBC ] scene_normal_trigger: 8567:scene_normal_trigger dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback, cmd=0
+[  144.413259] [ASoC: VBC ] get_normal_p_running_status: 6842:get_normal_p_running_status is_startup=true
+[  144.422520] [ASoC: VBC ] ap_vbc_aud_dma_chn_en fifo_id=AP01_PLY_FIFO, vbc_chan =VBC_ALL_CHAN, enable=0
+[  144.431779] [ASoC: VBC ] ap_vbc_fifo_enable fifo_id=AP01_PLY_FIFO, vbc_chan =VBC_ALL_CHAN, enable=0
+[  144.440791] [ASoC: PCM ] sprd_pcm_hw_free, FE_DAI_ID_NORMAL_AP01 cpu_dai->id = 0 Playback
+[  144.448914] [ASoC: PCM ] sprd_pcm_hw_free release id=0
+[  144.454029] [ASoC: PCM ] sprd_pcm_hw_free release id=1
+[  144.459135] [ASoC: FE.VBC ] fe_hw_free fe dai: FE_DAI_ID_NORMAL_AP01(0) playback
+[  144.466522] [ASoC: VBC ] scene_normal_hw_free: 8425:scene_normal_hw_free dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback
+[  144.479488] [ASoC:HDST9620] sprd_enable_hmicbias_polling no headset insert!
+[  144.486388] [ASoC: VBC ] scene_normal_shutdown: 8315:scene_normal_shutdown dai:BE_DAI_ID_NORMAL_AP01_CODEC(0) scene:VBC_DAI_ID_NORMAL_AP01 playback
+[  144.499540] [ASoC: VBC ] get_normal_p_running_status: 6842:get_normal_p_running_status is_startup=true
+[  144.508799] [ASoC: VBC ] get_startup_scene_dac_id: 6981:get_startup_scene_dac_id scene is VBC_DAI_ID_NORMAL_AP01(id 0) dac_id = 0
+[  144.520395] [ASoC: VBC ] get_startup_scene_adc_id: 7070:get_startup_scene_adc_id scene is VBC_DAI_ID_NORMAL_AP01(id 0) adc_id = 0
+[  144.531994] [Audio:SIPC] audio_cmd_copy, write cmd para: txbuf_addr_v=0xffffffc081a5d000, tx_len=620
+[  144.541079] [Audio:SMSG] warning aud_smsg_recv cache is empty!
+[  144.546877] [Audio:SIPC] aud_recv_cmd channel =0 cmd=5 ENODATA
+[  144.552672] [Audio:SIPC] aud_send_cmd in,cmd =5 id:0 ret-value:0
+[  144.558644] [Audio:SIPC] aud_send_msg,cmd: 0x5, value0: 0x0, value1: 0x0,
+[  144.558646] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0
+[  144.570760] [Audio:SMSG] aud_smsg_send: dst=1, channel=0
+[  144.576043] [Audio:SIPC] aud_send_cmd 696 wait dsp
+[  144.580798] [Audio:SIPC] aud_recv_cmd, chan: 0x0, cmd: 0x5, value0: 0x0, value1: 0x0,
+[  144.580800] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  144.595163] [Audio:SIPC] aud_send_cmd out,cmd =5 id:0 ret-value:0,repeat_count=1
+[  144.602520] [ASoC: VBC ] set_normal_p_running_status: 6827:set_normal_p_running_status is_startup=false
+[  144.611872] [ASoC: PCM ] sprd_pcm_close FE_DAI_ID_NORMAL_AP01 Close Playback
+[  144.619135] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+[  146.465049] CHANGXING60-LINUX: stage=usb0-stats rx 3659415 2881 tx 112344 243 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+[  151.485061] CHANGXING60-LINUX: stage=usb0-stats rx 3660132 2891 tx 113156 249 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+=== done ===

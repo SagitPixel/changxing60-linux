@@ -1,0 +1,460 @@
+diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
+index bc828e3b9..fb493a981 100644
+--- a/drivers/dma/sprd-dma.c
++++ b/drivers/dma/sprd-dma.c
+@@ -19,6 +19,9 @@
+ #include <linux/of_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
++#include <linux/debugfs.h>
++#include <linux/seq_file.h>
++#include <linux/ktime.h>
+ 
+ #include "virt-dma.h"
+ 
+@@ -727,6 +730,85 @@ static void sprd_dma_free_chan_resources(struct dma_chan *chan)
+ 	pm_runtime_put(chan->device->dev);
+ }
+ 
++
++/* 7552n diagnostic: which branch did sprd_dma_tx_status() take for this cookie?
++ * A fixed ring, written under the channel lock, read back through debugfs. No pointers
++ * are kept, so it stays valid after the channel is released. */
++struct sprd_diag_ent {
++	u64 nsec;
++	int chan_id;
++	int cookie;
++	int status;
++	char branch[12];
++	u32 pos;
++	bool residue_is_addr;
++};
++
++static struct sprd_diag_ent g_diag[16];
++static int g_diag_idx;
++static DEFINE_SPINLOCK(g_diag_lock);
++
++static void sprd_diag_record(int chan_id, int cookie, int status,
++			     const char *branch, u32 pos, bool is_addr)
++{
++	unsigned long f;
++	struct sprd_diag_ent *e;
++
++	spin_lock_irqsave(&g_diag_lock, f);
++	e = &g_diag[g_diag_idx & 15];
++	e->nsec = ktime_get_ns();
++	e->chan_id = chan_id;
++	e->cookie = cookie;
++	e->status = status;
++	strncpy(e->branch, branch, sizeof(e->branch) - 1);
++	e->branch[sizeof(e->branch) - 1] = '\0';
++	e->pos = pos;
++	e->residue_is_addr = is_addr;
++	g_diag_idx++;
++	spin_unlock_irqrestore(&g_diag_lock, f);
++}
++
++static int sprd_diag_show(struct seq_file *s, void *unused)
++{
++	unsigned long f;
++	int i, start;
++
++	spin_lock_irqsave(&g_diag_lock, f);
++	start = g_diag_idx > 16 ? g_diag_idx - 16 : 0;
++	for (i = start; i < g_diag_idx; i++) {
++		struct sprd_diag_ent *e = &g_diag[i & 15];
++
++		seq_printf(s, "%llu chan=%d cookie=%d status=%d branch=%s pos=%#x residue_is_addr=%d\n",
++			   e->nsec, e->chan_id, e->cookie, e->status,
++			   e->branch, e->pos, e->residue_is_addr);
++	}
++	spin_unlock_irqrestore(&g_diag_lock, f);
++	return 0;
++}
++
++static int sprd_diag_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, sprd_diag_show, NULL);
++}
++
++static const struct file_operations sprd_diag_fops = {
++	.open		= sprd_diag_open,
++	.read		= seq_read,
++	.llseek		= seq_lseek,
++	.release	= single_release,
++};
++
++static int __init sprd_dma_diag_init(void)
++{
++	struct dentry *dir = debugfs_create_dir("sprd-dma-diag", NULL);
++
++	if (IS_ERR_OR_NULL(dir))
++		return 0;
++	debugfs_create_file("tx_status", 0444, dir, NULL, &sprd_diag_fops);
++	return 0;
++}
++late_initcall(sprd_dma_diag_init);
++
+ static enum dma_status sprd_dma_tx_status(struct dma_chan *chan,
+ 					  dma_cookie_t cookie,
+ 					  struct dma_tx_state *txstate)
+@@ -738,8 +820,10 @@ static enum dma_status sprd_dma_tx_status(struct dma_chan *chan,
+ 	u32 pos;
+ 
+ 	ret = dma_cookie_status(chan, cookie, txstate);
+-	if (ret == DMA_COMPLETE || !txstate)
++	if (ret == DMA_COMPLETE || !txstate) {
++		sprd_diag_record(chan->chan_id, cookie, ret, "complete", 0, false);
+ 		return ret;
++	}
+ 
+ 	spin_lock_irqsave(&schan->vc.lock, flags);
+ 	vd = vchan_find_desc(&schan->vc, cookie);
+@@ -755,6 +839,7 @@ static enum dma_status sprd_dma_tx_status(struct dma_chan *chan,
+ 			pos = hw->frg_len;
+ 		else
+ 			pos = 0;
++		sprd_diag_record(chan->chan_id, cookie, ret, "queued", pos, false);
+ 	} else if (schan->cur_desc && schan->cur_desc->vd.tx.cookie == cookie) {
+ 		struct sprd_dma_desc *sdesc = schan->cur_desc;
+ 
+@@ -762,8 +847,10 @@ static enum dma_status sprd_dma_tx_status(struct dma_chan *chan,
+ 			pos = sprd_dma_get_dst_addr(schan);
+ 		else
+ 			pos = sprd_dma_get_src_addr(schan);
++		sprd_diag_record(chan->chan_id, cookie, ret, "current", pos, true);
+ 	} else {
+ 		pos = 0;
++		sprd_diag_record(chan->chan_id, cookie, ret, "unmatched", 0, false);
+ 	}
+ 	spin_unlock_irqrestore(&schan->vc.lock, flags);
+ 
+diff --git a/sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c b/sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c
+index 25afd1c51..8e79532d5 100644
+--- a/sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c
++++ b/sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c
+@@ -699,6 +699,10 @@ struct sprd_runtime_data {
+ 	bool ticking;
+ 	/* see sprd_pcm_pointer(): the position while AGCP is out of reach */
+ 	snd_pcm_uframes_t last_pointer;
++
++	/* 7552n diagnostic sampling, see sprd_diag_work_fn() */
++	struct delayed_work diag_work;
++	bool diag_running;
+ };
+ 
+ /*
+@@ -718,10 +722,205 @@ static bool period_timer = true;
+ module_param(period_timer, bool, 0644);
+ MODULE_PARM_DESC(period_timer, "period events from an hrtimer (no DMA irq)");
+ 
++static atomic64_t sprd_tick_count = ATOMIC64_INIT(0);
++static atomic64_t sprd_ptr_count = ATOMIC64_INIT(0);
++static bool tick_log = true;
++module_param(tick_log, bool, 0644);
++MODULE_PARM_DESC(tick_log, "log every 100 period-timer callbacks");
++
++/* ---- 7552n diagnostic: snapshots, no hardware access unless diag_read_hw=Y ----
++ *
++ * Ownership: the work lives inside struct sprd_runtime_data, which is allocated in
++ * sprd_pcm_open() (where the stream also takes its pm_runtime reference) and freed in
++ * hw_free/close. Those paths call sprd_pcm_tick_stop_sync() with no stream lock held,
++ * and that is where the work is synchronously cancelled -- before rtd can go away.
++ * STOP only clears the arm flag (non-blocking); a worker already running finishes under
++ * its own reference and does not requeue. Error paths that bail out before hw_params
++ * never arm the sampler at all.
++ */
++#define SPRD_DIAG_SLOTS 8
++
++struct sprd_diag_snap {
++	u64 nsec;
++	u32 play_seq;
++	u32 smp_seq;
++	int pm_ret;
++	bool access_ok;
++	int read_ret;
++	bool read_done;
++	u32 gate_raw;
++	int pcm_state;
++	unsigned long hw_ptr;
++	unsigned long appl_ptr;
++};
++
++static struct sprd_diag_snap g_diag_snap[SPRD_DIAG_SLOTS];
++static u32 g_diag_idx;
++static u32 g_diag_play_seq;
++static bool g_diag_stopped = true;
++static DEFINE_SPINLOCK(g_diag_lock);
++
++/* built-in clock driver exports this; -ENODEV means it never bound */
++extern int ums9620_audcpglb_gate_read(u32 off, u32 *val);
++extern int agdsp_can_access(void);
++
++static bool diag_read_hw;
++module_param(diag_read_hw, bool, 0644);
++MODULE_PARM_DESC(diag_read_hw, "allow the sampler to touch power and the gate register");
++
++#define SPRD_DIAG_GATE_OFF 0x4
++#define SPRD_DIAG_GATE_MASK (BIT(17) | BIT(19))
++
++static void sprd_diag_arm(struct sprd_runtime_data *rtd)
++{
++	if (!READ_ONCE(rtd->diag_running)) {
++		WRITE_ONCE(rtd->diag_running, true);
++		spin_lock(&g_diag_lock);
++		g_diag_play_seq++;
++		g_diag_stopped = false;
++		spin_unlock(&g_diag_lock);
++		schedule_delayed_work(&rtd->diag_work, 0);
++	}
++}
++
++/* non-blocking: the worker notices on its next check and stops requeueing */
++static void sprd_diag_disarm(struct sprd_runtime_data *rtd)
++{
++	unsigned long f;
++
++	if (!READ_ONCE(rtd->diag_running))
++		return;
++	WRITE_ONCE(rtd->diag_running, false);
++	spin_lock_irqsave(&g_diag_lock, f);
++	g_diag_stopped = true;
++	spin_unlock_irqrestore(&g_diag_lock, f);
++}
++
++static void sprd_diag_work_fn(struct work_struct *w)
++{
++	struct sprd_runtime_data *rtd =
++		container_of(to_delayed_work(w), struct sprd_runtime_data, diag_work);
++	struct snd_pcm_substream *substream;
++	struct snd_pcm_runtime *runtime;
++	struct sprd_diag_snap s = { };
++	unsigned long f;
++	u32 v = 0;
++
++	if (!READ_ONCE(rtd->diag_running))
++		return;
++
++	substream = rtd->tick_substream;
++	runtime = substream ? substream->runtime : NULL;
++	if (!runtime)
++		return;
++
++	s.nsec = ktime_get_ns();
++	s.pcm_state = runtime->state;
++	s.hw_ptr = runtime->status->hw_ptr;
++	s.appl_ptr = runtime->control->appl_ptr;
++	s.pm_ret = -1;
++
++	if (diag_read_hw) {
++		int pm = pm_runtime_resume_and_get(g_dev);
++
++		s.pm_ret = pm;
++		if (pm >= 0) {
++			/* resume_and_get() only bumps usage on success, so put once here */
++			s.access_ok = agdsp_can_access() ? true : false;
++			if (s.access_ok) {
++				int r = ums9620_audcpglb_gate_read(SPRD_DIAG_GATE_OFF, &v);
++
++				s.read_done = true;
++				s.read_ret = r;
++				if (!r)
++					s.gate_raw = v;
++			}
++			pm_runtime_put_autosuspend(g_dev);
++		}
++		/* pm < 0: nothing was acquired, nothing to release, no hardware touched */
++	}
++
++	spin_lock_irqsave(&g_diag_lock, f);
++	s.play_seq = g_diag_play_seq;
++	s.smp_seq = g_diag_idx + 1;
++	g_diag_snap[g_diag_idx & (SPRD_DIAG_SLOTS - 1)] = s;
++	g_diag_idx++;
++	spin_unlock_irqrestore(&g_diag_lock, f);
++
++	if (READ_ONCE(rtd->diag_running))
++		schedule_delayed_work(&rtd->diag_work, msecs_to_jiffies(300));
++}
++
++static int sprd_diag_show(struct seq_file *s, void *unused)
++{
++	struct sprd_diag_snap copy[SPRD_DIAG_SLOTS];
++	unsigned long f;
++	u32 n, play_seq;
++	bool stopped;
++	int i, start;
++
++	/* copy under the lock, format after it */
++	spin_lock_irqsave(&g_diag_lock, f);
++	n = g_diag_idx;
++	play_seq = g_diag_play_seq;
++	stopped = g_diag_stopped;
++	memcpy(copy, g_diag_snap, sizeof(copy));
++	spin_unlock_irqrestore(&g_diag_lock, f);
++
++	seq_printf(s, "target=sprd,ums9620-audcpglb-gate off=%#x mask=%#x read_hw=%d\n",
++		   SPRD_DIAG_GATE_OFF, SPRD_DIAG_GATE_MASK, diag_read_hw);
++	seq_printf(s, "play_seq=%u stopped=%d total=%u\n", play_seq, stopped, n);
++
++	if (!n) {
++		seq_puts(s, "state=no_sample\n");
++		return 0;
++	}
++
++	start = n > SPRD_DIAG_SLOTS ? n - SPRD_DIAG_SLOTS : 0;
++	for (i = start; i < (int)n; i++) {
++		struct sprd_diag_snap *c = &copy[i & (SPRD_DIAG_SLOTS - 1)];
++
++		seq_printf(s, "%llu play=%u smp=%d pm_ret=%d access_ok=%d read_done=%d read_ret=%d gate_raw=%#010x vbc_ap_eb=%d aud_ap_eb=%d state=%d hw_ptr=%lu appl_ptr=%lu\n",
++			   c->nsec, c->play_seq, i + 1, c->pm_ret, c->access_ok,
++			   c->read_done, c->read_ret,
++			   (c->read_done && !c->read_ret) ? c->gate_raw : 0,
++			   (c->read_done && !c->read_ret) ? !!(c->gate_raw & BIT(17)) : -1,
++			   (c->read_done && !c->read_ret) ? !!(c->gate_raw & BIT(19)) : -1,
++			   c->pcm_state, c->hw_ptr, c->appl_ptr);
++	}
++	return 0;
++}
++
++static int sprd_diag_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, sprd_diag_show, NULL);
++}
++
++static const struct file_operations sprd_diag_fops = {
++	.open		= sprd_diag_open,
++	.read		= seq_read,
++	.llseek		= seq_lseek,
++	.release	= single_release,
++};
++
++static void sprd_diag_init(void)
++{
++	struct dentry *dir = debugfs_create_dir("sprd-audio-diag", NULL);
++
++	if (IS_ERR_OR_NULL(dir))
++		return;
++	debugfs_create_file("snapshot", 0444, dir, NULL, &sprd_diag_fops);
++}
++
+ static enum hrtimer_restart sprd_pcm_period_tick(struct hrtimer *t)
+ {
+ 	struct sprd_runtime_data *rtd =
+ 		container_of(t, struct sprd_runtime_data, period_timer);
++	u64 n = atomic64_inc_return(&sprd_tick_count);
++
++	if (tick_log && (n <= 3 || !(n % 100)))
++		pr_info("sprd-tick: callbacks=%llu ticking=%d tick_ns=%llu\n",
++			n, READ_ONCE(rtd->ticking), rtd->tick_ns);
+ 
+ 	if (!READ_ONCE(rtd->ticking))
+ 		return HRTIMER_NORESTART;
+@@ -747,6 +946,9 @@ static void sprd_pcm_tick_stop(struct sprd_runtime_data *rtd)
+ {
+ 	WRITE_ONCE(rtd->ticking, false);
+ 	hrtimer_try_to_cancel(&rtd->period_timer);
++	if (tick_log)
++		pr_info("sprd-tick-stop: total=%lld tick_ns=%llu\n",
++			(long long)atomic64_read(&sprd_tick_count), rtd->tick_ns);
+ }
+ 
+ /* hw_free/close: no stream lock held, so waiting for a running tick is safe */
+@@ -754,6 +956,10 @@ static void sprd_pcm_tick_stop_sync(struct sprd_runtime_data *rtd)
+ {
+ 	WRITE_ONCE(rtd->ticking, false);
+ 	hrtimer_cancel(&rtd->period_timer);
++
++	/* hw_free/close, no stream lock held: flush the sampler before rtd goes away */
++	sprd_diag_disarm(rtd);
++	cancel_delayed_work_sync(&rtd->diag_work);
+ }
+ 
+ struct dma_chan_index_name {
+@@ -1004,6 +1210,7 @@ static int sprd_pcm_open(struct snd_soc_component *component, struct snd_pcm_sub
+         }
+ 
+ 	hrtimer_setup(&rtd->period_timer, sprd_pcm_period_tick, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++	INIT_DELAYED_WORK(&rtd->diag_work, sprd_diag_work_fn);
+ 	rtd->tick_substream = substream;
+ 
+ 	runtime->private_data = rtd;
+@@ -2050,7 +2257,7 @@ static int sprd_pcm_trigger(struct snd_soc_component *component,
+ 			}
+ 		}
+ 		if (dma_status == DMA_IN_PROGRESS || dma_status == DMA_PAUSED) {
+-			pr_info("pcm Start\n");
++			pr_info("pcm Start branch=RESUME dma_status=%d\n", dma_status);
+ 			normal_dma_protect_spin_unlock(substream);
+ 			break;
+ 		}
+@@ -2066,12 +2273,21 @@ static int sprd_pcm_trigger(struct snd_soc_component *component,
+ 				dma_async_issue_pending(rtd->dma_chn[i]);
+ 		}
+ 
+-		pr_info("pcm Start\n");
++		for (i = 0; i < rtd->hw_chan; i++)
++			pr_info("pcm Start branch=SUBMIT ch[%d]=%s cookie=%#lx desc=%s\n",
++				i,
++				rtd->dma_chn[i] ? "chan" : "null",
++				(unsigned long)rtd->cookie[i],
++				rtd->dma_tx_des[i] ? "set" : "null");
++		pr_info("pcm Start branch=SUBMIT\n");
+ 		normal_dma_protect_spin_unlock(substream);
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
++		/* non-blocking; runs before the null-channel early return below, so the
++		 * sampler loses eligibility on every stop path, not just the happy one */
++		sprd_diag_disarm(rtd);
+ 		/* may run inside the tick (xrun -> snd_pcm_stop): no sync cancel */
+ 		sprd_pcm_tick_stop(rtd);
+ 		normal_dma_protect_spin_lock(substream);
+@@ -2099,10 +2315,17 @@ static int sprd_pcm_trigger(struct snd_soc_component *component,
+ 		     cmd == SNDRV_PCM_TRIGGER_PAUSE_RELEASE))
+ 		sprd_pcm_tick_start(rtd);
+ 
++	if (!ret && (cmd == SNDRV_PCM_TRIGGER_START ||
++		     cmd == SNDRV_PCM_TRIGGER_RESUME ||
++		     cmd == SNDRV_PCM_TRIGGER_PAUSE_RELEASE))
++		sprd_diag_arm(rtd);
++
+ 	return ret;
+ }
+ 
+ static int debug_pointer_log;
++module_param(debug_pointer_log, int, 0644);
++MODULE_PARM_DESC(debug_pointer_log, "log the raw DMA address from sprd_pcm_pointer()");
+ /* agdsp_pd: 1 when the AP may touch the AGCP domain, read from AON/PMU only */
+ extern int agdsp_can_access(void);
+ 
+@@ -2145,6 +2368,12 @@ static snd_pcm_uframes_t sprd_pcm_pointer(struct snd_soc_component *component,
+ 	if (rtd->dma_chn[0]) {
+ 		now_pointer = sprd_pcm_dma_get_addr(rtd->dma_chn[0],
+ 					rtd->cookie[0], substream);
++		if (debug_pointer_log && !(atomic64_inc_return(&sprd_ptr_count) % 50))
++			pr_info("sprd-ptr: n=%lld ch0_raw=%#x dma_addr=%#zx frames=%lu tick=%lld\n",
++				(long long)atomic64_read(&sprd_ptr_count),
++				now_pointer, (size_t)runtime->dma_addr,
++				(unsigned long)runtime->status->hw_ptr,
++				(long long)atomic64_read(&sprd_tick_count));
+ 		if (debug_pointer_log)
+ 			pr_info("now_pointer 1:%zu,dsp:%zx\n",
+ 				(size_t)now_pointer,
+@@ -2519,8 +2748,15 @@ static int init_pm_dma(void)
+ 	return 0;
+ }
+ 
++static bool sprd_diag_inited;
++
+ static int sprd_soc_platform_probe(struct platform_device *pdev)
+ {
++	if (!sprd_diag_inited) {
++		sprd_diag_inited = true;
++		sprd_diag_init();
++	}
++
+ 	struct device_node *node = pdev->dev.of_node;
+ 
+ 	if (node == NULL) {

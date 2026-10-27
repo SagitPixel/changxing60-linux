@@ -1,0 +1,16 @@
+cat /tmp/phase2.txt
+### diag_read_hw=Y
+### aplay rc=0
+target=sprd,ums9620-audcpglb-gate off=0x4 mask=0xa0000 read_hw=1
+play_seq=3 stopped=1 total=8
+149291228663 play=1 smp=1 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+149596798855 play=1 smp=2 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+149916787778 play=1 smp=3 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+150236876508 play=1 smp=4 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+155614538235 play=2 smp=5 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=0 appl_ptr=24000
+155936010504 play=2 smp=6 pm_ret=-1 access_ok=0 read_done=0 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=-1 aud_ap_eb=-1 state=3 hw_ptr=160 appl_ptr=24160
+195926547360 play=3 smp=7 pm_ret=0 access_ok=1 read_done=1 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=0 aud_ap_eb=0 state=3 hw_ptr=0 appl_ptr=24000
+196256058975 play=3 smp=8 pm_ret=0 access_ok=1 read_done=1 read_ret=0 gate_raw=0x00000000 vbc_ap_eb=0 aud_ap_eb=0 state=3 hw_ptr=160 appl_ptr=24160
+### diag_read_hw=N 已关闭
+Playing WAVE '/tmp/t.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+Aborted by signal Terminated...

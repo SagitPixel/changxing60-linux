@@ -85,6 +85,8 @@ def main():
     ap.add_argument('--base', required=True, type=Path, help='boot image to rebuild from (the one currently in boot_b)')
     ap.add_argument('--set', action='append', default=[], metavar='NAME=SOURCE',
                     help='replace a file inside the ramdisk; repeatable')
+    ap.add_argument('--add', action='append', default=[], metavar='NAME=SOURCE',
+                    help='add a file the base ramdisk does not have; repeatable')
     ap.add_argument('--show', action='store_true', help='list the ramdisk contents and exit')
     ap.add_argument('--out', type=Path, help='where to write the rebuilt image')
     a = ap.parse_args()
@@ -123,7 +125,30 @@ def main():
         if name not in names:
             sys.exit(f'the base ramdisk has no {name!r}; --show lists what it does have')
 
+    additions = {}
+    for s in a.add:
+        if '=' not in s:
+            sys.exit(f'--add wants NAME=SOURCE, got {s!r}')
+        name, src = s.split('=', 1)
+        if name in names:
+            sys.exit(f'{name!r} is already in the base ramdisk; use --set for that one')
+        additions[name] = Path(src).read_bytes()
+
     new_entries = [(n, m, i, r, overrides.get(n, d)) for n, m, i, r, d in entries]
+    next_ino = max([e[2] for e in entries] + [trailer_ino]) + 1
+    # added files may live under directories the base ramdisk does not have (/usr/...);
+    # create the missing parents too so the kernel unpacker does not have to guess
+    existing_dirs = {e[0] for e in entries if e[1] & 0o170000 == 0o040000}
+    for name, data in additions.items():
+        parts = name.split('/')[:-1]
+        for i in range(1, len(parts) + 1):
+            d = '/'.join(parts[:i])
+            if d and d not in existing_dirs:
+                new_entries.append((d, 0o040755, next_ino, (0, 0), b''))
+                existing_dirs.add(d)
+                next_ino += 1
+        new_entries.append((name, 0o100644, next_ino, (0, 0), data))
+        next_ino += 1
     new_cpio = write_cpio(new_entries, trailer_ino)
     new_ram = subprocess.run(['lz4', '-l', '-12', '-c'], input=new_cpio, capture_output=True, check=True).stdout
     assert new_ram[:4] == bytes.fromhex('02214c18'), 'lz4 did not produce legacy framing'

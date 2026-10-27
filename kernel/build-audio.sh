@@ -64,7 +64,7 @@ cp -a /mnt/audio "$A"
 
 apply() { # apply PATCH_DIR MARKER...
     p=$1; mark=$2; shift 2
-    if grep -rq "$mark" $A/sprd_audio/mcdt $A/sprd/platform $A/sprd/dai $A/sprd/machine $A/sprd_audio/agdsp_access 2>/dev/null; then
+    if grep -rq "$mark" $A/sprd_audio/mcdt $A/sprd/platform $A/sprd/dai $A/sprd/machine $A/sprd/codec $A/sprd_audio/agdsp_access 2>/dev/null; then
         echo "patch $p: already applied"
         return 0
     fi
@@ -73,6 +73,7 @@ apply() { # apply PATCH_DIR MARKER...
 }
 
 apply audio-mcdt-enable-clock "enabled the agcp mcdt clock"
+apply audio-codec-dac-ap23-name 'DAC AP23'
 apply audio-pcm-period-timer sprd_pcm_period_tick
 apply audio-pcm-pointer-agcp-access last_pointer
 apply audio-pcm-prealloc-guard "exceeds preallocated"

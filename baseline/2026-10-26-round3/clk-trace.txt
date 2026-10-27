@@ -1,0 +1,27 @@
+cat /tmp/clk-trace.txt
+=== before ===
+    access-aud-en                    0       0        0        26000000    0          0     50000      N      deviceless                      no_connection_id         
+       audcp-aud-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+       audcp-vbc-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+=== during 1 ===
+    access-aud-en                    2       2        0        26000000    0          0     50000      Y      deviceless                      no_connection_id         
+       audcp-aud-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+       audcp-vbc-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+=== during 2 ===
+    access-aud-en                    2       2        0        26000000    0          0     50000      Y      deviceless                      no_connection_id         
+       audcp-aud-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+       audcp-vbc-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+=== during 3 ===
+    access-aud-en                    2       2        0        26000000    0          0     50000      Y      deviceless                      no_connection_id         
+       audcp-aud-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+       audcp-vbc-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+=== during 4 ===
+    access-aud-en                    2       2        0        26000000    0          0     50000      Y      deviceless                      no_connection_id         
+       audcp-aud-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+       audcp-vbc-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+=== after (rc=1) ===
+    access-aud-en                    0       0        0        26000000    0          0     50000      N      deviceless                      no_connection_id         
+       audcp-aud-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+       audcp-vbc-ap-eb               0       0        0        26000000    0          0     50000      N         deviceless                      no_connection_id         
+Playing WAVE '/tmp/t.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+aplay: pcm_write:2178: write error: Input/output error

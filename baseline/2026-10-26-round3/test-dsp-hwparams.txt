@@ -1,0 +1,17 @@
+cat /tmp/th.txt
+t1 state=OPEN hw=0 appl=0
+t2 state=RUNNING hw=160 appl=24160
+t3 state=RUNNING hw=160 appl=24160
+t4 state=RUNNING hw=160 appl=24160
+t5 state=closed hw= appl=
+aplay_rc=1
+aplay_out: aplay: pcm_write:2178: write error: Input/output error
+=== SIPC 命令序列 ===
+aud_send_msg,cmd: 0x4, value0: 0x0, value1: 0x0,
+aud_send_cmd out,cmd =4 id:0 ret-value:0,repeat_count=1
+aud_send_msg,cmd: 0x6, value0: 0x0, value1: 0x0,
+aud_send_cmd out,cmd =6 id:0 ret-value:0,repeat_count=1
+aud_send_cmd_no_wait no wait
+aud_send_msg,cmd: 0x7, value0: 0x0, value1: 0x0,
+aud_send_msg,cmd: 0x5, value0: 0x0, value1: 0x0,
+aud_send_cmd out,cmd =5 id:0 ret-value:0,repeat_count=1

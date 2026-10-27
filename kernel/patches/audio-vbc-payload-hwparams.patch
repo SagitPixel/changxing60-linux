@@ -1,0 +1,70 @@
+diff --git a/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c b/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c
+index 3cdde3413..034784a30 100755
+--- a/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c
++++ b/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c
+@@ -6447,6 +6447,7 @@ static void init_vbc_codec_data(struct vbc_codec_priv *vbc_codec)
+ 	vbc_codec->hp_4p_crosstalk_gain.gain1 = HP_CROSSTALK_GAIN_DEFAULT;
+ }
+ 
++
+ int sprd_vbc_codec_probe(struct platform_device *pdev)
+ {
+ 	struct vbc_codec_priv *vbc_codec;
+@@ -7327,6 +7328,46 @@ static int dsp_startup(struct vbc_codec_priv *vbc_codec,
+ 		goto out;
+ 	memset(&startup_info, 0, sizeof(startup_info));
+ 	fill_dsp_startup_data(vbc_codec, scene_id, stream, &startup_info);
++
++	/* 7552n diagnostic: the whole 620-byte payload, plus the arrays that carry
++	 * routing/mixing, so a zero field is visible instead of assumed. */
++	{
++		const u8 *raw = (const u8 *)&startup_info;
++		struct snd_pcm_startup_paras *pp = &startup_info.startup_para;
++		int j, k, line;
++
++		pr_info("vbc-startup: scene=%d stream=%d dac_id=%d adc_id=%d payload=%zu\n",
++			scene_id, stream, pp->dac_id, pp->adc_id,
++			sizeof(struct sprd_vbc_stream_startup_shutdown));
++
++		for (j = 0; j < VBC_MUX_DAC_OUT_MAX; j++)
++			if (pp->dac_out[j].val || pp->dac_out[j].id)
++				pr_info("  dac_out[%d] id=%d val=%d\n", j,
++					pp->dac_out[j].id, pp->dac_out[j].val);
++		for (j = 0; j < VBC_MUX_IIS_TX_ID_MAX; j++)
++			if (pp->mux_tx[j].val || pp->mux_tx[j].id)
++				pr_info("  iis_tx[%d] id=%d val=%d\n", j,
++					pp->mux_tx[j].id, pp->mux_tx[j].val);
++		for (j = 0; j < VBC_MUX_IIS_RX_ID_MAX; j++)
++			if (pp->mux_rx[j].val || pp->mux_rx[j].id)
++				pr_info("  iis_rx[%d] id=%d val=%d\n", j,
++					pp->mux_rx[j].id, pp->mux_rx[j].val);
++		for (j = 0; j < VBC_IIS_PORT_ID_MAX; j++)
++			if (pp->iis_do[j].val || pp->iis_do[j].id)
++				pr_info("  iis_do[%d] id=%d val=%d\n", j,
++					pp->iis_do[j].id, pp->iis_do[j].val);
++		/* full hex, 32 bytes a line */
++		for (line = 0, k = 0; k < (int)sizeof(startup_info); k += 32, line++) {
++			char b[32 * 3 + 1];
++			int n = 0, m;
++
++			for (m = 0; m < 32 && k + m < (int)sizeof(startup_info); m++)
++				n += scnprintf(b + n, sizeof(b) - n, "%02x ",
++					       raw[k + m]);
++			pr_info("vbc-pl %03x: %s\n", k, b);
++		}
++	}
++
+ 	ret = vbc_dsp_func_startup(scene_id, stream, &startup_info);
+ 	pm_runtime_mark_last_busy(vbc_codec->codec->dev);
+ 	pm_runtime_put_autosuspend(vbc_codec->codec->dev);
+@@ -8401,6 +8442,10 @@ static int scene_normal_hw_params(struct snd_pcm_substream *substream,
+ 	if (hw_param_get_ref(scene_id, stream) == 1) {
+ 		vbc_chan = to_vbc_chan(chan_cnt);
+ 		set_vbc_chan(scene_id, stream, vbc_chan);
++		/* every other playback scene tells the DSP the rate/format the AP just
++		 * programmed; the normal AP01 path only called ap_hw_params. Placed before
++		 * the VBC mutex because it waits on SIPC. */
++		dsp_hw_params(vbc_codec, scene_id, stream, chan_cnt, rate, data_fmt);
+ 		normal_vbc_protect_mutex_lock(stream);
+ 		is_started = get_normal_p_running_status(stream);
+ 		if ((is_playback && is_started) ||

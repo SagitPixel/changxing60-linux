@@ -1,5 +1,5 @@
 #!/bin/bash
-# Put alsa-lib and alsa-utils on a RUNNING changxing60, and check they work.
+# Put ALSA and the Python ctypes dependency on a RUNNING changxing60, then check them.
 #
 # WHY THIS IS NOT A CROSS BUILD. The obvious plan -- cross-build alsa-lib with changxing60-cross --
 # cannot work here, and it is worth writing down so nobody tries it again. The rootfs is musl
@@ -10,7 +10,7 @@
 #
 # WHY THIS IS NOT THE ROOTFS MECHANISM EITHER. The canonical path is one line in
 # openwrt/build-rootfs.sh:
-#     apk add alsa-lib alsa-utils
+#     apk add alsa-lib alsa-utils python3-ctypes
 # This script does not replace it and must not drift from it. It exists for the other case: the
 # device is already flashed with a 45 GB ext4 rootfs, and rebuilding and reflashing that image to
 # add two libraries is a bad trade. The apk add below is the same operation, run on the live box.
@@ -49,8 +49,8 @@ done
 ssh_() { ssh -o StrictHostKeyChecking=no -o ConnectTimeout=8 "$HOST" "$@"; }
 
 if [ "$VERIFY_ONLY" = 0 ]; then
-	echo "== installing alsa-lib alsa-utils on $HOST"
-	ssh_ 'apk update >/dev/null 2>&1; apk add alsa-lib alsa-utils' || {
+	echo "== installing alsa-lib alsa-utils python3-ctypes on $HOST"
+	ssh_ 'apk update >/dev/null 2>&1; apk add alsa-lib alsa-utils python3-ctypes' || {
 		echo "apk add failed" >&2
 		exit 1
 	}
