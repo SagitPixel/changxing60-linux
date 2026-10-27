@@ -1,0 +1,77 @@
+diff --git a/drivers/ufs/host/ufs-sprd.c b/drivers/ufs/host/ufs-sprd.c
+index 65bd8fb96..75e157945 100644
+--- a/drivers/ufs/host/ufs-sprd.c
++++ b/drivers/ufs/host/ufs-sprd.c
+@@ -31,12 +31,21 @@ static struct ufs_sprd_priv *ufs_sprd_get_priv_data(struct ufs_hba *hba)
+ static void ufs_sprd_regmap_update(struct ufs_sprd_priv *priv, unsigned int index,
+ 				unsigned int reg, unsigned int bits,  unsigned int val)
+ {
++	/* 7552n: the vendor dtb has no syscon phandles, so the lookup fails and
++	 * leaves regmap as an ERR_PTR (not NULL). Testing with "!" let -ENODEV
++	 * through into regmap_update_bits() and the HCE enable path Oopsed. */
++	if (IS_ERR_OR_NULL(priv->sysci[index].regmap))
++		return;
+ 	regmap_update_bits(priv->sysci[index].regmap, reg, bits, val);
+ }
+ 
+ static void ufs_sprd_regmap_read(struct ufs_sprd_priv *priv, unsigned int index,
+ 				unsigned int reg, unsigned int *val)
+ {
++	if (IS_ERR_OR_NULL(priv->sysci[index].regmap)) {
++		*val = 0;
++		return;
++	}
+ 	regmap_read(priv->sysci[index].regmap, reg, val);
+ }
+ 
+@@ -74,8 +83,12 @@ static int ufs_sprd_get_syscon_reg(struct device *dev, struct ufs_sprd_syscon *s
+ {
+ 	sysci->regmap = syscon_regmap_lookup_by_phandle(dev->of_node, sysci->name);
+ 	if (IS_ERR(sysci->regmap)) {
+-		dev_err(dev, "failed to get ufs syscon:%s\n", sysci->name);
+-		return PTR_ERR(sysci->regmap);
++		int ret = PTR_ERR(sysci->regmap);
++
++		dev_err(dev, "failed to get ufs syscon:%s, skipping its writes\n",
++			sysci->name);
++		sysci->regmap = NULL;	/* so later IS_ERR_OR_NULL() skips cleanly */
++		return ret;
+ 	}
+ 
+ 	return 0;
+@@ -112,8 +125,11 @@ static int ufs_sprd_parse_dt(struct device *dev, struct ufs_hba *hba, struct ufs
+ 		if (!priv->sysci[i].name)
+ 			continue;
+ 		ret = ufs_sprd_get_syscon_reg(dev, &priv->sysci[i]);
+-		if (ret)
+-			goto out;
++		if (ret) {
++			/* 7552n: vendor dtb does not carry these syscon phandles */
++			dev_warn(dev, "skip syscon %s (%d)\n", priv->sysci[i].name, ret);
++			ret = 0;
++		}
+ 	}
+ 
+ 	/* Parse UFS vreg info */
+@@ -386,8 +402,9 @@ static void sprd_ufs_n6_h8_notify(struct ufs_hba *hba,
+ }
+ 
+ static struct ufs_sprd_priv n6_ufs = {
+-	.rci[SPRD_UFSHCI_SOFT_RST] = { .name = "controller", },
+-	.rci[SPRD_UFS_DEV_RST] = { .name = "device", },
++	/* 7552n: the stock vendor dtb names these ufs_soft_rst / ufsdev_soft_rst */
++	.rci[SPRD_UFSHCI_SOFT_RST] = { .name = "ufs_soft_rst", },
++	.rci[SPRD_UFS_DEV_RST] = { .name = "ufsdev_soft_rst", },
+ 
+ 	.sysci[SPRD_UFS_ANLG] = { .name = "sprd,ufs-anlg-syscon", },
+ 	.sysci[SPRD_UFS_AON_APB] = { .name = "sprd,aon-apb-syscon", },
+@@ -407,6 +424,9 @@ static struct ufs_sprd_priv n6_ufs = {
+ 
+ static const struct of_device_id __maybe_unused ufs_sprd_of_match[] = {
+ 	{ .compatible = "sprd,ums9620-ufs", .data = &n6_ufs.ufs_hba_sprd_vops},
++	/* the vendor 5.4 DT describes the same controller as "sprd,ufshc";
++	 * without this the device never matches and no block device appears */
++	{ .compatible = "sprd,ufshc", .data = &n6_ufs.ufs_hba_sprd_vops},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, ufs_sprd_of_match);
