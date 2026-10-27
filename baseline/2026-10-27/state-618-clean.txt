@@ -1,0 +1,7 @@
+=== 干净启动状态 ===
+Audio Structure Profile Select 0 [0%]
+DSP VBC Profile Select         0 [0%]
+NXP Profile Select             0 [0%]
+VBC_MUX_DAC0_OUT_SEL           'DAC_OUT_FROM_IIS'
+S_FAST_P_CODEC SWITCH          Playback [off]
+S_NORMAL_AP01_P_CODEC SWITCH   Playback [on]

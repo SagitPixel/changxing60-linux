@@ -1,0 +1,19 @@
+00-00: FE_ST_NORMAL_AP01 (*) :  : playback 1 : capture 1
+00-01: FE_ST_NORMAL_AP23 (*) :  : playback 1 : capture 1
+00-02: FE_ST_CAPTURE_DSP (*) :  : capture 1
+00-03: FE_ST_FAST (*) :  : playback 1
+00-05: FE_ST_VOICE (*) :  : playback 1 : capture 1
+00-06: FE_ST_VOIP (*) :  : playback 1 : capture 1
+00-07: FE_ST_FM (*) :  : playback 1
+00-08: FE_ST_FM_C (*) :  : capture 1
+00-09: FE_ST_VOICE_C (*) :  : capture 1
+00-10: FE_ST_LOOP (*) :  : playback 1 : capture 1
+00-12: FE_ST_A2DP_PCM (*) :  : playback 1
+00-13: FE_ST_CAPTURE_FM_DSP (*) :  : capture 1
+00-14: FE_ST_CAPTURE_BTSCO_DSP (*) :  : capture 1
+00-15: FE_ST_FM_DSP (*) :  : playback 1
+00-16: FE_ST_DUMP (*) :  : capture 1
+00-17: FE_ST_BTCAP_AP (*) :  : capture 1
+00-49: FE_ST_TEST_CODEC (*) :  : playback 1 : capture 1
+00-53: FE_ST_VOICE_PCM_P (*) :  : playback 1
+00-55: FE_ST_MM_P (*) :  : playback 1

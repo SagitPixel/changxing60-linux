@@ -1,0 +1,12 @@
+== 内核 ==
+Linux changxing60-linux 6.18.54-7552n-probe1+ #20 SMP Tue Oct 27 09:18:57 UTC 2026 aarch64 GNU/Linux
+== 模块哈希 ==
+6ea4f128dbb2bac96b686ea5c73c2042  /linux-modules/snd-soc-sprd-vbc-v4.ko
+9ef7f523e3da61be98533750237316bc  /linux-modules/sprd-drm.ko
+== 三个 Select 原始值 ==
+Audio Structure Profile Select   1107296256 [52%]
+DSP VBC Profile Select           1124073472 [52%]
+NXP Profile Select               1107296256 [52%]
+DSP FFSMARTAMP Select            0 [0%]
+== DAC_OUT 选择 ==
+  Item0: 'DAC_OUT_FROM_VBCIF'
