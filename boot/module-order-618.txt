@@ -21,3 +21,10 @@ snd-soc-sprd-dummy-codec.ko
 sprd-dmaengine-pcm.ko
 sprd-compr-2stage-dma.ko
 sprd-platform-pcm-routing.ko
+sprd_vpu_pw_domain.ko
+drm_kms_helper.ko
+unisoc-iommu.ko
+drm_client_lib.ko
+drm_dma_helper.ko
+ocp2131.ko
+sprd-drm.ko

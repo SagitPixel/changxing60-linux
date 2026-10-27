@@ -1,0 +1,130 @@
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_dphy.c b/drivers/unisoc_platform/sprd_disp/sprd_dphy.c
+index 353ccc1a0..78ac04436 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_dphy.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_dphy.c
+@@ -366,7 +366,11 @@ static int sprd_dphy_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, dphy);
+ 
+ 	dsi = dev_get_drvdata(dsi_dev);
+-	if (dsi->dual_dsi_en) {
++	/* the DSI may not have probed yet; dereferencing it here panicked with a
++	 * NULL pointer at offset 0xe20 (dual_dsi_en) on the 7552n */
++	if (!dsi)
++		DRM_WARN("dphy: no dsi drvdata yet, assuming single channel");
++	if (dsi && dsi->dual_dsi_en) {
+ 		ret = sprd_dphy_dual_channel_init(dphy);
+ 		if (ret)
+ 			return ret;
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_drm.c b/drivers/unisoc_platform/sprd_disp/sprd_drm.c
+index bfec1e29d..b2f21dd84 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_drm.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_drm.c
+@@ -508,6 +508,28 @@ static int sprd_drm_component_probe(struct device *dev,
+ 			continue;
+ 		}
+ 
++		/*
++		 * A crtc that declares a power domain the DT cannot resolve can
++		 * never finish probing, so matching it would stall the master
++		 * forever. The 7552n DT matches dpu1@31880000 whose PD phandle
++		 * (0x54) is not present at all; drop such nodes from the match.
++		 */
++		/*
++		 * dpu1@31880000 uses "sprd,qogirn6pro-dpu1", which sprd-dpu-drv does
++		 * not match, so that device never probes. Matching it here makes the
++		 * component master wait forever and drm_dev_register() never runs.
++		 * The 7552n drives its only panel from dpu@31000000, so drop it.
++		 */
++		if (of_device_is_compatible(port->parent,
++					    "sprd,qogirn6pro-dpu1")) {
++			dev_err(dev, "skip %pOF: no driver for this crtc\n",
++				port->parent);
++			of_node_put(port);
++			continue;
++		}
++
++		dev_err(dev, "match add: %pOF\n", port->parent);
++
+ 		component_match_add(dev, &match, compare_of, port->parent);
+ 		of_node_put(port);
+ 	}
+@@ -547,6 +569,8 @@ static int sprd_drm_component_probe(struct device *dev,
+ 				continue;
+ 			}
+ 
++			dev_err(dev, "match add: %pOF\n", remote);
++
+ 			component_match_add(dev, &match, compare_of, remote);
+ 			of_node_put(remote);
+ 		}
+@@ -562,6 +586,7 @@ static int sprd_drm_component_probe(struct device *dev,
+ 			of_node_put(port);
+ 			continue;
+ 		}
++		dev_err(dev, "match add: %pOF\n", port);
+ 		component_match_add(dev, &match, compare_of, port);
+ 		of_node_put(port);
+ 	}
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_dsi.c b/drivers/unisoc_platform/sprd_disp/sprd_dsi.c
+index 011101882..322b4a1ea 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_dsi.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_dsi.c
+@@ -1156,11 +1156,17 @@ static int sprd_dsi_dual_channel_init(struct sprd_dsi *dsi)
+ 	if (np) {
+ 		DRM_INFO("find sprd,dual-channel\n");
+ 		secondary = of_find_device_by_node(np);
+-		dsi->dsi_slave = dev_get_drvdata(&secondary->dev);
++		dsi->dsi_slave = secondary ? dev_get_drvdata(&secondary->dev) : NULL;
+ 		of_node_put(np);
+ 
+-		if (!dsi->dsi_slave)
+-			return -EPROBE_DEFER;
++		if (!dsi->dsi_slave) {
++			/* The slave never exposes drvdata on this board, so deferring here
++			 * only burns the deferred-probe timeout and ends in -ETIMEDOUT.
++			 * Carry on as single channel and log what was actually found. */
++			DRM_WARN("dual-channel: secondary=%px drvdata=%px, continuing single\n",
++				 secondary, dsi->dsi_slave);
++			return 0;
++		}
+ 
+ 		dsi->dsi_slave->dsi_master = dsi;
+ 		dsi->dsi_slave->dual_dsi_en = 1;
+@@ -1176,6 +1182,8 @@ static int sprd_dsi_probe(struct platform_device *pdev)
+ 	struct sprd_dsi *dsi;
+ 	int ret;
+ 
++	dev_err(&pdev->dev, "probe ENTER\n");
++
+ 	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
+ 	if (!dsi) {
+ 		DRM_ERROR("failed to allocate dsi data.\n");
+@@ -1210,10 +1218,12 @@ static int sprd_dsi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ret = sprd_dsi_context_init(dsi, &pdev->dev);
++	dev_err(&pdev->dev, "probe-step context_init ret=%d\n", ret);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = sprd_dsi_device_create(dsi, &pdev->dev);
++	dev_err(&pdev->dev, "probe-step device_create ret=%d\n", ret);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1225,6 +1235,7 @@ static int sprd_dsi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ret = sprd_dual_dsi_parse_dt(dsi, np);
++	dev_err(&pdev->dev, "probe-step parse_dt ret=%d dual_en=%d\n", ret, dsi->dual_dsi_en);
+ 	if (ret) {
+ 		DRM_ERROR("parse dual dsi info failed\n");
+ 		return ret;
+@@ -1237,6 +1248,7 @@ static int sprd_dsi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ret = sprd_dsi_host_init(&pdev->dev, dsi);
++	dev_err(&pdev->dev, "probe-step host_init ret=%d\n", ret);
+ 	if (ret)
+ 		return ret;
+ 
