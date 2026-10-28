@@ -181,6 +181,21 @@ while read module; do
 done < /etc/module-order
 mdev -s
 log "stage=modules-done loaded=$loaded failed=$failed"
+# Display sanity, before anything can leave the panel lit on a stale frame: the DRM card is
+# the only proof the panel has a live framebuffer. If it never shows up, kill the backlight
+# instead of switching root and leaving a grey (or ghosted) screen behind for the next boot.
+dw=0
+while [ ! -e /dev/dri/card0 ] && [ "$dw" -lt 20 ]; do
+    dw=$((dw + 1)); sleep 1
+done
+if [ -e /dev/dri/card0 ]; then
+    log "stage=display-ok wait=${dw}s"
+else
+    log "stage=display-missing wait=${dw}s"
+    for b in /sys/class/backlight/*/brightness; do
+        echo 0 > "$b" 2>/dev/null
+    done
+fi
 # sound@0 was probed while the codecs were still missing and gave up; now that every
 # audio module is in, rebind it once. One deterministic rebind, not a retry loop.
 if [ -e /sys/bus/platform/drivers/vbc-rxpx-codec-sc27xx/bind ]; then
@@ -333,7 +348,13 @@ pick_root() {
     done
 }
 mkdir -p /disk
-rootloop=$(losetup -f 2>/run/rootmount.err)
+# Explicit rescue mode keeps the normal switch_root path intact.
+if [ -e /etc/changxing60-ramdisk-only ]; then
+    log "stage=ramdisk-only root mount skipped"
+    rootloop=
+else
+    rootloop=$(losetup -f 2>/run/rootmount.err)
+fi
 if [ -n "$rootloop" ] && losetup -o $ROOT_OFFSET "$rootloop" /dev/$rootdisk 2>>/run/rootmount.err \
    && [ "$(cat /sys/block/${rootloop#/dev/}/loop/offset)" = "$ROOT_OFFSET" ] \
    && [ "$(dd if="$rootloop" bs=1 skip=1080 count=2 2>/dev/null | od -An -tx1 | tr -d ' ')" = 53ef ] \
@@ -369,7 +390,7 @@ if [ -n "$rootloop" ] && losetup -o $ROOT_OFFSET "$rootloop" /dev/$rootdisk 2>>/
     # must return well before the ~290 s watchdog cut, so the wait is deadline-bounded, not
     # a flat 240 s (a flat cap could overrun on a boot that was already slow).
     A=/android
-    if [ -x "$A/vendor/bin/modem_control" ]; then
+    if [ -x "$A/vendor/bin/modem_control" ] && { [ -e /dev/modem ] || [ -e /dev/pmsys ]; }; then
         # cp -a, not bind: the property area must be regular files on the same devtmpfs
         # (the 5.4 boot that worked copied it; the 6.18 rootfs bind variant reads empty).
         cp -a "$A/dev/__properties__" /dev/__properties__ 2>/dev/null || true
@@ -427,7 +448,7 @@ if [ -n "$rootloop" ] && losetup -o $ROOT_OFFSET "$rootloop" /dev/$rootdisk 2>>/
         umount "$A/dev" 2>/dev/null
         log "stage=ext4-chroot-torn-down alive=$alive rstoff=$rstoff_ready"
     else
-        log "stage=ext4-no-modem_control (PMIC watchdog NOT disabled)"
+        log "stage=ext4-modem-skipped (no supported modem device or executable)"
     fi
     init=/sbin/init
     [ -x /newroot/lib/systemd/systemd ] && init=/lib/systemd/systemd

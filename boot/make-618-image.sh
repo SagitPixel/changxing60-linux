@@ -63,6 +63,21 @@ for f in audio_structure cvs dsp_vbc; do
 done
 echo "firmware: audio_structure cvs dsp_vbc"
 
+# The 7552N analogue PA needs its board-specific ACF before its first probe.
+# DSP profiles alone allow PCM progress but leave the speaker amplifier off.
+AW_FW=${AW_FW:-$ROOT/work/audio/aw87xxx_acf.bin}
+[ -f "$AW_FW" ] || { echo "MISSING PA firmware: $AW_FW" >&2; exit 1; }
+if printf '%s\n' "$EXISTING" | grep -qx "lib/firmware/aw87xxx_acf.bin"; then
+    set -- "$@" --set "lib/firmware/aw87xxx_acf.bin=$AW_FW"
+else
+    set -- "$@" --add "lib/firmware/aw87xxx_acf.bin=$AW_FW"
+fi
+if printf '%s\n' "$EXISTING" | grep -qx "usr/share/changxing60/fast-playback.sh"; then
+    set -- "$@" --set "usr/share/changxing60/fast-playback.sh=$ROOT/tools/audio/fast-playback.sh"
+else
+    set -- "$@" --add "usr/share/changxing60/fast-playback.sh=$ROOT/tools/audio/fast-playback.sh"
+fi
+
 echo "modules: $replaced replaced, $added added"
 python3 "$HERE/repack-ramdisk.py" "$@"
 ls -l "$OUT"

@@ -1,0 +1,49 @@
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_dsi_panel.c b/drivers/unisoc_platform/sprd_disp/sprd_dsi_panel.c
+index f70967818..fe60fbede 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_dsi_panel.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_dsi_panel.c
+@@ -25,7 +25,6 @@
+ 
+ #define host_to_dsi(host) \
+ 	container_of(host, struct sprd_dsi, host)
+-extern int OCP2131_write_bytes(unsigned char addr, unsigned char value);
+ extern int ili_get_tp_gesture_status(int);
+ extern int ovt_get_tp_gesture_status(int);
+ extern int cts_get_tp_gesture_status(int);
+@@ -242,10 +241,6 @@ static int sprd_panel_prepare(struct drm_panel *p)
+ 	struct device_node *lcd_node;
+ 
+ 	int items, i, ret;
+-	unsigned char cmd1 = 0x00;
+-	unsigned char cmd2 = 0x01;
+-	unsigned char data1 = 0x14;
+-	unsigned char data2 = 0x14;
+ 
+ 	DRM_INFO("%s()\n", __func__);
+ 	lcd_node = sprd_get_panel_node_by_name();
+@@ -270,17 +265,21 @@ static int sprd_panel_prepare(struct drm_panel *p)
+ 		if (ret < 0)
+ 			DRM_ERROR("enable lcd regulator failed\n");
+ 
++		/*
++		 * Match the 5.4 driver: only raise the AVDD/AVEE enable GPIOs
++		 * and wait 5 ms.  The 6.18 port added OCP2131 bias-register
++		 * writes (0x00/0x01 = 0x14) here; they override the bias the
++		 * bootloader/Android programmed and show up as green/grey
++		 * panel lines on the 7552N, whose 5.4 reference never writes
++		 * those registers.
++		 */
+ 		if (panel->info.avdd_gpio) {
+ 			gpiod_direction_output(panel->info.avdd_gpio, 1);
+-			mdelay(1);
+-			OCP2131_write_bytes(cmd1,data1);
+ 			mdelay(5);
+ 		}
+ 
+ 		if (panel->info.avee_gpio) {
+ 			gpiod_direction_output(panel->info.avee_gpio, 1);
+-			mdelay(1);
+-			OCP2131_write_bytes(cmd2,data2);
+ 			mdelay(5);
+ 		}
+ 

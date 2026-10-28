@@ -9,6 +9,15 @@ USE_PROCD=1
 export PATH="$PATH:/opt/changxing60/busybox-bin"
 
 start_service() {
+	case "$(uname -r)" in
+		6.*)
+			# The self-drawn status page is a 5.4 program (vendor sysfs display
+			# + its own DRM draw). On 6.18 it sets the backlight to 0% and
+			# leaves a grey/ghosted panel; there the DRM fbcon owns the panel.
+			logger -t changxing60-screen "6.x: 5.4 status page disabled"
+			return 0
+			;;
+	esac
 	/opt/changxing60/bin/display-modules >/tmp/changxing60-display-modules.log 2>&1
 
 	# uinput is compiled in (CONFIG_INPUT_UINPUT=y), so the driver is always registered -- but /dev

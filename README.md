@@ -129,7 +129,7 @@ revision is not measured).
 | `rootfs/` | the F50-era Ubuntu 26.04 line from the fork base (Dockerfile, systemd units) — still selectable |
 | `android-vendor/` | extract the Android runtime subset / GPU userspace **from your device**; property regions neutralized on extraction |
 | `tools/` | host-side: guards, deploy, tests, i18n build, module staging, publish |
-| `docs/` | `FINDINGS.md` (engineering log, started upstream and continued here) and screenshots |
+| `docs/` | `FINDINGS.md` (engineering log, started upstream and continued here), `6.18-PORT.md`, `PITFALLS-2026-10-28.md` (display/UFS/SDIO bring-up traps), and screenshots |
 | `install.sh` | the one-command installer (checks → pull → build → write `boot_b` + arm slot b) |
 
 ## Credentials & privacy policy

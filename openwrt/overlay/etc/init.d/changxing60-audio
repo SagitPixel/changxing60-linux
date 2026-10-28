@@ -18,6 +18,14 @@ START=20
 STOP=20
 
 start() {
+        case "$(uname -r)" in
+                6.*)
+                        # 6.18 loads its matching modules in the ramdisk. The 5.4
+                        # loader below must not replay tuning ioctls onto that card.
+                        logger -t changxing60-audio "6.x audio modules provided by initramfs"
+                        return 0
+                        ;;
+        esac
 	[ -x /opt/changxing60/bin/changxing60-audio-load ] || {
 		logger -t changxing60-audio "no loader at /opt/changxing60/bin/changxing60-audio-load"
 		return 0

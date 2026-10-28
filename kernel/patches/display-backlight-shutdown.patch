@@ -1,0 +1,38 @@
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_bl.c b/drivers/unisoc_platform/sprd_disp/sprd_bl.c
+index 79a38e8ae..eb791c8fd 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_bl.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_bl.c
+@@ -267,6 +267,25 @@ static int sprd_backlight_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static void sprd_backlight_shutdown(struct platform_device *pdev)
++{
++	struct backlight_device *bd = platform_get_drvdata(pdev);
++
++	if (!bd)
++		return;
++
++	/*
++	 * Hand the panel over dark. drm_atomic_helper_shutdown() disables the CRTC,
++	 * but the PWM is a separate device: if it is left enabled at its last duty
++	 * the panel keeps showing the last frame after Linux reboots, which is the
++	 * grey/ghosted screen Android then has to clear.
++	 */
++	bd->props.brightness = 0;
++	bd->props.power = FB_BLANK_POWERDOWN;
++	bd->props.state |= BL_CORE_FBBLANK;
++	backlight_update_status(bd);
++}
++
+ static const struct of_device_id sprd_backlight_of_match[] = {
+ 	{ .compatible = "sprd,sharkl3-backlight" },
+ 	{ .compatible = "sprd,sharkl5-backlight" },
+@@ -283,6 +302,7 @@ struct platform_driver sprd_backlight_driver = {
+ 		.of_match_table	= sprd_backlight_of_match,
+ 	},
+ 	.probe		= sprd_backlight_probe,
++	.shutdown	= sprd_backlight_shutdown,
+ };
+ 
+ MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com>");

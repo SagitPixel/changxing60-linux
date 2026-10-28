@@ -1,0 +1,111 @@
+diff --git a/drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c b/drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c
+index a6db3a180..8ad03c8ab 100644
+--- a/drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c
++++ b/drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c
+@@ -24,6 +24,17 @@ static struct clk *clk_dpuvsp_eb;
+ static struct clk *clk_dpuvsp_disp_eb;
+ 
+ static struct reset_control *ctx_reset, *s_ctx_reset;
++/*
++ * The vendor DT describes the DSI resets the 5.4 way:
++ *   dsi@31300000  reset-syscon = <&glbreg 0x04 0x02>
++ *   dsi1@31400000 reset        = <&glbreg 0x04 0x04>; syscon-names = "reset";
++ * and has no resets/reset-names for the reset framework, so
++ * devm_reset_control_get() fails and the controller was never reset when
++ * Linux took over a panel already running under Android.  Keep the syscon
++ * fallback so the global reset is actually toggled.
++ */
++static struct regmap *dsi_ctx_regmap, *dsi_s_ctx_regmap;
++static u32 dsi_ctx_reg, dsi_ctx_mask, dsi_s_ctx_reg, dsi_s_ctx_mask;
+ 
+ static int dsi_glb_parse_dt(struct dsi_context *ctx,
+ 		struct device_node *np)
+@@ -66,9 +77,21 @@ static int dsi_glb_parse_dt(struct dsi_context *ctx,
+ 	}
+ 
+ 	ctx_reset = devm_reset_control_get(&pdev->dev, "dsi_rst");
+-	if (IS_ERR(ctx_reset)) {
+-		pr_warn("read ctx_reset failed\n");
+-		return PTR_ERR(ctx_reset);
++	if (IS_ERR_OR_NULL(ctx_reset)) {
++		u32 args[2];
++
++		ctx_reset = NULL;
++		dsi_ctx_regmap = syscon_regmap_lookup_by_phandle_args(np,
++				"reset-syscon", 2, args);
++		if (IS_ERR(dsi_ctx_regmap)) {
++			pr_warn("read ctx_reset failed\n");
++			dsi_ctx_regmap = NULL;
++		} else {
++			dsi_ctx_reg = args[0];
++			dsi_ctx_mask = args[1];
++			pr_info("dsi reset via reset-syscon reg=%#x mask=%#x\n",
++				dsi_ctx_reg, dsi_ctx_mask);
++		}
+ 	}
+ 
+ 	return 0;
+@@ -90,9 +113,21 @@ static int dsi_s_glb_parse_dt(struct dsi_context *ctx,
+ 	}
+ 
+ 	s_ctx_reset = devm_reset_control_get(&dsi->dev, "s_dsi_rst");
+-	if (IS_ERR(s_ctx_reset)) {
+-		pr_warn("read s_ctx_reset failed\n");
+-		return PTR_ERR(s_ctx_reset);
++	if (IS_ERR_OR_NULL(s_ctx_reset)) {
++		u32 args[2];
++
++		s_ctx_reset = NULL;
++		dsi_s_ctx_regmap = syscon_regmap_lookup_by_phandle_args(np,
++				"reset", 2, args);
++		if (IS_ERR(dsi_s_ctx_regmap)) {
++			pr_warn("read s_ctx_reset failed\n");
++			dsi_s_ctx_regmap = NULL;
++		} else {
++			dsi_s_ctx_reg = args[0];
++			dsi_s_ctx_mask = args[1];
++			pr_info("dsi1 reset via syscon reg=%#x mask=%#x\n",
++				dsi_s_ctx_reg, dsi_s_ctx_mask);
++		}
+ 	}
+ 
+ 	return 0;
+@@ -200,19 +235,36 @@ static void dsi_s_glb_disable(struct dsi_context *ctx)
+ 
+ static void dsi_reset(struct dsi_context *ctx)
+ {
+-	if (!IS_ERR(ctx_reset)) {
++	if (!IS_ERR_OR_NULL(ctx_reset)) {
+ 		reset_control_assert(ctx_reset);
+ 		udelay(10);
+ 		reset_control_deassert(ctx_reset);
++		return;
++	}
++
++	if (dsi_ctx_regmap) {
++		regmap_update_bits(dsi_ctx_regmap, dsi_ctx_reg, dsi_ctx_mask,
++				dsi_ctx_mask);
++		udelay(10);
++		regmap_update_bits(dsi_ctx_regmap, dsi_ctx_reg, dsi_ctx_mask, 0);
+ 	}
+ }
+ 
+ static void dsi_s_reset(struct dsi_context *ctx)
+ {
+-	if (!IS_ERR(s_ctx_reset)) {
++	if (!IS_ERR_OR_NULL(s_ctx_reset)) {
+ 		reset_control_assert(s_ctx_reset);
+ 		udelay(10);
+ 		reset_control_deassert(s_ctx_reset);
++		return;
++	}
++
++	if (dsi_s_ctx_regmap) {
++		regmap_update_bits(dsi_s_ctx_regmap, dsi_s_ctx_reg,
++				dsi_s_ctx_mask, dsi_s_ctx_mask);
++		udelay(10);
++		regmap_update_bits(dsi_s_ctx_regmap, dsi_s_ctx_reg,
++				dsi_s_ctx_mask, 0);
+ 	}
+ }
+ 

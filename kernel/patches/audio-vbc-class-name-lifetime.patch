@@ -1,0 +1,36 @@
+Fix the lifetime of the vbc_turning class names.
+
+class_create() stores the name pointer it is given, and on 6.18
+dev_uevent_name() returns dev->class->name for every uevent on a class
+device.  vbc_turning_ndp_init() passes a stack buffer, so once it returns
+the class name points into the freed kernel stack of the modprobe task:
+the first udevtrigger write to /sys/devices/virtual/vbc_turning0/.../uevent
+faults in add_uevent_var() -> vsnprintf() -> string() and panics the kernel
+(observed 2026-10-28 on the OpenWrt boot, 20 s in, from procd's
+/sbin/udevtrigger).
+
+Keep one name buffer per turning device for the life of the module.
+
+--- a/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c
++++ b/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c
+@@ -3487,7 +3487,11 @@
+ 	unsigned int minor = 0;
+ 	u8 index = 0;
+-	char ndp_name[32];
++	/* class_create() keeps this pointer: dev_uevent_name() reads
++	 * dev->class->name on every uevent, so the buffer must outlive this
++	 * function and the modprobe task's kernel stack. */
++	static char ndp_names[AUD_TURNING_PRO_CNTS][32];
++	char *ndp_name;
+ 
+ 	result = alloc_chrdev_region(&devid, AUD_TURNING_MINOR_START, AUD_TURNING_PRO_CNTS, AUDIO_TURNING_PATH_BASE);
+ 	if (result < 0) {
+@@ -3513,9 +3517,10 @@
+-		memset(&ndp_name[0], 0, sizeof(char) * 32);
+-		sprintf(&ndp_name[0], "%s%d", AUDIO_TURNING_PATH_BASE, index);
++		ndp_name = ndp_names[index];
++		memset(ndp_name, 0, sizeof(ndp_names[index]));
++		snprintf(ndp_name, sizeof(ndp_names[index]), "%s%d", AUDIO_TURNING_PATH_BASE, index);
+ 		pr_info("%s,ndp_name = %s !\n", __func__, ndp_name);
+ 		aud_turning[index].turing_class = class_create(ndp_name);
+ 		if (IS_ERR(aud_turning[index].turing_class)) {

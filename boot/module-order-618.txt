@@ -3,6 +3,8 @@ snd-soc-sprd-card.ko
 unisoc-mailbox.ko
 sprd_power_manager.ko
 sipc-core.ko
+wcn_bsp.ko
+sprd_wlan_combo.ko
 agdsp_pd.ko
 audio_mem.ko
 audio_sipc.ko

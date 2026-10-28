@@ -5,6 +5,16 @@ USE_PROCD=1
 export PATH="$PATH:/opt/changxing60/busybox-bin"
 
 start_service() {
+	case "$(uname -r)" in
+		6.*)
+			# 6.18 has no vendor modem/WCN stack: mobile-data's last-resort
+			# reboot (300 s) and hotspot-watch would fight the bring-up and
+			# add surprise reboots. The 6.x audio/WCN modules come from the
+			# initramfs instead of this 5.4 loader.
+			logger -t changxing60-post "6.x: vendor modem/WiFi watchers skipped"
+			return 0
+			;;
+	esac
 	# Why did this boot happen? Write it down. /proc/cmdline's bootcause is generated per boot by the
 	# bootloader, and pstore keeps only ONE crash record, so without this line a reboot's cause is gone
 	# the moment the next one lands. That is not hypothetical: on 2026-10-16 an oops in the audio path

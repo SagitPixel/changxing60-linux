@@ -1,0 +1,51 @@
+diff --git a/drivers/mmc/host/sdhci-sprd.c b/drivers/mmc/host/sdhci-sprd.c
+index c2acafd37..9c8137963 100644
+--- a/drivers/mmc/host/sdhci-sprd.c
++++ b/drivers/mmc/host/sdhci-sprd.c
+@@ -596,6 +596,17 @@ static void sdhci_sprd_set_power(struct sdhci_host *host, unsigned char mode,
+ 	sprd_host->sd_power_mode = mode;
+ 	sprd_host->sd_power_vdd = vdd;
+ 	sprd_host->sd_power_valid = true;
++
++	/*
++	 * The generic sdhci core no longer writes SDHCI_POWER_CONTROL for a
++	 * controller that installs .set_power: sdhci_set_power_and_bus_voltage()
++	 * delegates the whole job to the op.  The vendor op only programmed the
++	 * regulators, so on 6.18 the power register stayed 0 and the SC2355 SDIO
++	 * slot (mmc1, sdio_wifi) never powered up -- CMD5 had no response and
++	 * the WCN scan timed out.  Write the register here, as the 5.4 core used
++	 * to do.
++	 */
++	sdhci_set_power_noreg(host, mode, vdd);
+ }
+ 
+ static const struct sdhci_ops sdhci_sprd_ops = {
+@@ -1073,6 +1084,28 @@ static int sdhci_sprd_probe(struct platform_device *pdev)
+ 		host->mmc->ocr_avail_mmc &= ocr_mask;
+ 	}
+ 
++	/*
++	 * The vendor DT gives sdio@22220000 (sprd,name = sdio_wifi, the
++	 * SC2355) no vmmc-supply.  With a dummy regulator the OCR mask can
++	 * end up empty, so mmc_power_up() hands .set_power a vdd of 0 and
++	 * SDHCI_POWER_CONTROL is written as 0 -- CMD5 then goes out with
++	 * argument 0 and the WCN SDIO scan times out although the chip itself
++	 * is powered.  The slot is a 3.3 V part on this board; force the 3.3 V
++	 * range for the wifi host only.
++	 */
++	if (of_property_match_string(pdev->dev.of_node, "sprd,name",
++				     "sdio_wifi") >= 0) {
++		host->mmc->ocr_avail |= MMC_VDD_32_33 | MMC_VDD_33_34;
++		host->mmc->ocr_avail_sdio |= MMC_VDD_32_33 | MMC_VDD_33_34;
++		/* WCN powers the chip after the host's initial scan and requests
++		 * another scan through mmc_detect_change(). NONREMOVABLE would
++		 * make mmc_rescan() return after that first, unpowered attempt.
++		 * BROKEN_CARD_DETECTION already makes get_cd() return present.
++		 */
++		host->mmc->caps &= ~MMC_CAP_NONREMOVABLE;
++		dev_info(&pdev->dev, "Wi-Fi SDIO: WCN-controlled power and rescans\n");
++	}
++
+ 	/*
+ 	 * A controller for an SDIO chip only (the Wi-Fi/BT combo chip: no-sd,
+ 	 * no-mmc) is not polled for a card: the chip's driver powers it and

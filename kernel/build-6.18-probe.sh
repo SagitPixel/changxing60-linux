@@ -47,6 +47,12 @@ CONFIG_SCSI_UFS_SPRD=y
 CONFIG_SCSI_UFS_BSG=y
 CONFIG_BLK_DEV_SD=y
 CONFIG_EXT4_FS=y
+# WCN：sdiohal 必须只存在一份。wcn_bsp.ko / sprd_wlan_combo.ko 自己带了一套
+# sdio/sdiohal_*.o；如果内核再内置一份（本行原先是 y），wcn_bsp 里的
+# sdiohal 注册会报 "Driver 'sdiohal' is already registered"，
+# 接着 "WCN SDIO: wait scan card time out"，SC2355 的 SDIO 永远扫不到。
+# 所以这里关掉内置版本，让模块里的那份接管。
+# CONFIG_SDIOHAL is not set
 # audio-legacy-dt.c 用 of_changeset_*，这些声明在 CONFIG_OF_DYNAMIC 里
 CONFIG_OF_DYNAMIC=y
 CONFIG_OF_OVERLAY=y
