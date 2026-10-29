@@ -57,6 +57,21 @@ roots = [
     'sprd-compr-2stage-dma.ko',
     'sprd-platform-pcm-routing.ko',
     'snd-soc-sprd-card.ko',
+    # Not audio. Every one of these was in the verified image's /etc/module-order;
+    # before they were listed here this script regenerated the file without them and
+    # the rebuilt image booted with no Wi-Fi, no internal panel and no SIPA/modem.
+    # boot/module-order-618.txt stays the authoritative list -- diff the output of
+    # this script against it before committing a regeneration.
+    'sprd-sipc-virt-bus.ko',
+    'sprd_modem_loader.ko',
+    'spipe.ko',
+    'spool.ko',
+    'sipa-core.ko',
+    'sipa_eth.ko',
+    'sipa-dele.ko',
+    'wcn_bsp.ko',
+    'sprd_wlan_combo.ko',
+    'sprd-drm.ko',
 ]
 
 order = []

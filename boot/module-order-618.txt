@@ -7,6 +7,15 @@ snd-soc-sprd-card.ko
 unisoc-mailbox.ko
 sprd_power_manager.ko
 sipc-core.ko
+sprd-sipc-virt-bus.ko
+sprd_modem_loader.ko
+spipe.ko
+spool.ko
+sipa-core.ko
+sipa_eth.ko
+sipa-dele.ko
+wcn_bsp.ko
+sprd_wlan_combo.ko
 agdsp_pd.ko
 audio_mem.ko
 audio_sipc.ko
@@ -25,3 +34,10 @@ snd-soc-sprd-dummy-codec.ko
 sprd-dmaengine-pcm.ko
 sprd-compr-2stage-dma.ko
 sprd-platform-pcm-routing.ko
+sprd_vpu_pw_domain.ko
+drm_kms_helper.ko
+unisoc-iommu.ko
+drm_client_lib.ko
+drm_dma_helper.ko
+ocp2131.ko
+sprd-drm.ko

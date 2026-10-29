@@ -13,7 +13,12 @@ parts=root('for u in /sys/class/block/*/uevent; do n=$(sed -n "s/^PARTNAME=//p" 
 parsed=[x.split() for x in parts];assert len(parsed)==2 and len({x[0] for x in parsed})==2
 parts=dict(parsed);boot=parts['boot_b'];misc=parts['misc']
 assert root('test -b '+boot+' && test -b '+misc+' && cat /sys/class/block/'+boot.split('/')[-1]+'/size').strip()==b'131072'
-before=root('cat '+misc);assert before==(HERE/'misc-restored.img').read_bytes(), 'misc differs from restored baseline; stop'
+before=root('cat '+misc);base=(HERE/'misc-restored.img').read_bytes()
+# The invariant is "nothing outside the 2048-byte..32-byte BCB window changed since the
+# restore". The bootloader legitimately rewrites that window on every boot (slot_suffix,
+# success/retry bits, CRC), so only the bytes outside it are compared byte-for-byte.
+assert len(before)==len(base)==1048576, 'misc size differs from restored baseline; stop'
+assert not [i for i in range(len(base)) if not (2048<=i<2080) and before[i]!=base[i]], 'misc outside BCB window differs from restored baseline; stop'
 (HERE/(image.stem+'-misc-before.img')).write_bytes(before)
 for src,dst in [(image,'/root/codex-wifi-keep.img'),(HERE/'bcb-trial.bin','/root/codex-wifi-trial.bin'),(HERE/'misc-restored.img','/root/codex-misc-restored-backup.img')]:
  subprocess.run(ssh+['cat > '+dst],input=src.read_bytes(),check=True)

@@ -27,7 +27,7 @@
 |---|---|---|---|
 | P1 | 充电输入检测/启停尚未闭环 | Type-C/extcon 显示 USB=1，但 battery=Discharging、usb.online=0、输入电流限制为 0；FGU 电流为负。BQ ONLINE 的实现返回 chip_type，不能据此确认外部电源 | 对照原厂 BC1.2/Type-C/charger-manager 事件链及实际芯片状态，验证插拔和充电电流；不靠强写充电寄存器绕过 |
 | P1 | 板温未接入 charger-manager | `Can not to get board temperature` 707 次。真实 board-thmzone 约 41.6～42°C，而管理器 TEMP_AMBIENT=25°C；DT 无 cm-thermal-zone | 接通真实板温来源，核实温控策略；电池自身温度已可读，不等于板温缺口已解决 |
-| P2 | SoC 温控设备仍 defer | 64270000、64280000、64290000、642a0000 四个 thermal 设备未完成绑定；目前只有 chg/nr/pa/board/battery 温区 | 查各节点资源和校准依赖，补齐 SoC 结温通路；与上面的板温接入分开验证 |
+| P2 | ~~SoC 温控设备仍 defer~~ **已修（2026-10-30，`#66`）** | 根因是 efuse provider 无驱动（`sprd,qogirn6pro-efuse` 不在 match 表）；补丁后四个控制器全部绑定，zone 从 5 个变 24 个 | 已完成，见 `THERMAL-STATUS-2026-10-30.md`；trip point/降频仍未接（`virtual-thermal`） |
 | P2 | 旧 charge-fix 定时任务不适配 | 每分钟执行；等待 `/sys/class/power_supply/bq2560x_charger/device/registers`，但新驱动没有该路径；可见 process already running | 在电源修复时一并移除/替换旧任务，避免每分钟空等及误用旧寄存器参数 |
 | P2 | SIPA 休眠反复返回 EAGAIN | `thread prepare suspend err` 31 次、`task fill_recv 0` 31 次；源码在 RX FIFO 仍需补充时拒绝休眠并延长唤醒 500ms | 观察流量结束后接收队列能否清空，验证休眠与恢复；不能据此判断蜂窝网络已断 |
 | P2 | Wi-Fi 断连附近的 LUT/发包异常 | bssid not found 169 次、sta disconn 169 次、TX Err 166 次、CMD_TX_DATA 固件错误 6 次、BA reorder timeout 281 次 | 对照客户端连接/离开及流量时间线，确认是否只是在客户端离开后继续发包；当前热点仍 UP，不算固件崩溃证据 |

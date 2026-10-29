@@ -1,0 +1,29 @@
+diff --git a/drivers/nvmem/sprd-efuse.c b/drivers/nvmem/sprd-efuse.c
+--- a/drivers/nvmem/sprd-efuse.c
++++ b/drivers/nvmem/sprd-efuse.c
+@@ -72,8 +72,15 @@
+ static const struct sprd_efuse_variant_data ums312_data = {
+ 	.blk_nums = SPRD_EFUSE_NORMAL_BLOCK_NUMS,
+ 	.blk_offset = SPRD_EFUSE_NORMAL_BLOCK_OFFSET,
+ 	.blk_double = false,
++};
++
++/* UMS9620 QogirN6Pro: same geometry as N6Lite in the Unisoc 5.15 tree. */
++static const struct sprd_efuse_variant_data qogirn6pro_data = {
++	.blk_nums = 51,
++	.blk_offset = 53,
++	.blk_double = true,
+ };
+ 
+ /* UMS9620/UMS9621 (QogirN6Pro/N6Lite): the values of the Unisoc 5.15 tree */
+ static const struct sprd_efuse_variant_data qogirn6lite_data = {
+@@ -431,8 +438,9 @@
+ 
+ static const struct of_device_id sprd_efuse_of_match[] = {
+ 	{ .compatible = "sprd,ums312-efuse", .data = &ums312_data },
+ 	{ .compatible = "sprd,qogirn6lite-efuse", .data = &qogirn6lite_data },
++	{ .compatible = "sprd,qogirn6pro-efuse", .data = &qogirn6pro_data },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(of, sprd_efuse_of_match);
+ 

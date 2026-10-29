@@ -159,6 +159,7 @@ while read module; do
     # opt-in so other devices and the 5.4 module set retain their defaults.
     set --
     case "$(uname -r):$module" in
+        6.*:sprd-charger-manager.ko) set -- legacy_usb_extcon=1 legacy_board_thermal_zone=board-thmzone ;;
         6.*:wcn_bsp.ko) set -- keep_power_on=1 ;;
     esac
     if insmod "$file" "$@" 2>/run/insmod.err; then

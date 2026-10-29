@@ -5,8 +5,13 @@ device bypasses verification), and updates the AVB footer's original_size so the
 footer still parses.
 
 usage: swap-kernel.py --src boot.img --kernel Image.lk --out boot-new.img
+
+Writes <out>.json beside the image, the same sidecar repack-ramdisk.py writes, because
+the audited flashing script refuses to write an image whose sha256 is not recorded there.
 """
 import argparse
+import hashlib
+import json
 import struct
 from pathlib import Path
 
@@ -65,6 +70,15 @@ def main():
     image = body + bytes(footer)
     assert len(image) == len(base), f"size mismatch {len(image)} != {len(base)}"
     a.out.write_bytes(image)
+    a.out.with_suffix('.json').write_text(json.dumps({
+        'image': a.out.name,
+        'base': a.src.name,
+        'sha256': hashlib.sha256(image).hexdigest(),
+        'sha256_head56m': hashlib.sha256(image[:56 << 20]).hexdigest(),
+        'kernel_sha256': hashlib.sha256(kern).hexdigest(),
+        'ramdisk_size': rdsz,
+        'replaced': {},
+    }, indent=2) + '\n')
     print(f"out: {a.out} ({len(image)} bytes), kernel {len(kern)}")
 
 
