@@ -1,0 +1,24 @@
+# baseline/ 只收文本证据和脚本。以下三类不进历史：
+#   1) 从设备扒下来的原厂文件系统 / 预编译二进制 —— 专有、体量大（wifi-resume 一轮就是 2.7 GB）；
+#   2) 内核镜像与 misc/boot 分区镜像 —— 由 boot/make-618-image.sh 可重建，且每份几十 MB；
+#   3) 原始 dmesg/syslog/trace —— 含 IMEI、ICCID、串号、手机号等设备标识。
+# 它们仍留在工作区（本机）用于复核，只是不随仓库走。
+stock-*/
+nv-backup/
+Image*
+*.lk
+*.wav
+*.img
+*.img.gz
+dmesg.txt
+syslog.txt
+syslog-errors.txt
+kernel-errors.txt
+kernel-error-candidates.txt
+trace-*.txt
+*-full.txt
+ipd-early-recorder.txt
+native-msdu-net.txt
+flash-android-checked.py
+sms-incoming-check.txt
+stages.txt

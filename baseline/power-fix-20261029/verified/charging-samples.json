@@ -1,0 +1,38 @@
+[
+  {
+    "status": "Charging",
+    "online": "1",
+    "current_now": "104000",
+    "voltage_now": "3763000",
+    "temp_ambient": "444",
+    "usb_type": "Unknown [SDP] DCP CDP C PD PD_DRP BrickID",
+    "input_current_limit": "500000"
+  },
+  {
+    "status": "Charging",
+    "online": "1",
+    "current_now": "185000",
+    "voltage_now": "3777000",
+    "temp_ambient": "444",
+    "usb_type": "Unknown [SDP] DCP CDP C PD PD_DRP BrickID",
+    "input_current_limit": "500000"
+  },
+  {
+    "status": "Charging",
+    "online": "1",
+    "current_now": "153000",
+    "voltage_now": "3772000",
+    "temp_ambient": "444",
+    "usb_type": "Unknown [SDP] DCP CDP C PD PD_DRP BrickID",
+    "input_current_limit": "500000"
+  },
+  {
+    "status": "Charging",
+    "online": "1",
+    "current_now": "168000",
+    "voltage_now": "3776000",
+    "temp_ambient": "445",
+    "usb_type": "Unknown [SDP] DCP CDP C PD PD_DRP BrickID",
+    "input_current_limit": "500000"
+  }
+]

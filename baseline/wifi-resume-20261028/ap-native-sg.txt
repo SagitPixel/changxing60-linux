@@ -1,0 +1,63 @@
+phy#0
+	Interface wlan0
+		ifindex 17
+		wdev 0x8
+		addr 40:45:da:79:8e:dc
+		ssid CHANGXING60-CEAB
+		type AP
+		channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz
+[18011.847405] sdhci_set_power_noreg: vdd=0x0 pwr=0x0 host_pwr=0x0 reg=0x0
+[18011.847410] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[18011.848468] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[18011.848470] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[18011.860997] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.874155] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[18011.874266] sdio cmd52: fn=0 addr=0x6 wr=0 ret=-110 resp0=0x00000000
+[18011.874822] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[18011.874835] sdio cmd52: fn=0 addr=0x6 wr=1 ret=-110 resp0=0x00000000
+[18011.874840] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.877592] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.879537] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.880102] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.880753] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.881405] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.881521] sdhci_set_power_noreg: vdd=0x0 pwr=0x0 host_pwr=0x0 reg=0x0
+[18011.881526] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[18011.882791] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[18011.882793] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[18011.895331] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.908880] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[18011.909202] sdio cmd52: fn=0 addr=0x6 wr=0 ret=-110 resp0=0x00000000
+[18011.910028] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[18011.910043] sdio cmd52: fn=0 addr=0x6 wr=1 ret=-110 resp0=0x00000000
+[18011.910047] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.912908] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.915121] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.915958] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.916996] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.918122] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.918421] sdhci_set_power_noreg: vdd=0x0 pwr=0x0 host_pwr=0x0 reg=0x0
+[18011.918426] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[18011.919693] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[18011.919695] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[18011.932244] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.946594] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[18011.946892] sdio cmd52: fn=0 addr=0x6 wr=0 ret=-110 resp0=0x00000000
+[18011.948534] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[18011.948548] sdio cmd52: fn=0 addr=0x6 wr=1 ret=-110 resp0=0x00000000
+[18011.948553] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.951723] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[18011.954738] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.956373] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.958213] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.960133] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[18011.960154] sdhci_set_power_noreg: vdd=0x0 pwr=0x0 host_pwr=0x0 reg=0x0
+[18011.960159] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[18012.316467] sprd-wlan: Try to report assert a 2 time 
+[18012.316485] sprd-wlan: sprd_iface_report_assert_evt success
+[18012.832471] sprd-wlan: Try to report assert a 3 time 
+[18012.832489] sprd-wlan: sprd_iface_report_assert_evt success
+[18013.340467] sprd-wlan: Try to report assert a 4 time 
+[18013.340484] sprd-wlan: sprd_iface_report_assert_evt success
+[18013.852474] sprd-wlan: Try to report assert a 5 time 
+[18013.852490] sprd-wlan: sprd_iface_report_assert_evt success

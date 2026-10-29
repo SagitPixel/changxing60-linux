@@ -1,0 +1,14 @@
+root@changxing60:~# > active
+command failed: Out of memory (-12)
+scan_rc=244
+0
+[    8.559842] WCN MEM_PD: save_bin_cp_ready ,cp while(1) state
+[    8.593907] WCN MEM_PD: save_bin_cp_ready ,wifi/bt power down, wait event
+[    8.740771] mmc1: new UHS-I speed SDR104 SDIO card at address 8800
+[   19.736070] WCN BASEcheck_cp_ready sync val:0xf0f0f0f2, prj_type val:0x0
+[   24.927656] WCN BASE error: fw assert:[CMD] CMD_SYNC_VERSION, [REASON] CMD_RSP_TIMEOUT_ERROR
+[   34.327552] WCN SDIO: sdiohal_config_packer_chain:CMD53 write failed with code -110
+[  123.167167] mmc1: new UHS-I speed SDR104 SDIO card at address 8800
+[  123.605180] WCN MEM_PD: save_bin_cp_ready ,cp while(1) state
+[  123.609800] WCN MEM_PD: save_bin_cp_ready ,wifi/bt power down, wait event
+[  126.817550] WCN BASE error: fw assert:[CMD] CMD_SYNC_VERSION, [REASON] CMD_RSP_TIMEOUT_ERROR

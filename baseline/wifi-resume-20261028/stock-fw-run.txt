@@ -1,0 +1,19 @@
+stty -echo
+root@changxing60:~# > Linux changxing60 6.18.54-7552n-probe1+ #64 SMP Wed Oct 28 07:04:45 UTC 2026 aarch64 GNU/Linux
+Y
+phy#0
+	Interface wlan0
+		ifindex 2
+		wdev 0x1
+		addr 40:45:da:79:8e:dc
+		type managed
+mmc1:8800:1
+[    5.555274] WCN BASEwcn config keep power on
+[    6.244040] WCN BASEmarlin power state:0, subsys: [WCN_AUTO] power 1
+[   12.951480] WCN MEM_PD: save_bin_cp_ready ,cp while(1) state
+[   13.056965] WCN MEM_PD: save_bin_cp_ready ,wifi/bt power down, wait event
+[   13.158460] WCN BASEmarlin power state:100, subsys: [WCN_AUTO] power 0
+[   13.162483] WCN BASEmarlin power state:100, subsys: [MARLIN_WIFI] power 1
+[   13.318267] WCN BASEmarlin power state:104, subsys: [MARLIN_WIFI] power 0
+[   15.585346] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+[   16.774203] CHANGXING60-LINUX: dmesg: [   15.585346] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0

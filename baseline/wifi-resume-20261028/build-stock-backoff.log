@@ -1,0 +1,11 @@
+make: Entering directory '/k/linux'
+make[1]: Entering directory '/k/build'
+  GEN     Makefile
+  UPD     include/generated/compile.h
+  CALL    /k/linux/scripts/checksyscalls.sh
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.o
+  LD [M]  drivers/unisoc_platform/sprd_wlan_combo/sprd_wlan_combo.o
+  MODPOST Module.symvers
+  LD [M]  drivers/unisoc_platform/sprd_wlan_combo/sprd_wlan_combo.ko
+make[1]: Leaving directory '/k/build'
+make: Leaving directory '/k/linux'

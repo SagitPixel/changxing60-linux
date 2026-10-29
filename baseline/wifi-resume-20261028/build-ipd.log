@@ -1,0 +1,100 @@
+make: Entering directory '/k/linux'
+make[1]: Entering directory '/k/build'
+  GEN     Makefile
+  UPD     include/generated/compile.h
+  CALL    /k/linux/scripts/checksyscalls.sh
+  CC [M]  drivers/unisoc_platform/sprd_bt/tty-515/lpm.o
+  CC [M]  drivers/unisoc_platform/sprd_bt/tty-515/rfkill.o
+  CC [M]  drivers/unisoc_platform/sprd_bt/tty-515/tty.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_procfs.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_txrx.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_log.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_op.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/sysfs.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/sprd_wlan.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/debug.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/reset.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/reset_test.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/loopcheck.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/rf/rf.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_dump_integrate.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_boot.o
+  LD [M]  drivers/unisoc_platform/sprd_bt/sprdbt_tty.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/gnss/gnss.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/delay_work.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_dump.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/gnss_dump.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/iface.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_swd_dap.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/mem_pd_mgr.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/npi.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_debugfs.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/report.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sleep/sdio_int.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sleep/slp_mgr.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sleep/slp_sdio.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/apf.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sleep/slp_test.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/boot/wcn_integrate.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/boot/wcn_integrate_dev.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/tdls.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/boot/wcn_integrate_boot.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/chr.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/common/wifi_config.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/boot/wcn_debug_bus.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sipc/wcn_sipc.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sdio/sdiohal_main.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sdio/sdiohal_common.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sdio/sdiohal_tx.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sdio/sdiohal_rx.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/sdio/sdiohal_if.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/init.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/cmdevt.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/scan.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/tcp_ack.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/txrx.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/fcc.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/vendor.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/wapi.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2332/sipc.o
+  LD [M]  drivers/unisoc_platform/sprdwcn/wcn_bsp.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/acs.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/api_version.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/defrag.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/hw_param.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/init.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/mm.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/qos.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/reorder.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/rx.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/scan.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/tcp_ack.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/tx.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/fcc.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/vendor.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/rtt.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/cpu_performance.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/sdio.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/hw_sipc_param.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/sipc.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/sipc_buf.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/pcie.o
+  CC [M]  drivers/unisoc_platform/sprd_wlan_combo/sc2355/pcie_buf.o
+/k/linux/drivers/unisoc_platform/sprd_wlan_combo/sc2355/fcc.c:75025:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+ 75025 |         default:
+       |         ^
+/k/linux/drivers/unisoc_platform/sprd_wlan_combo/sc2355/fcc.c:75025:2: note: insert 'break;' to avoid fall-through
+ 75025 |         default:
+       |         ^
+       |         break; 
+1 warning generated.
+  LD [M]  drivers/unisoc_platform/sprd_wlan_combo/sprd_wlan_combo.o
+  MODPOST Module.symvers
+  CC [M]  drivers/unisoc_platform/sprdwcn/wcn_bsp.mod.o
+  LD [M]  drivers/unisoc_platform/sprd_wlan_combo/sprd_wlan_combo.ko
+  LD [M]  drivers/unisoc_platform/sprd_bt/sprdbt_tty.ko
+  LD [M]  drivers/unisoc_platform/sprdwcn/wcn_bsp.ko
+make[1]: Leaving directory '/k/build'
+make: Leaving directory '/k/linux'

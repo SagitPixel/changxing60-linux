@@ -1,0 +1,30 @@
+diff --git a/drivers/unisoc_platform/sprdwcn/sdio/sdiohal_tx.c b/drivers/unisoc_platform/sprdwcn/sdio/sdiohal_tx.c
+index ce0271502..100af84bc 100644
+--- a/drivers/unisoc_platform/sprdwcn/sdio/sdiohal_tx.c
++++ b/drivers/unisoc_platform/sprdwcn/sdio/sdiohal_tx.c
+@@ -1,3 +1,4 @@
++#include <linux/moduleparam.h>
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+  * Copyright (C) 2020 Unisoc Communications Inc.
+@@ -53,6 +54,11 @@ int sdiohal_tx_data_list_send(struct sdiohal_list_t *data_list)
+ 	return ret;
+ }
+ 
++/* Controlled fallback to the existing linear TX path while validating SG. */
++static bool sdio_tx_copy;
++module_param(sdio_tx_copy, bool, 0644);
++MODULE_PARM_DESC(sdio_tx_copy, "Use linear SDIO TX rather than packet SG chains");
++
+ int sdiohal_tx_thread(void *data)
+ {
+ 	struct sdiohal_data_t *p_data = sdiohal_get_data();
+@@ -91,7 +97,7 @@ int sdiohal_tx_thread(void *data)
+ 			sdiohal_tx_find_data_list(&data_list);
+ 			p_data->data_list_tx = &data_list;
+ 
+-			if (p_data->adma_tx_enable) {
++			if (p_data->adma_tx_enable && !sdio_tx_copy) {
+ 				ret = sdiohal_adma_pt_write(&data_list);
+ 				if (ret)
+ 					pr_err("sdio adma write fail ret:%d\n",

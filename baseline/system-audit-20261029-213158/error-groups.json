@@ -1,0 +1,84 @@
+{
+  "kernel_lines": 54805,
+  "kernel_severities": {
+    "6": 50955,
+    "4": 2363,
+    "3": 1487
+  },
+  "error_level_lines": 1487,
+  "candidates": 2019,
+  "groups": [
+    {
+      "count": 707,
+      "message": "charger-manager charger-manager: Can not to get board temperature, return init_temp=N"
+    },
+    {
+      "count": 281,
+      "message": "sprd-wlan: enter reorder_ba_timeout lut_idx-tid N-N active N"
+    },
+    {
+      "count": 229,
+      "message": "sipa N.sipa: sipa daemon res not ready"
+    },
+    {
+      "count": 169,
+      "message": "sprd-wlan: sc2355_find_lut_index,N,bssid not found, multicast?"
+    },
+    {
+      "count": 169,
+      "message": "default of AP = N"
+    },
+    {
+      "count": 169,
+      "message": "sprd-wlan: sc2355_hif_fill_msdu_dscr, N, sta disconn, no data tx!"
+    },
+    {
+      "count": 166,
+      "message": "misc wlan wlan0: iface_start_xmit drop msg due to TX Err"
+    },
+    {
+      "count": 31,
+      "message": "sipa N.sipa: task fill_recv N"
+    },
+    {
+      "count": 31,
+      "message": "sipa N.sipa: thread prepare suspend err"
+    },
+    {
+      "count": 13,
+      "message": "sprd-wlan: tcp_ack_handle before abnormal ack: N, N"
+    },
+    {
+      "count": 13,
+      "message": "misc wlan wlan0: sprd_cfg80211_del_key key index N is empty!"
+    },
+    {
+      "count": 11,
+      "message": "[Audio:SMSG] warning aud_smsg_recv cache is empty!"
+    },
+    {
+      "count": 11,
+      "message": "[Audio:SIPC]  value2: N, value3: N, timeout: N"
+    },
+    {
+      "count": 8,
+      "message": "sprd-wlan: send N.1X frame by CMD_TX_DATA"
+    },
+    {
+      "count": 6,
+      "message": "sprd-wlan: sc2355_rx_rsp_process cid N recv rsp[CMD_TX_DATA] status[SPRD_CMD_STATUS_ERROR]"
+    },
+    {
+      "count": 2,
+      "message": "sc27xx-typec N.spi:pmic@N:typec@N: sc27xx_typec_check: count=N last=N.N delta=N.N"
+    },
+    {
+      "count": 2,
+      "message": "[ASoC:HDST9620] sprd_enable_hmicbias_polling no headset insert!"
+    },
+    {
+      "count": 1,
+      "message": "[ASoC: PCM ] return N"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+CHANGXING60-LINUX: stage=init-start pid=1
+CHANGXING60-LINUX: stage=devfs-ready
+CHANGXING60-LINUX: stage=audio-power-devices bound=13/13 wait=0s
+CHANGXING60-LINUX: stage=audio-codec-bound ok=1 seen=1 wait=0s
+CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+CHANGXING60-LINUX: stage=display-ok wait=0s
+CHANGXING60-LINUX: stage=audio-card-rebind rc=1 err=[]
+CHANGXING60-LINUX: stage=audio-dev 56360000.audio-codec bound=NONE
+CHANGXING60-LINUX: stage=audio-dev 64400000.spi:pmic@0:audio-codec@1000 bound=sprd-codec-ump9620
+CHANGXING60-LINUX: stage=audio-cards [ 0 [sprdphonesc2730]: sprdphone-sc273 - sprdphone-sc2730|                      sprdphone-sc2730|]
+CHANGXING60-LINUX: stage=modules-done-block loop0,loop1,loop10,loop11,loop12,loop13,loop14,loop15,loop2,loop3,loop4,loop5,loop6,loop7,loop8,loop9,sda,sda1,sda10,sda11,sda12,sda13,sda14,sda15,sda16,sda17,sda18,sda19,sda2,sda20,sda21,sda22,sda23,sda24,sda25,sda26,sda27,sda28,sda29,sda3,sda30,sda31,sda32,sda33,sda34,sda35,sda36,sda37,sda38,sda39,sda4,sda40,sda41,sda42,sda43,sda44,sda45,sda46,sda47,sda48,sda49,sda5,sda50,sda51,sda52,sda53,sda54,sda55,sda56,sda57,sda58,sda59,sda6,sda60,sda61,sda62,sda63,sda64,sda65,sda66,sda67,sda68,sda69,sda7,sda70,sda71,sda72,sda73,sda74,sda75,sda76,sda8,sda9,sdb,sdc,zram0,
+CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal	,64280000.thermal	,
+CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,sprd_wcn,ufshcd-sprd,
+CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+CHANGXING60-LINUX: dmesg: [   13.122118] sdhci_sprd wifi: mode=0 vdd=0x0 pwr=0x0 ctl2=0x1008
+CHANGXING60-LINUX: dmesg: [   13.135002] sdhci_set_power_noreg: vdd=0x15 pwr=0xf host_pwr=0xe reg=0x0
+CHANGXING60-LINUX: dmesg: [   13.138808] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-vsp pagetable: virt[0xffffffc0841e1000], phy[0xd0c00000], size:0x100000
+CHANGXING60-LINUX: dmesg: [   13.144532] sdhci_sprd wifi: mode=1 vdd=0x15 pwr=0x0 ctl2=0x1008
+CHANGXING60-LINUX: dmesg: [   13.170228] sdhci_sprd wifi: mode=2 vdd=0x15 pwr=0x0 ctl2=0x1008
+CHANGXING60-LINUX: dmesg: [   13.219602] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   13.219611] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+CHANGXING60-LINUX: dmesg: [   13.219613] musb-sprd 64a00000.usb: musb dr_mode: 3
+CHANGXING60-LINUX: dmesg: [   13.219624] musb-sprd 64a00000.usb: Error getting usb-phy -517
+CHANGXING60-LINUX: dmesg: [   13.228388] sdhci_sprd wifi: mode=2 vdd=0x15 pwr=0x0 ctl2=0x1008
+CHANGXING60-LINUX: dmesg: [   13.231559] sdhci_sprd wifi: mode=2 vdd=0x15 pwr=0x0 ctl2=0x1008
+CHANGXING60-LINUX: dmesg: [   13.259249] sdhci_set_power_noreg: vdd=0x0 pwr=0x0 host_pwr=0x0 reg=0x0
+CHANGXING60-LINUX: dmesg: [   13.265959] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x36000000
+CHANGXING60-LINUX: dmesg: [   13.272262] sdhci_sprd wifi: mode=0 vdd=0x0 pwr=0x0 ctl2=0x1008
+CHANGXING60-LINUX: dmesg: [   13.507143] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x36000300
+CHANGXING60-LINUX: dmesg: [   13.542790] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-jpg pagetable: virt[0xffffffc084361000], phy[0x82380000], size:0x80000
+CHANGXING60-LINUX: dmesg: [   13.571622] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   13.587728] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+CHANGXING60-LINUX: dmesg: [   13.592323] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x31880000
+CHANGXING60-LINUX: dmesg: [   13.600874] musb-sprd 64a00000.usb: musb dr_mode: 3
+CHANGXING60-LINUX: dmesg: [   13.612481] musb-sprd 64a00000.usb: Error getting usb-phy -517
+CHANGXING60-LINUX: dmesg: [   13.620436] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x31880800
+CHANGXING60-LINUX: dmesg: [   13.697207] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-dispc1 pagetable: virt[0xffffffc084441000], phy[0xd0d00000], size:0x40000
+CHANGXING60-LINUX: dmesg: [   13.726747] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   13.734479] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+CHANGXING60-LINUX: dmesg: [   13.743029] musb-sprd 64a00000.usb: musb dr_mode: 3
+CHANGXING60-LINUX: dmesg: [   13.747886] musb-sprd 64a00000.usb: Error getting usb-phy -517
+CHANGXING60-LINUX: dmesg: [   13.819414] [drm] backlight is not ready, dpu probe deferred
+CHANGXING60-LINUX: dmesg: [   13.853977] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   13.861703] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+CHANGXING60-LINUX: dmesg: [   13.878305] musb-sprd 64a00000.usb: musb dr_mode: 3
+CHANGXING60-LINUX: dmesg: [   13.887924] musb-sprd 64a00000.usb: Error getting usb-phy -517
+CHANGXING60-LINUX: dmesg: [   13.953382] /soc/dpuvsp/dphy: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000/panel
+CHANGXING60-LINUX: dmesg: [   13.970608] /soc/dpuvsp/dsi@31300000/panel: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+CHANGXING60-LINUX: dmesg: [   13.998944] [drm][    dpu_context_init] read widevine-use-fastcall failed, fastcall_en = false
+CHANGXING60-LINUX: dmesg: [   14.015641] [drm][    dpu_context_init] read arqos-low failed, use default
+CHANGXING60-LINUX: dmesg: [   14.015642] [drm][    dpu_context_init] read arqos-high failed, use default
+CHANGXING60-LINUX: dmesg: [   14.015643] [drm][    dpu_context_init] read awqos_low failed, use default
+CHANGXING60-LINUX: dmesg: [   14.015644] [drm][    dpu_context_init] read awqos-high failed, use default
+CHANGXING60-LINUX: dmesg: [   14.015707] [drm][    dpu_glb_parse_dt] read ctx_reset failed
+CHANGXING60-LINUX: dmesg: [   14.040613] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   14.054246] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+CHANGXING60-LINUX: dmesg: [   14.065921] musb-sprd 64a00000.usb: musb dr_mode: 3
+CHANGXING60-LINUX: dmesg: [   14.079083] musb-sprd 64a00000.usb: Error getting usb-phy -517
+CHANGXING60-LINUX: dmesg: [   14.087203] platform 31300000.dphy: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   14.101880] [drm] dphy driver probe (dphy->ctx.id=0)
+CHANGXING60-LINUX: dmesg: [   14.113215] [drm] dphy driver probe success
+CHANGXING60-LINUX: dmesg: [   14.113248] platform 31400000.dphy1: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   14.123344] [drm] dphy driver probe (dphy->ctx.id=1)
+CHANGXING60-LINUX: dmesg: [   14.140378] [drm] dphy driver probe success
+CHANGXING60-LINUX: dmesg: [   14.145413] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   14.158276] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+CHANGXING60-LINUX: dmesg: [   14.175397] musb-sprd 64a00000.usb: musb dr_mode: 3
+CHANGXING60-LINUX: dmesg: [   14.189174] musb-sprd 64a00000.usb: Error getting usb-phy -517
+CHANGXING60-LINUX: dmesg: [   14.257481] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   14.273459] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+CHANGXING60-LINUX: dmesg: [   14.285559] musb-sprd 64a00000.usb: musb dr_mode: 3
+CHANGXING60-LINUX: dmesg: [   14.297689] musb-sprd 64a00000.usb: Error getting usb-phy -517
+CHANGXING60-LINUX: dmesg: [   14.413344] sprd-mipi-panel-drv 31300000.dsi.0: supply power not found, using dummy regulator
+CHANGXING60-LINUX: dmesg: [   14.445409] [drm][sprd_panel_parse_lcddtb] read sprd,dpi-clk-pixelpll failed, dpi_clk_pixelpll = false
+CHANGXING60-LINUX: dmesg: [   14.460203] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-on-command property
+CHANGXING60-LINUX: dmesg: [   14.469597] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+CHANGXING60-LINUX: dmesg: [   14.474914] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-off-command property
+CHANGXING60-LINUX: dmesg: [   14.483758] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+CHANGXING60-LINUX: dmesg: [   14.498457] musb-sprd 64a00000.usb: musb dr_mode: 3
+CHANGXING60-LINUX: dmesg: [   14.515520] musb-sprd 64a00000.usb: Error getting usb-phy -517
+CHANGXING60-LINUX: dmesg: [   14.542574] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+CHANGXING60-LINUX: dmesg: [   14.550597] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal	,64280000.thermal	,
+CHANGXING60-LINUX: dmesg: [   14.552567] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,sprd_wcn,ufshcd-sprd,
+CHANGXING60-LINUX: dmesg: [   14.554288] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+CHANGXING60-LINUX: stage=persist-target dev=/dev/sda40 rootdisk=sda
+CHANGXING60-LINUX: stage=usb-phy-state dummyphy_dev=[/sys/bus/platform/devices/soc:ipa-apb:dummyphy,] dummyphy_drv=[../../../../../bus/platform/drivers/usb_phy_generic,] phyclass=[] udc=[25100000.dwc3,] deferred=[64270000.thermal	 64280000.thermal	 64290000.thermal	 642a0000.thermal	 64a00000.usb	 ]
+CHANGXING60-LINUX: stage=usb-configfs
+CHANGXING60-LINUX: stage=usb-netfn ncm
+CHANGXING60-LINUX: stage=usb-wait-udc
+CHANGXING60-LINUX: stage=udc udc=25100000.dwc3 available=25100000.dwc3,
+CHANGXING60-LINUX: stage=usb-bind-start
+CHANGXING60-LINUX: stage=usb-bind-done rc=0
+CHANGXING60-LINUX: stage=usb0-netdevs lo,usb0,
+CHANGXING60-LINUX: stage=misc-restored dev=/dev/sda3
+CHANGXING60-LINUX: stage=ext4-modem-skipped (no supported modem device or executable)
+CHANGXING60-LINUX: stage=switch-root root=/disk/openwrt init=/sbin/init os="OpenWrt 25.12.5"

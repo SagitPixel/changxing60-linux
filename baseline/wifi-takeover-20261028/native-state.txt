@@ -1,0 +1,54 @@
+root@changxing60:~# >  vddwcn                           0    0      0 unknown  1200mV     0mA   900mV  1845mV 
+ vddsim2                          0    0      0 unknown  3000mV     0mA  1200mV  3750mV 
+ vddsdcore                        0    1      0 unknown  3000mV     0mA  1200mV  3750mV 
+ vddsdio                          0    1      0 unknown  3000mV     0mA  1200mV  3750mV 
+ vddwifipa                        0    0      0 unknown  3300mV     0mA  1200mV  3750mV 
+[    5.543134] WCN BASEsprd_wcn_init entry!
+[    5.570411] WCN BASEmarlin_probe: device node name: sprd-marlin3
+[    5.585076] WCN BASEvddgen1-bound-chip config enable:1
+[    5.600588] WCN BASEavdd12-bound-wbreq config status:1
+[    5.617377] WCN BASEavdd33-bound-wbreq config status:1
+[    5.631570] WCN BASE error: failed to read sprd,gnss-cp-start-addr
+[    5.645415] WCN BASEmarlin parse_dt some para not config
+[    5.796736] WCN BASE: mdbg_pt_ring_reg
+[    5.808472] WCN BASE: success!
+[    5.808473] WCN BASE: log_cdev_init
+[    5.814967] WCN BASE: log dev major=255,minor=0
+[    5.819547] WCN BASE: log dev major=255,minor=1
+[    5.834943] WCN BASEmarlin_probe driver match successful v2!
+[    6.360752] WCN BASEmarlin_power_wq start
+[    6.365419] WCN BASEmarlin power state:0, subsys: [WCN_AUTO] power 1
+[    6.365421] WCN BASEthe first power on start
+[    6.377966] WCN BASEavdd12-parent-bound-chip unbound
+[    6.379988] WCN BASEmarlin marlin_clk_enable successfully!
+[    6.388438] WCN BASEmarlin_digital_power_enable D1v2 1
+[    6.390441] WCN BASEmarlin chip en pull up
+[    6.403828] WCN BASEavdd12-bound-wbreq bound
+[    6.412238] WCN BASEavdd33-bound-wbreq bound
+[   12.600755] WCN BASEwait bus rescan card time out
+[   12.609425] WCN BASEmarlin_subsys_init start
+[   12.784321] WCN BASEstart_marlin [MARLIN_WIFI]
+[   12.784324] WCN BASEmarlin power state:0, subsys: [MARLIN_WIFI] power 1
+[   12.795049] WCN BASEthe first power on start
+[   12.795050] WCN BASEavdd12-parent-bound-chip unbound
+[   12.813770] WCN BASEmarlin marlin_clk_enable successfully!
+[   12.819715] WCN BASEmarlin_digital_power_enable D1v2 1
+[   12.830543] WCN BASEmarlin chip en pull up
+[   12.842635] WCN BASEavdd12-bound-wbreq bound
+[   12.856064] WCN BASEavdd33-bound-wbreq bound
+[   18.745853] WCN BASEwait bus rescan card time out
+clock:		0 Hz
+vdd:		0 (invalid)
+bus mode:	2 (push-pull)
+chip select:	0 (don't care)
+power mode:	0 (off)
+bus width:	0 (1 bits)
+timing spec:	0 (legacy)
+signal voltage:	0 (3.30 V)
+driver type:	0 (driver type B)
+driver                  power                   sprd-marlin3:wlan
+driver_override         sprd-marlin3:gnss       subsystem
+modalias                sprd-marlin3:sprd-fm    uevent
+of_node                 sprd-marlin3:sprd-mtty
+androidboot.slot_suffix  marlin.clktype           slot_suffix
+caps       caps2      clock      err_state  err_stats  ios

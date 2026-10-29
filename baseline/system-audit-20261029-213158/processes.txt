@@ -1,0 +1,284 @@
+  PID USER       VSZ STAT COMMAND
+    1 root      1760 S    /sbin/procd
+    2 root         0 SW   [kthreadd]
+    3 root         0 SW   [pool_workqueue_]
+    4 root         0 IW<  [kworker/R-rcu_g]
+    5 root         0 IW<  [kworker/R-sync_]
+    6 root         0 IW<  [kworker/R-kvfre]
+    7 root         0 IW<  [kworker/R-slub_]
+    8 root         0 IW<  [kworker/R-netns]
+   10 root         0 IW<  [kworker/0:0H-ev]
+   13 root         0 IW<  [kworker/R-mm_pe]
+   14 root         0 SW   [ksoftirqd/0]
+   15 root         0 IW   [rcu_sched]
+   16 root         0 SW   [rcu_exp_par_gp_]
+   17 root         0 SW   [rcu_exp_gp_kthr]
+   18 root         0 SW   [migration/0]
+   19 root         0 SW   [cpuhp/0]
+   20 root         0 SW   [cpuhp/1]
+   21 root         0 SW   [migration/1]
+   22 root         0 SW   [ksoftirqd/1]
+   24 root         0 IW<  [kworker/1:0H-kb]
+   25 root         0 SW   [cpuhp/2]
+   26 root         0 SW   [migration/2]
+   27 root         0 SW   [ksoftirqd/2]
+   29 root         0 IW<  [kworker/2:0H-ev]
+   30 root         0 SW   [cpuhp/3]
+   31 root         0 SW   [migration/3]
+   32 root         0 SW   [ksoftirqd/3]
+   34 root         0 IW<  [kworker/3:0H-ev]
+   35 root         0 SW   [cpuhp/4]
+   36 root         0 SW   [migration/4]
+   37 root         0 SW   [ksoftirqd/4]
+   39 root         0 IW<  [kworker/4:0H-ev]
+   40 root         0 SW   [cpuhp/5]
+   41 root         0 SW   [migration/5]
+   42 root         0 SW   [ksoftirqd/5]
+   44 root         0 IW<  [kworker/5:0H-ev]
+   45 root         0 SW   [cpuhp/6]
+   46 root         0 SW   [migration/6]
+   47 root         0 SW   [ksoftirqd/6]
+   49 root         0 IW<  [kworker/6:0H-ev]
+   50 root         0 SW   [cpuhp/7]
+   51 root         0 SW   [migration/7]
+   52 root         0 SW   [ksoftirqd/7]
+   54 root         0 IW<  [kworker/7:0H-ev]
+   56 root         0 IW   [kworker/u34:0-k]
+   57 root         0 IW   [kworker/u35:0-k]
+   59 root         0 IW   [kworker/u37:0-a]
+   63 root         0 SW   [kdevtmpfs]
+   64 root         0 IW<  [kworker/R-inet_]
+   65 root         0 IW   [rcu_tasks_rude_]
+   66 root         0 IW   [rcu_tasks_trace]
+   69 root         0 SW   [khungtaskd]
+   70 root         0 SW   [oom_reaper]
+   71 root         0 IW   [kworker/u40:1-a]
+   72 root         0 IW<  [kworker/R-write]
+   73 root         0 IW<  [kworker/R-kbloc]
+   74 root         0 IW<  [kworker/R-kinte]
+   75 root         0 IW<  [kworker/R-devfr]
+   76 root         0 SW   [watchdogd]
+   79 root         0 IW<  [kworker/R-quota]
+   80 root         0 IW<  [kworker/R-cfg80]
+   81 root         0 IW<  [kworker/7:1H-kb]
+   84 root         0 SW   [kswapd0]
+   85 root         0 IW<  [kworker/R-kthro]
+   92 root         0 IW   [kworker/u33:1-e]
+   93 root         0 SW   [spi4]
+   94 root         0 SW   [irq/23-spi4.0]
+   99 root         0 SW   [irq/27-22240000]
+  101 root         0 SW   [irq/28-22250000]
+  102 root         0 SW   [irq/29-22260000]
+  103 root         0 SW   [irq/30-222a0000]
+  106 root         0 IW<  [kworker/u42:0]
+  107 root         0 IW<  [kworker/u43:0]
+  108 root         0 IW<  [kworker/u44:0]
+  109 root         0 IW<  [kworker/u45:0]
+  110 root         0 IW<  [kworker/u46:0]
+  111 root         0 IW<  [kworker/u47:0]
+  112 root         0 IW<  [kworker/u48:0]
+  113 root         0 IW<  [kworker/u49:0]
+  114 root         0 IW<  [kworker/R-sdhci]
+  115 root         0 SW   [irq/31-mmc0]
+  116 root         0 IW<  [kworker/R-sdhci]
+  117 root         0 SW   [irq/32-mmc1]
+  122 root         0 IW<  [kworker/R-sdhci]
+  123 root         0 SW   [irq/33-mmc2]
+  124 root         0 SW   [scsi_eh_0]
+  125 root         0 IW<  [kworker/R-scsi_]
+  131 root         0 SW   [irq/35-22210000]
+  138 root         0 IW<  [kworker/R-ufs_e]
+  139 root         0 IW<  [kworker/R-ufs_c]
+  146 root         0 IW<  [kworker/R-mld]
+  147 root         0 IW<  [kworker/4:1H-kb]
+  148 root         0 IW<  [kworker/R-ipv6_]
+  150 root         0 SW<  [krfcommd]
+  152 root         0 IW<  [kworker/R-kstrp]
+  154 root         0 IW   [kworker/u36:1-a]
+  156 root         0 IW<  [kworker/0:1H-kb]
+  181 root         0 IW<  [kworker/R-charg]
+  193 root         0 IW<  [kworker/5:1H-kb]
+  194 root         0 SW   [mbox-deliver-th]
+  206 root         0 SW   [sbuf-6-5]
+  207 root         0 SW   [sbuf-6-6]
+  208 root         0 SW   [sbuf-9-4]
+  209 root         0 SW   [sbuf-9-5]
+  210 root         0 SW   [sbuf-9-6]
+  211 root         0 SW   [sbuf-9-7]
+  212 root         0 SW   [sbuf-9-41]
+  213 root         0 SW   [sbuf-5-4]
+  214 root         0 SW   [sbuf-5-21]
+  215 root         0 SW   [sbuf-5-6]
+  216 root         0 SW   [sbuf-5-40]
+  219 root         0 SW   [sblock-5-2]
+  220 root         0 SW   [sblock-5-3]
+  221 root         0 SW   [sblock-5-5]
+  222 root         0 SW   [sblock-7-5]
+  225 root         0 SW   [sipa-set-rps]
+  226 root         0 IW<  [kworker/R-sipa_]
+  227 root         0 SW   [sipa-free-1]
+  228 root         0 SW   [sipa-fill-recv-]
+  229 root         0 IW<  [kworker/R-sipa_]
+  234 root         0 IW<  [kworker/R-dele_]
+  235 root         0 SW   [dele-4-5]
+  236 root         0 IW<  [kworker/R-sipa_]
+  239 root         0 SW<  [sdiohal_tx_thre]
+  240 root         0 SW<  [sdiohal_rx_thre]
+  241 root         0 SW<  [pub_int_handle_]
+  242 root         0 IW<  [kworker/1:1H-kb]
+  243 root         0 IW<  [kworker/R-WCN_L]
+  257 root         0 SW   [audio_sblock-1-]
+  258 root         0 SW   [audio_sblock-1-]
+  275 root         0 IW<  [kworker/2:1H-kb]
+  292 root         0 IW<  [kworker/R-compr]
+  293 root         0 IW<  [kworker/R-heads]
+  294 root         0 IW<  [kworker/R-heads]
+  295 root         0 IW<  [kworker/R-heads]
+  296 root         0 IW<  [kworker/R-heads]
+  297 root         0 IW<  [kworker/R-heads]
+  304 root         0 IW<  [kworker/R-sprd_]
+  305 root         0 IW<  [kworker/R-SPRD_]
+  306 root         0 IW<  [kworker/R-SPRD_]
+  307 root         0 SW<  [SC2355_TX_THREA]
+  308 root         0 IW   [kworker/u38:2-e]
+  320 root         0 SW   [card0-crtc0]
+  325 root         0 SW   [sprd-drm]
+  327 root         0 IW<  [kworker/6:1H-kb]
+  550 root         0 IW<  [kworker/3:1H-kb]
+  742 root         0 IW   [kworker/u38:3-a]
+  743 root         0 SW   [jbd2/loop0-8]
+  744 root         0 IW<  [kworker/R-ext4-]
+ 2369 root         0 IW   [kworker/u32:0-s]
+ 2433 ubus      1172 S    /sbin/ubusd
+ 2434 root       928 S    /sbin/askfirst /usr/libexec/login.sh
+ 2435 root       928 S    /sbin/askfirst /usr/libexec/login.sh
+ 2480 root      1024 S    /sbin/urngd
+ 2634 1000     8656m S    /vendor/bin/modem_control
+ 2635 root     8543m S    /vendor/bin/cp_diskserver
+ 2636 1000     8540m S    /vendor/bin/refnotify
+ 2678 root       792 S    /opt/changxing60/bin/logdw /dev/socket/logdw
+ 3597 root         0 IW   [kworker/u36:2-e]
+ 3631 root         0 IW   [kworker/u33:3-k]
+ 3692 root         0 SW   [jbd2/sda1-8]
+ 3693 root         0 IW<  [kworker/R-ext4-]
+ 3782 root       880 S    /opt/changxing60/bin/changxing60-modemd
+ 3837 logd      1788 S    /sbin/logd -S 128
+ 3891 root      2964 S    /sbin/rpcd -s /var/run/ubus/ubus.sock -t 30
+ 3923 root         0 IW   [kworker/5:2-eve]
+ 3951 root      2224 S    /opt/changxing60/bin/busybox ash /opt/changxing60/bin/changxing60-atd
+ 3995 root      2224 S    /opt/changxing60/bin/busybox ash /opt/changxing60/bin/changxing60-atd
+ 4297 root      1136 S    /usr/sbin/dropbear -F -P /var/run/dropbear.main.pid -p 22 -K 300 -T 3
+ 4403 root      4044 S    /usr/sbin/hostapd -s -g /var/run/hostapd/global
+ 4404 root      3888 S    /usr/sbin/wpa_supplicant -n -s -g /var/run/wpa_supplicant/global
+ 4476 root      2864 S    /sbin/netifd
+ 4527 root      1416 S    {changxing60-voi} /bin/sh /opt/changxing60/bin/changxing60-voiced
+ 4678 root      1508 S    /usr/sbin/odhcpd
+ 4733 root         0 IW   [kworker/5:1-eve]
+ 4746 root      1340 S    /usr/sbin/crond -f -c /etc/crontabs -l 7
+ 4915 root      2060 S    /usr/sbin/uhttpd -f -h /www -r changxing60 -x /cgi-bin -u /ubus -t 60 -T 30 -k 20 -A 1 -n 3 -N 100 -R -p
+ 5294 root      1392 S    {changxing60-sms} /bin/sh /opt/changxing60/bin/changxing60-smsd
+ 5414 root         0 IW   [kworker/u39:0-a]
+ 5545 root      1332 S<   /usr/sbin/ntpd -n -N -S /usr/sbin/ntpd-hotplug -p 0.openwrt.pool.ntp.org -p 1.openwrt.pool.ntp.org -p 2.o
+ 5619 root      1356 S    /bin/sh /opt/changxing60/bin/ndp-learn
+ 6288 root         0 IW   [kworker/2:1-mm_]
+ 7009 root         0 SW   [irq/47-dwc3]
+ 7095 root         0 IW   [kworker/0:2-eve]
+ 7296 root         0 IW<  [kworker/u41:2-S]
+ 8364 dnsmasq   1540 S    /usr/sbin/dnsmasq -C /var/etc/dnsmasq.conf.cfg01411c -k -x /var/run/dnsmasq/dnsmasq.cfg01411c.pid
+ 9057 root         0 IW   [kworker/4:0-mm_]
+ 9224 root       928 S    /sbin/askfirst /usr/libexec/login.sh
+ 9464 root         0 IW   [kworker/1:1-eve]
+11341 root         0 IW   [kworker/6:1-eve]
+13112 root         0 IW   [kworker/4:1-eve]
+13701 root         0 IW   [kworker/u37:1-e]
+13902 root         0 IW   [kworker/3:2-eve]
+14110 root         0 IW   [kworker/u34:2-a]
+14643 root         0 IW   [kworker/1:0-eve]
+15719 root         0 IW   [kworker/0:1-eve]
+15959 root         0 IW<  [kworker/u41:1-S]
+17316 root         0 IW   [kworker/u33:0-a]
+17479 root         0 IW   [kworker/7:2-eve]
+18493 root         0 IW   [kworker/u35:1-k]
+20168 root         0 IW   [kworker/5:0]
+20663 root         0 IW   [kworker/2:0-eve]
+22507 root         0 IW   [kworker/4:2-eve]
+23263 root         0 IW   [kworker/u32:1-s]
+25758 root         0 IW   [kworker/7:0]
+25933 root         0 IW<  [kworker/u41:0-S]
+25951 root         0 IW   [kworker/u32:2-W]
+25955 root         0 IW<  [kworker/u41:3-S]
+26016 root         0 IW   [kworker/1:2-eve]
+26573 root      1332 S    sleep 10
+26677 root      1336 S    {charge-fix} /bin/sh /opt/changxing60/bin/charge-fix
+26678 root         0 Z    [bootdiag]
+26699 root      1344 S    sleep 5
+26707 root      1344 S    sleep 1
+26708 root      1332 S    sleep 1
+26713 root      1160 S    /usr/sbin/dropbear -F -P /var/run/dropbear.main.pid -p 22 -K 300 -T 3 -2 9
+26714 root      1336 S    ash -c ps w; cat /proc/meminfo; cat /proc/loadavg; df -h
+26715 root      1340 R    ps w
+27643 root         0 IW   [kworker/3:0-eve]
+27742 root         0 IW   [kworker/6:2-eve]
+29167 root         0 IW   [kworker/7:1-eve]
+29859 root         0 IW   [kworker/2:2-eve]
+29977 root         0 IW   [kworker/u40:2-k]
+30281 root         0 IW   [kworker/u39:2-e]
+30965 root         0 IW   [kworker/0:0-mm_]
+MemTotal:        3471964 kB
+MemFree:         3133292 kB
+MemAvailable:    3184144 kB
+Buffers:           56016 kB
+Cached:            84484 kB
+SwapCached:            0 kB
+Active:            25076 kB
+Inactive:         154132 kB
+Active(anon):       6252 kB
+Inactive(anon):    81112 kB
+Active(file):      18824 kB
+Inactive(file):    73020 kB
+Unevictable:           0 kB
+Mlocked:               0 kB
+SwapTotal:       1735980 kB
+SwapFree:        1735980 kB
+Dirty:                 0 kB
+Writeback:             0 kB
+AnonPages:         38740 kB
+Mapped:            12592 kB
+Shmem:             48656 kB
+KReclaimable:      23936 kB
+Slab:              72460 kB
+SReclaimable:      23936 kB
+SUnreclaim:        48524 kB
+KernelStack:        3824 kB
+PageTables:         2172 kB
+SecPageTables:         0 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:     3471960 kB
+Committed_AS:     122608 kB
+VmallocTotal:   261087232 kB
+VmallocUsed:       22500 kB
+VmallocChunk:          0 kB
+Percpu:             1632 kB
+Balloon:               0 kB
+HugePages_Total:       0
+HugePages_Free:        0
+HugePages_Rsvd:        0
+HugePages_Surp:        0
+Hugepagesize:       2048 kB
+Hugetlb:               0 kB
+0.06 0.05 0.01 1/235 26717
+Filesystem                Size      Used Available Use% Mounted on
+devtmpfs                512.0K         0    512.0K   0% /dev
+tmpfs                     1.7G      1.4M      1.7G   0% /run
+/dev/loop0               45.7G      2.4G     42.8G   5% /mnt/changxing60-disk
+/dev/loop0               45.7G      2.4G     42.8G   5% /
+tmpfs                     1.7G      4.1M      1.7G   0% /tmp
+tmpfs                   512.0K         0    512.0K   0% /dev
+/dev/loop0               45.7G      2.4G     42.8G   5% /dev/__properties__
+tmpfs                   512.0K         0    512.0K   0% /opt/changxing60/android/dev
+/dev/loop0               45.7G      2.4G     42.8G   5% /opt/changxing60/android/dev/__properties__
+tmpfs                     1.7G      1.4M      1.7G   0% /opt/changxing60/android/proc/cmdline
+/dev/block/by-name/prodnv
+                          5.4M      1.4M      3.7M  28% /mnt/vendor

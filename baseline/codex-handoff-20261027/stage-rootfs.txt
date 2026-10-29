@@ -1,0 +1,4 @@
+stty -echo
+/ # > > > > > > > > > > > > > > > > > > > > > > > > > > > > > d02df207e806a91b9b8163504fec36eb9186db40e3de6d62123a6757b40218ce  /mnt/codex-ufs-root/openwrt/lib/firmware/aw87xxx_acf.bin
+28b98050d2d3fd8ee2fa1136deb913d026b484b336eabe655c8e0125699ff6b5  /mnt/codex-ufs-root/openwrt/opt/changxing60/bin/changxing60-fast-playback
+ROOTFS_STAGE_OK

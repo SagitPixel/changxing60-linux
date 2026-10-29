@@ -1,0 +1,2024 @@
+diff --git a/arch/arm64/boot/dts/sprd/Makefile b/arch/arm64/boot/dts/sprd/Makefile
+index 3ce81ad71..3bd650f55 100644
+--- a/arch/arm64/boot/dts/sprd/Makefile
++++ b/arch/arm64/boot/dts/sprd/Makefile
+@@ -3,4 +3,4 @@ dtb-$(CONFIG_ARCH_SPRD) += sc9836-openphone.dtb \
+ 			sp9860g-1h10.dtb	\
+ 			sp9863a-1h10.dtb	\
+ 			ums512-1h10.dtb		\
+-			ums9620-2h10.dtb
++			ums9620-2h10.dtb ums9620-7552n-probe.dtb
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index d019d0f98..aea1165a8 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -678,6 +678,8 @@ static int really_probe(struct device *dev, const struct device_driver *drv)
+ 	}
+ 
+ 	link_ret = device_links_check_suppliers(dev);
++	dev_err(dev, "really_probe: drv=%s link_ret=%d defer_all=%d\n",
++		drv->name, link_ret, (int)defer_all_probes);
+ 	if (link_ret == -EPROBE_DEFER)
+ 		return link_ret;
+ 
+diff --git a/drivers/clk/sprd/Kconfig b/drivers/clk/sprd/Kconfig
+index 745ce546f..b35b08394 100644
+--- a/drivers/clk/sprd/Kconfig
++++ b/drivers/clk/sprd/Kconfig
+@@ -40,3 +40,7 @@ config SPRD_UMS9621_CLK
+ 	  (qogirn6lite), with the resets they hold.
+ 	  Say Y if you want to use peripheral devices on ums9621 SoC.
+ endif
++
++config SPRD_UMS9620_CLK
++	bool "Unisoc UMS9620 clocks"
++	depends on ARM64 && SPRD_COMMON_CLK
+diff --git a/drivers/clk/sprd/Makefile b/drivers/clk/sprd/Makefile
+index 311de8f95..7ce0caf40 100644
+--- a/drivers/clk/sprd/Makefile
++++ b/drivers/clk/sprd/Makefile
+@@ -14,3 +14,5 @@ obj-$(CONFIG_SPRD_SC9860_CLK)	+= sc9860-clk.o
+ obj-$(CONFIG_SPRD_SC9863A_CLK)	+= sc9863a-clk.o
+ obj-$(CONFIG_SPRD_UMS512_CLK)	+= ums512-clk.o
+ obj-$(CONFIG_SPRD_UMS9621_CLK)	+= ums9621-clk.o
++
++obj-$(CONFIG_SPRD_UMS9620_CLK) += ums9620-clk.o
+diff --git a/drivers/dma/sprd-dma.c b/drivers/dma/sprd-dma.c
+index bc828e3b9..fb493a981 100644
+--- a/drivers/dma/sprd-dma.c
++++ b/drivers/dma/sprd-dma.c
+@@ -19,6 +19,9 @@
+ #include <linux/of_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/slab.h>
++#include <linux/debugfs.h>
++#include <linux/seq_file.h>
++#include <linux/ktime.h>
+ 
+ #include "virt-dma.h"
+ 
+@@ -727,6 +730,85 @@ static void sprd_dma_free_chan_resources(struct dma_chan *chan)
+ 	pm_runtime_put(chan->device->dev);
+ }
+ 
++
++/* 7552n diagnostic: which branch did sprd_dma_tx_status() take for this cookie?
++ * A fixed ring, written under the channel lock, read back through debugfs. No pointers
++ * are kept, so it stays valid after the channel is released. */
++struct sprd_diag_ent {
++	u64 nsec;
++	int chan_id;
++	int cookie;
++	int status;
++	char branch[12];
++	u32 pos;
++	bool residue_is_addr;
++};
++
++static struct sprd_diag_ent g_diag[16];
++static int g_diag_idx;
++static DEFINE_SPINLOCK(g_diag_lock);
++
++static void sprd_diag_record(int chan_id, int cookie, int status,
++			     const char *branch, u32 pos, bool is_addr)
++{
++	unsigned long f;
++	struct sprd_diag_ent *e;
++
++	spin_lock_irqsave(&g_diag_lock, f);
++	e = &g_diag[g_diag_idx & 15];
++	e->nsec = ktime_get_ns();
++	e->chan_id = chan_id;
++	e->cookie = cookie;
++	e->status = status;
++	strncpy(e->branch, branch, sizeof(e->branch) - 1);
++	e->branch[sizeof(e->branch) - 1] = '\0';
++	e->pos = pos;
++	e->residue_is_addr = is_addr;
++	g_diag_idx++;
++	spin_unlock_irqrestore(&g_diag_lock, f);
++}
++
++static int sprd_diag_show(struct seq_file *s, void *unused)
++{
++	unsigned long f;
++	int i, start;
++
++	spin_lock_irqsave(&g_diag_lock, f);
++	start = g_diag_idx > 16 ? g_diag_idx - 16 : 0;
++	for (i = start; i < g_diag_idx; i++) {
++		struct sprd_diag_ent *e = &g_diag[i & 15];
++
++		seq_printf(s, "%llu chan=%d cookie=%d status=%d branch=%s pos=%#x residue_is_addr=%d\n",
++			   e->nsec, e->chan_id, e->cookie, e->status,
++			   e->branch, e->pos, e->residue_is_addr);
++	}
++	spin_unlock_irqrestore(&g_diag_lock, f);
++	return 0;
++}
++
++static int sprd_diag_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, sprd_diag_show, NULL);
++}
++
++static const struct file_operations sprd_diag_fops = {
++	.open		= sprd_diag_open,
++	.read		= seq_read,
++	.llseek		= seq_lseek,
++	.release	= single_release,
++};
++
++static int __init sprd_dma_diag_init(void)
++{
++	struct dentry *dir = debugfs_create_dir("sprd-dma-diag", NULL);
++
++	if (IS_ERR_OR_NULL(dir))
++		return 0;
++	debugfs_create_file("tx_status", 0444, dir, NULL, &sprd_diag_fops);
++	return 0;
++}
++late_initcall(sprd_dma_diag_init);
++
+ static enum dma_status sprd_dma_tx_status(struct dma_chan *chan,
+ 					  dma_cookie_t cookie,
+ 					  struct dma_tx_state *txstate)
+@@ -738,8 +820,10 @@ static enum dma_status sprd_dma_tx_status(struct dma_chan *chan,
+ 	u32 pos;
+ 
+ 	ret = dma_cookie_status(chan, cookie, txstate);
+-	if (ret == DMA_COMPLETE || !txstate)
++	if (ret == DMA_COMPLETE || !txstate) {
++		sprd_diag_record(chan->chan_id, cookie, ret, "complete", 0, false);
+ 		return ret;
++	}
+ 
+ 	spin_lock_irqsave(&schan->vc.lock, flags);
+ 	vd = vchan_find_desc(&schan->vc, cookie);
+@@ -755,6 +839,7 @@ static enum dma_status sprd_dma_tx_status(struct dma_chan *chan,
+ 			pos = hw->frg_len;
+ 		else
+ 			pos = 0;
++		sprd_diag_record(chan->chan_id, cookie, ret, "queued", pos, false);
+ 	} else if (schan->cur_desc && schan->cur_desc->vd.tx.cookie == cookie) {
+ 		struct sprd_dma_desc *sdesc = schan->cur_desc;
+ 
+@@ -762,8 +847,10 @@ static enum dma_status sprd_dma_tx_status(struct dma_chan *chan,
+ 			pos = sprd_dma_get_dst_addr(schan);
+ 		else
+ 			pos = sprd_dma_get_src_addr(schan);
++		sprd_diag_record(chan->chan_id, cookie, ret, "current", pos, true);
+ 	} else {
+ 		pos = 0;
++		sprd_diag_record(chan->chan_id, cookie, ret, "unmatched", 0, false);
+ 	}
+ 	spin_unlock_irqrestore(&schan->vc.lock, flags);
+ 
+diff --git a/drivers/mmc/host/sdhci-sprd.c b/drivers/mmc/host/sdhci-sprd.c
+index c2acafd37..de6deea06 100644
+--- a/drivers/mmc/host/sdhci-sprd.c
++++ b/drivers/mmc/host/sdhci-sprd.c
+@@ -596,6 +596,17 @@ static void sdhci_sprd_set_power(struct sdhci_host *host, unsigned char mode,
+ 	sprd_host->sd_power_mode = mode;
+ 	sprd_host->sd_power_vdd = vdd;
+ 	sprd_host->sd_power_valid = true;
++
++	/*
++	 * The generic sdhci core no longer writes SDHCI_POWER_CONTROL for a
++	 * controller that installs .set_power: sdhci_set_power_and_bus_voltage()
++	 * delegates the whole job to the op.  The vendor op only programmed the
++	 * regulators, so on 6.18 the power register stayed 0 and the SC2355 SDIO
++	 * slot (mmc1, sdio_wifi) never powered up -- CMD5 had no response and
++	 * the WCN scan timed out.  Write the register here, as the 5.4 core used
++	 * to do.
++	 */
++	sdhci_set_power_noreg(host, mode, vdd);
+ }
+ 
+ static const struct sdhci_ops sdhci_sprd_ops = {
+@@ -1073,6 +1084,28 @@ static int sdhci_sprd_probe(struct platform_device *pdev)
+ 		host->mmc->ocr_avail_mmc &= ocr_mask;
+ 	}
+ 
++	/*
++	 * The vendor DT gives sdio@22220000 (sprd,name = sdio_wifi, the
++	 * SC2355) no vmmc-supply.  With a dummy regulator the OCR mask can
++	 * end up empty, so mmc_power_up() hands .set_power a vdd of 0 and
++	 * SDHCI_POWER_CONTROL is written as 0 -- CMD5 then goes out with
++	 * argument 0 and the WCN SDIO scan times out although the chip itself
++	 * is powered.  The slot is a 3.3 V part on this board; force the 3.3 V
++	 * range for the wifi host only.
++	 */
++	if (of_property_match_string(pdev->dev.of_node, "sprd,name",
++				     "sdio_wifi") >= 0) {
++		host->mmc->ocr_avail |= MMC_VDD_32_33 | MMC_VDD_33_34;
++		host->mmc->ocr_avail_sdio |= MMC_VDD_32_33 | MMC_VDD_33_34;
++		/*
++		 * The SC2355 is soldered and the slot has no card-detect GPIO:
++		 * without MMC_CAP_NONREMOVABLE mmc_rescan() asks the host for a
++		 * card-detect state, gets 0 and never sends CMD5 -- the WCN scan
++		 * then times out with the chip powered and idle.
++		 */
++		host->mmc->caps |= MMC_CAP_NONREMOVABLE;
++	}
++
+ 	/*
+ 	 * A controller for an SDIO chip only (the Wi-Fi/BT combo chip: no-sd,
+ 	 * no-mmc) is not polled for a card: the chip's driver powers it and
+diff --git a/drivers/pinctrl/sprd/Kconfig b/drivers/pinctrl/sprd/Kconfig
+index a960fbff5..95f22f7f0 100644
+--- a/drivers/pinctrl/sprd/Kconfig
++++ b/drivers/pinctrl/sprd/Kconfig
+@@ -28,3 +28,8 @@ config PINCTRL_SPRD_QOGIRN6LITE
+ 	help
+ 	  Enable the UMS9621/QogirN6Lite pad and peripheral matrix controller.
+ 	  This includes the IIS matrix used for Bluetooth SCO audio.
++
++config PINCTRL_SPRD_QOGIRN6PRO
++	tristate "Unisoc QogirN6Pro pinctrl"
++	depends on OF && ARCH_SPRD
++	select PINCTRL_SPRD
+diff --git a/drivers/pinctrl/sprd/Makefile b/drivers/pinctrl/sprd/Makefile
+index 9e258f2a7..5071c8d41 100644
+--- a/drivers/pinctrl/sprd/Makefile
++++ b/drivers/pinctrl/sprd/Makefile
+@@ -2,3 +2,5 @@
+ obj-$(CONFIG_PINCTRL_SPRD)		+= pinctrl-sprd.o
+ obj-$(CONFIG_PINCTRL_SPRD_SC9860)	+= pinctrl-sprd-sc9860.o
+ obj-$(CONFIG_PINCTRL_SPRD_QOGIRN6LITE) += pinctrl-sprd-qogirn6lite.o
++
++obj-$(CONFIG_PINCTRL_SPRD_QOGIRN6PRO) += pinctrl-sprd-qogirn6pro.o
+diff --git a/drivers/pmdomain/Kconfig b/drivers/pmdomain/Kconfig
+index 23076ae90..3ee7662e6 100644
+--- a/drivers/pmdomain/Kconfig
++++ b/drivers/pmdomain/Kconfig
+@@ -22,3 +22,9 @@ source "drivers/pmdomain/ti/Kconfig"
+ source "drivers/pmdomain/xilinx/Kconfig"
+ 
+ endmenu
++
++config SPRD_UMS9620_IPA_PD
++	bool "Unisoc UMS9620 IPA power domain"
++	depends on ARCH_SPRD && PM
++	select PM_GENERIC_DOMAINS
++	select MFD_SYSCON
+diff --git a/drivers/pmdomain/Makefile b/drivers/pmdomain/Makefile
+index ebc802f13..e57c72fd0 100644
+--- a/drivers/pmdomain/Makefile
++++ b/drivers/pmdomain/Makefile
+@@ -19,3 +19,5 @@ obj-y					+= thead/
+ obj-y					+= ti/
+ obj-y					+= xilinx/
+ obj-y					+= core.o governor.o
++
++obj-y += sprd/
+diff --git a/drivers/pwm/pwm-sprd.c b/drivers/pwm/pwm-sprd.c
+index 35eb39eef..5106a89bd 100644
+--- a/drivers/pwm/pwm-sprd.c
++++ b/drivers/pwm/pwm-sprd.c
+@@ -310,6 +310,7 @@ static const struct sprd_pwm_data ums9620_pwm_data = {
+ static const struct of_device_id sprd_pwm_of_match[] = {
+ 	{ .compatible = "sprd,ums512-pwm", .data = &ums512_pwm_data },
+ 	{ .compatible = "sprd,ums9620-pwm", .data = &ums9620_pwm_data },
++	{ .compatible = "sprd,qogirn6pro-pwm", .data = &ums9620_pwm_data },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, sprd_pwm_of_match);
+diff --git a/drivers/regulator/ump9620-regulator.c b/drivers/regulator/ump9620-regulator.c
+index c84c54e40..ca2f5ca35 100644
+--- a/drivers/regulator/ump9620-regulator.c
++++ b/drivers/regulator/ump9620-regulator.c
+@@ -569,6 +569,7 @@ static void ump9620_regulator_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id ump9620_regulator_match[] = {
+ 	{ .compatible = "sprd,ump9620-regulator" },
++	{ .compatible = "sprd,ump962x-regulator" },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, ump9620_regulator_match);
+diff --git a/drivers/thermal/sprd_thermal_r5p0.c b/drivers/thermal/sprd_thermal_r5p0.c
+index 7d56b82a8..06ad955aa 100644
+--- a/drivers/thermal/sprd_thermal_r5p0.c
++++ b/drivers/thermal/sprd_thermal_r5p0.c
+@@ -1,14 +1,13 @@
+ // SPDX-License-Identifier: GPL-2.0
+ // Copyright (C) 2018 Spreadtrum Communications Inc.
+ 
+-#include <linux/of.h>
+ #include <linux/clk.h>
+ #include <linux/delay.h>
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
+ #include <linux/module.h>
+ #include <linux/nvmem-consumer.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
+ #include <linux/platform_device.h>
+ #include <linux/thermal.h>
+ #include <linux/slab.h>
+@@ -99,7 +98,8 @@
+ #define SPRD_TEMP_HIGH			120000
+ #define SPRD_OTPTEMP			120000
+ #define SPRD_HOTTEMP			75000
+-#define SPRD_RAW_DATA_HIGH		1023
++#define SPRD_RAW_DATA_LOW		0
++#define SPRD_RAW_DATA_HIGH		1000
+ #define SPRD_THM_SEN_NUM		8
+ #define SPRD_THM_DT_OFFSET		24
+ #define SPRD_THM_RATION_OFFSET		17
+@@ -108,7 +108,7 @@
+ #define SPRD_THM_RDYST_POLLING_TIME	10
+ #define SPRD_THM_RDYST_TIMEOUT		700
+ #define SPRD_THM_TEMP_READY_POLL_TIME	10000
+-#define SPRD_THM_TEMP_READY_TIMEOUT	800000
++#define SPRD_THM_TEMP_READY_TIMEOUT	600000
+ 
+ struct sprd_thermal_sensor {
+ 	struct thermal_zone_device *thmzone_dev;
+@@ -139,11 +139,9 @@ struct sprd_thermal_data {
+ 	struct clk *clk;
+ 	struct list_head senlist;
+ 	void __iomem *regbase;
+-	struct delayed_work wait_temp_ready_work;
+ 	int ratio_off;
+ 	u32 ratio_sign;
+ 	const struct sprd_thm_variant_data *var_data;
+-	atomic_t quit_worker_flag;
+ };
+ 
+ /*
+@@ -175,7 +173,7 @@ static int sprd_thm_cal_read(struct device_node *np, const char *cell_id, u32 *v
+ {
+ 	struct nvmem_cell *cell;
+ 	void *buf;
+-	size_t len = 0;
++	size_t len;
+ 
+ 	cell = of_nvmem_cell_get(np, cell_id);
+ 	if (IS_ERR(cell))
+@@ -223,7 +221,9 @@ static int sprd_thm_sen_efuse_cal(struct device_node *np,
+ 
+ static int sprd_rawdata_to_temp_v1(struct sprd_thermal_sensor *sen)
+ {
+-	if (sen->rawdata > SPRD_RAW_DATA_HIGH)
++	if (sen->rawdata < SPRD_RAW_DATA_LOW)
++		sen->rawdata = SPRD_RAW_DATA_LOW;
++	else if (sen->rawdata > SPRD_RAW_DATA_HIGH)
+ 		sen->rawdata = SPRD_RAW_DATA_HIGH;
+ 
+ 	/*
+@@ -251,12 +251,10 @@ static int sprd_temp_to_rawdata_v1(int temp, struct sprd_thermal_sensor *sen)
+ 	return rawval >= SPRD_RAW_DATA_HIGH ? (SPRD_RAW_DATA_HIGH - 1) : rawval;
+ }
+ 
+-static int sprd_thm_temp_read(struct thermal_zone_device *tzd, int *temp)
++static int sprd_thm_temp_read(struct thermal_zone_device *tz, int *temp)
+ {
+-	void *devdata = thermal_zone_device_priv(tzd);
+-
+-	struct sprd_thermal_sensor *sen = devdata;
+-	int sensor_temp = 0;
++	struct sprd_thermal_sensor *sen = thermal_zone_device_priv(tz);
++	int sensor_temp;
+ 
+ 	if (sen->ready) {
+ 		sen->rawdata = readl(sen->base + sen->temp) & SPRD_THM_RAW_READ_MSK;
+@@ -273,9 +271,9 @@ static int sprd_thm_temp_read(struct thermal_zone_device *tzd, int *temp)
+ static int sprd_thm_poll_ready_status(struct sprd_thermal_data *thm)
+ {
+ 	u32 thm_ctl_val;
+-	int ret = 0;
++	int ret;
+ 
+-	/* Judge the state of SET_RDY_ST, When SET_RDY_ST is 0, SET_RDY can set to 1 */
++	/* Wait for thm ready status before config thm parameter */
+ 	ret = readl_poll_timeout(thm->regbase + SPRD_THM_CTL,
+ 				 thm_ctl_val,
+ 				 !(thm_ctl_val & SPRD_THM_SET_RDY_ST),
+@@ -284,35 +282,23 @@ static int sprd_thm_poll_ready_status(struct sprd_thermal_data *thm)
+ 	if (ret)
+ 		return ret;
+ 
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_MON_EN, SPRD_THM_MON_EN);
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_SET_RDY, SPRD_THM_SET_RDY);
+-	return 0;
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_MON_EN,
++			     SPRD_THM_MON_EN);
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_SET_RDY,
++			     SPRD_THM_SET_RDY);
++	return ret;
+ }
+ 
+-static void sprd_thm_wait_temp_ready_work(struct work_struct *work)
++static int sprd_thm_wait_temp_ready(struct sprd_thermal_data *thm)
+ {
+-	struct delayed_work *dwork = to_delayed_work(work);
+-	struct sprd_thermal_data *thm = container_of(dwork, struct sprd_thermal_data,
+-						     wait_temp_ready_work);
+-	struct sprd_thermal_sensor *sen, *temp;
+-	u32 val = 0;
+-	int ret = 0;
+-
+-	/* Wait for first temperature data ready before reading temperature */
+-	ret = readl_poll_timeout(thm->regbase + SPRD_THM_INTERNAL_STS1, val,
+-				 (val & SPRD_THM_TEMPER_RDY) | atomic_read(&thm->quit_worker_flag),
+-				 SPRD_THM_TEMP_READY_POLL_TIME,
+-				 SPRD_THM_TEMP_READY_TIMEOUT);
+-	if (ret == 0) {
+-		if (atomic_read(&thm->quit_worker_flag))
+-			return;
+-		list_for_each_entry_safe(sen, temp, &thm->senlist, node)
+-			sen->ready = true;
+-	} else {
+-		pr_err("temp ready maybe time out 800ms\n");
+-		list_for_each_entry_safe(sen, temp, &thm->senlist, node)
+-			sen->ready = false;
+-	}
++	u32 thm_intern_val;
++
++	/* Wait for first temperature data ready before get temperature */
++	return readl_poll_timeout(thm->regbase + SPRD_THM_INTERNAL_STS1,
++				  thm_intern_val,
++				  !(thm_intern_val & SPRD_THM_TEMPER_RDY),
++				  SPRD_THM_TEMP_READY_POLL_TIME,
++				  SPRD_THM_TEMP_READY_TIMEOUT);
+ }
+ 
+ static void sprd_thm_sen_threshold_config(struct sprd_thermal_sensor *sen)
+@@ -390,7 +376,8 @@ static void sprd_thm_para_config(struct sprd_thermal_data *thm)
+ {
+ 	sprd_thm_update_bits(thm->regbase + SPRD_THM_DET_PERIOD,
+ 			     SPRD_DET_PERIOD_MASK, SPRD_DET_PERIOD);
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_MON_CTL, SPRD_MON_MODE_MASK, SPRD_MON_MODE);
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_MON_CTL,
++			     SPRD_MON_MODE_MASK, SPRD_MON_MODE);
+ 	sprd_thm_update_bits(thm->regbase + SPRD_THM_MON_PERIOD,
+ 			     SPRD_MON_PERIOD_MASK, SPRD_MON_PERIOD);
+ }
+@@ -398,11 +385,15 @@ static void sprd_thm_para_config(struct sprd_thermal_data *thm)
+ static void sprd_thm_sen_init(struct sprd_thermal_data *thm,
+ 				struct sprd_thermal_sensor *sen)
+ {
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_INT_EN, sen->overheat_alarm_en,
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_INT_EN,
++			     sen->overheat_alarm_en,
+ 			     sen->overheat_alarm_en);
+-	sprd_thm_update_bits(thm->regbase + sen->overheat_hot_thres, SPRD_OVERHEAT_HOT_THRES_MASK,
+-			     ((sen->otp_rawdata << SPRD_THM_OTP_TRIP_SHIFT) | sen->hot_rawdata));
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, sen->enable, sen->enable);
++	sprd_thm_update_bits(thm->regbase + sen->overheat_hot_thres,
++			     SPRD_OVERHEAT_HOT_THRES_MASK,
++			     ((sen->otp_rawdata << SPRD_THM_OTP_TRIP_SHIFT) |
++			      sen->hot_rawdata));
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, sen->enable,
++			     sen->enable);
+ }
+ 
+ static int sprd_thm_set_ready(struct sprd_thermal_data *thm)
+@@ -416,7 +407,8 @@ static int sprd_thm_set_ready(struct sprd_thermal_data *thm)
+ 	sprd_thm_update_bits(thm->regbase + SPRD_THM_INT_EN1,
+ 			     SPRD_THM_BIT_INT_EN, SPRD_THM_BIT_INT_EN);
+ 	writel(SPRD_INT_CLR, thm->regbase + SPRD_THM_INT_CLR);
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_EN, SPRD_THM_EN);
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL,
++			     SPRD_THM_EN, SPRD_THM_EN);
+ 	return 0;
+ }
+ 
+@@ -430,9 +422,10 @@ static int sprd_thm_probe(struct platform_device *pdev)
+ 	struct device_node *sen_child;
+ 	struct sprd_thermal_data *thm;
+ 	struct sprd_thermal_sensor *sen;
++	struct sprd_thermal_sensor *temp, *pos;
+ 	struct resource *res;
+ 	const struct sprd_thm_variant_data *pdata;
+-	int ret = 0;
++	int ret;
+ 
+ 	pdata = of_device_get_match_data(&pdev->dev);
+ 	if (!pdata) {
+@@ -447,8 +440,8 @@ static int sprd_thm_probe(struct platform_device *pdev)
+ 	thm->var_data = pdata;
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	thm->regbase = devm_ioremap_resource(&pdev->dev, res);
+-	if (!thm->regbase)
+-		return -ENOMEM;
++	if (IS_ERR(thm->regbase))
++		return PTR_ERR(thm->regbase);
+ 
+ 	thm->clk = devm_clk_get(&pdev->dev, "enable");
+ 	if (IS_ERR(thm->clk)) {
+@@ -473,87 +466,88 @@ static int sprd_thm_probe(struct platform_device *pdev)
+ 		sen = devm_kzalloc(&pdev->dev, sizeof(*sen), GFP_KERNEL);
+ 		if (!sen) {
+ 			ret = -ENOMEM;
+-			goto of_put;
++			goto disable_clk;
+ 		}
+ 
+ 		ret = of_property_read_u32(sen_child, "reg", &sen->id);
+ 		if (ret) {
+ 			dev_err(&pdev->dev, "get sensor reg failed");
+-			goto of_put;
++			goto disable_clk;
+ 		}
+ 
+ 		ret = sprd_thm_sen_config(sen);
+ 		if (ret)
+-			goto of_put;
++			goto disable_clk;
+ 
+ 		sen->ready = false;
+ 		sen->base = thm->regbase;
+ 		sen->dev = &pdev->dev;
+-		sen->lasttemp = 25000;
+ 
+ 		ret = sprd_thm_sen_efuse_cal(sen_child, thm, sen);
+ 		if (ret) {
+ 			dev_err(&pdev->dev, "efuse cal analysis failed");
+-			goto of_put;
++			goto disable_clk;
+ 		}
+ 
+ 		sprd_thm_sen_threshold_config(sen);
+ 		sprd_thm_sen_init(thm, sen);
+ 
+ 		sen->thmzone_dev =
+-		    devm_thermal_of_zone_register(sen->dev, sen->id, sen, &sprd_thm_ops);
+-		if (IS_ERR_OR_NULL(sen->thmzone_dev)) {
+-			dev_err(&pdev->dev, "register thermal zone failed %d\n", sen->id);
+-			ret = PTR_ERR(sen->thmzone_dev);
+-			goto of_put;
++		    devm_thermal_of_zone_register(sen->dev, sen->id,
++						  sen, &sprd_thm_ops);
++		if (IS_ERR(sen->thmzone_dev)) {
++			/* a sensor without a thermal zone is not fatal */
++			dev_warn(&pdev->dev, "no thermal zone for sensor %d (%ld)\n",
++				 sen->id, PTR_ERR(sen->thmzone_dev));
++			continue;
+ 		}
+ 
+ 		list_add_tail(&sen->node, &thm->senlist);
+ 	}
+ 
+-	platform_set_drvdata(pdev, thm);
+-	ret = sprd_thm_set_ready(thm);
++	sprd_thm_set_ready(thm);
++	ret = sprd_thm_wait_temp_ready(thm);
+ 	if (ret)
+-		goto of_put;
++		goto disable_clk;
+ 
+-	INIT_DELAYED_WORK(&thm->wait_temp_ready_work, sprd_thm_wait_temp_ready_work);
+-	schedule_delayed_work(&thm->wait_temp_ready_work, 0);
++	list_for_each_entry_safe(pos, temp, &thm->senlist, node)
++		pos->ready = true;
+ 
++	platform_set_drvdata(pdev, thm);
+ 	return 0;
+ 
+-of_put:
+-	of_node_put(sen_child);
+ disable_clk:
+ 	clk_disable_unprepare(thm->clk);
+ 	return ret;
+ }
+ 
+-static int sprd_thm_suspend(struct platform_device *pdev, pm_message_t state)
++static int sprd_thm_hw_suspend(struct sprd_thermal_data *thm)
+ {
+-	struct sprd_thermal_data *thm = dev_get_drvdata(&pdev->dev);
+ 	struct sprd_thermal_sensor *sen, *temp;
+-
+-	atomic_set(&thm->quit_worker_flag, 1);
+-	cancel_delayed_work_sync(&thm->wait_temp_ready_work);
++	int ret;
+ 
+ 	list_for_each_entry_safe(sen, temp, &thm->senlist, node) {
+-		sen->ready = false;
+-		sprd_thm_update_bits(sen->base + SPRD_THM_CTL, sen->enable, 0x0);
++		sprd_thm_update_bits(sen->base + SPRD_THM_CTL,
++				     sen->enable, 0x0);
+ 	}
+ 
+-	/* Bug 1550142 Deepsleep AVDD1V8 power consumption is too high */
+-	writel(0x00, thm->regbase + SPRD_THM_CTL);
++	ret = sprd_thm_poll_ready_status(thm);
++	if (ret)
++		return ret;
+ 
+-	return 0;
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL,
++			     SPRD_THM_EN, 0x0);
++	return ret;
+ }
+ 
+ static int sprd_thm_hw_resume(struct sprd_thermal_data *thm)
+ {
+ 	struct sprd_thermal_sensor *sen, *temp;
+-	int ret = 0;
++	int ret;
+ 
+ 	list_for_each_entry_safe(sen, temp, &thm->senlist, node) {
+-		sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, sen->enable, sen->enable);
++		sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL,
++				     sen->enable, sen->enable);
+ 	}
+ 
+ 	ret = sprd_thm_poll_ready_status(thm);
+@@ -561,36 +555,58 @@ static int sprd_thm_hw_resume(struct sprd_thermal_data *thm)
+ 		return ret;
+ 
+ 	writel(SPRD_INT_CLR, thm->regbase + SPRD_THM_INT_CLR);
+-	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL, SPRD_THM_EN, SPRD_THM_EN);
+-	return 0;
++	sprd_thm_update_bits(thm->regbase + SPRD_THM_CTL,
++			     SPRD_THM_EN, SPRD_THM_EN);
++	return sprd_thm_wait_temp_ready(thm);
++}
++
++static int sprd_thm_suspend(struct platform_device *pdev, pm_message_t state)
++{
++	struct sprd_thermal_data *thm = dev_get_drvdata(&pdev->dev);
++	struct sprd_thermal_sensor *sen, *temp;
++	int ret;
++
++	list_for_each_entry_safe(sen, temp, &thm->senlist, node)
++		sen->ready = false;
++
++	ret = sprd_thm_hw_suspend(thm);
++	if (ret)
++		dev_info(&pdev->dev, "thermal suspend fail\n");
++
++	writel(0x00, thm->regbase + SPRD_THM_CTL);
++	udelay(2000);
++
++	clk_disable_unprepare(thm->clk);
++
++	return ret;
+ }
+ 
+ static int sprd_thm_resume(struct platform_device *pdev)
+ {
+ 	struct sprd_thermal_data *thm = dev_get_drvdata(&pdev->dev);
+-	int ret = 0;
++	struct sprd_thermal_sensor *sen, *temp;
++	int ret;
+ 
+-	ret = sprd_thm_hw_resume(thm);
++	ret = clk_prepare_enable(thm->clk);
+ 	if (ret)
+ 		return ret;
+ 
+-	atomic_set(&thm->quit_worker_flag, 0);
+-	schedule_delayed_work(&thm->wait_temp_ready_work, 0);
++	ret = sprd_thm_hw_resume(thm);
++	if (ret)
++		goto disable_clk;
+ 
++	list_for_each_entry_safe(sen, temp, &thm->senlist, node)
++		sen->ready = true;
+ 	return 0;
++
++disable_clk:
++	clk_disable_unprepare(thm->clk);
++	return ret;
+ }
+ 
+ static void sprd_thm_remove(struct platform_device *pdev)
+ {
+ 	struct sprd_thermal_data *thm = platform_get_drvdata(pdev);
+-	struct sprd_thermal_sensor *sen, *temp;
+-
+-	atomic_set(&thm->quit_worker_flag, 1);
+-	cancel_delayed_work_sync(&thm->wait_temp_ready_work);
+-
+-	list_for_each_entry_safe(sen, temp, &thm->senlist, node) {
+-		devm_thermal_of_zone_unregister(&pdev->dev, sen->thmzone_dev);
+-	}
+ 
+ 	clk_disable_unprepare(thm->clk);
+ }
+diff --git a/drivers/ufs/host/ufs-sprd.c b/drivers/ufs/host/ufs-sprd.c
+index 65bd8fb96..6d9933570 100644
+--- a/drivers/ufs/host/ufs-sprd.c
++++ b/drivers/ufs/host/ufs-sprd.c
+@@ -6,6 +6,7 @@
+  * Author: Zhe Wang <zhe.wang1@unisoc.com>
+  */
+ 
++#include <linux/clk.h>
+ #include <linux/arm-smccc.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/of.h>
+@@ -31,13 +32,26 @@ static struct ufs_sprd_priv *ufs_sprd_get_priv_data(struct ufs_hba *hba)
+ static void ufs_sprd_regmap_update(struct ufs_sprd_priv *priv, unsigned int index,
+ 				unsigned int reg, unsigned int bits,  unsigned int val)
+ {
++	/* 7552n: the vendor dtb has no syscon phandles, so the lookup fails and
++	 * leaves regmap as an ERR_PTR (not NULL). Testing with "!" let -ENODEV
++	 * through into regmap_update_bits() and the HCE enable path Oopsed. */
++	if (IS_ERR_OR_NULL(priv->sysci[index].regmap))
++		return;
++	pr_err("ufs-anlg: write reg=%#x bits=%#x val=%#x\n", reg, bits, val);
+ 	regmap_update_bits(priv->sysci[index].regmap, reg, bits, val);
++	pr_err("ufs-anlg: write reg=%#x done\n", reg);
+ }
+ 
+ static void ufs_sprd_regmap_read(struct ufs_sprd_priv *priv, unsigned int index,
+ 				unsigned int reg, unsigned int *val)
+ {
++	if (IS_ERR_OR_NULL(priv->sysci[index].regmap)) {
++		*val = 0;
++		return;
++	}
++	pr_err("ufs-anlg: read reg=%#x ...\n", reg);
+ 	regmap_read(priv->sysci[index].regmap, reg, val);
++	pr_err("ufs-anlg: read reg=%#x = %#x\n", reg, *val);
+ }
+ 
+ static void ufs_sprd_get_unipro_ver(struct ufs_hba *hba)
+@@ -70,12 +84,64 @@ static int ufs_sprd_get_reset_ctrl(struct device *dev, struct ufs_sprd_rst *rci)
+ 	return 0;
+ }
+ 
++/*
++ * The 7552n ships the vendor 5.4 device tree, which does not carry the
++ * sprd,ufs-anlg-syscon / sprd,aon-apb-syscon phandles this driver expects.
++ * It instead describes the same registers the way the 5.4 driver did:
++ *	phy_sram_ext_ld_done = <&syscon 0xc 0x2>;
++ * The phandle is the same node, so fall back to those property names.
++ */
++static const char * const ufs_sprd_anlg_alias[] = {
++	"phy_sram_ext_ld_done", "phy_sram_bypass", "phy_sram_init_done", NULL,
++};
++static const char * const ufs_sprd_aon_alias[] = {
++	"aon_apb_ufs_clk_en", "ufsdev_refclk_en", "usb31pllv_ref2mphy_en", NULL,
++};
++
++static struct regmap *ufs_sprd_lookup_syscon(struct device_node *np,
++					     const char *name)
++{
++	const char * const *alias = NULL;
++	struct regmap *map;
++	int i;
++
++	map = syscon_regmap_lookup_by_phandle(np, name);
++	if (!IS_ERR(map))
++		return map;
++
++	/*
++	 * Only the analog block gets the fallback. Letting the AON_APB syscon
++	 * resolve as well would also enable its APB_USB31PLL_CTRL /
++	 * APB_UFSDEV_REG writes, and we do not know yet which of the two is
++	 * the one that wedges the bus.
++	 */
++	if (!strcmp(name, "sprd,ufs-anlg-syscon"))
++		alias = ufs_sprd_anlg_alias;
++
++	(void)ufs_sprd_aon_alias;
++
++	for (i = 0; alias && alias[i]; i++) {
++		map = syscon_regmap_lookup_by_phandle(np, alias[i]);
++		if (!IS_ERR(map)) {
++			pr_info("ufs-sprd: %s resolved via vendor property %s\n",
++				name, alias[i]);
++			return map;
++		}
++	}
++
++	return ERR_PTR(-ENODEV);
++}
++
+ static int ufs_sprd_get_syscon_reg(struct device *dev, struct ufs_sprd_syscon *sysci)
+ {
+-	sysci->regmap = syscon_regmap_lookup_by_phandle(dev->of_node, sysci->name);
++	sysci->regmap = ufs_sprd_lookup_syscon(dev->of_node, sysci->name);
+ 	if (IS_ERR(sysci->regmap)) {
+-		dev_err(dev, "failed to get ufs syscon:%s\n", sysci->name);
+-		return PTR_ERR(sysci->regmap);
++		int ret = PTR_ERR(sysci->regmap);
++
++		dev_err(dev, "failed to get ufs syscon:%s, skipping its writes\n",
++			sysci->name);
++		sysci->regmap = NULL;	/* so later IS_ERR_OR_NULL() skips cleanly */
++		return ret;
+ 	}
+ 
+ 	return 0;
+@@ -112,8 +178,11 @@ static int ufs_sprd_parse_dt(struct device *dev, struct ufs_hba *hba, struct ufs
+ 		if (!priv->sysci[i].name)
+ 			continue;
+ 		ret = ufs_sprd_get_syscon_reg(dev, &priv->sysci[i]);
+-		if (ret)
+-			goto out;
++		if (ret) {
++			/* 7552n: vendor dtb does not carry these syscon phandles */
++			dev_warn(dev, "skip syscon %s (%d)\n", priv->sysci[i].name, ret);
++			ret = 0;
++		}
+ 	}
+ 
+ 	/* Parse UFS vreg info */
+@@ -257,6 +326,91 @@ static int ufs_sprd_n6_init(struct ufs_hba *hba)
+ 	if (ret != 0)
+ 		return ret;
+ 
++	/*
++	 * The 5.4 driver reparents the UFS hclk onto ufs_hclk_source before any
++	 * controller access. This driver never touched the clocks at all, and
++	 * touching the controller/PHY registers without the right parent hung
++	 * the AHB bus on the 7552n.
++	 */
++	{
++		struct clk *hclk = devm_clk_get(hba->dev, "ufs_hclk");
++		struct clk *hclk_src = devm_clk_get(hba->dev, "ufs_hclk_source");
++		int cret = 0;
++
++		if (!IS_ERR_OR_NULL(hclk) && !IS_ERR_OR_NULL(hclk_src))
++			cret = clk_set_parent(hclk, hclk_src);
++
++		dev_info(hba->dev, "ufs clocks: hclk=%ld src=%ld set_parent=%d\n",
++			 (long)PTR_ERR_OR_ZERO(hclk),
++			 (long)PTR_ERR_OR_ZERO(hclk_src), cret);
++	}
++
++	/*
++	 * clk_summary showed every UFS gate as "deviceless" with the hardware
++	 * enable bit clear (ufs-eb / ufs-cfg-eb / ufs-tx-eb / ufs-rx-*-eb = N).
++	 * Only ufs-pck and ufs-cfg were on, which is enough to read registers but
++	 * not to bring the controller out of reset - touching the PHY hung the
++	 * bus. Claim and enable them here.
++	 */
++	{
++		static const char * const gates[] = {
++			"ufs_eb", "ufs_cfg_eb", "ufs_hclk", NULL,
++		};
++		int i;
++
++		for (i = 0; gates[i]; i++) {
++			struct clk *c = devm_clk_get(hba->dev, gates[i]);
++
++			if (IS_ERR_OR_NULL(c)) {
++				dev_info(hba->dev, "ufs gate %s: none (%ld)\n",
++					 gates[i], (long)PTR_ERR_OR_ZERO(c));
++				continue;
++			}
++			dev_info(hba->dev, "ufs gate %s: enable=%d\n",
++				 gates[i], clk_prepare_enable(c));
++		}
++	}
++
++	/*
++	 * aon_apb_ufs_clk_en = <&aon_syscon 0xc14 0xc0>. The 5.4 driver only
++	 * ever clears it on exit, so the bit is supposed to be set before we
++	 * run (by the bootloader on the Android path). If it is clear, the AON
++	 * APB side of the UFS block is gated and touching the analog registers
++	 * wedges the bus. Read it, and set it if it is missing.
++	 */
++	{
++		static const char * const names[] = {
++			"aon_apb_ufs_clk_en", "ufsdev_refclk_en",
++			"usb31pllv_ref2mphy_en", NULL,
++		};
++		int i;
++
++		for (i = 0; names[i]; i++) {
++			u32 out[2] = { 0, 0 };
++			struct regmap *m;
++			u32 val = 0;
++
++			m = syscon_regmap_lookup_by_phandle_args(
++				hba->dev->of_node, names[i], 2, out);
++			if (IS_ERR_OR_NULL(m)) {
++				dev_info(hba->dev, "ufs aon %s: no syscon\n",
++					 names[i]);
++				continue;
++			}
++			regmap_read(m, out[0], &val);
++			dev_info(hba->dev,
++				 "ufs aon %s: reg=%#x mask=%#x val=%#x\n",
++				 names[i], out[0], out[1], val);
++			if ((val & out[1]) != out[1]) {
++				regmap_update_bits(m, out[0], out[1], out[1]);
++				regmap_read(m, out[0], &val);
++				dev_info(hba->dev,
++					 "ufs aon %s: set -> val=%#x\n",
++					 names[i], val);
++			}
++		}
++	}
++
+ 	priv = ufs_sprd_get_priv_data(hba);
+ 
+ 	ret = regulator_enable(priv->vregi[SPRD_UFS_VDD_MPHY].vreg);
+@@ -386,8 +540,9 @@ static void sprd_ufs_n6_h8_notify(struct ufs_hba *hba,
+ }
+ 
+ static struct ufs_sprd_priv n6_ufs = {
+-	.rci[SPRD_UFSHCI_SOFT_RST] = { .name = "controller", },
+-	.rci[SPRD_UFS_DEV_RST] = { .name = "device", },
++	/* 7552n: the stock vendor dtb names these ufs_soft_rst / ufsdev_soft_rst */
++	.rci[SPRD_UFSHCI_SOFT_RST] = { .name = "ufs_soft_rst", },
++	.rci[SPRD_UFS_DEV_RST] = { .name = "ufsdev_soft_rst", },
+ 
+ 	.sysci[SPRD_UFS_ANLG] = { .name = "sprd,ufs-anlg-syscon", },
+ 	.sysci[SPRD_UFS_AON_APB] = { .name = "sprd,aon-apb-syscon", },
+@@ -407,6 +562,9 @@ static struct ufs_sprd_priv n6_ufs = {
+ 
+ static const struct of_device_id __maybe_unused ufs_sprd_of_match[] = {
+ 	{ .compatible = "sprd,ums9620-ufs", .data = &n6_ufs.ufs_hba_sprd_vops},
++	/* the vendor 5.4 DT describes the same controller as "sprd,ufshc";
++	 * without this the device never matches and no block device appears */
++	{ .compatible = "sprd,ufshc", .data = &n6_ufs.ufs_hba_sprd_vops},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, ufs_sprd_of_match);
+diff --git a/drivers/unisoc_platform/sprd_audio/Makefile b/drivers/unisoc_platform/sprd_audio/Makefile
+index d355f4e24..576267f87 100644
+--- a/drivers/unisoc_platform/sprd_audio/Makefile
++++ b/drivers/unisoc_platform/sprd_audio/Makefile
+@@ -25,3 +25,5 @@ obj-$(CONFIG_UNISOC_AUDIO_CP_DVFS)		+= audiodvfs/
+ obj-$(CONFIG_UNISOC_AUDIO_DSP_DUMP)		+= audiodspdump/
+ obj-$(CONFIG_UNISOC_AUDIO_VOICE_TRIGGER_IRQ)	+= voice_trigger_irq/
+ obj-$(CONFIG_UNISOC_AUDIO_MCDT_R2P0)		+= mcdt/mcdt_r2p0/
++
++obj-y += audio-legacy-dt.o
+diff --git a/drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c b/drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c
+index a6db3a180..8ad03c8ab 100644
+--- a/drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c
++++ b/drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c
+@@ -24,6 +24,17 @@ static struct clk *clk_dpuvsp_eb;
+ static struct clk *clk_dpuvsp_disp_eb;
+ 
+ static struct reset_control *ctx_reset, *s_ctx_reset;
++/*
++ * The vendor DT describes the DSI resets the 5.4 way:
++ *   dsi@31300000  reset-syscon = <&glbreg 0x04 0x02>
++ *   dsi1@31400000 reset        = <&glbreg 0x04 0x04>; syscon-names = "reset";
++ * and has no resets/reset-names for the reset framework, so
++ * devm_reset_control_get() fails and the controller was never reset when
++ * Linux took over a panel already running under Android.  Keep the syscon
++ * fallback so the global reset is actually toggled.
++ */
++static struct regmap *dsi_ctx_regmap, *dsi_s_ctx_regmap;
++static u32 dsi_ctx_reg, dsi_ctx_mask, dsi_s_ctx_reg, dsi_s_ctx_mask;
+ 
+ static int dsi_glb_parse_dt(struct dsi_context *ctx,
+ 		struct device_node *np)
+@@ -66,9 +77,21 @@ static int dsi_glb_parse_dt(struct dsi_context *ctx,
+ 	}
+ 
+ 	ctx_reset = devm_reset_control_get(&pdev->dev, "dsi_rst");
+-	if (IS_ERR(ctx_reset)) {
+-		pr_warn("read ctx_reset failed\n");
+-		return PTR_ERR(ctx_reset);
++	if (IS_ERR_OR_NULL(ctx_reset)) {
++		u32 args[2];
++
++		ctx_reset = NULL;
++		dsi_ctx_regmap = syscon_regmap_lookup_by_phandle_args(np,
++				"reset-syscon", 2, args);
++		if (IS_ERR(dsi_ctx_regmap)) {
++			pr_warn("read ctx_reset failed\n");
++			dsi_ctx_regmap = NULL;
++		} else {
++			dsi_ctx_reg = args[0];
++			dsi_ctx_mask = args[1];
++			pr_info("dsi reset via reset-syscon reg=%#x mask=%#x\n",
++				dsi_ctx_reg, dsi_ctx_mask);
++		}
+ 	}
+ 
+ 	return 0;
+@@ -90,9 +113,21 @@ static int dsi_s_glb_parse_dt(struct dsi_context *ctx,
+ 	}
+ 
+ 	s_ctx_reset = devm_reset_control_get(&dsi->dev, "s_dsi_rst");
+-	if (IS_ERR(s_ctx_reset)) {
+-		pr_warn("read s_ctx_reset failed\n");
+-		return PTR_ERR(s_ctx_reset);
++	if (IS_ERR_OR_NULL(s_ctx_reset)) {
++		u32 args[2];
++
++		s_ctx_reset = NULL;
++		dsi_s_ctx_regmap = syscon_regmap_lookup_by_phandle_args(np,
++				"reset", 2, args);
++		if (IS_ERR(dsi_s_ctx_regmap)) {
++			pr_warn("read s_ctx_reset failed\n");
++			dsi_s_ctx_regmap = NULL;
++		} else {
++			dsi_s_ctx_reg = args[0];
++			dsi_s_ctx_mask = args[1];
++			pr_info("dsi1 reset via syscon reg=%#x mask=%#x\n",
++				dsi_s_ctx_reg, dsi_s_ctx_mask);
++		}
+ 	}
+ 
+ 	return 0;
+@@ -200,19 +235,36 @@ static void dsi_s_glb_disable(struct dsi_context *ctx)
+ 
+ static void dsi_reset(struct dsi_context *ctx)
+ {
+-	if (!IS_ERR(ctx_reset)) {
++	if (!IS_ERR_OR_NULL(ctx_reset)) {
+ 		reset_control_assert(ctx_reset);
+ 		udelay(10);
+ 		reset_control_deassert(ctx_reset);
++		return;
++	}
++
++	if (dsi_ctx_regmap) {
++		regmap_update_bits(dsi_ctx_regmap, dsi_ctx_reg, dsi_ctx_mask,
++				dsi_ctx_mask);
++		udelay(10);
++		regmap_update_bits(dsi_ctx_regmap, dsi_ctx_reg, dsi_ctx_mask, 0);
+ 	}
+ }
+ 
+ static void dsi_s_reset(struct dsi_context *ctx)
+ {
+-	if (!IS_ERR(s_ctx_reset)) {
++	if (!IS_ERR_OR_NULL(s_ctx_reset)) {
+ 		reset_control_assert(s_ctx_reset);
+ 		udelay(10);
+ 		reset_control_deassert(s_ctx_reset);
++		return;
++	}
++
++	if (dsi_s_ctx_regmap) {
++		regmap_update_bits(dsi_s_ctx_regmap, dsi_s_ctx_reg,
++				dsi_s_ctx_mask, dsi_s_ctx_mask);
++		udelay(10);
++		regmap_update_bits(dsi_s_ctx_regmap, dsi_s_ctx_reg,
++				dsi_s_ctx_mask, 0);
+ 	}
+ }
+ 
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_bl.c b/drivers/unisoc_platform/sprd_disp/sprd_bl.c
+index 79a38e8ae..eb791c8fd 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_bl.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_bl.c
+@@ -267,6 +267,25 @@ static int sprd_backlight_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static void sprd_backlight_shutdown(struct platform_device *pdev)
++{
++	struct backlight_device *bd = platform_get_drvdata(pdev);
++
++	if (!bd)
++		return;
++
++	/*
++	 * Hand the panel over dark. drm_atomic_helper_shutdown() disables the CRTC,
++	 * but the PWM is a separate device: if it is left enabled at its last duty
++	 * the panel keeps showing the last frame after Linux reboots, which is the
++	 * grey/ghosted screen Android then has to clear.
++	 */
++	bd->props.brightness = 0;
++	bd->props.power = FB_BLANK_POWERDOWN;
++	bd->props.state |= BL_CORE_FBBLANK;
++	backlight_update_status(bd);
++}
++
+ static const struct of_device_id sprd_backlight_of_match[] = {
+ 	{ .compatible = "sprd,sharkl3-backlight" },
+ 	{ .compatible = "sprd,sharkl5-backlight" },
+@@ -283,6 +302,7 @@ struct platform_driver sprd_backlight_driver = {
+ 		.of_match_table	= sprd_backlight_of_match,
+ 	},
+ 	.probe		= sprd_backlight_probe,
++	.shutdown	= sprd_backlight_shutdown,
+ };
+ 
+ MODULE_AUTHOR("Kevin Tang <kevin.tang@unisoc.com>");
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_dphy.c b/drivers/unisoc_platform/sprd_disp/sprd_dphy.c
+index 353ccc1a0..78ac04436 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_dphy.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_dphy.c
+@@ -366,7 +366,11 @@ static int sprd_dphy_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, dphy);
+ 
+ 	dsi = dev_get_drvdata(dsi_dev);
+-	if (dsi->dual_dsi_en) {
++	/* the DSI may not have probed yet; dereferencing it here panicked with a
++	 * NULL pointer at offset 0xe20 (dual_dsi_en) on the 7552n */
++	if (!dsi)
++		DRM_WARN("dphy: no dsi drvdata yet, assuming single channel");
++	if (dsi && dsi->dual_dsi_en) {
+ 		ret = sprd_dphy_dual_channel_init(dphy);
+ 		if (ret)
+ 			return ret;
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_drm.c b/drivers/unisoc_platform/sprd_disp/sprd_drm.c
+index bfec1e29d..b2f21dd84 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_drm.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_drm.c
+@@ -508,6 +508,28 @@ static int sprd_drm_component_probe(struct device *dev,
+ 			continue;
+ 		}
+ 
++		/*
++		 * A crtc that declares a power domain the DT cannot resolve can
++		 * never finish probing, so matching it would stall the master
++		 * forever. The 7552n DT matches dpu1@31880000 whose PD phandle
++		 * (0x54) is not present at all; drop such nodes from the match.
++		 */
++		/*
++		 * dpu1@31880000 uses "sprd,qogirn6pro-dpu1", which sprd-dpu-drv does
++		 * not match, so that device never probes. Matching it here makes the
++		 * component master wait forever and drm_dev_register() never runs.
++		 * The 7552n drives its only panel from dpu@31000000, so drop it.
++		 */
++		if (of_device_is_compatible(port->parent,
++					    "sprd,qogirn6pro-dpu1")) {
++			dev_err(dev, "skip %pOF: no driver for this crtc\n",
++				port->parent);
++			of_node_put(port);
++			continue;
++		}
++
++		dev_err(dev, "match add: %pOF\n", port->parent);
++
+ 		component_match_add(dev, &match, compare_of, port->parent);
+ 		of_node_put(port);
+ 	}
+@@ -547,6 +569,8 @@ static int sprd_drm_component_probe(struct device *dev,
+ 				continue;
+ 			}
+ 
++			dev_err(dev, "match add: %pOF\n", remote);
++
+ 			component_match_add(dev, &match, compare_of, remote);
+ 			of_node_put(remote);
+ 		}
+@@ -562,6 +586,7 @@ static int sprd_drm_component_probe(struct device *dev,
+ 			of_node_put(port);
+ 			continue;
+ 		}
++		dev_err(dev, "match add: %pOF\n", port);
+ 		component_match_add(dev, &match, compare_of, port);
+ 		of_node_put(port);
+ 	}
+diff --git a/drivers/unisoc_platform/sprd_disp/sprd_dsi.c b/drivers/unisoc_platform/sprd_disp/sprd_dsi.c
+index 011101882..322b4a1ea 100644
+--- a/drivers/unisoc_platform/sprd_disp/sprd_dsi.c
++++ b/drivers/unisoc_platform/sprd_disp/sprd_dsi.c
+@@ -1156,11 +1156,17 @@ static int sprd_dsi_dual_channel_init(struct sprd_dsi *dsi)
+ 	if (np) {
+ 		DRM_INFO("find sprd,dual-channel\n");
+ 		secondary = of_find_device_by_node(np);
+-		dsi->dsi_slave = dev_get_drvdata(&secondary->dev);
++		dsi->dsi_slave = secondary ? dev_get_drvdata(&secondary->dev) : NULL;
+ 		of_node_put(np);
+ 
+-		if (!dsi->dsi_slave)
+-			return -EPROBE_DEFER;
++		if (!dsi->dsi_slave) {
++			/* The slave never exposes drvdata on this board, so deferring here
++			 * only burns the deferred-probe timeout and ends in -ETIMEDOUT.
++			 * Carry on as single channel and log what was actually found. */
++			DRM_WARN("dual-channel: secondary=%px drvdata=%px, continuing single\n",
++				 secondary, dsi->dsi_slave);
++			return 0;
++		}
+ 
+ 		dsi->dsi_slave->dsi_master = dsi;
+ 		dsi->dsi_slave->dual_dsi_en = 1;
+@@ -1176,6 +1182,8 @@ static int sprd_dsi_probe(struct platform_device *pdev)
+ 	struct sprd_dsi *dsi;
+ 	int ret;
+ 
++	dev_err(&pdev->dev, "probe ENTER\n");
++
+ 	dsi = devm_kzalloc(&pdev->dev, sizeof(*dsi), GFP_KERNEL);
+ 	if (!dsi) {
+ 		DRM_ERROR("failed to allocate dsi data.\n");
+@@ -1210,10 +1218,12 @@ static int sprd_dsi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ret = sprd_dsi_context_init(dsi, &pdev->dev);
++	dev_err(&pdev->dev, "probe-step context_init ret=%d\n", ret);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ret = sprd_dsi_device_create(dsi, &pdev->dev);
++	dev_err(&pdev->dev, "probe-step device_create ret=%d\n", ret);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1225,6 +1235,7 @@ static int sprd_dsi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ret = sprd_dual_dsi_parse_dt(dsi, np);
++	dev_err(&pdev->dev, "probe-step parse_dt ret=%d dual_en=%d\n", ret, dsi->dual_dsi_en);
+ 	if (ret) {
+ 		DRM_ERROR("parse dual dsi info failed\n");
+ 		return ret;
+@@ -1237,6 +1248,7 @@ static int sprd_dsi_probe(struct platform_device *pdev)
+ 	}
+ 
+ 	ret = sprd_dsi_host_init(&pdev->dev, dsi);
++	dev_err(&pdev->dev, "probe-step host_init ret=%d\n", ret);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
+index feeba3d6d..b21dedd91 100644
+--- a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
++++ b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
+@@ -1,57 +1,57 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/* SC2355 firmware SAE; shared by SDIO and PCIe. Included by cmdevt.c. */
+-static int sc2355_prepare_sae(struct sprd_priv *priv, struct sprd_vif *vif,
+-			    struct cfg80211_ap_settings *settings)
+-{
+-	struct sc2355_sae_password {
+-		__le16 request_type;
+-		__le16 entry_type, entry_len;
+-		__le16 password_type, password_len;
+-		u8 data[];
+-	} __packed;
+-	const struct cfg80211_crypto_settings *crypto = &settings->crypto;
+-	struct sc2355_sae_password *p;
+-	struct sprd_msg *msg;
+-	bool sae = false;
+-	int i;
+-
+-	for (i = 0; i < crypto->n_akm_suites; i++) {
+-		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_FT_OVER_SAE)
+-			return -EOPNOTSUPP;
+-		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_SAE)
+-			sae = true;
+-	}
+-	if (!sae)
+-		return 0; /* Preserve the existing WPA2/EAP/open path. */
+-	if (!(priv->extend_feature & SPRD_EXTEND_SOATAP_WPA3) ||
+-	    !(priv->fw_capa & SPRD_CAPA_AP_SME) ||
+-	    !(priv->fw_std & SPRD_STD_11W))
+-		return -EOPNOTSUPP;
+-	/* The recovered BSP interface supports hunting-and-pecking. Do not
+-	 * advertise H2E while feeding the firmware a legacy password entry.
+-	 */
+-	if (crypto->sae_pwe == NL80211_SAE_PWE_HASH_TO_ELEMENT ||
+-	    crypto->sae_pwe == NL80211_SAE_PWE_BOTH)
+-		return -EOPNOTSUPP;
+-	if (!crypto->sae_pwd || !crypto->sae_pwd_len ||
+-	    crypto->sae_pwd_len > 63)
+-		return -EINVAL;
+-
+-	/* Same wire format as Android's vendor command 43:
+-	 * request 2, ENTRY(0), PWD(7), END(255), 16-bit LE TLV headers.
+-	 * No terminator is included in the password length. Four-way/EAPOL
+-	 * remains in hostapd, using the firmware's 40:45:da:04 PMK indication.
+-	 */
+-	msg = get_cmdbuf(priv, vif, sizeof(*p) + crypto->sae_pwd_len + 4,
+-			 CMD_SET_SAE_PARAM);
+-	if (!msg)
+-		return -ENOMEM;
+-	p = (struct sc2355_sae_password *)msg->data;
+-	memset(p, 0, sizeof(*p) + crypto->sae_pwd_len + 4);
+-	p->request_type = cpu_to_le16(SPRD_SAE_PASSWORD_ENTRY);
+-	p->password_type = cpu_to_le16(7);
+-	p->password_len = cpu_to_le16(crypto->sae_pwd_len);
+-	memcpy(p->data, crypto->sae_pwd, crypto->sae_pwd_len);
+-	p->data[crypto->sae_pwd_len] = 0xff;
+-	return send_cmd_recv_rsp(priv, msg, NULL, NULL);
+-}
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* SC2355 firmware SAE; shared by SDIO and PCIe. Included by cmdevt.c. */
++static int sc2355_prepare_sae(struct sprd_priv *priv, struct sprd_vif *vif,
++			    struct cfg80211_ap_settings *settings)
++{
++	struct sc2355_sae_password {
++		__le16 request_type;
++		__le16 entry_type, entry_len;
++		__le16 password_type, password_len;
++		u8 data[];
++	} __packed;
++	const struct cfg80211_crypto_settings *crypto = &settings->crypto;
++	struct sc2355_sae_password *p;
++	struct sprd_msg *msg;
++	bool sae = false;
++	int i;
++
++	for (i = 0; i < crypto->n_akm_suites; i++) {
++		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_FT_OVER_SAE)
++			return -EOPNOTSUPP;
++		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_SAE)
++			sae = true;
++	}
++	if (!sae)
++		return 0; /* Preserve the existing WPA2/EAP/open path. */
++	if (!(priv->extend_feature & SPRD_EXTEND_SOATAP_WPA3) ||
++	    !(priv->fw_capa & SPRD_CAPA_AP_SME) ||
++	    !(priv->fw_std & SPRD_STD_11W))
++		return -EOPNOTSUPP;
++	/* The recovered BSP interface supports hunting-and-pecking. Do not
++	 * advertise H2E while feeding the firmware a legacy password entry.
++	 */
++	if (crypto->sae_pwe == NL80211_SAE_PWE_HASH_TO_ELEMENT ||
++	    crypto->sae_pwe == NL80211_SAE_PWE_BOTH)
++		return -EOPNOTSUPP;
++	if (!crypto->sae_pwd || !crypto->sae_pwd_len ||
++	    crypto->sae_pwd_len > 63)
++		return -EINVAL;
++
++	/* Same wire format as Android's vendor command 43:
++	 * request 2, ENTRY(0), PWD(7), END(255), 16-bit LE TLV headers.
++	 * No terminator is included in the password length. Four-way/EAPOL
++	 * remains in hostapd, using the firmware's 40:45:da:04 PMK indication.
++	 */
++	msg = get_cmdbuf(priv, vif, sizeof(*p) + crypto->sae_pwd_len + 4,
++			 CMD_SET_SAE_PARAM);
++	if (!msg)
++		return -ENOMEM;
++	p = (struct sc2355_sae_password *)msg->data;
++	memset(p, 0, sizeof(*p) + crypto->sae_pwd_len + 4);
++	p->request_type = cpu_to_le16(SPRD_SAE_PASSWORD_ENTRY);
++	p->password_type = cpu_to_le16(7);
++	p->password_len = cpu_to_le16(crypto->sae_pwd_len);
++	memcpy(p->data, crypto->sae_pwd, crypto->sae_pwd_len);
++	p->data[crypto->sae_pwd_len] = 0xff;
++	return send_cmd_recv_rsp(priv, msg, NULL, NULL);
++}
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index f0a9bb575..c153734b1 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -2821,6 +2821,7 @@ static const struct of_device_id of_dwc3_match[] = {
+ 	{
+ 		.compatible = "synopsys,dwc3"
+ 	},
++	{ .compatible = "snps,sprd-dwc3" },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, of_dwc3_match);
+diff --git a/drivers/usb/dwc3/dwc3-of-simple.c b/drivers/usb/dwc3/dwc3-of-simple.c
+index c11614333..a9c0a4bdd 100644
+--- a/drivers/usb/dwc3/dwc3-of-simple.c
++++ b/drivers/usb/dwc3/dwc3-of-simple.c
+@@ -171,6 +171,7 @@ static const struct dev_pm_ops dwc3_of_simple_dev_pm_ops = {
+ static const struct of_device_id of_dwc3_simple_match[] = {
+ 	{ .compatible = "rockchip,rk3399-dwc3" },
+ 	{ .compatible = "sprd,sc9860-dwc3" },
++	{ .compatible = "sprd,qogirn6pro-dwc3" },
+ 	{ .compatible = "allwinner,sun50i-h6-dwc3" },
+ 	{ .compatible = "hisilicon,hi3670-dwc3" },
+ 	{ .compatible = "hisilicon,hi3798mv200-dwc3" },
+diff --git a/drivers/usb/phy/Kconfig b/drivers/usb/phy/Kconfig
+index ec1102cb4..72883ffa9 100644
+--- a/drivers/usb/phy/Kconfig
++++ b/drivers/usb/phy/Kconfig
+@@ -179,3 +179,9 @@ config SPRD_QOGIRN6LITE_USB2_PHY
+ 	  controller.
+ 
+ endmenu
++
++config USB_SPRD_UMS9620_SSPHY
++	bool "Unisoc UMS9620 USB PHY"
++	depends on ARCH_SPRD
++	select USB_PHY
++	select MFD_SYSCON
+diff --git a/drivers/usb/phy/Makefile b/drivers/usb/phy/Makefile
+index 37f476719..23c682948 100644
+--- a/drivers/usb/phy/Makefile
++++ b/drivers/usb/phy/Makefile
+@@ -24,3 +24,5 @@ obj-$(CONFIG_USB_ULPI_VIEWPORT)		+= phy-ulpi-viewport.o
+ obj-$(CONFIG_KEYSTONE_USB_PHY)		+= phy-keystone.o
+ obj-$(CONFIG_SPRD_BC1P2)		+= sprd-bc1p2.o
+ obj-$(CONFIG_SPRD_QOGIRN6LITE_USB2_PHY)	+= phy-sprd-qogirn6lite.o
++
++obj-$(CONFIG_USB_SPRD_UMS9620_SSPHY) += phy-sprd-ums9620-ssphy.o
+diff --git a/drivers/usb/phy/phy-generic.c b/drivers/usb/phy/phy-generic.c
+index 8423be59e..332f3b33a 100644
+--- a/drivers/usb/phy/phy-generic.c
++++ b/drivers/usb/phy/phy-generic.c
+@@ -338,6 +338,7 @@ static void usb_phy_generic_remove(struct platform_device *pdev)
+ 
+ static const struct of_device_id nop_xceiv_dt_ids[] = {
+ 	{ .compatible = "usb-nop-xceiv" },
++	{ .compatible = "sprd,usb-dummy-phy" },
+ 	{ }
+ };
+ 
+diff --git a/sound/soc/soc-core.c b/sound/soc/soc-core.c
+index feecf3e4e..f1f3a1b73 100644
+--- a/sound/soc/soc-core.c
++++ b/sound/soc/soc-core.c
+@@ -1030,7 +1030,7 @@ static int soc_dai_link_sanity_check(struct snd_soc_card *card,
+ 	return -EINVAL;
+ 
+ component_not_found:
+-	dev_dbg(card->dev, "ASoC: Component %s not found for link %s\n", dlc->name, link->name);
++	dev_err(card->dev, "ASoC: Component name=%s of_node=%pOF not found for link %s\n", dlc->name, dlc->of_node, link->name);
+ 	return -EPROBE_DEFER;
+ 
+ dai_empty:
+@@ -1201,7 +1201,7 @@ static int snd_soc_add_pcm_runtime(struct snd_soc_card *card,
+ 	for_each_link_cpus(dai_link, i, cpu) {
+ 		snd_soc_rtd_to_cpu(rtd, i) = snd_soc_find_dai(cpu);
+ 		if (!snd_soc_rtd_to_cpu(rtd, i)) {
+-			dev_info(card->dev, "ASoC: CPU DAI %s not registered\n",
++			dev_err(card->dev, "ASoC: CPU DAI %s not registered\n",
+ 				 cpu->dai_name);
+ 			goto _err_defer;
+ 		}
+@@ -1212,7 +1212,7 @@ static int snd_soc_add_pcm_runtime(struct snd_soc_card *card,
+ 	for_each_link_codecs(dai_link, i, codec) {
+ 		snd_soc_rtd_to_codec(rtd, i) = snd_soc_find_dai(codec);
+ 		if (!snd_soc_rtd_to_codec(rtd, i)) {
+-			dev_info(card->dev, "ASoC: CODEC DAI %s not registered\n",
++			dev_err(card->dev, "ASoC: CODEC DAI %s not registered\n",
+ 				 codec->dai_name);
+ 			goto _err_defer;
+ 		}
+diff --git a/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c b/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c
+index 3cdde3413..22bd8b0aa 100755
+--- a/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c
++++ b/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c
+@@ -3131,6 +3131,9 @@ static int vbc_profile_set(struct snd_soc_component *codec, void *data,
+ 		SND_VBC_DSP_IO_SHAREMEM_SET, profile_type, data,
+ 		p_profile_setting->hdr[profile_type].len_mode,
+ 				   AUDIO_SIPC_WAIT_FOREVER);
++	pr_err("vbc-profile-set: type=%d mode=%#x off=%u pid=%u dsp_case=%u len=%u ret=%d\n",
++	       profile_type, mode, (mode >> 24) & 0xff, (mode >> 16) & 0xff,
++	       mode & 0xffff, p_profile_setting->hdr[profile_type].len_mode, ret);
+ 	if (ret < 0)
+ 		return -EIO;
+ 
+@@ -3159,8 +3162,14 @@ static void vbc_profile_try_apply(struct snd_soc_component *codec,
+ 		       (p_profile_setting->now_mode[profile_id] >> 16) & 0xff,
+ 		       mode_offset);
+ 	/* update the para*/
+-	vbc_profile_set(codec, data, profile_id,
+-			p_profile_setting->now_mode[profile_id]);
++	{
++		int _r = vbc_profile_set(codec, data, profile_id,
++					 p_profile_setting->now_mode[profile_id]);
++
++		pr_err("vbc-profile-apply: id=%d now_mode=%#x mode_offset=%u ret=%d\n",
++		       profile_id, p_profile_setting->now_mode[profile_id],
++		       mode_offset, _r);
++	}
+ 	mutex_unlock(&vbc_codec->load_mutex);
+ }
+ 
+@@ -3476,7 +3485,11 @@ static int vbc_turning_ndp_init(void)
+ 	unsigned int major = 0;
+ 	unsigned int minor = 0;
+ 	u8 index = 0;
+-	char ndp_name[32];
++	/* class_create() keeps this pointer: dev_uevent_name() reads
++	 * dev->class->name on every uevent, so the buffer must outlive this
++	 * function and the modprobe task's kernel stack. */
++	static char ndp_names[AUD_TURNING_PRO_CNTS][32];
++	char *ndp_name;
+ 
+ 	result = alloc_chrdev_region(&devid, AUD_TURNING_MINOR_START, AUD_TURNING_PRO_CNTS, AUDIO_TURNING_PATH_BASE);
+ 	if (result < 0) {
+@@ -3501,8 +3514,9 @@ static int vbc_turning_ndp_init(void)
+ 			goto INIT_FAILED;
+ 		}
+ 
+-		memset(&ndp_name[0], 0, sizeof(char) * 32);
+-		sprintf(&ndp_name[0], "%s%d", AUDIO_TURNING_PATH_BASE, index);
++		ndp_name = ndp_names[index];
++		memset(ndp_name, 0, sizeof(ndp_names[index]));
++		snprintf(ndp_name, sizeof(ndp_names[index]), "%s%d", AUDIO_TURNING_PATH_BASE, index);
+ 		pr_info("%s,ndp_name = %s !\n", __func__, ndp_name);
+ 		aud_turning[index].turing_class = class_create(ndp_name);
+ 		if (IS_ERR(aud_turning[index].turing_class)) {
+@@ -3743,6 +3757,10 @@ static int vbc_profile_put(struct snd_kcontrol *kcontrol,
+ 	 * param_id: 16-23
+ 	 * dsp_case: 0-15
+ 	 */
++	pr_err("vbc-profile-select: id=%d value=%#x offset=%u pid=%u dsp_case=%u max=%u data=%d\n",
++	       profile_idx, ret, current_offset, (ret >> 16) & 0xff, ret & 0xffff,
++	       mode_max_offset, p_profile_setting->data[profile_idx] != NULL);
++
+ 	if (current_offset < mode_max_offset)
+ 		p_profile_setting->now_mode[profile_idx] = ret;
+ 
+@@ -6447,6 +6465,7 @@ static void init_vbc_codec_data(struct vbc_codec_priv *vbc_codec)
+ 	vbc_codec->hp_4p_crosstalk_gain.gain1 = HP_CROSSTALK_GAIN_DEFAULT;
+ }
+ 
++
+ int sprd_vbc_codec_probe(struct platform_device *pdev)
+ {
+ 	struct vbc_codec_priv *vbc_codec;
+@@ -7327,6 +7346,46 @@ static int dsp_startup(struct vbc_codec_priv *vbc_codec,
+ 		goto out;
+ 	memset(&startup_info, 0, sizeof(startup_info));
+ 	fill_dsp_startup_data(vbc_codec, scene_id, stream, &startup_info);
++
++	/* 7552n diagnostic: the whole 620-byte payload, plus the arrays that carry
++	 * routing/mixing, so a zero field is visible instead of assumed. */
++	{
++		const u8 *raw = (const u8 *)&startup_info;
++		struct snd_pcm_startup_paras *pp = &startup_info.startup_para;
++		int j, k, line;
++
++		pr_info("vbc-startup: scene=%d stream=%d dac_id=%d adc_id=%d payload=%zu\n",
++			scene_id, stream, pp->dac_id, pp->adc_id,
++			sizeof(struct sprd_vbc_stream_startup_shutdown));
++
++		for (j = 0; j < VBC_MUX_DAC_OUT_MAX; j++)
++			if (pp->dac_out[j].val || pp->dac_out[j].id)
++				pr_info("  dac_out[%d] id=%d val=%d\n", j,
++					pp->dac_out[j].id, pp->dac_out[j].val);
++		for (j = 0; j < VBC_MUX_IIS_TX_ID_MAX; j++)
++			if (pp->mux_tx[j].val || pp->mux_tx[j].id)
++				pr_info("  iis_tx[%d] id=%d val=%d\n", j,
++					pp->mux_tx[j].id, pp->mux_tx[j].val);
++		for (j = 0; j < VBC_MUX_IIS_RX_ID_MAX; j++)
++			if (pp->mux_rx[j].val || pp->mux_rx[j].id)
++				pr_info("  iis_rx[%d] id=%d val=%d\n", j,
++					pp->mux_rx[j].id, pp->mux_rx[j].val);
++		for (j = 0; j < VBC_IIS_PORT_ID_MAX; j++)
++			if (pp->iis_do[j].val || pp->iis_do[j].id)
++				pr_info("  iis_do[%d] id=%d val=%d\n", j,
++					pp->iis_do[j].id, pp->iis_do[j].val);
++		/* full hex, 32 bytes a line */
++		for (line = 0, k = 0; k < (int)sizeof(startup_info); k += 32, line++) {
++			char b[32 * 3 + 1];
++			int n = 0, m;
++
++			for (m = 0; m < 32 && k + m < (int)sizeof(startup_info); m++)
++				n += scnprintf(b + n, sizeof(b) - n, "%02x ",
++					       raw[k + m]);
++			pr_info("vbc-pl %03x: %s\n", k, b);
++		}
++	}
++
+ 	ret = vbc_dsp_func_startup(scene_id, stream, &startup_info);
+ 	pm_runtime_mark_last_busy(vbc_codec->codec->dev);
+ 	pm_runtime_put_autosuspend(vbc_codec->codec->dev);
+@@ -8401,6 +8460,10 @@ static int scene_normal_hw_params(struct snd_pcm_substream *substream,
+ 	if (hw_param_get_ref(scene_id, stream) == 1) {
+ 		vbc_chan = to_vbc_chan(chan_cnt);
+ 		set_vbc_chan(scene_id, stream, vbc_chan);
++		/* every other playback scene tells the DSP the rate/format the AP just
++		 * programmed; the normal AP01 path only called ap_hw_params. Placed before
++		 * the VBC mutex because it waits on SIPC. */
++		dsp_hw_params(vbc_codec, scene_id, stream, chan_cnt, rate, data_fmt);
+ 		normal_vbc_protect_mutex_lock(stream);
+ 		is_started = get_normal_p_running_status(stream);
+ 		if ((is_playback && is_started) ||
+diff --git a/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-phy-v4.h b/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-phy-v4.h
+index 9a817e442..a74bfa90d 100755
+--- a/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-phy-v4.h
++++ b/sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-phy-v4.h
+@@ -1496,7 +1496,10 @@ struct aud_pm_vbc {
+ /* FIRMWARE */
+ #define VBC_PROFILE_FIRMWARE_MAGIC_LEN 16
+ #define VBC_PROFILE_FIRMWARE_MAGIC_ID ("audio_profile")
+-#define VBC_PROFILE_CNT_MAX 0x0fffffff
++/* the Select controls carry (offset << 24) | (param_id << 16) | dsp_case,
++ * so the limit has to leave room for an 8 bit offset: playback lives at
++ * mode 64 (Music/Handsfree/Playback), which 0x0fffffff truncated to 0xf. */
++#define VBC_PROFILE_CNT_MAX 0x7fffffff
+ #define AUD_FIRMWARE_PATHNAME_LEN_MAX 256
+ 
+ /* header of the data */
+diff --git a/sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c b/sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c
+index e6d987cb3..35bc8ee2e 100755
+--- a/sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c
++++ b/sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c
+@@ -118,9 +118,14 @@ int asoc_sprd_register_card(struct device *dev, struct snd_soc_card *card)
+ 	int ret = 0;
+ 
+ 	ret = agdsp_access_enable();
++	dev_info(dev, "7552n: agdsp_access_enable -> %d\n", ret);
+ 	if (!ret) {
+ 		ret = devm_snd_soc_register_card(dev, card);
++		dev_info(dev, "7552n: snd_soc_register_card -> %d (links=%d)\n",
++			 ret, card->num_links);
+ 		agdsp_access_disable();
++	} else {
++		dev_err(dev, "7552n: agdsp access refused, card not registered\n");
+ 	}
+ 
+ 	return ret;
+@@ -172,7 +177,12 @@ asoc_sprd_card_sub_parse_of(struct device_node *np,
+ 	/* Get dai->name */
+ 	ret = snd_soc_of_get_dai_name(np, &component->dai_name, 0);
+ 	if (ret < 0) {
+-		if (ret != -EPROBE_DEFER) {
++		if (ret == -EPROBE_DEFER) {
++			/* 7552n: this used to be silent. Nothing is registered under this
++			 * node yet, so no component/dai can be matched by name. */
++			pr_err("7552n-defer: get_dai_name(%s) node=%pOF -> -517 EPROBE_DEFER\n",
++			       np->name, np);
++		} else {
+ 			pr_err("ERR: %s get dai name for '%s' failed!(%d)\n",
+ 				__func__, np->name, ret);
+ 		}
+@@ -598,14 +608,19 @@ static int asoc_sprd_card_dai_link_of(struct device_node *node,
+ 
+ 	ret = asoc_sprd_card_sub_parse_of(cpu, &dai_props->cpu_dai,
+ 					  dai_link->cpus, &cpu_args, &cpu_dai_id);
+-	if (ret < 0)
++	if (ret < 0) {
++		pr_err("7552n-defer: link=%s role=CPU node=%pOF ret=%d\n",
++		       node->name, cpu, ret);
+ 		goto dai_link_of_err1;
++	}
+ 	dai_link->num_cpus = 1;
+ 	dai_link->id = cpu_dai_id;
+ 
+ 	ret = asoc_sprd_card_sub_parse_of(codec, &dai_props->codec_dai,
+ 					  dai_link->codecs, NULL, NULL);
+ 	if (ret < 0) {
++		pr_err("7552n-defer: link=%s role=CODEC node=%pOF ret=%d\n",
++		       node->name, codec, ret);
+ 		if (-ENOENT == ret) {
+ 			pr_debug("%s: parse for codec failed. Go to use a dummy codec.\n",
+ 			     __func__);
+@@ -678,6 +693,25 @@ static int asoc_sprd_card_dai_link_of(struct device_node *node,
+ 	return ret;
+ }
+ 
++/* The qogirn6pro vendor tree includes the optional DP audio pair.
++ * Its AGCP IIS provider is not part of the phone audio build. Do not let
++ * those links prevent the independent phone sound card from registering.
++ */
++static bool sprd_card_link_enabled(struct device_node *node)
++{
++	const char *name;
++
++	if (!of_device_is_available(node))
++		return false;
++	if (IS_ENABLED(CONFIG_DRM_SPRD_DPU1) ||
++	    !of_machine_is_compatible("sprd,ums9620"))
++		return true;
++	if (of_property_read_string(node, "link-name", &name))
++		return true;
++	return strcmp(name, "AGCP_IIS0_TX") &&
++	       strcmp(name, "DisplayPort MultiMedia");
++}
++
+ static int asoc_sprd_card_parse_of(struct device_node *node,
+ 				   struct sprd_card_data *priv)
+ {
+@@ -740,6 +774,8 @@ static int asoc_sprd_card_parse_of(struct device_node *node,
+ 		int i = 0;
+ 
+ 		for_each_child_of_node(node, np) {
++			if (!sprd_card_link_enabled(np))
++				continue;
+ 			dev_dbg(dev, "\tlink %d:\n", i);
+ 			ret = asoc_sprd_card_dai_link_of(np, priv, i, false);
+ 			if (ret < 0) {
+@@ -819,10 +855,18 @@ int asoc_sprd_card_probe(struct platform_device *pdev,
+ 	}
+ 	 arch_audio_set_agcp_ahb_gpr(agcp_ahb_gpr);
+ 	/* Get the number of DAI links */
+-	if (np && of_get_child_by_name(np, "sprd-audio-card,dai-link"))
+-		num_links = of_get_child_count(np);
+-	else
++	if (np && of_get_child_by_name(np, "sprd-audio-card,dai-link")) {
++		struct device_node *child;
++
++		num_links = 0;
++		for_each_child_of_node(np, child)
++			if (sprd_card_link_enabled(child))
++				num_links++;
++	} else {
+ 		num_links = 1;
++	}
++	if (!num_links)
++		return -ENODEV;
+ 
+ 	/* Allocate the private data and the DAI link array */
+ 	priv = devm_kzalloc(dev,
+diff --git a/sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c b/sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c
+index 25afd1c51..8e79532d5 100644
+--- a/sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c
++++ b/sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c
+@@ -699,6 +699,10 @@ struct sprd_runtime_data {
+ 	bool ticking;
+ 	/* see sprd_pcm_pointer(): the position while AGCP is out of reach */
+ 	snd_pcm_uframes_t last_pointer;
++
++	/* 7552n diagnostic sampling, see sprd_diag_work_fn() */
++	struct delayed_work diag_work;
++	bool diag_running;
+ };
+ 
+ /*
+@@ -718,10 +722,205 @@ static bool period_timer = true;
+ module_param(period_timer, bool, 0644);
+ MODULE_PARM_DESC(period_timer, "period events from an hrtimer (no DMA irq)");
+ 
++static atomic64_t sprd_tick_count = ATOMIC64_INIT(0);
++static atomic64_t sprd_ptr_count = ATOMIC64_INIT(0);
++static bool tick_log = true;
++module_param(tick_log, bool, 0644);
++MODULE_PARM_DESC(tick_log, "log every 100 period-timer callbacks");
++
++/* ---- 7552n diagnostic: snapshots, no hardware access unless diag_read_hw=Y ----
++ *
++ * Ownership: the work lives inside struct sprd_runtime_data, which is allocated in
++ * sprd_pcm_open() (where the stream also takes its pm_runtime reference) and freed in
++ * hw_free/close. Those paths call sprd_pcm_tick_stop_sync() with no stream lock held,
++ * and that is where the work is synchronously cancelled -- before rtd can go away.
++ * STOP only clears the arm flag (non-blocking); a worker already running finishes under
++ * its own reference and does not requeue. Error paths that bail out before hw_params
++ * never arm the sampler at all.
++ */
++#define SPRD_DIAG_SLOTS 8
++
++struct sprd_diag_snap {
++	u64 nsec;
++	u32 play_seq;
++	u32 smp_seq;
++	int pm_ret;
++	bool access_ok;
++	int read_ret;
++	bool read_done;
++	u32 gate_raw;
++	int pcm_state;
++	unsigned long hw_ptr;
++	unsigned long appl_ptr;
++};
++
++static struct sprd_diag_snap g_diag_snap[SPRD_DIAG_SLOTS];
++static u32 g_diag_idx;
++static u32 g_diag_play_seq;
++static bool g_diag_stopped = true;
++static DEFINE_SPINLOCK(g_diag_lock);
++
++/* built-in clock driver exports this; -ENODEV means it never bound */
++extern int ums9620_audcpglb_gate_read(u32 off, u32 *val);
++extern int agdsp_can_access(void);
++
++static bool diag_read_hw;
++module_param(diag_read_hw, bool, 0644);
++MODULE_PARM_DESC(diag_read_hw, "allow the sampler to touch power and the gate register");
++
++#define SPRD_DIAG_GATE_OFF 0x4
++#define SPRD_DIAG_GATE_MASK (BIT(17) | BIT(19))
++
++static void sprd_diag_arm(struct sprd_runtime_data *rtd)
++{
++	if (!READ_ONCE(rtd->diag_running)) {
++		WRITE_ONCE(rtd->diag_running, true);
++		spin_lock(&g_diag_lock);
++		g_diag_play_seq++;
++		g_diag_stopped = false;
++		spin_unlock(&g_diag_lock);
++		schedule_delayed_work(&rtd->diag_work, 0);
++	}
++}
++
++/* non-blocking: the worker notices on its next check and stops requeueing */
++static void sprd_diag_disarm(struct sprd_runtime_data *rtd)
++{
++	unsigned long f;
++
++	if (!READ_ONCE(rtd->diag_running))
++		return;
++	WRITE_ONCE(rtd->diag_running, false);
++	spin_lock_irqsave(&g_diag_lock, f);
++	g_diag_stopped = true;
++	spin_unlock_irqrestore(&g_diag_lock, f);
++}
++
++static void sprd_diag_work_fn(struct work_struct *w)
++{
++	struct sprd_runtime_data *rtd =
++		container_of(to_delayed_work(w), struct sprd_runtime_data, diag_work);
++	struct snd_pcm_substream *substream;
++	struct snd_pcm_runtime *runtime;
++	struct sprd_diag_snap s = { };
++	unsigned long f;
++	u32 v = 0;
++
++	if (!READ_ONCE(rtd->diag_running))
++		return;
++
++	substream = rtd->tick_substream;
++	runtime = substream ? substream->runtime : NULL;
++	if (!runtime)
++		return;
++
++	s.nsec = ktime_get_ns();
++	s.pcm_state = runtime->state;
++	s.hw_ptr = runtime->status->hw_ptr;
++	s.appl_ptr = runtime->control->appl_ptr;
++	s.pm_ret = -1;
++
++	if (diag_read_hw) {
++		int pm = pm_runtime_resume_and_get(g_dev);
++
++		s.pm_ret = pm;
++		if (pm >= 0) {
++			/* resume_and_get() only bumps usage on success, so put once here */
++			s.access_ok = agdsp_can_access() ? true : false;
++			if (s.access_ok) {
++				int r = ums9620_audcpglb_gate_read(SPRD_DIAG_GATE_OFF, &v);
++
++				s.read_done = true;
++				s.read_ret = r;
++				if (!r)
++					s.gate_raw = v;
++			}
++			pm_runtime_put_autosuspend(g_dev);
++		}
++		/* pm < 0: nothing was acquired, nothing to release, no hardware touched */
++	}
++
++	spin_lock_irqsave(&g_diag_lock, f);
++	s.play_seq = g_diag_play_seq;
++	s.smp_seq = g_diag_idx + 1;
++	g_diag_snap[g_diag_idx & (SPRD_DIAG_SLOTS - 1)] = s;
++	g_diag_idx++;
++	spin_unlock_irqrestore(&g_diag_lock, f);
++
++	if (READ_ONCE(rtd->diag_running))
++		schedule_delayed_work(&rtd->diag_work, msecs_to_jiffies(300));
++}
++
++static int sprd_diag_show(struct seq_file *s, void *unused)
++{
++	struct sprd_diag_snap copy[SPRD_DIAG_SLOTS];
++	unsigned long f;
++	u32 n, play_seq;
++	bool stopped;
++	int i, start;
++
++	/* copy under the lock, format after it */
++	spin_lock_irqsave(&g_diag_lock, f);
++	n = g_diag_idx;
++	play_seq = g_diag_play_seq;
++	stopped = g_diag_stopped;
++	memcpy(copy, g_diag_snap, sizeof(copy));
++	spin_unlock_irqrestore(&g_diag_lock, f);
++
++	seq_printf(s, "target=sprd,ums9620-audcpglb-gate off=%#x mask=%#x read_hw=%d\n",
++		   SPRD_DIAG_GATE_OFF, SPRD_DIAG_GATE_MASK, diag_read_hw);
++	seq_printf(s, "play_seq=%u stopped=%d total=%u\n", play_seq, stopped, n);
++
++	if (!n) {
++		seq_puts(s, "state=no_sample\n");
++		return 0;
++	}
++
++	start = n > SPRD_DIAG_SLOTS ? n - SPRD_DIAG_SLOTS : 0;
++	for (i = start; i < (int)n; i++) {
++		struct sprd_diag_snap *c = &copy[i & (SPRD_DIAG_SLOTS - 1)];
++
++		seq_printf(s, "%llu play=%u smp=%d pm_ret=%d access_ok=%d read_done=%d read_ret=%d gate_raw=%#010x vbc_ap_eb=%d aud_ap_eb=%d state=%d hw_ptr=%lu appl_ptr=%lu\n",
++			   c->nsec, c->play_seq, i + 1, c->pm_ret, c->access_ok,
++			   c->read_done, c->read_ret,
++			   (c->read_done && !c->read_ret) ? c->gate_raw : 0,
++			   (c->read_done && !c->read_ret) ? !!(c->gate_raw & BIT(17)) : -1,
++			   (c->read_done && !c->read_ret) ? !!(c->gate_raw & BIT(19)) : -1,
++			   c->pcm_state, c->hw_ptr, c->appl_ptr);
++	}
++	return 0;
++}
++
++static int sprd_diag_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, sprd_diag_show, NULL);
++}
++
++static const struct file_operations sprd_diag_fops = {
++	.open		= sprd_diag_open,
++	.read		= seq_read,
++	.llseek		= seq_lseek,
++	.release	= single_release,
++};
++
++static void sprd_diag_init(void)
++{
++	struct dentry *dir = debugfs_create_dir("sprd-audio-diag", NULL);
++
++	if (IS_ERR_OR_NULL(dir))
++		return;
++	debugfs_create_file("snapshot", 0444, dir, NULL, &sprd_diag_fops);
++}
++
+ static enum hrtimer_restart sprd_pcm_period_tick(struct hrtimer *t)
+ {
+ 	struct sprd_runtime_data *rtd =
+ 		container_of(t, struct sprd_runtime_data, period_timer);
++	u64 n = atomic64_inc_return(&sprd_tick_count);
++
++	if (tick_log && (n <= 3 || !(n % 100)))
++		pr_info("sprd-tick: callbacks=%llu ticking=%d tick_ns=%llu\n",
++			n, READ_ONCE(rtd->ticking), rtd->tick_ns);
+ 
+ 	if (!READ_ONCE(rtd->ticking))
+ 		return HRTIMER_NORESTART;
+@@ -747,6 +946,9 @@ static void sprd_pcm_tick_stop(struct sprd_runtime_data *rtd)
+ {
+ 	WRITE_ONCE(rtd->ticking, false);
+ 	hrtimer_try_to_cancel(&rtd->period_timer);
++	if (tick_log)
++		pr_info("sprd-tick-stop: total=%lld tick_ns=%llu\n",
++			(long long)atomic64_read(&sprd_tick_count), rtd->tick_ns);
+ }
+ 
+ /* hw_free/close: no stream lock held, so waiting for a running tick is safe */
+@@ -754,6 +956,10 @@ static void sprd_pcm_tick_stop_sync(struct sprd_runtime_data *rtd)
+ {
+ 	WRITE_ONCE(rtd->ticking, false);
+ 	hrtimer_cancel(&rtd->period_timer);
++
++	/* hw_free/close, no stream lock held: flush the sampler before rtd goes away */
++	sprd_diag_disarm(rtd);
++	cancel_delayed_work_sync(&rtd->diag_work);
+ }
+ 
+ struct dma_chan_index_name {
+@@ -1004,6 +1210,7 @@ static int sprd_pcm_open(struct snd_soc_component *component, struct snd_pcm_sub
+         }
+ 
+ 	hrtimer_setup(&rtd->period_timer, sprd_pcm_period_tick, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++	INIT_DELAYED_WORK(&rtd->diag_work, sprd_diag_work_fn);
+ 	rtd->tick_substream = substream;
+ 
+ 	runtime->private_data = rtd;
+@@ -2050,7 +2257,7 @@ static int sprd_pcm_trigger(struct snd_soc_component *component,
+ 			}
+ 		}
+ 		if (dma_status == DMA_IN_PROGRESS || dma_status == DMA_PAUSED) {
+-			pr_info("pcm Start\n");
++			pr_info("pcm Start branch=RESUME dma_status=%d\n", dma_status);
+ 			normal_dma_protect_spin_unlock(substream);
+ 			break;
+ 		}
+@@ -2066,12 +2273,21 @@ static int sprd_pcm_trigger(struct snd_soc_component *component,
+ 				dma_async_issue_pending(rtd->dma_chn[i]);
+ 		}
+ 
+-		pr_info("pcm Start\n");
++		for (i = 0; i < rtd->hw_chan; i++)
++			pr_info("pcm Start branch=SUBMIT ch[%d]=%s cookie=%#lx desc=%s\n",
++				i,
++				rtd->dma_chn[i] ? "chan" : "null",
++				(unsigned long)rtd->cookie[i],
++				rtd->dma_tx_des[i] ? "set" : "null");
++		pr_info("pcm Start branch=SUBMIT\n");
+ 		normal_dma_protect_spin_unlock(substream);
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 	case SNDRV_PCM_TRIGGER_SUSPEND:
+ 	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
++		/* non-blocking; runs before the null-channel early return below, so the
++		 * sampler loses eligibility on every stop path, not just the happy one */
++		sprd_diag_disarm(rtd);
+ 		/* may run inside the tick (xrun -> snd_pcm_stop): no sync cancel */
+ 		sprd_pcm_tick_stop(rtd);
+ 		normal_dma_protect_spin_lock(substream);
+@@ -2099,10 +2315,17 @@ static int sprd_pcm_trigger(struct snd_soc_component *component,
+ 		     cmd == SNDRV_PCM_TRIGGER_PAUSE_RELEASE))
+ 		sprd_pcm_tick_start(rtd);
+ 
++	if (!ret && (cmd == SNDRV_PCM_TRIGGER_START ||
++		     cmd == SNDRV_PCM_TRIGGER_RESUME ||
++		     cmd == SNDRV_PCM_TRIGGER_PAUSE_RELEASE))
++		sprd_diag_arm(rtd);
++
+ 	return ret;
+ }
+ 
+ static int debug_pointer_log;
++module_param(debug_pointer_log, int, 0644);
++MODULE_PARM_DESC(debug_pointer_log, "log the raw DMA address from sprd_pcm_pointer()");
+ /* agdsp_pd: 1 when the AP may touch the AGCP domain, read from AON/PMU only */
+ extern int agdsp_can_access(void);
+ 
+@@ -2145,6 +2368,12 @@ static snd_pcm_uframes_t sprd_pcm_pointer(struct snd_soc_component *component,
+ 	if (rtd->dma_chn[0]) {
+ 		now_pointer = sprd_pcm_dma_get_addr(rtd->dma_chn[0],
+ 					rtd->cookie[0], substream);
++		if (debug_pointer_log && !(atomic64_inc_return(&sprd_ptr_count) % 50))
++			pr_info("sprd-ptr: n=%lld ch0_raw=%#x dma_addr=%#zx frames=%lu tick=%lld\n",
++				(long long)atomic64_read(&sprd_ptr_count),
++				now_pointer, (size_t)runtime->dma_addr,
++				(unsigned long)runtime->status->hw_ptr,
++				(long long)atomic64_read(&sprd_tick_count));
+ 		if (debug_pointer_log)
+ 			pr_info("now_pointer 1:%zu,dsp:%zx\n",
+ 				(size_t)now_pointer,
+@@ -2519,8 +2748,15 @@ static int init_pm_dma(void)
+ 	return 0;
+ }
+ 
++static bool sprd_diag_inited;
++
+ static int sprd_soc_platform_probe(struct platform_device *pdev)
+ {
++	if (!sprd_diag_inited) {
++		sprd_diag_inited = true;
++		sprd_diag_init();
++	}
++
+ 	struct device_node *node = pdev->dev.of_node;
+ 
+ 	if (node == NULL) {

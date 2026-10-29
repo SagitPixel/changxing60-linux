@@ -1,0 +1,1241 @@
+// SPDX-License-Identifier: GPL-2.0
+//
+// Secure Digital Host Controller
+//
+// Copyright (C) 2018 Spreadtrum, Inc.
+// Author: Chunyan Zhang <chunyan.zhang@unisoc.com>
+
+#include <linux/delay.h>
+#include <linux/dma-mapping.h>
+#include <linux/highmem.h>
+#include <linux/iopoll.h>
+#include <linux/mfd/syscon.h>
+#include <linux/mmc/host.h>
+#include <linux/mmc/mmc.h>
+#include <linux/mmc/slot-gpio.h>
+#include <linux/module.h>
+#include <linux/of.h>
+#include <linux/pinctrl/consumer.h>
+#include <linux/platform_device.h>
+#include <linux/pm_runtime.h>
+#include <linux/regmap.h>
+#include <linux/regulator/consumer.h>
+#include <linux/slab.h>
+#include <linux/soc/sprd/unisoc_gpio_compat.h>
+
+#include "sdhci-pltfm.h"
+#include "mmc_hsq.h"
+
+/* SDHCI_ARGUMENT2 register high 16bit */
+#define SDHCI_SPRD_ARG2_STUFF		GENMASK(31, 16)
+
+#define SDHCI_SPRD_REG_32_DLL_CFG	0x200
+#define  SDHCI_SPRD_DLL_ALL_CPST_EN	(BIT(18) | BIT(24) | BIT(25) | BIT(26) | BIT(27))
+#define  SDHCI_SPRD_DLL_EN		BIT(21)
+#define  SDHCI_SPRD_DLL_SEARCH_MODE	BIT(16)
+#define  SDHCI_SPRD_DLL_INIT_COUNT	0xc00
+#define  SDHCI_SPRD_DLL_PHASE_INTERNAL	0x3
+/* the r11p3 controller of the UMS9620/UMS9621 wants phase 0x2 */
+#define  SDHCI_SPRD_DLL_PHASE_INTERNAL_R11P3	0x2
+
+#define SDHCI_SPRD_REG_32_DLL_DLY	0x204
+
+#define SDHCI_SPRD_REG_32_DLL_DLY_OFFSET	0x208
+#define  SDHCIBSPRD_IT_WR_DLY_INV		BIT(5)
+#define  SDHCI_SPRD_BIT_CMD_DLY_INV		BIT(13)
+#define  SDHCI_SPRD_BIT_POSRD_DLY_INV		BIT(21)
+#define  SDHCI_SPRD_BIT_NEGRD_DLY_INV		BIT(29)
+
+#define SDHCI_SPRD_REG_32_DLL_STS0	0x210
+#define SDHCI_SPRD_DLL_LOCKED		BIT(18)
+
+#define SDHCI_SPRD_REG_32_BUSY_POSI		0x250
+#define  SDHCI_SPRD_BIT_OUTR_CLK_AUTO_EN	BIT(25)
+#define  SDHCI_SPRD_BIT_INNR_CLK_AUTO_EN	BIT(24)
+
+#define SDHCI_SPRD_REG_DEBOUNCE		0x28C
+#define  SDHCI_SPRD_BIT_DLL_BAK		BIT(0)
+#define  SDHCI_SPRD_BIT_DLL_VAL		BIT(1)
+
+#define  SDHCI_SPRD_INT_SIGNAL_MASK	0x1B7F410B
+
+/* SDHCI_HOST_CONTROL2 */
+#define  SDHCI_SPRD_CTRL_HS200		0x0005
+#define  SDHCI_SPRD_CTRL_HS400		0x0006
+#define  SDHCI_SPRD_CTRL_HS400ES	0x0007
+
+/*
+ * According to the standard specification, BIT(3) of SDHCI_SOFTWARE_RESET is
+ * reserved, and only used on Spreadtrum's design, the hardware cannot work
+ * if this bit is cleared.
+ * 1 : normal work
+ * 0 : hardware reset
+ */
+#define  SDHCI_HW_RESET_CARD		BIT(3)
+
+#define SDHCI_SPRD_MAX_CUR		0xFFFFFF
+#define SDHCI_SPRD_CLK_MAX_DIV		1023
+
+#define SDHCI_SPRD_CLK_DEF_RATE		26000000
+#define SDHCI_SPRD_PHY_DLL_CLK		52000000
+
+#define SDHCI_SPRD_MAX_RANGE		0xff
+#define SDHCI_SPRD_CMD_DLY_MASK		GENMASK(15, 8)
+#define SDHCI_SPRD_POSRD_DLY_MASK	GENMASK(23, 16)
+#define SDHCI_SPRD_CPST_EN		GENMASK(27, 24)
+
+struct register_hotplug {
+	struct regmap *regmap;
+	u32 reg;
+	u32 mask;
+};
+
+struct sdhci_sprd_host {
+	u32 version;
+	struct clk *clk_sdio;
+	struct clk *clk_enable;
+	struct clk *clk_2x_enable;
+	struct pinctrl *pinctrl;
+	struct pinctrl_state *pins_uhs;
+	struct pinctrl_state *pins_default;
+	u32 base_rate;
+	int flags; /* backup of host attribute */
+	u32 phy_delay[MMC_TIMING_MMC_HS400 + 2];
+	struct register_hotplug reg_detect_polar;
+	struct register_hotplug reg_protect_enable;
+	struct register_hotplug reg_debounce_en;
+	struct register_hotplug reg_debounce_cn;
+	struct register_hotplug reg_rmldo_en;
+	bool fast_hotplug;
+	bool sd_power_valid;
+	unsigned char sd_power_mode;
+	unsigned short sd_power_vdd;
+	bool cd_active_high;
+};
+
+enum sdhci_sprd_tuning_type {
+	SDHCI_SPRD_TUNING_SD_HS_CMD,
+	SDHCI_SPRD_TUNING_SD_HS_DATA,
+};
+
+struct sdhci_sprd_phy_cfg {
+	const char *property;
+	u8 timing;
+};
+
+static const struct sdhci_sprd_phy_cfg sdhci_sprd_phy_cfgs[] = {
+	{ "sprd,phy-delay-legacy", MMC_TIMING_LEGACY, },
+	{ "sprd,phy-delay-sd-highspeed", MMC_TIMING_SD_HS, },
+	{ "sprd,phy-delay-sd-uhs-sdr50", MMC_TIMING_UHS_SDR50, },
+	{ "sprd,phy-delay-sd-uhs-sdr104", MMC_TIMING_UHS_SDR104, },
+	{ "sprd,phy-delay-mmc-highspeed", MMC_TIMING_MMC_HS, },
+	{ "sprd,phy-delay-mmc-ddr52", MMC_TIMING_MMC_DDR52, },
+	{ "sprd,phy-delay-mmc-hs200", MMC_TIMING_MMC_HS200, },
+	{ "sprd,phy-delay-mmc-hs400", MMC_TIMING_MMC_HS400, },
+	{ "sprd,phy-delay-mmc-hs400es", MMC_TIMING_MMC_HS400 + 1, },
+};
+
+#define TO_SPRD_HOST(host) sdhci_pltfm_priv(sdhci_priv(host))
+
+static void sdhci_sprd_init_config(struct sdhci_host *host)
+{
+	u16 val;
+
+	/* set dll backup mode */
+	val = sdhci_readl(host, SDHCI_SPRD_REG_DEBOUNCE);
+	val |= SDHCI_SPRD_BIT_DLL_BAK | SDHCI_SPRD_BIT_DLL_VAL;
+	sdhci_writel(host, val, SDHCI_SPRD_REG_DEBOUNCE);
+}
+
+static inline u32 sdhci_sprd_readl(struct sdhci_host *host, int reg)
+{
+	if (unlikely(reg == SDHCI_MAX_CURRENT))
+		return SDHCI_SPRD_MAX_CUR;
+
+	/* Shared SDHCI policy: order ADMA descriptors and DMA completion. */
+	return readl(host->ioaddr + reg);
+}
+
+static inline void sdhci_sprd_writel(struct sdhci_host *host, u32 val, int reg)
+{
+	/* SDHCI_MAX_CURRENT is reserved on Spreadtrum's platform */
+	if (unlikely(reg == SDHCI_MAX_CURRENT))
+		return;
+
+	if (unlikely(reg == SDHCI_SIGNAL_ENABLE || reg == SDHCI_INT_ENABLE))
+		val = val & SDHCI_SPRD_INT_SIGNAL_MASK;
+
+	writel(val, host->ioaddr + reg);
+}
+
+static inline void sdhci_sprd_writew(struct sdhci_host *host, u16 val, int reg)
+{
+	/* SDHCI_BLOCK_COUNT is Read Only on Spreadtrum's platform */
+	if (unlikely(reg == SDHCI_BLOCK_COUNT))
+		return;
+
+	writew(val, host->ioaddr + reg);
+}
+
+static inline void sdhci_sprd_writeb(struct sdhci_host *host, u8 val, int reg)
+{
+	/*
+	 * Since BIT(3) of SDHCI_SOFTWARE_RESET is reserved according to the
+	 * standard specification, sdhci_reset() write this register directly
+	 * without checking other reserved bits, that will clear BIT(3) which
+	 * is defined as hardware reset on Spreadtrum's platform and clearing
+	 * it by mistake will lead the card not work. So here we need to work
+	 * around it.
+	 */
+	if (unlikely(reg == SDHCI_SOFTWARE_RESET)) {
+		if (readb_relaxed(host->ioaddr + reg) & SDHCI_HW_RESET_CARD)
+			val |= SDHCI_HW_RESET_CARD;
+	}
+
+	writeb(val, host->ioaddr + reg);
+}
+
+static inline void sdhci_sprd_sd_clk_off(struct sdhci_host *host)
+{
+	u16 ctrl = sdhci_readw(host, SDHCI_CLOCK_CONTROL);
+
+	ctrl &= ~SDHCI_CLOCK_CARD_EN;
+	sdhci_writew(host, ctrl, SDHCI_CLOCK_CONTROL);
+}
+
+static inline void sdhci_sprd_sd_clk_on(struct sdhci_host *host)
+{
+	u16 ctrl;
+
+	ctrl = sdhci_readw(host, SDHCI_CLOCK_CONTROL);
+	ctrl |= SDHCI_CLOCK_CARD_EN;
+	sdhci_writew(host, ctrl, SDHCI_CLOCK_CONTROL);
+}
+
+static inline void
+sdhci_sprd_set_dll_invert(struct sdhci_host *host, u32 mask, bool en)
+{
+	u32 dll_dly_offset;
+
+	dll_dly_offset = sdhci_readl(host, SDHCI_SPRD_REG_32_DLL_DLY_OFFSET);
+	if (en)
+		dll_dly_offset |= mask;
+	else
+		dll_dly_offset &= ~mask;
+	sdhci_writel(host, dll_dly_offset, SDHCI_SPRD_REG_32_DLL_DLY_OFFSET);
+}
+
+static inline u32 sdhci_sprd_calc_div(u32 base_clk, u32 clk)
+{
+	u32 div;
+
+	/* select 2x clock source */
+	if (base_clk <= clk * 2)
+		return 0;
+
+	div = (u32) (base_clk / (clk * 2));
+
+	if ((base_clk / div) > (clk * 2))
+		div++;
+
+	if (div % 2)
+		div = (div + 1) / 2;
+	else
+		div = div / 2;
+
+	if (div > SDHCI_SPRD_CLK_MAX_DIV)
+		div = SDHCI_SPRD_CLK_MAX_DIV;
+
+	return div;
+}
+
+static inline void _sdhci_sprd_set_clock(struct sdhci_host *host,
+					unsigned int clk)
+{
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+	u32 div, val, mask;
+
+	sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
+
+	div = sdhci_sprd_calc_div(sprd_host->base_rate, clk);
+	div = ((div & 0x300) >> 2) | ((div & 0xFF) << 8);
+	sdhci_enable_clk(host, div);
+
+	val = sdhci_readl(host, SDHCI_SPRD_REG_32_BUSY_POSI);
+	mask = SDHCI_SPRD_BIT_OUTR_CLK_AUTO_EN | SDHCI_SPRD_BIT_INNR_CLK_AUTO_EN;
+	/* Enable CLK_AUTO when the clock is greater than 400K. */
+	if (clk > 400000) {
+		if (mask != (val & mask)) {
+			val |= mask;
+			sdhci_writel(host, val, SDHCI_SPRD_REG_32_BUSY_POSI);
+		}
+	} else {
+		if (val & mask) {
+			val &= ~mask;
+			sdhci_writel(host, val, SDHCI_SPRD_REG_32_BUSY_POSI);
+		}
+	}
+}
+
+static void sdhci_sprd_enable_phy_dll(struct sdhci_host *host)
+{
+	u32 phase = SDHCI_SPRD_DLL_PHASE_INTERNAL;
+	u32 tmp;
+
+	/*
+	 * Unisoc's r11p3 controller programs the DLL's internal phase as 0x2;
+	 * with the 0x3 the older controllers use, HS400ES writes fail their CRC
+	 * (the vendor device trees do not distinguish the two, so this goes by
+	 * the SoC).
+	 */
+	if (of_machine_is_compatible("sprd,ums9620") ||
+	    of_machine_is_compatible("sprd,ums9621"))
+		phase = SDHCI_SPRD_DLL_PHASE_INTERNAL_R11P3;
+
+	tmp = sdhci_readl(host, SDHCI_SPRD_REG_32_DLL_CFG);
+	tmp &= ~(SDHCI_SPRD_DLL_EN | SDHCI_SPRD_DLL_ALL_CPST_EN);
+	sdhci_writel(host, tmp, SDHCI_SPRD_REG_32_DLL_CFG);
+	/* wait 1ms */
+	usleep_range(1000, 1250);
+
+	tmp = sdhci_readl(host, SDHCI_SPRD_REG_32_DLL_CFG);
+	tmp |= SDHCI_SPRD_DLL_ALL_CPST_EN | SDHCI_SPRD_DLL_SEARCH_MODE |
+		SDHCI_SPRD_DLL_INIT_COUNT | phase;
+	sdhci_writel(host, tmp, SDHCI_SPRD_REG_32_DLL_CFG);
+	/* wait 1ms */
+	usleep_range(1000, 1250);
+
+	tmp = sdhci_readl(host, SDHCI_SPRD_REG_32_DLL_CFG);
+	tmp |= SDHCI_SPRD_DLL_EN;
+	sdhci_writel(host, tmp, SDHCI_SPRD_REG_32_DLL_CFG);
+	/* wait 1ms */
+	usleep_range(1000, 1250);
+
+	if (read_poll_timeout(sdhci_readl, tmp, (tmp & SDHCI_SPRD_DLL_LOCKED),
+		2000, USEC_PER_SEC, false, host, SDHCI_SPRD_REG_32_DLL_STS0)) {
+		pr_err("%s: DLL locked fail!\n", mmc_hostname(host->mmc));
+		pr_info("%s: DLL_STS0 : 0x%x, DLL_CFG : 0x%x\n",
+			 mmc_hostname(host->mmc),
+			 sdhci_readl(host, SDHCI_SPRD_REG_32_DLL_STS0),
+			 sdhci_readl(host, SDHCI_SPRD_REG_32_DLL_CFG));
+	}
+}
+
+static void sdhci_sprd_set_clock(struct sdhci_host *host, unsigned int clock)
+{
+	bool en = false, clk_changed = false;
+
+	if (clock == 0) {
+		sdhci_writew(host, 0, SDHCI_CLOCK_CONTROL);
+	} else if (clock != host->clock) {
+		sdhci_sprd_sd_clk_off(host);
+		_sdhci_sprd_set_clock(host, clock);
+
+		if (clock <= 400000)
+			en = true;
+		sdhci_sprd_set_dll_invert(host, SDHCI_SPRD_BIT_CMD_DLY_INV |
+					  SDHCI_SPRD_BIT_POSRD_DLY_INV, en);
+		clk_changed = true;
+	} else {
+		_sdhci_sprd_set_clock(host, clock);
+	}
+
+	/*
+	 * According to the Spreadtrum SD host specification, when we changed
+	 * the clock to be more than 52M, we should enable the PHY DLL which
+	 * is used to track the clock frequency to make the clock work more
+	 * stable. Otherwise deviation may occur of the higher clock.
+	 */
+	if (clk_changed && clock > SDHCI_SPRD_PHY_DLL_CLK)
+		sdhci_sprd_enable_phy_dll(host);
+}
+
+static unsigned int sdhci_sprd_get_max_clock(struct sdhci_host *host)
+{
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+
+	return clk_round_rate(sprd_host->clk_sdio, ULONG_MAX);
+}
+
+static unsigned int sdhci_sprd_get_min_clock(struct sdhci_host *host)
+{
+	return 100000;
+}
+
+static void sdhci_sprd_set_uhs_signaling(struct sdhci_host *host,
+					 unsigned int timing)
+{
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+	struct mmc_host *mmc = host->mmc;
+	u32 *p = sprd_host->phy_delay;
+	u16 ctrl_2;
+
+	if (timing == host->timing)
+		return;
+
+	ctrl_2 = sdhci_readw(host, SDHCI_HOST_CONTROL2);
+	/* Select Bus Speed Mode for host */
+	ctrl_2 &= ~SDHCI_CTRL_UHS_MASK;
+	switch (timing) {
+	case MMC_TIMING_UHS_SDR12:
+		ctrl_2 |= SDHCI_CTRL_UHS_SDR12;
+		break;
+	case MMC_TIMING_MMC_HS:
+	case MMC_TIMING_SD_HS:
+	case MMC_TIMING_UHS_SDR25:
+		ctrl_2 |= SDHCI_CTRL_UHS_SDR25;
+		break;
+	case MMC_TIMING_UHS_SDR50:
+		ctrl_2 |= SDHCI_CTRL_UHS_SDR50;
+		break;
+	case MMC_TIMING_UHS_SDR104:
+		ctrl_2 |= SDHCI_CTRL_UHS_SDR104;
+		break;
+	case MMC_TIMING_UHS_DDR50:
+	case MMC_TIMING_MMC_DDR52:
+		ctrl_2 |= SDHCI_CTRL_UHS_DDR50;
+		break;
+	case MMC_TIMING_MMC_HS200:
+		ctrl_2 |= SDHCI_SPRD_CTRL_HS200;
+		break;
+	case MMC_TIMING_MMC_HS400:
+		ctrl_2 |= SDHCI_SPRD_CTRL_HS400;
+		break;
+	default:
+		break;
+	}
+
+	sdhci_writew(host, ctrl_2, SDHCI_HOST_CONTROL2);
+
+	if (!mmc->ios.enhanced_strobe)
+		sdhci_writel(host, p[timing], SDHCI_SPRD_REG_32_DLL_DLY);
+}
+
+static void sdhci_sprd_hw_reset(struct sdhci_host *host)
+{
+	int val;
+
+	/*
+	 * Note: don't use sdhci_writeb() API here since it is redirected to
+	 * sdhci_sprd_writeb() in which we have a workaround for
+	 * SDHCI_SOFTWARE_RESET which would make bit SDHCI_HW_RESET_CARD can
+	 * not be cleared.
+	 */
+	val = readb_relaxed(host->ioaddr + SDHCI_SOFTWARE_RESET);
+	val &= ~SDHCI_HW_RESET_CARD;
+	writeb_relaxed(val, host->ioaddr + SDHCI_SOFTWARE_RESET);
+	/* wait for 10 us */
+	usleep_range(10, 20);
+
+	val |= SDHCI_HW_RESET_CARD;
+	writeb_relaxed(val, host->ioaddr + SDHCI_SOFTWARE_RESET);
+	usleep_range(300, 500);
+}
+
+static unsigned int sdhci_sprd_get_max_timeout_count(struct sdhci_host *host)
+{
+	/* The Spredtrum controller actual maximum timeout count is 1 << 31 */
+	return 1 << 31;
+}
+
+static unsigned int sdhci_sprd_get_ro(struct sdhci_host *host)
+{
+	return 0;
+}
+
+static void sdhci_sprd_request_done(struct sdhci_host *host,
+				    struct mmc_request *mrq)
+{
+	/* Validate if the request was from software queue firstly. */
+	if (mmc_hsq_finalize_request(host->mmc, mrq))
+		return;
+
+	mmc_request_done(host->mmc, mrq);
+}
+
+/*
+ * convert mask to offset in 32bits,
+ * like convert 0x1E to 1, 0x00FF0000 to 16
+ */
+static int mask_to_offset(u32 mask)
+{
+	int offset;
+
+	for (offset = 0; offset < 32; offset++)
+		if ((mask >> offset) & BIT(0))
+			return offset;
+
+	return 0;
+}
+
+static void sdhci_sprd_get_fast_hotplug_reg(struct device_node *np,
+	struct register_hotplug *reg, const char *name)
+{
+	struct regmap *regmap;
+	u32 syscon_args[2];
+
+	regmap = syscon_regmap_lookup_by_phandle_args(np, name, 2, syscon_args);
+	if (IS_ERR(regmap)) {
+		reg->regmap = NULL;
+		reg->reg = 0;
+		reg->mask = 0;
+		return;
+	}
+
+	reg->regmap = regmap;
+	reg->reg = syscon_args[0];
+	reg->mask = syscon_args[1];
+}
+
+static void sdhci_sprd_get_fast_hotplug_info(struct device_node *np,
+	struct sdhci_sprd_host *sprd_host)
+{
+	sdhci_sprd_get_fast_hotplug_reg(np, &sprd_host->reg_detect_polar,
+		"sd-detect-pol-syscon");
+	sdhci_sprd_get_fast_hotplug_reg(np, &sprd_host->reg_protect_enable,
+		"sd-hotplug-protect-en-syscon");
+	sdhci_sprd_get_fast_hotplug_reg(np, &sprd_host->reg_debounce_en,
+		"sd-hotplug-debounce-en-syscon");
+	sdhci_sprd_get_fast_hotplug_reg(np, &sprd_host->reg_debounce_cn,
+		"sd-hotplug-debounce-cn-syscon");
+	sdhci_sprd_get_fast_hotplug_reg(np, &sprd_host->reg_rmldo_en,
+		"sd-hotplug-rmldo-en-syscon");
+}
+
+/*
+ * The removable slot's card detect has an AON-side fast path -- detect
+ * polarity, glitch protection, a debounce counter and the card's RMLDO.
+ * Unisoc's driver programs them when the slot is powered with a card in it;
+ * the RMLDO is the card's supply switch, so a slot without it does not power
+ * up.  The vendor device tree gives all five to the SD controller (sdio0)
+ * alone.
+ */
+static void sdhci_sprd_fast_hotplug_disable(struct sdhci_sprd_host *sprd_host)
+{
+	regmap_update_bits(sprd_host->reg_protect_enable.regmap,
+		sprd_host->reg_protect_enable.reg,
+		sprd_host->reg_protect_enable.mask, 0);
+}
+
+static void sdhci_sprd_fast_hotplug_enable(struct sdhci_sprd_host *sprd_host)
+{
+	int debounce_counter = 3;
+	u32 reg_value = 0;
+
+	if (sprd_host->reg_rmldo_en.regmap) {
+		/* this register does not support bit updates */
+		if (regmap_read(sprd_host->reg_rmldo_en.regmap,
+				sprd_host->reg_rmldo_en.reg, &reg_value))
+			return;
+		reg_value |= sprd_host->reg_rmldo_en.mask;
+		if (regmap_write(sprd_host->reg_rmldo_en.regmap,
+				sprd_host->reg_rmldo_en.reg, reg_value))
+			return;
+	}
+
+	regmap_update_bits(sprd_host->reg_protect_enable.regmap,
+		sprd_host->reg_protect_enable.reg,
+		sprd_host->reg_protect_enable.mask,
+		sprd_host->reg_protect_enable.mask);
+	regmap_update_bits(sprd_host->reg_debounce_en.regmap,
+		sprd_host->reg_debounce_en.reg,
+		sprd_host->reg_debounce_en.mask,
+		sprd_host->reg_debounce_en.mask);
+	regmap_update_bits(sprd_host->reg_debounce_cn.regmap,
+		sprd_host->reg_debounce_cn.reg,
+		sprd_host->reg_debounce_cn.mask,
+		debounce_counter << mask_to_offset(sprd_host->reg_debounce_cn.mask));
+	regmap_update_bits(sprd_host->reg_detect_polar.regmap,
+		sprd_host->reg_detect_polar.reg,
+		sprd_host->reg_detect_polar.mask,
+		sprd_host->cd_active_high ? sprd_host->reg_detect_polar.mask : 0);
+}
+
+static void sdhci_sprd_set_power(struct sdhci_host *host, unsigned char mode,
+                                 unsigned short vdd)
+{
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+	struct mmc_host *mmc = host->mmc;
+	bool card_present = mmc_gpio_get_cd(mmc) > 0;
+	int ret = 0;
+
+	/* Factory SD power transitions: do not reprogram RMLDO on each set_ios.
+	 * Clock/timing/bus-width changes are not slot power transitions. */
+	if (sprd_host->fast_hotplug && sprd_host->sd_power_valid &&
+	    sprd_host->sd_power_mode == mode && sprd_host->sd_power_vdd == vdd)
+		return;
+
+	switch (mode) {
+	case MMC_POWER_OFF:
+		if (sprd_host->fast_hotplug && card_present)
+			sdhci_sprd_fast_hotplug_disable(sprd_host);
+		ret = mmc_regulator_set_ocr(mmc, mmc->supply.vmmc, 0);
+		mmc_regulator_disable_vqmmc(mmc);
+		break;
+	case MMC_POWER_ON:
+		ret = mmc_regulator_enable_vqmmc(mmc);
+		if (!ret && sprd_host->fast_hotplug && card_present)
+			sdhci_sprd_fast_hotplug_enable(sprd_host);
+		break;
+	case MMC_POWER_UP:
+		ret = mmc_regulator_set_ocr(mmc, mmc->supply.vmmc, vdd);
+		if (!ret && sprd_host->fast_hotplug) {
+			/* The factory enables VQMMC after VMMC has settled. */
+			usleep_range(200, 250);
+			ret = mmc_regulator_enable_vqmmc(mmc);
+		}
+		if (!ret && sprd_host->fast_hotplug && card_present)
+			sdhci_sprd_fast_hotplug_enable(sprd_host);
+		break;
+	}
+	if (ret) {
+		sprd_host->sd_power_valid = false;
+		dev_err(mmc_dev(mmc), "slot power transition %u failed: %d\n", mode, ret);
+		return;
+	}
+	sprd_host->sd_power_mode = mode;
+	sprd_host->sd_power_vdd = vdd;
+	sprd_host->sd_power_valid = true;
+
+	/*
+	 * The generic sdhci core no longer writes SDHCI_POWER_CONTROL for a
+	 * controller that installs .set_power: sdhci_set_power_and_bus_voltage()
+	 * delegates the whole job to the op.  The vendor op only programmed the
+	 * regulators, so on 6.18 the power register stayed 0 and the SC2355 SDIO
+	 * slot (mmc1, sdio_wifi) never powered up -- CMD5 had no response and
+	 * the WCN scan timed out.  Write the register here, as the 5.4 core used
+	 * to do.
+	 */
+	sdhci_set_power_noreg(host, mode, vdd);
+}
+
+static const struct sdhci_ops sdhci_sprd_ops = {
+	.read_l = sdhci_sprd_readl,
+	.write_l = sdhci_sprd_writel,
+	.write_w = sdhci_sprd_writew,
+	.write_b = sdhci_sprd_writeb,
+	.set_clock = sdhci_sprd_set_clock,
+	.set_power = sdhci_sprd_set_power,
+	.get_max_clock = sdhci_sprd_get_max_clock,
+	.get_min_clock = sdhci_sprd_get_min_clock,
+	.set_bus_width = sdhci_set_bus_width,
+	.reset = sdhci_reset,
+	.set_uhs_signaling = sdhci_sprd_set_uhs_signaling,
+	.hw_reset = sdhci_sprd_hw_reset,
+	.get_max_timeout_count = sdhci_sprd_get_max_timeout_count,
+	.get_ro = sdhci_sprd_get_ro,
+	.request_done = sdhci_sprd_request_done,
+};
+
+static void sdhci_sprd_check_auto_cmd23(struct mmc_host *mmc,
+					struct mmc_request *mrq)
+{
+	struct sdhci_host *host = mmc_priv(mmc);
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+
+	host->flags |= sprd_host->flags & SDHCI_AUTO_CMD23;
+
+	/*
+	 * From version 4.10 onward, ARGUMENT2 register is also as 32-bit
+	 * block count register which doesn't support stuff bits of
+	 * CMD23 argument on Spreadtrum's sd host controller.
+	 */
+	if (host->version >= SDHCI_SPEC_410 &&
+	    mrq->sbc && (mrq->sbc->arg & SDHCI_SPRD_ARG2_STUFF) &&
+	    (host->flags & SDHCI_AUTO_CMD23))
+		host->flags &= ~SDHCI_AUTO_CMD23;
+}
+
+static void sdhci_sprd_request(struct mmc_host *mmc, struct mmc_request *mrq)
+{
+	sdhci_sprd_check_auto_cmd23(mmc, mrq);
+
+	sdhci_request(mmc, mrq);
+}
+
+static int sdhci_sprd_request_atomic(struct mmc_host *mmc,
+				     struct mmc_request *mrq)
+{
+	sdhci_sprd_check_auto_cmd23(mmc, mrq);
+
+	return sdhci_request_atomic(mmc, mrq);
+}
+
+static int sdhci_sprd_voltage_switch(struct mmc_host *mmc, struct mmc_ios *ios)
+{
+	struct sdhci_host *host = mmc_priv(mmc);
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+	int ret;
+
+	if (!IS_ERR(mmc->supply.vqmmc)) {
+		ret = mmc_regulator_set_vqmmc(mmc, ios);
+		if (ret < 0) {
+			pr_err("%s: Switching signalling voltage failed\n",
+			       mmc_hostname(mmc));
+			return ret;
+		}
+	}
+
+	/* Do not acknowledge a removable-slot voltage switch without hardware readback.
+	 * Keep fixed-I/O eMMC and SDIO boards on their existing path. */
+	if (sprd_host->fast_hotplug && ios->signal_voltage == MMC_SIGNAL_VOLTAGE_180) {
+		if (IS_ERR(mmc->supply.vqmmc))
+			return -EOPNOTSUPP;
+		ret = regulator_get_voltage(mmc->supply.vqmmc);
+		if (ret < 0)
+			return ret;
+		if (ret < 1700000 || ret > 1950000) {
+			dev_err(mmc_dev(mmc), "SD 1.8V switch read back %duV\n", ret);
+			return -EIO;
+		}
+	}
+
+	if (IS_ERR(sprd_host->pinctrl))
+		goto reset;
+
+	switch (ios->signal_voltage) {
+	case MMC_SIGNAL_VOLTAGE_180:
+		ret = pinctrl_select_state(sprd_host->pinctrl,
+					   sprd_host->pins_uhs);
+		if (ret) {
+			pr_err("%s: failed to select uhs pin state\n",
+			       mmc_hostname(mmc));
+			return ret;
+		}
+		break;
+
+	default:
+		fallthrough;
+	case MMC_SIGNAL_VOLTAGE_330:
+		ret = pinctrl_select_state(sprd_host->pinctrl,
+					   sprd_host->pins_default);
+		if (ret) {
+			pr_err("%s: failed to select default pin state\n",
+			       mmc_hostname(mmc));
+			return ret;
+		}
+		break;
+	}
+
+	/* Wait for 300 ~ 500 us for pin state stable */
+	usleep_range(300, 500);
+
+reset:
+	sdhci_reset(host, SDHCI_RESET_CMD | SDHCI_RESET_DATA);
+
+	return 0;
+}
+
+static void sdhci_sprd_hs400_enhanced_strobe(struct mmc_host *mmc,
+					     struct mmc_ios *ios)
+{
+	struct sdhci_host *host = mmc_priv(mmc);
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+	u32 *p = sprd_host->phy_delay;
+	u16 ctrl_2;
+
+	if (!ios->enhanced_strobe)
+		return;
+
+	sdhci_sprd_sd_clk_off(host);
+
+	/* Set HS400 enhanced strobe mode */
+	ctrl_2 = sdhci_readw(host, SDHCI_HOST_CONTROL2);
+	ctrl_2 &= ~SDHCI_CTRL_UHS_MASK;
+	ctrl_2 |= SDHCI_SPRD_CTRL_HS400ES;
+	sdhci_writew(host, ctrl_2, SDHCI_HOST_CONTROL2);
+
+	sdhci_sprd_sd_clk_on(host);
+
+	/* Set the PHY DLL delay value for HS400 enhanced strobe mode */
+	sdhci_writel(host, p[MMC_TIMING_MMC_HS400 + 1],
+		     SDHCI_SPRD_REG_32_DLL_DLY);
+}
+
+static int mmc_send_tuning_cmd(struct mmc_card *card)
+{
+	return mmc_send_status(card, NULL);
+}
+
+static int mmc_send_tuning_data(struct mmc_card *card)
+{
+	u8 *status;
+	int ret;
+
+	status = kmalloc(64, GFP_KERNEL);
+	if (!status)
+		return -ENOMEM;
+
+	ret = mmc_sd_switch(card, 0, 0, 0, status);
+
+	kfree(status);
+
+	return ret;
+}
+
+static int sdhci_sprd_get_best_clk_sample(struct mmc_host *mmc, u8 *value)
+{
+	int range_end = SDHCI_SPRD_MAX_RANGE;
+	int range_length = 0;
+	int middle_range = 0;
+	int count = 0;
+	int i;
+
+	for (i = 0; i <= SDHCI_SPRD_MAX_RANGE; i++) {
+		if (value[i]) {
+			pr_debug("%s: tuning ok: %d\n", mmc_hostname(mmc), i);
+			count++;
+		} else {
+			pr_debug("%s: tuning fail: %d\n", mmc_hostname(mmc), i);
+			if (range_length < count) {
+				range_length = count;
+				range_end = i - 1;
+				count = 0;
+			}
+		}
+	}
+
+	if (!count)
+		return -EIO;
+
+	if (count > range_length) {
+		range_length = count;
+		range_end = i - 1;
+	}
+
+	middle_range = range_end - (range_length - 1) / 2;
+
+	return middle_range;
+}
+
+static int sdhci_sprd_tuning(struct mmc_host *mmc, struct mmc_card *card,
+			enum sdhci_sprd_tuning_type type)
+{
+	struct sdhci_host *host = mmc_priv(mmc);
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+	u32 *p = sprd_host->phy_delay;
+	u32 dll_cfg, dll_dly;
+	int best_clk_sample;
+	int err = 0;
+	u8 *value;
+	int i;
+
+	value = kmalloc(SDHCI_SPRD_MAX_RANGE + 1, GFP_KERNEL);
+	if (!value)
+		return -ENOMEM;
+
+	sdhci_reset(host, SDHCI_RESET_CMD | SDHCI_RESET_DATA);
+
+	dll_cfg = sdhci_readl(host, SDHCI_SPRD_REG_32_DLL_CFG);
+	dll_cfg &= ~SDHCI_SPRD_CPST_EN;
+	sdhci_writel(host, dll_cfg, SDHCI_SPRD_REG_32_DLL_CFG);
+
+	dll_dly = p[mmc->ios.timing];
+
+	for (i = 0; i <= SDHCI_SPRD_MAX_RANGE; i++) {
+		if (type == SDHCI_SPRD_TUNING_SD_HS_CMD) {
+			dll_dly &= ~SDHCI_SPRD_CMD_DLY_MASK;
+			dll_dly |= ((i << 8) & SDHCI_SPRD_CMD_DLY_MASK);
+		} else {
+			dll_dly &= ~SDHCI_SPRD_POSRD_DLY_MASK;
+			dll_dly |= ((i << 16) & SDHCI_SPRD_POSRD_DLY_MASK);
+		}
+
+		sdhci_writel(host, dll_dly, SDHCI_SPRD_REG_32_DLL_DLY);
+
+		if (type == SDHCI_SPRD_TUNING_SD_HS_CMD)
+			value[i] = !mmc_send_tuning_cmd(card);
+		else
+			value[i] = !mmc_send_tuning_data(card);
+	}
+
+	best_clk_sample = sdhci_sprd_get_best_clk_sample(mmc, value);
+	if (best_clk_sample < 0) {
+		dev_err(mmc_dev(host->mmc), "all tuning phase fail!\n");
+		err = best_clk_sample;
+		goto out;
+	}
+
+	if (type == SDHCI_SPRD_TUNING_SD_HS_CMD) {
+		p[mmc->ios.timing] &= ~SDHCI_SPRD_CMD_DLY_MASK;
+		p[mmc->ios.timing] |= ((best_clk_sample << 8) & SDHCI_SPRD_CMD_DLY_MASK);
+	} else {
+		p[mmc->ios.timing] &= ~(SDHCI_SPRD_POSRD_DLY_MASK);
+		p[mmc->ios.timing] |= ((best_clk_sample << 16) & SDHCI_SPRD_POSRD_DLY_MASK);
+	}
+
+	pr_debug("%s: the best clk sample %d, delay value 0x%08x\n",
+			mmc_hostname(host->mmc), best_clk_sample, p[mmc->ios.timing]);
+
+out:
+	sdhci_writel(host, p[mmc->ios.timing], SDHCI_SPRD_REG_32_DLL_DLY);
+
+	kfree(value);
+
+	return err;
+}
+
+static int sdhci_sprd_prepare_sd_hs_cmd_tuning(struct mmc_host *mmc, struct mmc_card *card)
+{
+	return sdhci_sprd_tuning(mmc, card, SDHCI_SPRD_TUNING_SD_HS_CMD);
+}
+
+static int sdhci_sprd_execute_sd_hs_data_tuning(struct mmc_host *mmc, struct mmc_card *card)
+{
+	return sdhci_sprd_tuning(mmc, card, SDHCI_SPRD_TUNING_SD_HS_DATA);
+}
+
+static void sdhci_sprd_phy_param_parse(struct sdhci_sprd_host *sprd_host,
+				       struct device_node *np)
+{
+	u32 *p = sprd_host->phy_delay;
+	int ret, i, index;
+	u32 val[4];
+
+	for (i = 0; i < ARRAY_SIZE(sdhci_sprd_phy_cfgs); i++) {
+		ret = of_property_read_u32_array(np,
+				sdhci_sprd_phy_cfgs[i].property, val, 4);
+		if (ret)
+			continue;
+
+		index = sdhci_sprd_phy_cfgs[i].timing;
+		p[index] = val[0] | (val[1] << 8) | (val[2] << 16) | (val[3] << 24);
+	}
+}
+
+static const struct sdhci_pltfm_data sdhci_sprd_pdata = {
+	.quirks = SDHCI_QUIRK_BROKEN_CARD_DETECTION |
+		  SDHCI_QUIRK_DATA_TIMEOUT_USES_SDCLK,
+	.quirks2 = SDHCI_QUIRK2_BROKEN_HS200 |
+		   SDHCI_QUIRK2_USE_32BIT_BLK_CNT |
+		   SDHCI_QUIRK2_PRESET_VALUE_BROKEN,
+	.ops = &sdhci_sprd_ops,
+};
+
+static int sdhci_sprd_probe(struct platform_device *pdev)
+{
+	struct sdhci_host *host;
+	struct sdhci_sprd_host *sprd_host;
+	struct mmc_hsq *hsq;
+	struct clk *clk;
+	u32 ocr_mask = 0;
+	int gpio;
+	enum of_gpio_flags flags = 0;
+	int ret = 0;
+
+	host = sdhci_pltfm_init(pdev, &sdhci_sprd_pdata, sizeof(*sprd_host));
+	if (IS_ERR(host))
+		return PTR_ERR(host);
+
+	host->dma_mask = DMA_BIT_MASK(64);
+	pdev->dev.dma_mask = &host->dma_mask;
+	host->mmc_host_ops.request = sdhci_sprd_request;
+	host->mmc_host_ops.hs400_enhanced_strobe =
+		sdhci_sprd_hs400_enhanced_strobe;
+	host->mmc_host_ops.prepare_sd_hs_tuning =
+		sdhci_sprd_prepare_sd_hs_cmd_tuning;
+	host->mmc_host_ops.execute_sd_hs_tuning =
+		sdhci_sprd_execute_sd_hs_data_tuning;
+
+	/*
+	 * We can not use the standard ops to change and detect the voltage
+	 * signal for Spreadtrum SD host controller, since our voltage regulator
+	 * for I/O is fixed in hardware, that means we do not need control
+	 * the standard SD host controller to change the I/O voltage.
+	 */
+	host->mmc_host_ops.start_signal_voltage_switch =
+		sdhci_sprd_voltage_switch;
+
+	host->mmc->caps = MMC_CAP_SD_HIGHSPEED | MMC_CAP_MMC_HIGHSPEED |
+		MMC_CAP_WAIT_WHILE_BUSY;
+
+	ret = mmc_of_parse(host->mmc);
+	if (ret)
+		return ret;
+
+	/*
+	 * No reliable writes: the vendor kernel strips REQ_FUA from every eMMC
+	 * request, so the eMMCs these SoCs ship with are only known to work
+	 * without them.  On the UMS9621's (manfid 0x37), F2FS -- whose
+	 * checkpoints are FUA writes -- was found twice after a reset with other
+	 * metadata blocks' old contents in its NAT blocks.  FUA then becomes a
+	 * write and a cache flush.
+	 */
+	host->mmc->caps2 |= MMC_CAP2_NO_REL_WR;
+
+	if (!mmc_card_is_removable(host->mmc))
+		host->mmc_host_ops.request_atomic = sdhci_sprd_request_atomic;
+	else
+		host->always_defer_done = true;
+
+	sprd_host = TO_SPRD_HOST(host);
+	/* Shared eMMC policy: preserve FUA durability through flush emulation.
+	 * Runtime PM, aggressive PM and CLK_AUTO retain their normal behavior. */
+	if (!mmc_card_is_removable(host->mmc) &&
+	    !(host->mmc->caps2 & MMC_CAP2_NO_MMC) &&
+	    of_property_match_string(pdev->dev.of_node, "sprd,name", "sdio_wlan") < 0 &&
+	    of_property_match_string(pdev->dev.of_node, "sprd,name", "sdio_sd") < 0)
+		host->mmc->caps2 |= MMC_CAP2_NO_REL_WR;
+	sdhci_sprd_phy_param_parse(sprd_host, pdev->dev.of_node);
+
+	/*
+	 * The slot's fast-hotplug registers only exist for the removable SD
+	 * controller; the vendor DT wires them up together with a card-detect
+	 * GPIO, so parse them only when one is present.
+	 */
+	gpio = of_get_named_gpio_flags(pdev->dev.of_node, "cd-gpios", 0, &flags);
+	if (gpio >= 0) {
+		sdhci_sprd_get_fast_hotplug_info(pdev->dev.of_node, sprd_host);
+		sprd_host->cd_active_high = !(flags & OF_GPIO_ACTIVE_LOW);
+		sprd_host->fast_hotplug =
+			sprd_host->reg_detect_polar.regmap &&
+			sprd_host->reg_protect_enable.regmap &&
+			sprd_host->reg_debounce_en.regmap &&
+			sprd_host->reg_debounce_cn.regmap &&
+			sprd_host->reg_rmldo_en.regmap;
+	}
+
+	sprd_host->pinctrl = devm_pinctrl_get(&pdev->dev);
+	if (!IS_ERR(sprd_host->pinctrl)) {
+		sprd_host->pins_uhs =
+			pinctrl_lookup_state(sprd_host->pinctrl, "state_uhs");
+		if (IS_ERR(sprd_host->pins_uhs))
+			return PTR_ERR(sprd_host->pins_uhs);
+
+		sprd_host->pins_default =
+			pinctrl_lookup_state(sprd_host->pinctrl, "default");
+		if (IS_ERR(sprd_host->pins_default))
+			return PTR_ERR(sprd_host->pins_default);
+	}
+
+	clk = devm_clk_get(&pdev->dev, "sdio");
+	if (IS_ERR(clk))
+		return PTR_ERR(clk);
+	sprd_host->clk_sdio = clk;
+	sprd_host->base_rate = clk_get_rate(sprd_host->clk_sdio);
+	if (!sprd_host->base_rate)
+		sprd_host->base_rate = SDHCI_SPRD_CLK_DEF_RATE;
+
+	clk = devm_clk_get(&pdev->dev, "enable");
+	if (IS_ERR(clk))
+		return PTR_ERR(clk);
+	sprd_host->clk_enable = clk;
+
+	clk = devm_clk_get(&pdev->dev, "2x_enable");
+	if (!IS_ERR(clk))
+		sprd_host->clk_2x_enable = clk;
+
+	ret = clk_prepare_enable(sprd_host->clk_sdio);
+	if (ret)
+		return ret;
+
+	ret = clk_prepare_enable(sprd_host->clk_enable);
+	if (ret)
+		goto clk_disable;
+
+	ret = clk_prepare_enable(sprd_host->clk_2x_enable);
+	if (ret)
+		goto clk_disable2;
+
+	sdhci_sprd_init_config(host);
+	host->version = sdhci_readw(host, SDHCI_HOST_VERSION);
+	sprd_host->version = ((host->version & SDHCI_VENDOR_VER_MASK) >>
+			       SDHCI_VENDOR_VER_SHIFT);
+
+	pm_runtime_get_noresume(&pdev->dev);
+	pm_runtime_set_active(&pdev->dev);
+	pm_runtime_enable(&pdev->dev);
+	pm_runtime_set_autosuspend_delay(&pdev->dev, 50);
+	pm_runtime_use_autosuspend(&pdev->dev);
+	pm_suspend_ignore_children(&pdev->dev, 1);
+
+	sdhci_enable_v4_mode(host);
+
+	/*
+	 * Supply the existing CAPS, but clear the UHS-I modes. This
+	 * will allow these modes to be specified only by device
+	 * tree properties through mmc_of_parse().
+	 */
+	sdhci_read_caps(host);
+	host->caps1 &= ~(SDHCI_SUPPORT_SDR50 | SDHCI_SUPPORT_SDR104 |
+			 SDHCI_SUPPORT_DDR50);
+
+	ret = mmc_regulator_get_supply(host->mmc);
+	if (ret)
+		goto pm_runtime_disable;
+
+	ret = sdhci_setup_host(host);
+	if (ret)
+		goto pm_runtime_disable;
+
+	/*
+	 * The card's supply voltage comes from the device tree's
+	 * "voltage-ranges" (3.0 V for the eMMC on the UMS9621 boards, which
+	 * Unisoc's kernel hard-codes): otherwise the OCR mask is the
+	 * regulator's whole range, and the card is powered up at its top, 3.5 V
+	 * on the UMP9620's LDOs.  It has to be narrowed after sdhci_setup_host(),
+	 * where the regulator's range takes precedence over host->ocr_mask.
+	 */
+	if (mmc_of_parse_voltage(host->mmc, &ocr_mask) > 0 &&
+	    (host->mmc->ocr_avail & ocr_mask)) {
+		host->mmc->ocr_avail &= ocr_mask;
+		host->mmc->ocr_avail_sdio &= ocr_mask;
+		host->mmc->ocr_avail_sd &= ocr_mask;
+		host->mmc->ocr_avail_mmc &= ocr_mask;
+	}
+
+	/*
+	 * The vendor DT gives sdio@22220000 (sprd,name = sdio_wifi, the
+	 * SC2355) no vmmc-supply.  With a dummy regulator the OCR mask can
+	 * end up empty, so mmc_power_up() hands .set_power a vdd of 0 and
+	 * SDHCI_POWER_CONTROL is written as 0 -- CMD5 then goes out with
+	 * argument 0 and the WCN SDIO scan times out although the chip itself
+	 * is powered.  The slot is a 3.3 V part on this board; force the 3.3 V
+	 * range for the wifi host only.
+	 */
+	if (of_property_match_string(pdev->dev.of_node, "sprd,name",
+				     "sdio_wifi") >= 0) {
+		host->mmc->ocr_avail |= MMC_VDD_32_33 | MMC_VDD_33_34;
+		host->mmc->ocr_avail_sdio |= MMC_VDD_32_33 | MMC_VDD_33_34;
+		/*
+		 * The SC2355 is soldered and the slot has no card-detect GPIO:
+		 * without MMC_CAP_NONREMOVABLE mmc_rescan() asks the host for a
+		 * card-detect state, gets 0 and never sends CMD5 -- the WCN scan
+		 * then times out with the chip powered and idle.
+		 */
+		host->mmc->caps |= MMC_CAP_NONREMOVABLE;
+	}
+
+	/*
+	 * A controller for an SDIO chip only (the Wi-Fi/BT combo chip: no-sd,
+	 * no-mmc) is not polled for a card: the chip's driver powers it and
+	 * asks for the scan (mmc_detect_change()).  Polled, a powered-off chip
+	 * times out every second, each time with a register dump.
+	 */
+	if ((host->mmc->caps2 & MMC_CAP2_NO_SD) &&
+	    (host->mmc->caps2 & MMC_CAP2_NO_MMC))
+		host->mmc->caps &= ~MMC_CAP_NEEDS_POLL;
+
+	sprd_host->flags = host->flags;
+
+	hsq = devm_kzalloc(&pdev->dev, sizeof(*hsq), GFP_KERNEL);
+	if (!hsq) {
+		ret = -ENOMEM;
+		goto err_cleanup_host;
+	}
+
+	ret = mmc_hsq_init(hsq, host->mmc);
+	if (ret)
+		goto err_cleanup_host;
+
+	ret = __sdhci_add_host(host);
+	if (ret)
+		goto err_cleanup_host;
+
+	pm_runtime_put_autosuspend(&pdev->dev);
+
+	return 0;
+
+err_cleanup_host:
+	sdhci_cleanup_host(host);
+
+pm_runtime_disable:
+	pm_runtime_put_noidle(&pdev->dev);
+	pm_runtime_disable(&pdev->dev);
+	pm_runtime_set_suspended(&pdev->dev);
+
+	clk_disable_unprepare(sprd_host->clk_2x_enable);
+
+clk_disable2:
+	clk_disable_unprepare(sprd_host->clk_enable);
+
+clk_disable:
+	clk_disable_unprepare(sprd_host->clk_sdio);
+	return ret;
+}
+
+static void sdhci_sprd_remove(struct platform_device *pdev)
+{
+	struct sdhci_host *host = platform_get_drvdata(pdev);
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+
+	sdhci_remove_host(host, 0);
+
+	clk_disable_unprepare(sprd_host->clk_sdio);
+	clk_disable_unprepare(sprd_host->clk_enable);
+	clk_disable_unprepare(sprd_host->clk_2x_enable);
+}
+
+static const struct of_device_id sdhci_sprd_of_match[] = {
+	{ .compatible = "sprd,sdhci-r11", },
+	{ }
+};
+MODULE_DEVICE_TABLE(of, sdhci_sprd_of_match);
+
+static int sdhci_sprd_runtime_suspend(struct device *dev)
+{
+	struct sdhci_host *host = dev_get_drvdata(dev);
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+
+	mmc_hsq_suspend(host->mmc);
+	sdhci_runtime_suspend_host(host);
+
+	clk_disable_unprepare(sprd_host->clk_sdio);
+	clk_disable_unprepare(sprd_host->clk_enable);
+	clk_disable_unprepare(sprd_host->clk_2x_enable);
+
+	return 0;
+}
+
+static int sdhci_sprd_runtime_resume(struct device *dev)
+{
+	struct sdhci_host *host = dev_get_drvdata(dev);
+	struct sdhci_sprd_host *sprd_host = TO_SPRD_HOST(host);
+	int ret;
+
+	ret = clk_prepare_enable(sprd_host->clk_2x_enable);
+	if (ret)
+		return ret;
+
+	ret = clk_prepare_enable(sprd_host->clk_enable);
+	if (ret)
+		goto clk_2x_disable;
+
+	ret = clk_prepare_enable(sprd_host->clk_sdio);
+	if (ret)
+		goto clk_disable;
+
+	sdhci_runtime_resume_host(host, 1);
+	mmc_hsq_resume(host->mmc);
+
+	return 0;
+
+clk_disable:
+	clk_disable_unprepare(sprd_host->clk_enable);
+
+clk_2x_disable:
+	clk_disable_unprepare(sprd_host->clk_2x_enable);
+
+	return ret;
+}
+
+static const struct dev_pm_ops sdhci_sprd_pm_ops = {
+	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+	RUNTIME_PM_OPS(sdhci_sprd_runtime_suspend, sdhci_sprd_runtime_resume, NULL)
+};
+
+static struct platform_driver sdhci_sprd_driver = {
+	.probe = sdhci_sprd_probe,
+	.remove = sdhci_sprd_remove,
+	.driver = {
+		.name = "sdhci_sprd_r11",
+		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
+		.of_match_table = sdhci_sprd_of_match,
+		.pm = pm_ptr(&sdhci_sprd_pm_ops),
+	},
+};
+module_platform_driver(sdhci_sprd_driver);
+
+MODULE_DESCRIPTION("Spreadtrum sdio host controller r11 driver");
+MODULE_LICENSE("GPL v2");
+MODULE_ALIAS("platform:sdhci-sprd-r11");

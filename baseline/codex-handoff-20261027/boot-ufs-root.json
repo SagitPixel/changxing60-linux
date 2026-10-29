@@ -1,0 +1,11 @@
+{
+  "image": "boot-ufs-root.img",
+  "base": "boot-audio-debug.img",
+  "sha256": "bc0ae74fd4b67d98553b9b30eb6be4019d12543f15de28368ddcdb40424a7a7d",
+  "sha256_head56m": "21ba1d9f1bd883ee8f9a1d9d86cb238dc7626688837abce21d723c7da0f39db1",
+  "kernel_sha256": "13a531f36e9e1f159e38af947c27eafaacb6e81e0088d69a71cba3c6cfa73aa1",
+  "ramdisk_size": 24102711,
+  "replaced": {
+    "init": "83b6c6a839fc698b31fad502858492b73f0fb9776599470fd34e0240037fc5e0"
+  }
+}

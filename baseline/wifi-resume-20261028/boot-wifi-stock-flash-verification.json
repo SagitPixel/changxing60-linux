@@ -1,0 +1,16 @@
+{
+  "boot": "/dev/sda40",
+  "misc": "/dev/sda3",
+  "image_sha256": "5d17b5a981ee0670c78602d4920ebb50a7eabaf6941395212a8ae9c68f58fce5",
+  "outside_bcb_unchanged": true,
+  "changed_offsets": [
+    2049,
+    2060,
+    2062,
+    2076,
+    2077,
+    2078,
+    2079
+  ],
+  "reboot_requested": false
+}

@@ -1,0 +1,17 @@
+{
+  "image_sha256": "b8e743edcdb6f31cc296d7535b1d4c8da6b22fc8ae3f59e200b88f6e201eac1d",
+  "misc_before_sha256": "92d376bfa39cc227c55c13cf7c0bc959209dc7514b14094f8545a67e66d6a1e2",
+  "misc_after_sha256": "e79dacbd547ac7e87c5dcea9d8830addfb3a4c013103c183370abb55e932247c",
+  "bcb_sha256": "5d630e9ac3f794f5938ce5f22e93560708e0b8b0742df1b184c7d3248c6d364c",
+  "changed_offsets": [
+    2049,
+    2060,
+    2062,
+    2076,
+    2077,
+    2078,
+    2079
+  ],
+  "outside_bcb_unchanged": true,
+  "reboot_requested": false
+}

@@ -1,0 +1,81 @@
+stty -echo
+root@changxing60:~# > 6.18.54-7552n-probe1+
+mmc0  mmc1  mmc2
+sdhci_sprd_r11
+sprd_wcn
+[    5.583478] WCN BASE: log dev major=255,minor=0
+[    5.588054] WCN BASE: log dev major=255,minor=1
+[    5.592673] wcn_op_init
+[    5.595122] WCN BOOT: : init_wcn_sysfs
+[    5.603409] WCN BASEmarlin_probe driver match successful v2!
+[    6.111881] WCN BASEmarlin_power_wq start
+[    6.120109] WCN BASEmarlin power state:0, subsys: [WCN_AUTO] power 1
+[    6.133607] WCN BASEthe first power on start
+[    6.133609] WCN BASEavdd12-parent-bound-chip unbound
+[    6.135630] WCN BASEmarlin marlin_clk_enable successfully!
+[    6.144078] WCN BASEmarlin_digital_power_enable D1v2 1
+[    6.146082] WCN BASEmarlin chip en pull up
+[    6.159471] WCN BASEavdd12-bound-wbreq bound
+[    6.167879] WCN BASEavdd33-bound-wbreq bound
+[    6.178115] WCN SDIO: sdiohal_scan_card
+[    9.191359] WCN SDIO: wait scan card time out
+[   12.354152] WCN BASEwait bus rescan card time out
+[   12.354154] WCN BASEmarlin_subsys_init start
+[   12.354333] platform sprd-marlin3:wlan: really_probe: drv=wlan link_ret=0 defer_all=0
+[   12.354340] sprd-wlan: sprd_wlan_probe sprd,sc2355-sdio-wifi 2.
+[   12.354370] sprd-wlan: sprd_load_fw, file wcn_wifi_driver.conf not exist
+[   12.358205] WCN BUS: [+]bus_chn_init(22, 0)
+[   12.358207] WCN BUS: [-]bus_chn_init(22)
+[   12.358208] WCN BUS: [+]bus_chn_init(23, 0)
+[   12.358209] WCN BUS: [-]bus_chn_init(23)
+[   12.358210] WCN BUS: [+]bus_chn_init(24, 0)
+[   12.358211] WCN BUS: [-]bus_chn_init(24)
+[   12.358213] WCN BUS: [+]bus_chn_init(8, 0)
+[   12.358214] WCN BUS: [-]bus_chn_init(8)
+[   12.358215] WCN BUS: [+]bus_chn_init(10, 0)
+[   12.358220] WCN BUS: [-]bus_chn_init(10)
+[   12.358221] sprd-wlan: sprd_iface_set_power Power on WCN (0 time)
+[   12.358223] WCN BASEstart_marlin [MARLIN_WIFI]
+[   12.358226] WCN BASEmarlin power state:0, subsys: [MARLIN_WIFI] power 1
+[   12.358227] WCN BASEthe first power on start
+[   12.358229] WCN BASEavdd12-parent-bound-chip unbound
+[   12.359878] WCN BASEmarlin marlin_clk_enable successfully!
+[   12.359879] WCN BASEmarlin_digital_power_enable D1v2 1
+[   12.361883] WCN BASEmarlin chip en pull up
+[   12.375876] WCN BASEavdd12-bound-wbreq bound
+[   12.391443] WCN BASEavdd33-bound-wbreq bound
+[   12.405395] WCN SDIO: sdiohal_scan_card
+[   12.413078] Error: Driver 'sdiohal' is already registered, aborting...
+[   13.825144] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,sprd_wcn,ufshcd-sprd,
+[   13.850391] CHANGXING60-LINUX: dmesg: [   12.359878] WCN BASEmarlin marlin_clk_enable successfully!
+[   13.851640] CHANGXING60-LINUX: dmesg: [   12.413078] Error: Driver 'sdiohal' is already registered, aborting...
+[   15.081847] CHANGXING60-LINUX: dmesg: [   13.825144] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,sprd_wcn,ufshcd-sprd,
+[   15.167939] WCN SDIO: wait scan card time out
+[   18.240492] WCN BASEwait bus rescan card time out
+[   18.245350] sprd-wlan: failed to power on WCN!
+[   18.249920] WCN BUS: [+]bus_chn_deinit(22, 0)
+[   18.261078] WCN BUS: [-]bus_chn_deinit(22)
+[   18.265290] WCN BUS: [+]bus_chn_deinit(23, 0)
+[   18.269757] WCN BUS: [-]bus_chn_deinit(23)
+[   18.273962] WCN BUS: [+]bus_chn_deinit(24, 0)
+[   18.278426] WCN BUS: [-]bus_chn_deinit(24)
+[   18.282627] WCN SDIO: p_data->data_list_tx is NULL!
+[   18.287602] WCN BUS: [+]bus_chn_deinit(8, 0)
+[   18.291975] WCN BUS: [-]bus_chn_deinit(8)
+[   18.296080] WCN BUS: [+]bus_chn_deinit(10, 0)
+[   18.300531] WCN BUS: [-]bus_chn_deinit(10)
+[   18.304739] sprd-wlan: sc2355_flush_tosendlist, 1145
+[   52.671996] WCN BASE: mdbg_proc->write_buf:at+armlog=0
+[   52.672017] WCN BASE warning: WCN module have not open
+[   52.674681] WCN BOOT: : wcn_sysfs_store_reset_dump: buf=reset
+audio_structure                dsp_vbc
+aw87xxx_acf.bin                fm_board_config.ini
+bt_configure_pskey.ini         fm_board_config.xpe.ini
+bt_configure_pskey.xpe.ini     gnssmodem.bin
+bt_configure_pskey_aa.ini      regulatory.db
+bt_configure_pskey_aa.xpe.ini  regulatory.db.p7s
+bt_configure_rf.ini            wcnmodem.bin
+bt_configure_rf.xpe.ini        wifi_board_config.ini
+bt_configure_rf_aa.ini         wifi_board_config.xpe.ini
+bt_configure_rf_aa.xpe.ini     wifi_board_config_aa.ini
+cvs                            wifi_board_config_aa.xpe.ini

@@ -1,0 +1,348 @@
+Linux changxing60 6.18.54-7552n-probe1+ #64 SMP Wed Oct 28 07:04:45 UTC 2026 aarch64 GNU/Linux
+ 16:32:03 up  3:31,  load average: 0.06, 0.04, 0.00
+Thu Oct 29 16:32:03 +03 2026
+4096
+DEFERRED
+64270000.thermal	
+64280000.thermal	
+64290000.thermal	
+642a0000.thermal	
+64a00000.usb	
+POWER
+DEVTYPE=power_supply
+POWER_SUPPLY_NAME=ac
+POWER_SUPPLY_TYPE=Mains
+POWER_SUPPLY_ONLINE=0
+POWER_SUPPLY_VOLTAGE_MAX=0
+POWER_SUPPLY_CURRENT_MAX=0
+POWER_SUPPLY_TYPE=Mains
+DEVTYPE=power_supply
+OF_NAME=charger-manager
+OF_FULLNAME=/charger-manager
+OF_COMPATIBLE_0=charger-manager
+OF_COMPATIBLE_N=1
+POWER_SUPPLY_NAME=battery
+POWER_SUPPLY_TYPE=Battery
+POWER_SUPPLY_STATUS=Discharging
+POWER_SUPPLY_CHARGE_TYPE=Unknown
+POWER_SUPPLY_HEALTH=Good
+POWER_SUPPLY_PRESENT=1
+POWER_SUPPLY_ONLINE=0
+POWER_SUPPLY_TECHNOLOGY=Li-ion
+POWER_SUPPLY_CYCLE_COUNT=43
+POWER_SUPPLY_VOLTAGE_MAX_DESIGN=-1
+POWER_SUPPLY_VOLTAGE_MIN_DESIGN=3450000
+POWER_SUPPLY_VOLTAGE_NOW=3737000
+POWER_SUPPLY_VOLTAGE_AVG=3738000
+POWER_SUPPLY_CURRENT_NOW=-14000
+POWER_SUPPLY_CURRENT_AVG=-7000
+POWER_SUPPLY_CHARGE_FULL_DESIGN=3000000
+POWER_SUPPLY_CHARGE_FULL=3000000
+POWER_SUPPLY_CHARGE_COUNTER=1659000
+POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=0
+POWER_SUPPLY_CONSTANT_CHARGE_CURRENT_MAX=1000000
+POWER_SUPPLY_CONSTANT_CHARGE_VOLTAGE_MAX=4400000
+POWER_SUPPLY_CHARGE_CONTROL_LIMIT=0
+POWER_SUPPLY_INPUT_CURRENT_LIMIT=0
+POWER_SUPPLY_CAPACITY=55
+POWER_SUPPLY_CAPACITY_LEVEL=Normal
+POWER_SUPPLY_TEMP=332
+POWER_SUPPLY_TEMP_AMBIENT=250
+POWER_SUPPLY_TIME_TO_FULL_NOW=1
+POWER_SUPPLY_TYPE=Battery
+POWER_SUPPLY_USB_TYPE=[Unknown] SDP DCP CDP C PD PD_DRP BrickID
+POWER_SUPPLY_CHARGE_TERM_CURRENT=180000
+DEVTYPE=power_supply
+OF_NAME=charger
+OF_FULLNAME=/soc/ap-ahb/i2c@22a0000/charger@6b
+OF_COMPATIBLE_0=ti,bq2560x_chg
+OF_COMPATIBLE_N=1
+POWER_SUPPLY_NAME=bq2560x_charger
+POWER_SUPPLY_TYPE=Unknown
+POWER_SUPPLY_STATUS=Not charging
+POWER_SUPPLY_HEALTH=Good
+POWER_SUPPLY_ONLINE=1
+POWER_SUPPLY_CHARGE_FULL=0
+POWER_SUPPLY_CONSTANT_CHARGE_CURRENT=0
+POWER_SUPPLY_INPUT_CURRENT_LIMIT=0
+POWER_SUPPLY_TYPE=Unknown
+POWER_SUPPLY_CALIBRATE=0
+DEVTYPE=power_supply
+OF_NAME=fgu
+OF_FULLNAME=/soc/aon/spi@400000/pmic@0/fgu@800
+OF_COMPATIBLE_0=sprd,ump9620-fgu
+OF_COMPATIBLE_1=sprd,sc27xx-fgu
+OF_COMPATIBLE_N=2
+POWER_SUPPLY_NAME=sc27xx-fgu
+POWER_SUPPLY_TYPE=Unknown
+POWER_SUPPLY_HEALTH=Good
+POWER_SUPPLY_PRESENT=1
+POWER_SUPPLY_TECHNOLOGY=Li-ion
+POWER_SUPPLY_CYCLE_COUNT=43
+POWER_SUPPLY_VOLTAGE_MAX_DESIGN=-1
+POWER_SUPPLY_VOLTAGE_NOW=3737000
+POWER_SUPPLY_VOLTAGE_AVG=3738000
+POWER_SUPPLY_VOLTAGE_OCV=3740000
+POWER_SUPPLY_CURRENT_NOW=-14000
+POWER_SUPPLY_CURRENT_AVG=-7000
+POWER_SUPPLY_CONSTANT_CHARGE_VOLTAGE=4990000
+POWER_SUPPLY_ENERGY_FULL_DESIGN=3000000
+POWER_SUPPLY_CAPACITY=553
+POWER_SUPPLY_TEMP=332
+POWER_SUPPLY_TYPE=Unknown
+DEVTYPE=power_supply
+POWER_SUPPLY_NAME=usb
+POWER_SUPPLY_TYPE=USB
+POWER_SUPPLY_ONLINE=0
+POWER_SUPPLY_VOLTAGE_MAX=0
+POWER_SUPPLY_CURRENT_MAX=0
+POWER_SUPPLY_TYPE=USB
+DEVTYPE=power_supply
+POWER_SUPPLY_NAME=wireless
+POWER_SUPPLY_TYPE=Wireless
+POWER_SUPPLY_ONLINE=0
+POWER_SUPPLY_VOLTAGE_MAX=0
+POWER_SUPPLY_CURRENT_MAX=0
+POWER_SUPPLY_TYPE=Wireless
+NET
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    RX:  bytes packets errors dropped  missed   mcast           
+          5510      57      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+          5510      57      0       0       0       0 
+2: sipa_dummy0: <UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UNKNOWN mode DEFAULT group default qlen 1000
+    link/ether 1a:80:c2:62:28:69 brd ff:ff:ff:ff:ff:ff
+    RX:  bytes packets errors dropped  missed   mcast           
+     189882604  182413      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+          1046      13      0       0       0       0 
+3: sipa_eth0: <NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+     189882604  182413      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+      32377169  154749      0       0       0       0 
+4: sipa_eth1: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+5: sipa_eth2: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+6: sipa_eth3: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+7: sipa_eth4: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+8: sipa_eth5: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+9: sipa_eth6: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+10: sipa_eth7: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+11: sipa_eth8: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+12: sipa_eth9: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+13: sipa_eth10: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+14: sipa_eth11: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+15: sipa_eth12: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+16: sipa_eth13: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+17: sipa_eth14: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+18: sipa_eth15: <NOARP> mtu 1500 qdisc noop state DOWN mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+             0       0      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+             0       0      0       0       0       0 
+20: usb0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master br-lan state UP mode DEFAULT group default qlen 1000
+    link/ether 02:50:00:00:77:01 brd ff:ff:ff:ff:ff:ff
+    RX:  bytes packets errors dropped  missed   mcast           
+        180002    1851      0      15       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+       8939260     934      0       0       0       0 
+22: br-wifi: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 54:1f:8d:da:8d:c1 brd ff:ff:ff:ff:ff:ff
+    RX:  bytes packets errors dropped  missed   mcast           
+      32782943  159651      0       0       0    4478 
+    TX:  bytes packets errors dropped carrier collsns           
+     187984553  114742      0       1       0       0 
+23: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master br-wifi state UP mode DEFAULT group default qlen 1000
+    link/ether 54:1f:8d:da:8d:c1 brd ff:ff:ff:ff:ff:ff
+    RX:  bytes packets errors dropped  missed   mcast           
+      32784482  159672      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+     192968087  187357      0       1       0       0 
+25: br-lan: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 02:50:00:00:77:01 brd ff:ff:ff:ff:ff:ff
+    RX:  bytes packets errors dropped  missed   mcast           
+        157952    1633      0       0       0     635 
+    TX:  bytes packets errors dropped carrier collsns           
+       8834643    6664      0       2       0       0 
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+3: sipa_eth0: <NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    inet 10.66.153.79/8 brd 10.255.255.255 scope global sipa_eth0
+       valid_lft forever preferred_lft forever
+22: br-wifi: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    inet 192.168.8.1/24 brd 192.168.8.255 scope global br-wifi
+       valid_lft forever preferred_lft forever
+25: br-lan: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    inet 192.168.77.1/24 brd 192.168.77.255 scope global br-lan
+       valid_lft forever preferred_lft forever
+default dev sipa_eth0 proto static scope link 
+10.0.0.0/8 dev sipa_eth0 proto kernel scope link src 10.66.153.79 
+192.168.8.0/24 dev br-wifi proto kernel scope link src 192.168.8.1 
+192.168.77.0/24 dev br-lan proto kernel scope link src 192.168.77.1 
+SOUND
+ 0 [sprdphonesc2730]: sprdphone-sc273 - sprdphone-sc2730
+                      sprdphone-sc2730
+00-00: FE_ST_NORMAL_AP01 (*) :  : playback 1 : capture 1
+00-01: FE_ST_NORMAL_AP23 (*) :  : playback 1 : capture 1
+00-02: FE_ST_CAPTURE_DSP (*) :  : capture 1
+00-03: FE_ST_FAST (*) :  : playback 1
+00-05: FE_ST_VOICE (*) :  : playback 1 : capture 1
+00-06: FE_ST_VOIP (*) :  : playback 1 : capture 1
+00-07: FE_ST_FM (*) :  : playback 1
+00-08: FE_ST_FM_C (*) :  : capture 1
+00-09: FE_ST_VOICE_C (*) :  : capture 1
+00-10: FE_ST_LOOP (*) :  : playback 1 : capture 1
+00-12: FE_ST_A2DP_PCM (*) :  : playback 1
+00-13: FE_ST_CAPTURE_FM_DSP (*) :  : capture 1
+00-14: FE_ST_CAPTURE_BTSCO_DSP (*) :  : capture 1
+00-15: FE_ST_FM_DSP (*) :  : playback 1
+00-16: FE_ST_DUMP (*) :  : capture 1
+00-17: FE_ST_BTCAP_AP (*) :  : capture 1
+00-18: FE_ST_VOICE_PCM_P (*) :  : playback 1
+00-19: FE_ST_TEST_CODEC (*) :  : playback 1 : capture 1
+00-25: FE_ST_MM_P (*) :  : playback 1
+DISPLAY
+0 sprddrmfb
+crw-------    1 root     root      226,   0 Oct 29 13:03 card0
+MODULES
+sprd_drm 745472 0 - Live 0xffffffc079fca000
+ocp2131 12288 1 sprd_drm, Live 0xffffffc079f20000
+drm_dma_helper 24576 2 sprd_drm, Live 0xffffffc079f04000
+drm_client_lib 12288 1 sprd_drm, Live 0xffffffc079b3a000
+unisoc_iommu 69632 1 sprd_drm, Live 0xffffffc079fb0000
+drm_kms_helper 204800 3 sprd_drm,drm_dma_helper,drm_client_lib, Live 0xffffffc079f63000
+sprd_vpu_pw_domain 12288 0 - Live 0xffffffc079f59000
+sprd_platform_pcm_routing 122880 1 - Live 0xffffffc079f33000
+sprd_compr_2stage_dma 32768 1 - Live 0xffffffc079f22000
+sprd_dmaengine_pcm 36864 1 - Live 0xffffffc079f10000
+snd_soc_sprd_dummy_codec 12288 0 - Live 0xffffffc079efb000
+snd_soc_sprd_pdm_r2p0 24576 0 - Live 0xffffffc079eef000
+snd_soc_sprd_tdm 32768 1 sprd_dmaengine_pcm, Live 0xffffffc079ea3000
+snd_soc_sprd_vbc_fe 32768 1 [permanent], Live 0xffffffc079e52000
+snd_soc_sprd_vbc_v4 282624 2 snd_soc_sprd_vbc_fe,[permanent], Live 0xffffffc079ea7000
+mcdt_hw_r2p0 28672 3 sprd_compr_2stage_dma,snd_soc_sprd_vbc_fe,snd_soc_sprd_vbc_v4, Live 0xffffffc079e31000
+snd_soc_sprd_codec_ump9620 212992 1 [permanent], Live 0xffffffc079e5f000
+snd_soc_fsa4480 12288 1 snd_soc_sprd_codec_ump9620, Live 0xffffffc079e55000
+snd_soc_sprd_codec_ump9620_power 24576 37 - Live 0xffffffc079e4b000
+snd_soc_sprd_codec_ump9620_power_dev 28672 0 [permanent], Live 0xffffffc079bb0000
+audio_dsp_dump 40960 0 - Live 0xffffffc079e27000
+audio_pipe 20480 0 - Live 0xffffffc079bb2000
+audio_sipc 45056 5 sprd_compr_2stage_dma,snd_soc_sprd_pdm_r2p0,snd_soc_sprd_vbc_v4,audio_dsp_dump,audio_pipe, Live 0xffffffc079b9f000
+audio_mem 24576 4 sprd_compr_2stage_dma,sprd_dmaengine_pcm,audio_dsp_dump,audio_sipc, Live 0xffffffc079e40000
+agdsp_pd 24576 3 sprd_dmaengine_pcm,audio_dsp_dump,audio_sipc, Live 0xffffffc079ae4000
+sprd_wlan_combo 2531328 0 - Live 0xffffffc079bb8000
+wcn_bsp 413696 1 sprd_wlan_combo, Live 0xffffffc079b4d000
+sipa_dele 20480 0 [permanent], Live 0xffffffc079b40000
+sipa_eth 12288 0 - Live 0xffffffc079a96000
+sipa_core 233472 2 sipa_dele,sipa_eth, Live 0xffffffc079ae8000
+spool 12288 0 - Live 0xffffffc079ad7000
+spipe 12288 8 - Live 0xffffffc079aa4000
+sprd_modem_loader 24576 0 - Live 0xffffffc079a92000
+sprd_sipc_virt_bus 12288 0 - Live 0xffffffc079adc000
+sipc_core 151552 7 agdsp_pd,sprd_wlan_combo,wcn_bsp,sipa_dele,spool,spipe,sprd_modem_loader, Live 0xffffffc079aa9000
+sprd_power_manager 20480 2 sprd_modem_loader,sipc_core, Live 0xffffffc079a7b000
+unisoc_mailbox 24576 7 sipc_core,[permanent], Live 0xffffffc079a62000
+snd_soc_sprd_card 57344 7 sprd_compr_2stage_dma,sprd_dmaengine_pcm,snd_soc_sprd_pdm_r2p0,snd_soc_sprd_tdm,snd_soc_sprd_vbc_v4,snd_soc_sprd_codec_ump9620,snd_soc_sprd_codec_ump9620_power,[permanent], Live 0xffffffc079a81000
+snd_soc_sprd_pa_aw87xxx 98304 1 snd_soc_sprd_card, Live 0xffffffc079a66000
+bq2560x_charger 36864 0 - Live 0xffffffc079a3b000 (O)
+ump96xx_fuel_gauge 73728 0 - Live 0xffffffc079a43000
+sprd_charger_manager 110592 1 ump96xx_fuel_gauge, Live 0xffffffc079a1d000
+sprd_battery_info 20480 3 bq2560x_charger,ump96xx_fuel_gauge,sprd_charger_manager, Live 0xffffffc079a10000
+CRON
+* * * * * /opt/changxing60/bin/charge-fix >/dev/null 2>&1
+* * * * * /opt/changxing60/bin/bootdiag >/dev/null 2>&1
+BOOTDIAG
+-rw-r--r--    1 root     root          1455 Oct 27 17:44 /root/audio-load.log
+-rw-r--r--    1 root     root          1100 Oct 27 17:49 /root/audio-route.log
+-rw-r--r--    1 root     root         15150 Oct 27 17:49 /root/audio-up.log
+-rw-r--r--    1 root     root          4544 Oct 29 13:03 /root/changxing60-modemd.log
+-rw-r--r--    1 root     root          1768 Oct 27 20:39 /root/selfheal.log
+-rw-r--r--    1 root     root           482 Oct 27 17:49 /root/vbc-load.log
+-rw-r--r--    1 root     root          5992 Oct 29 06:42 /root/voice-audio.log
+-rw-r--r--    1 root     root             0 Oct 29 13:01 /run/modem_control.log
+-rw-r--r--    1 root     root           273 Oct 29 13:03 /tmp/changxing60-extra-modules.log
+-rw-r--r--    1 root     root           176 Oct 29 13:03 /tmp/changxing60-net-split.log
+-rw-r--r--    1 root     root           536 Oct 29 13:03 /tmp/changxing60-vendor-modules.log
+-rw-r--r--    1 root     root            46 Oct 29 13:03 /tmp/changxing60-wifi-start.log
+-rw-r--r--    1 root     root         67590 Oct 29 15:01 /var/log/android-logcat.txt
+-rw-r--r--    1 root     root             0 Oct 29 13:03 /var/log/lastlog
+-rw-r--r--    1 root     root             0 Oct 29 13:03 /var/log/wtmp
+
+/tmp/log:
+-rw-r--r--    1 root     root         67590 Oct 29 15:01 android-logcat.txt
+-rw-r--r--    1 root     root             0 Oct 29 13:03 lastlog
+-rw-r--r--    1 root     root             0 Oct 29 13:03 wtmp

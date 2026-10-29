@@ -1,0 +1,523 @@
+make: Entering directory '/k/linux'
+make[1]: Entering directory '/k/linux/drivers/unisoc_platform/sprdwcn'
+  CC [M]  wcn_bus.o
+  CC [M]  sprd_wcn.o
+  CC [M]  platform/wcn_misc.o
+  CC [M]  platform/wcn_parn_parser.o
+  CC [M]  platform/wcn_procfs.o
+  CC [M]  platform/wcn_txrx.o
+  CC [M]  platform/wcn_log.o
+  CC [M]  platform/bufring.o
+  CC [M]  platform/wcn_op.o
+  CC [M]  platform/sysfs.o
+platform/wcn_op.c:165:5: warning: no previous prototype for function 'wcn_op_init' [-Wmissing-prototypes]
+  165 | int wcn_op_init(void)
+      |     ^
+platform/wcn_op.c:165:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  165 | int wcn_op_init(void)
+      | ^
+      | static 
+platform/wcn_op.c:179:6: warning: no previous prototype for function 'wcn_op_exit' [-Wmissing-prototypes]
+  179 | void wcn_op_exit(void)
+      |      ^
+platform/wcn_op.c:179:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  179 | void wcn_op_exit(void)
+      | ^
+      | static 
+2 warnings generated.
+  CC [M]  platform/reset.o
+  CC [M]  platform/reset_test.o
+  CC [M]  platform/loopcheck.o
+  CC [M]  platform/rf/rf.o
+  CC [M]  platform/wcn_dump_integrate.o
+platform/wcn_procfs.c:99:6: warning: no previous prototype for function 'wcn_reset_process' [-Wmissing-prototypes]
+   99 | void wcn_rsprd_wcn.c:es214:et5:_p warning: rono previous prototype for function 'marlin_reset_register_notify' [-Wmissing-prototypes]
+ce  214ss | (vinoit d)m
+      ar|      ^li
+n_platform/wcn_procfs.c:re99:se1:t_ note: redeclare 'static' if the function is not intended to be used outside of this translation unit
+gi   99st | veroi_nd otwcifn_y(revoseidt_ *prcaocllesbas(ckvo  CC [M]  platform/wcn_boot.o
+_fidun)
+c,      |  v^
+oi      | d static 
+*paplatform/wcn_procfs.c:ra111:)
+6:      |  warning:     ^
+no previous prototype for function 'wcn_dump_process' [-Wmissing-prototypes]
+sprd_wcn.c:  111214: | v1:oi note: d declare 'static' if the function is not intended to be used outside of this translation unit
+wc  214n_ | iduntmp m_parrolicen_ssre(esenut_m rewcgin_stsoerur_nceot_tifypy(evo idty pe*c)
+al      | lb  CC [M]  platform/gnss/gnss.o
+     ^
+acplatform/wcn_procfs.c  CC [M]  platform/wcn_dump.o
+k:111_f:1un:c, note:  vdeclare 'static' if the function is not intended to be used outside of this translation unit
+oi  111d  | v*poiard a)wc
+      n_| ^du
+      mp| static _p
+rosprd_wcn.c:ce223ss:5(e: nuwarning: no previous prototype for function 'marlin_reset_unregister_notify' [-Wmissing-prototypes]m 
+wc  223n_ | isontur mcear_tliypn_e retysepet_)
+un      | re^
+gi      | ststatic 
+er_noplatform/wcn_procfs.c:ti144:fy6:(v warning: oino previous prototype for function '__wcn_assert_interface' [-Wmissing-prototypes]
+d)  144
+       | v|     ^oi
+d sprd_wcn.c:__223:wc1:n_ note: asdeclare 'static' if the function is not intended to be used outside of this translation unit
+se  223rt | i_intnt merarfalicen_(erenusem t_wcunn_rsoeguriscete_tr_ypnoe tityfype(v, oichd)ar
+       *| ^st
+      r)| static 
+      
+|      ^
+platform/wcn_procfs.c:144:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  144 | void __wcn_assert_interface(enum wcn_source_type type, char *str)
+      | ^
+      | static 
+platform/wcn_procfs.c:238:5: warning: no previous prototype for function 'mdbg_assert_read' [-Wmissing-prototypes]
+  238 | 2 warningins generatedt .
+mdbg_assert_read(int channel, struct  CC [M]  platform/gnss_dump.o
+ mbuf_t *head,
+      |     ^
+platform/wcn_procfs.c:238:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  238 | int mdbg_assert_read(int channel, struct mbuf_t *head,
+      | ^
+      | static 
+platform/wcn_procfs.c:270:5: warning: no previous prototype for function 'mdbg_loopcheck_read' [-Wmissing-prototypes]
+  270 | int mdbg_loopcheck_read(int channel, struct mbuf_t *head,
+      |     ^
+platform/wcn_procfs.c:270:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  270 | int mdbg_loopcheck_read(int channel, struct mbuf_t *head,
+      | ^
+      | static 
+platform/wcn_procfs.c:310:5: warning: no previous prototype for function 'mdbg_at_cmd_read' [-Wmissing-prototypes]
+  310 | int mdbg_at_cmd_read(int channel, struct mbuf_t *head,
+      |     ^
+platform/wcn_procfs.c:310:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  310 | int mdbg_at_cmd_read(int channel, struct mbuf_t *head,
+      | ^
+      | static 
+  CC [M]  platform/wcn_gnss_dump.o
+  CC [M]  platform/wcn_swd_dap.o
+6 warnings generated.
+  CC [M]  platform/mem_pd_mgr.o
+  CC [M]  platform/wcn_debugfs.o
+  CC [M]  platform/wcn_ca_trusty.o
+  CC [M]  sleep/sdio_int.o
+platform/wcn_dump.c:200:5: warning: no previous prototype for function 'gnss_dump_data' [-Wmissing-prototypes]
+  200 | int gnss_dump_data(void *start_addr, int len)
+      |     ^
+platform/wcn_dump.c:200:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  200 | int gnss_dump_data(void *start_addr, int len)
+  CC [M]  sleep/slp_mgr.o
+      | ^
+      | static 
+platform/wcn_dump.c:504:6: warning: no previous prototype for function 'gnss_dump_str' [-Wmissing-prototypes]
+  504 | void gnss_dump_str(char *str, int str_len)
+      |      ^
+platform/wcn_dump.c:504:1platform/wcn_boot.c:: 351:note: declare 'static' if the function is not intended to be used outside of this translation unit5:
+ warning:   504no previous prototype for function 'marlin_tsx_cali_data_read' [-Wmissing-prototypes]
+ | v  351oi | id ntgn mssar_dliumn_p_tsstx_r(cachliar_d *atsta_r,re iadnt(s strtruc_lt ents)
+x      | _d^
+at      | a static 
+*p_tsxplatform/wcn_dump.c:_707:da6:ta warning: )
+no previous prototype for function 'dap_sel_default_lite' [-Wmissing-prototypes]
+      |   707    ^
+ | vplatform/wcn_boot.c:oi351:d 1:da note: p_declare 'static' if the function is not intended to be used outside of this translation unit
+se  351l_ | identfa mulartli_ln_ittse(x_vocaidli)
+_d      | at     ^
+a_platform/wcn_dump.c:re707:ad1:(s note: trdeclare 'static' if the function is not intended to be used outside of this translation unit
+uc  707t  | vtsoix_d ddaatp_a se*pl__tdesxfa_dulatt_a)li
+      te| ^(v
+      oi| static d)
+
+      | ^
+      | static 
+platform/wcn_dump.c:1008:6: warning: no previous prototype for function 'sprdwcn_bus_armreg_write' [-Wmissing-prototypes]
+ 1008platform/wcn_boot.c: | v1624:oi6:d  warning: spno previous prototype for function 'marlin_read_cali_data' [-Wmissing-prototypes]
+rd 1624wc | vn_oibud s_maarrlmrineg_r_wearid_teca(ulins_digatnea(d voinidt )
+re      | g_     ^
+inplatform/wcn_boot.c:de1624:x1:,  note: undeclare 'static' if the function is not intended to be used outside of this translation unit
+si 1624gn | vedoi id ntma vrlalinue_r)
+ea      | d_     ^
+caplatform/wcn_dump.c:li1008:_d1:at note: a(declare 'static' if the function is not intended to be used outside of this translation unit
+vo 1008id | v)
+oi      | d ^
+sp      | rdstatic 
+wcn_bus_armregplatform/wcn_boot.c:_w2020:ri5:te warning: (uno previous prototype for function 'enable_spur_remove' [-Wmissing-prototypes]ns
+ig 2020ne | id ntin et nareblg_e_ispndurex_r, emunovsie(gnvoedid i)
+nt      |  v    ^
+alplatform/wcn_boot.c:ue2020:)
+1:      |  note: ^
+declare 'static' if the function is not intended to be used outside of this translation unit
+      |  2020static 
+ | inplatform/wcn_gnss_dump.c:platform/wcn_dump.c:t 70:1061:en15:5:ab warning:  warning: leno previous prototype for function 'gnss_ring_free_space' [-Wmissing-prototypes]
+no previous prototype for function 'dump_arm_reg' [-Wmissing-prototypes]
+_s   70 1061pu | u | r_nsinreigt moneduved mp(vlo_aoingrmd) g_r
+      nseg| ^s_(v
+      rioi| static ngd)
+_f
+      platform/wcn_boot.c:re|     ^2035:e_  CC [M]  sleep/slp_sdio.o
+
+5:spplatform/wcn_ca_trusty.c:platform/wcn_dump.c: warning: ac282:1061:no previous prototype for function 'disable_spur_remove' [-Wmissing-prototypes]
+e(24:1: 2035vo warning:  note:  | iidarray index 0 is past the end of the array (that has type 'u8[0]' (aka 'unsigned char[0]')) [-Warray-bounds]
+declare 'static' if the function is not intended to be used outside of this translation unit
+nt)
+  282 1061 d      |  |          | iis              ^
+        vntabplatform/wcn_gnss_dump.c:er dle70:ifum_s1:y_p_pu note: rearr_declare 'static' if the function is not intended to be used outside of this translation unit
+quplatform/wcn_swd_dap.c:m_re   70es253:remo | ut-14:g(vens>c warning: vo(vigmdno previous prototype for function 'swd_transfer' [-Wmissing-prototypes]
+idoine,   253)
+d)d ve | u      | 
+      lorins^
+|     ^ngfyig      | 
+ g_rnestatic 
+platform/wcn_boot.c:nseqdplatform/wcn_dump.cplatform/mem_pd_mgr.c:2035:s_ue i:129278:1:ristnt:514 note: ng-> s: : declare 'static' if the function is not intended to be used outside of this translation unit
+_fpawdwarning: no previous prototype for function 'mdbg_dump_mem' [-Wmissing-prototypes]warning: no previous prototype for function 'mem_pd_spinlock_lock' [-Wmissing-prototypes] 2035reyl_t
+
+ | ie_oara 1292   78ntspd[ns | i | u dac0]fenplatform/wcn_debugfs.cnsise(, r(t :156igabvoleunmd:5neleidn)sibg: d _s)
+;
+gn_dwarning: no previous prototype for function 'wcn_init_debugfs' [-Wmissing-prototypes]inpu      |       | edum
+t r_^
+                                     ^                       ~
+ cp_  156mere      | platform/../include/wcn_dbg.h:hame | im_mostatic 
+37:r m(ntpdveplatform/wcn_gnss_dump.c:23:cmvo w_s(v90 note: d,idcnpioi:6expanded from macro 'WCN_INFO'
+ u)
+_inld):    37ns      | nioc
+      warning: no previous prototype for function 'gnss_ring_reset' [-Wmissing-prototypes] |         ig    ^
+t_k_| ^
+prneplatform/wcn_dump.c:delo
+         90_id 1292:buck| static  | vnfin1:gf(i
+oio(t  note: s(ntd platform/wcn_boot.c:":*ddeclare 'static' if the function is not intended to be used outside of this translation unit
+vo ign2101: "at 1292idd)ss6: fa) | i)
+
+      _r warning: mt
+      nt      | |              ^inno previous prototype for function 'marlin_scan_finish' [-Wmissing-prototypes]
+, |              ^ m    ^
+
+g_ 2101##
+dplatform/wcn_debugfs.c:platform/mem_pd_mgr.c:re | v aplatform/wcn_swd_dap.c:bg156:78:seoirg253:_d1:1:t(d s)1:um note:  note: voma
+       note: p_declare 'static' if the function is not intended to be used outside of this translation unit
+declare 'static' if the function is not intended to be used outside of this translation unit
+idrl|                              ^~~~declare 'static' if the function is not intended to be used outside of this translation unit
+me  156   78)
+in
+  253m( | i | u      | _s/k/linux/include/linux/printk.h: | uvontns     ^
+ca585:nsid wigplatform/wcn_gnss_dump.c:n_34:ig)
+cnne90:fi note: ne      | _id 1:niexpanded from macro 'pr_info'
+d ^
+nii note: sh  585in      | t_ntdeclare 'static' if the function is not intended to be used outside of this translation unit
+(v |         t static 
+de m   90oiprswbuem | vd)ind_gf_poi
+      tktrs(d_d |      ^(Kanvospgn
+ERsfidinssplatform/wcn_boot.c:N_er)
+lo_r2101:IN(u      | ckin1:FOns^
+_lg_ note:  pig      | ocredeclare 'static' if the function is not intended to be used outside of this translation unit
+r_nestatic 
+k(se 2101fmd int( | vt(cht vooifmarididd t) c)
+)
+ma  CC [M]  sleep/slp_test.o
+, md      |       | rl##,^
+^
+in__ u      |       | _sVAnsstatic 
+static 
+ca_Aigplatform/mem_pd_mgr.c1n_platform/wcn_gnss_dump.c:RGne: warningfi261:S_d 102: generated.
+ni5:_)i14:sh warning: 
+      nt warning: (vno previous prototype for function 'gnss_dump_write' [-Wmissing-prototypes]
+|                                         ^~~~~~~~~~~ *no previous prototype for function 'mem_pd_spinlock_unlock' [-Wmissing-prototypes]
+o  261
+da  102  CC [M]  boot/wcn_integrate.o
+id  CC [M]  boot/wcn_integrate_dev.o
+ | i/k/linux/include/linux/printk.h:ta | u)nt512:)
+ns
+       g60:      | ig| ^ns note: ^
+ne
+      s_expanded from macro 'printk'
+      | d | static du  512static 
+in
+mp | #t _wplatform/wcn_swd_dap.c:demeri592:fim_te14:nepd(c warning:  p_shano previous prototype for function 'swd_sel_target' [-Wmissing-prototypes]
+ripir   592ntnl*b | uk(ocufnsfmk, igt,_uinne .nlt d ..oclein) k(n)t 6 warningprin
+      sws generatedint |     ^d_.
+tkid
+se_i)
+platform/wcn_gnss_dump.c:l_nd      | 261:taex             ^
+1:rg_wplatform/mem_pd_mgr.c: note: et  CC [M]  boot/wcn_integrate_boot.o
+ra102:declare 'static' if the function is not intended to be used outside of this translation unit
+(up(1:  261ns_p note:  | iigrideclare 'static' if the function is not intended to be used outside of this translation unit
+ntnent  102 gd k, | unsch fnss_armtigdu c, nempmd##d _w, __inriunVAt tesi_Ame(cgnRGm_haedS_pdr  i_)_s*bnt
+      piuf *|                                                            ^~~~~~~~~~~nl, da
+ocinta/k/linux/include/linux/printk.h:k_t )
+484:unle      | 19:lon)             ^
+ note: ck
+      platform/wcn_swd_dap.c:expanded from macro 'printk_index_wrap'
+(i| ^592:  484nt
+      1: |          i| static  note:         _d)
+declare 'static' if the function is not intended to be used outside of this translation unit
+p_
+        592platform/wcn_gnss_dump.c:fu| ^ | u343:nc
+      ns5:(_| static ig warning: fm
+neno previous prototype for function 'wcn_gnss_dump_init' [-Wmissing-prototypes]
+t,d   343 #in | iplatform/mem_pd_mgr.c:#_t nt539:_sw w5:VAd_cn warning: _Ase_gno previous prototype for function 'test_mem_clrear' [-Wmissing-prototypes]
+RGl_ns  539S_tas_ | i_rgdunt);etmp t           (u_ies                nsnit_\
+igt(me      | nevom_                                ^~~~~~~~~~~
+didclplatform/wcn_ca_trusty.h: c)
+re83:ha      | ar2:r     ^
+(e note: cmplatform/wcn_gnss_dump.c:nuarray 'payload' declared here
+d,343:m    83 u1:wc | ns note: n_        uigdeclare 'static' if the function is not intended to be used outside of this translation unit
+su8 ne  343b_ pd  | isyayinnts lot  wsuad*dcnbs[0at_gys];a)ns)
+
+      
+      s_      | |         ^| ^du    ^
+
+
+      mpplatform/mem_pd_mgr.c:| static _i539:
+ni1:platform/wcn_swd_dap.c:t( note: 689:vodeclare 'static' if the function is not intended to be used outside of this translation unit
+6:id  539 warning: )
+ | i  CC [M]  boot/wcn_debug_bus.o
+no previous prototype for function 'swd_set_debug_mode' [-Wmissing-prototypes]
+      | nt  689^
+  | v      | teoistatic 
+std _mswed_m_seclt_replatform/wcn_gnss_dump.c:dear376:bu(e6:g_nu warning: mom no previous prototype for function 'wcn_gnss_dump_exit' [-Wmissing-prototypes]
+dewc  376(vn_ | voisuoid)b_d 
+      sywc|      ^s n_
+sugnplatform/wcn_swd_dap.c:bsss689:1 warningys_d1: generated.
+)
+um note:       | p_declare 'static' if the function is not intended to be used outside of this translation unit
+^
+ex  689      | it | vstatic 
+(voi  CC [M]  sipc/wcn_sipc.o
+oid d)s
+      wd| _s     ^
+etplatform/wcn_gnss_dump.c:_d376:eb1:ug note: _mdeclare 'static' if the function is not intended to be used outside of this translation unit
+od5 warning  376e(s generated | vvo.
+oiidd )
+wc      | n_^
+gn      | ssstatic 
+_duplatform/wcn_swd_dap.c:mp714:_e6:xi warning:   CC [M]  sdio/sdiohal_main.o
+t(no previous prototype for function 'swd_hold_btwf_core' [-Wmissing-prototypes]
+vo  714id | v)
+oi      | d ^
+sw      | d_static 
+hold_btwf_core(void)
+      |      ^
+platform/wcn_swd_dap.c:714:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  714 | void swd_hold_btwf_core(void)
+      | ^
+      | static 
+3 warnings generated.
+5 warnings generated.
+  CC [M]  sdio/sdiohal_common.o
+  CC [M]  sdio/sdiohal_tx.o
+4 warnings generated.
+  CC [M]  sdio/sdiohal_rx.o
+sleep/slp_test.c:56:5: warning: no previous prototype for function 'slp_test_init' [-Wmissing-prototypes]
+   56 | int slp_test_init(void)
+      |     ^
+sleep/slp_test.c:56:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+   56 | int slp_test_init(void)
+      | ^
+      | static 
+1 warning generated.
+boot/wcn_integrate.c:415:5: warning: no previous prototype for function 'integ_marlin_get_power' [-Wmissing-prototypes]
+  415 | inboot/wcn_integrate_dev.c:t 484:  CC [M]  sdio/sdiohal_if.o
+in6:te warning: g_no previous prototype for function 'wcn_marlin_write_efuse' [-Wmissing-prototypes]
+ma  484rl | vinoi_gd etwc_pn_owmaerrl(vinoi_wd)ri
+      te|     ^_e
+fuboot/wcn_integrate.c:se415:(v1:oi note: d)declare 'static' if the function is not intended to be used outside of this translation unit
+
+        415|      ^ | i
+ntboot/wcn_integrate_dev.c: i484:nt1:eg note: _mdeclare 'static' if the function is not intended to be used outside of this translation unit
+ar  484li | vnoi_gd etwc_pn_owmaerrl(vinoi_wd)ri
+      te| ^_e
+      fu| static se
+(voiboot/wcn_integrate_boot.c:d)boot/wcn_integrate.c:817:
+      500:5:| ^21: warning: 
+       warning: no previous prototype for function 'wcn_get_reset_reg_setting' [-Wmissing-prototypes]
+| static no previous prototype for function 'integ_wcn_get_xtal_26m_clk_type' [-Wmissing-prototypes]
+  817
+  500 | iboot/wcn_integrate_dev.c: | ent491:nu w6:m cn warning: wc_gno previous prototype for function 'gnss_write_efuse_data' [-Wmissing-prototypes]
+n_et  491cl_r | vocesoik_etd ty_rgnpeegss i_s_wntetriegtite_wng_ecn(vfu_goiseetd)_d_x
+      atta|     ^a(l_
+vo26boot/wcn_integrate_boot.c:idm_817:)
+cl1:      | k_ note:      ^
+tydeclare 'static' if the function is not intended to be used outside of this translation unit
+boot/wcn_integrate_dev.c:pe  817491:(v | i1:oint note: d) wdeclare 'static' if the function is not intended to be used outside of this translation unit
+
+      cn  491|                     ^_g | v
+etoiboot/wcn_integrate.c:_rd 500:esgn1:etss note: _r_wdeclare 'static' if the function is not intended to be used outside of this translation unit
+egri  500_ste | eet_enutifumngse w(v_dcnoiat_cd)a(lo
+      vock| ^id_t
+      )
+yp| static       | e 
+^
+in      | testatic 
+g_wcn_get_xtal_26m_clboot/wcn_integrate_boot.c:k_848:ty7:pe warning: (vno previous prototype for function 'integ_gnss_firmware_path_get' [-Wmissing-prototypes]
+oi  848d) | c
+      ha| ^r 
+      *i| static nt
+eg_gnss_firmware_path_get(void)
+      |       ^
+boot/wcn_integrate_boot.c:848:boot/wcn_integrate.c:1:1450: note: 13:declare 'static' if the function is not intended to be used outside of this translation unit
+ warning:   848no previous prototype for function 'integ_wcn_get_chip_name' [-Wmissing-prototypes]
+ | c 1450ha | cr on*istnt cegha_gr ns*is_ntfiegrm_wwacnre_g_petat_ch_higep_t(navomeid(v)
+oi      | d)^
+
+            | |             ^static 
+
+boot/wcn_integrate.c:1450:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
+ 1450 | const char *inteboot/wcn_integrate_boot.c:g_1701:wc6:n_ warning: geno previous prototype for function 'btwf_sys_polling_powerdown' [-Wmissing-prototypes]
+t_ 1701ch | bipoo_nl abtmewf(v_soiysd)_p
+      ol|       ^li
+      ng| static _p
+owerdown(struct wcn_device *wcn_dev)
+      |      ^
+boot/wcn_integrate_boot.c:1701:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+ 1701 | bool btwf_sys_polling_powerdown(struct wcn_device *sipc/wcn_sipc.c:wc322:n_6:de warning: 2 warningvno previous prototype for function 'wcn_sipc_pop_list_enqueue' [-Wmissing-prototypes]
+sdio/sdiohal_main.c:s generated)
+  3221198:.
+      |  | v5:^
+oi warning:       | d no previous prototype for function 'wcn_thread_setattr' [-Wmissing-prototypes]
+static 
+wc 1198n_ | isintboot/wcn_integrate_boot.c:pc w1966:_pcn5:op_t warning: _lhrno previous prototype for function 'btwf_sys_wcnpll_power_down' [-Wmissing-prototypes]
+isea 1966t_d_ | iensdio/sdiohal_common.c:sentqu50:ta beu6:tttwe( warning: r(f_stno previous prototype for function '__sdiohal_debug_point_store' [-Wmissing-prototypes]
+unsyru   50sis_ct | vgnwc soiednpipd  illc___nt_pchsd down_ioirerinha, _dfol_stow *derun(sibuctstpcg_ sru_cpoch3 warningcthnineds generated w,
+t__a.
+cn      | sttt_d     ^
+orr evsipc/wcn_sipc.c:e(*aic322:intte 1:t r)*w note: ch
+      cndeclare 'static' if the function is not intended to be used outside of this translation unit
+an|     ^_d  322ne
+ev | vl,sdio/sdiohal_main.c:)
+oi i1198:      | d nt1:    ^
+wc n note: boot/wcn_integrate_boot.c:n_umdeclare 'static' if the function is not intended to be used outside of this translation unit
+1966:si,  11981:pcst | i note: _pruntdeclare 'static' if the function is not intended to be used outside of this translation unit
+opct w 1966_l mcn | iisbu_tntt_f_hr bent eatwqu*hd_f_eueassye(d,ets_st
+      atwcru|      ^trnpct
+(ull ssdio/sdiohal_common.c:ns_pip50:igowc_1:neerch note: d _dn_declare 'static' if the function is not intended to be used outside of this translation unit
+inowin   50t n(fo | vdist *oir,rusid  sctpc__tr w_csduccnhniot _d,
+hascev      | l_heic^
+ded_e       | buat*wstatic 
+g_trcnsipc/wcn_sipc.c:po *_d341:inatev6:t_tr)
+ warning: st)
+      | no previous prototype for function 'wcn_sipc_pop_list_flush' [-Wmissing-prototypes]
+or      | ^
+  341e^
+      |  | v(i      | static 
+ointstatic 
+boot/wcn_integrate_boot.c:d  c1995:wcha5:n_nn warning: sielno previous prototype for function 'btwf_sys_wcnpll_power_on' [-Wmissing-prototypes]
+pc,  1995_pin | iopt nt_lnu bism,twt_ sf_fltrsyusucs_h(t wstmbcnruufplct_tl_ s *poiphewec_adr_ch,
+onn_      | (sin^
+trfo      | uc *static 
+t siwcpcn__cdehnvisdio/sdiohal_common.c:)
+ce381:      |  *6:     ^
+wc warning: sipc/wcn_sipc.c:n_no previous prototype for function 'sdiohal_callback_lock_deinit' [-Wmissing-prototypes]
+341:de  3811:v) | v note: 
+      oideclare 'static' if the function is not intended to be used outside of this translation unit
+|     ^d   341
+sd | vboot/wcn_integrate_boot.c:iooi1995:had 1:l_wc note: can_declare 'static' if the function is not intended to be used outside of this translation unit
+llsi 1995bapc | ick_pnt_lop boc_ltwk_isf_dt_syeifls_niuswct(h(npvostllidru_p)
+ctow      |  ser     ^
+ip_osdio/sdiohal_common.c:c_n(381:chst1:n_ru note: inctdeclare 'static' if the function is not intended to be used outside of this translation unit
+fo w  381 *cn | vsi_doipc1 warningevd _c generated.
+icsdheion) *ha
+      wcl_| ^n_ca
+      dell| static v)ba
+
+      cksipc/wcn_sipc.c:| ^_l370:
+      oc6:| static k_ warning: 
+deno previous prototype for function 'wcn_sipc_push_list_enqueue' [-Wmissing-prototypes]
+in  370it | vboot/wcn_integrate_boot.c:(voi2306:oid 6:d)wc warning: 
+      n_no previous prototype for function 'gnss_shutdown_hold' [-Wmissing-prototypes]
+| ^si 2306
+      pc | v| static _poi
+usd sdio/sdiohal_common.c:h_gn391:liss6:st_s warning: _ehuno previous prototype for function 'sdiohal_spinlock_init' [-Wmissing-prototypes]
+nqtd  391ueow | vuen_oi(shod trldsduc(siot trhasiucl_pct sp_cwcinhnn_lo_idecknfvi_io ceni*s *t(ipwcvoc_n_idchde)
+n,v)      | 
+      
+           ^
+|      ^|      ^sdio/sdiohal_common.c:
+
+391:sipc/wcn_sipc.c:boot/wcn_integrate_boot.c:1:370:2306: note: 1:1:declare 'static' if the function is not intended to be used outside of this translation unit
+ note:  note:   391declare 'static' if the function is not intended to be used outside of this translation unit
+declare 'static' if the function is not intended to be used outside of this translation unit
+ | v  370 2306oi | v | vd oioisdd d iowcgnhan_ssl_si_ssppchuin_ptdlousowckh_n__ilihonistldt(_e(svonqtridueuc)
+uet       | (swc^
+trn_      | ucdestatic 
+t visicepc *_cwchnn__idenfv)o 
+      *s| ^ip
+      c_| static ch
+n,
+boot/wcn_integrate_boot.c:      | 2324:^
+6:      |  warning: static 
+no previous prototype for function 'gnss_shutdown_release' [-Wmissing-prototypes]
+ 2324sipc/wcn_sipc.c: | v465:oi5:d  warning: gnno previous prototype for function 'wcn_check_sbuf_status' [-Wmissing-prototypes]
+ss  465_s | ihunttd wowcnn__creheleckas_se(bustf_rustctat wuscn(u_d8 evdsict,e  u*w8 cnch_daevnn)
+el      | )
+     ^
+      | boot/wcn_integrate_boot.c:    ^
+2324:sipc/wcn_sipc.c:1:465: note: 1:declare 'static' if the function is not intended to be used outside of this translation unit
+ note:  2324declare 'static' if the function is not intended to be used outside of this translation unit
+ | v  465oi | id ntgn wsscn_s_chuhetdckow_sn_buref_lestasate(usst(uru8 ctds wt,cn u_d8 evchicane ne*wlcn)
+_d      | ev^
+)
+      |       | static 
+^
+      | static 
+sipc/wcn_sipc.c:658:5:boot/wcn_integrate_boot.c: warning: 2496:no previous prototype for function 'wcn_sipc_sblk_chn_rx_status_check' [-Wmissing-prototypes]
+5:  658 warning:  | ino previous prototype for function 'btwf_sys_wait_cp2_wfi' [-Wmissing-prototypes]
+nt 2496 w | icnnt_s biptwc_f_sbsylks__cwahnit_r_cx_p2st_watfusi(_cstheruckct(u w8 cnin_ddeevx)ic
+      e |     ^*w
+cnsipc/wcn_sipc.c:_d658:ev1:)
+ note:       | declare 'static' if the function is not intended to be used outside of this translation unit
+    ^
+  658boot/wcn_integrate_boot.c: | i2496:nt1: w note: cndeclare 'static' if the function is not intended to be used outside of this translation unit
+_s 2496ip | ic_ntsb blk3 warningtw_cs generatedf_hn.
+sy_rs_xwa_sitta_ctup2s__wchfiec(sk(tru8uc it ndwcexn_)
+de      | v^
+ic      | e static 
+*wcn_sipc/wcn_sipc.c:de717:v)6:
+ warning:       | no previous prototype for function 'wcn_sipc_chn_set_status' [-Wmissing-prototypes]
+^
+  717      |  | vstatic 
+oid wcn_sipc_chn_set_status(void *data, bool flag)
+      boot/wcn_integrate_boot.c:|      ^3846:
+5:sipc/wcn_sipc.c: warning: 717:no previous prototype for function 'stop_integrate_wcn_module' [-Wmissing-prototypes]
+1: 3846 note:  | ideclare 'static' if the function is not intended to be used outside of this translation unit
+nt  717 s | vtooip_d inwcten_grsiatpce__cwchnn__smoetdu_sleta(utu32s( svoubidsy *s)da
+      ta|     ^, 
+boboot/wcn_integrate_boot.c:ol3846: f1:la note: g)declare 'static' if the function is not intended to be used outside of this translation unit
+
+       3846| ^ | i
+      nt| static  s
+top_intsipc/wcn_sipc.c:eg835:ra5:te warning: _no previous prototype for function 'wcn_sipc_work_func' [-Wmissing-prototypes]
+wc  835n_ | imontdu wlec(un_32si spcub_wsyors)k_
+      fu| ^nc
+      (v| static oi
+d *work)
+      |     ^
+sipc/wcn_sipc.c:835:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  835 | int wcn_sipc_work_func(void *work)
+      | ^
+      | static 
+sipc/wcn_sipc.c:857:5: warning: no previous prototype for function 'wcn_sipc_chn_work_init' [-Wmissing-prototypes]
+  857 | int wcn_sipc_chn_work_init(struct sipc_chn_info *sipc_chn)
+      |     ^
+sipc/wcn_sipc.c:857:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+  857 | int wcn_sipc_chn_work_init(struct sipc_chn_info *sipc_chn)
+      | ^
+      | static 
+sipc/wcn_sipc.c:1137:5: warning: no previous prototype for function 'wcn_sipc_init_debugfs' [-Wmissing-prototypes]
+ 1137 | int wcn_sipc_init_debugfs(void)
+      |     ^
+sipc/wcn_sipc.c:1137:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+ 1137 | int wcn_sipc_init_debugfs(void)
+      | ^
+      | static 
+sipc/wcn_sipc.c:1150:5: warning: no previous prototype for function 'wcn_sipc_preinit' [-Wmissing-prototypes]
+ 1150 | int wcn_sipc_preinit(void)
+      |     ^
+sipc/wcn_sipc.c:1150:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+ 1150 | int wcn_sipc_preinit(void)
+      | ^
+      | static 
+9 warnings generated.
+10 warnings generated.
+  LD [M]  wcn_bsp.o
+  MODPOST Module.symvers
+  CC [M]  wcn_bsp.mod.o
+  CC [M]  .module-common.o
+  LD [M]  wcn_bsp.ko
+make[1]: Leaving directory '/k/linux/drivers/unisoc_platform/sprdwcn'
+make: Leaving directory '/k/linux'

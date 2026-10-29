@@ -1,0 +1,45 @@
+root@changxing60:~# > Linux changxing60 6.18.54-7552n-probe1+ #42 SMP Tue Oct 27 18:46:01 UTC 2026 aarch64 GNU/Linux
+25925.02 207117.76
+[    3.261374] mmc0: SDHCI controller on 22210000.sdio [22210000.sdio] using ADMA 64-bit
+[    3.308039] mmc1: SDHCI controller on 22220000.sdio [22220000.sdio] using ADMA 64-bit
+[    3.391098] mmc2: SDHCI controller on 22200000.sdio [22200000.sdio] using ADMA 64-bit
+[    3.438640] mmc1: Got command interrupt 0x00000001 even though no command operation was in progress.
+[    3.451451] mmc1: sdhci: ============ SDHCI REGISTER DUMP ===========
+[    3.461780] mmc1: sdhci: Sys addr:  0x00000000 | Version:  0x00000004
+[    3.468159] mmc1: sdhci: Blk size:  0x00000000 | Blk cnt:  0x00000000
+[    3.474562] mmc1: sdhci: Argument:  0x80000c08 | Trn mode: 0x00000003
+[    3.480967] mmc1: sdhci: Present:   0x01f00000 | Host ctl: 0x00000000
+[    3.487371] mmc1: sdhci: Power:     0x00000000 | Blk gap:  0x00000000
+[    3.493775] mmc1: sdhci: Wake-up:   0x00000000 | Clock:    0x0000cfc7
+[    3.500178] mmc1: sdhci: Timeout:   0x00000000 | Int stat: 0x00000000
+[    3.506582] mmc1: sdhci: Int enab:  0x007f0003 | Sig enab: 0x007f0003
+[    3.512987] mmc1: sdhci: ACmd stat: 0x00000000 | Slot int: 0x00000000
+[    3.519391] mmc1: sdhci: Caps:      0x1e6d0080 | Caps_1:   0x08000007
+[    3.525794] mmc1: sdhci: Cmd:       0x0000341a | Max curr: 0x00ffffff
+[    3.532198] mmc1: sdhci: Resp[0]:   0x00000000 | Resp[1]:  0x00000000
+[    3.538601] mmc1: sdhci: Resp[2]:   0x00000000 | Resp[3]:  0x00000000
+[    3.545004] mmc1: sdhci: Host ctl2: 0x00001000
+[    3.549418] mmc1: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0x0000000000000000
+[    3.556515] mmc1: sdhci: ============================================
+[    3.571254] mmc0: Got command interrupt 0x00000001 even though no command operation was in progress.
+[    3.580297] mmc0: sdhci: ============ SDHCI REGISTER DUMP ===========
+[    3.586691] mmc0: sdhci: Sys addr:  0x00000000 | Version:  0x00000004
+[    3.593095] mmc0: sdhci: Blk size:  0x00000000 | Blk cnt:  0x00000000
+[    3.599498] mmc0: sdhci: Argument:  0x00000000 | Trn mode: 0x00000003
+[    3.605901] mmc0: sdhci: Present:   0x01f00000 | Host ctl: 0x00000000
+[    3.612306] mmc0: sdhci: Power:     0x00000000 | Blk gap:  0x00000000
+[    3.618709] mmc0: sdhci: Wake-up:   0x00000000 | Clock:    0x0000cfc7
+[    3.625113] mmc0: sdhci: Timeout:   0x00000000 | Int stat: 0x00000000
+[    3.631517] mmc0: sdhci: Int enab:  0x007f0003 | Sig enab: 0x007f0003
+[    3.637920] mmc0: sdhci: ACmd stat: 0x00000000 | Slot int: 0x00000000
+[    3.644324] mmc0: sdhci: Caps:      0x1e6d0080 | Caps_1:   0x08000007
+[    3.650729] mmc0: sdhci: Cmd:       0x0000371a | Max curr: 0x00ffffff
+[    3.657133] mmc0: sdhci: Resp[0]:   0x00000000 | Resp[1]:  0x00000000
+[    3.663536] mmc0: sdhci: Resp[2]:   0x00000000 | Resp[3]:  0x00000000
+[    3.669940] mmc0: sdhci: Host ctl2: 0x00001000
+[    3.674353] mmc0: sdhci: ADMA Err:  0x00000000 | ADMA Ptr: 0x0000000000000000
+[    3.681448] mmc0: sdhci: ============================================
+[    3.690992] mmc1: Failed to initialize a non-removable card
+[    3.728265] mmc2: Failed to initialize a non-removable card
+lrwxrwxrwx    1 root     root             0 Oct 27 21:55 /sys/bus/platform/devices/22220000.sdio -> ../../../devices/platform/soc/soc:ap-ahb/22220000.sdio
+suspended

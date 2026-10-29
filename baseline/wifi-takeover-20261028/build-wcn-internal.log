@@ -1,0 +1,27 @@
+make: Entering directory '/k/linux'
+make[1]: Entering directory '/k/build'
+  GEN     Makefile
+  UPD     include/generated/compile.h
+  CALL    /k/linux/scripts/checksyscalls.sh
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/wcn_boot.o
+  CC [M]  drivers/unisoc_platform/sprdwcn/platform/gnss_dump.o
+make[6]: 'drivers/unisoc_platform/sprdwcn/wcn_bsp.mod' is up to date.
+  LD [M]  drivers/unisoc_platform/sprdwcn/wcn_bsp.o
+  MODPOST Module.symvers
+ERROR: modpost: "shmem_ram_vmap_nocache_ex" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "shmem_ram_unmap_ex" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "sbuf_status" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "sbuf_read" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "sbuf_write" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "sblock_receive" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "sblock_release" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "sblock_get_free_count" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "sblock_get" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+ERROR: modpost: "sblock_send" [drivers/unisoc_platform/sprdwcn/wcn_bsp.ko] undefined!
+WARNING: modpost: suppressed 6 unresolved symbol warnings because there were too many)
+make[3]: *** [/k/linux/scripts/Makefile.modpost:147: Module.symvers] Error 1
+make[2]: *** [/k/linux/Makefile:2030: single_modules] Error 2
+make[1]: *** [/k/linux/Makefile:248: __sub-make] Error 2
+make[1]: Leaving directory '/k/build'
+make: *** [Makefile:248: __sub-make] Error 2
+make: Leaving directory '/k/linux'

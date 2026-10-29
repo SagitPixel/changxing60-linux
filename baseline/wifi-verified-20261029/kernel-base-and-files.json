@@ -1,0 +1,167 @@
+{
+  "base": "b93bbc3a36fd3c1acae0e44b93d909f7fe942182",
+  "files": {
+    "arch/arm64/boot/dts/sprd/Makefile": {
+      "sha256": "76b72ed6bf2af50a5e9fe732f43348d029cd2f8793bbfe644a284eba06574e85"
+    },
+    "arch/arm64/boot/dts/sprd/ums9620-7552n-probe.dts": {
+      "sha256": "168f900e5b475b46d90e64e90922f4fd9b831bfa6e55a462a060c2e9517766a9"
+    },
+    "drivers/base/dd.c": {
+      "sha256": "740c530679a0d0e589b2e136340426b9023bf2e53f7cef9dc2b665955b06d3b6"
+    },
+    "drivers/clk/sprd/Kconfig": {
+      "sha256": "8e0808d8de50b3d6e930b968f56e710e4ae3f3623b2cc0290ac574c3b08d81fa"
+    },
+    "drivers/clk/sprd/Makefile": {
+      "sha256": "3b9b50d619522cbe33ae3c37446f944cc389b0f4ad7014427f651d2fdbe991a4"
+    },
+    "drivers/clk/sprd/ums9620-clk.c": {
+      "sha256": "09c99e6b839e8d42f9d8b898617b85ab0042c10dab796512eeda171110a1f1f7"
+    },
+    "drivers/cpufreq/sprd-cpufreq-v2-driver.c": {
+      "sha256": "0d30b23b979889342a7439a50e842b624e2dd3a8a367aa01b3bbd4c906708cc3"
+    },
+    "drivers/cpufreq/sprd-cpufreq-v2.h": {
+      "sha256": "2752df107d605e66c87f63dbe531bea4268692b5222cf053c66b9f1a0e85e370"
+    },
+    "drivers/dma/sprd-dma.c": {
+      "sha256": "f6b7525d1aa5e8c02af339126e7ba2dd429d0f0a5ed0e4d6e9279296f99e2623"
+    },
+    "drivers/mmc/core/sdio.c": {
+      "sha256": "67c0ab54d5e9f54f0ebb91fabfeba6bc6648077d00bf6955eb684150c6d77741"
+    },
+    "drivers/mmc/core/sdio_ops.c": {
+      "sha256": "ec2a709e6bebd1a3cf4ba734cbb4943b05d919f67633b3e7d5322e4c0f413ed4"
+    },
+    "drivers/mmc/host/sdhci-sprd.c": {
+      "sha256": "155458e3afe8ca6a4692a73a4beaaf84aa6d6525400efd0a2acf2fc3c8acdc99"
+    },
+    "drivers/mmc/host/sdhci.c": {
+      "sha256": "79d15c42f1f46111bb763f7a1ff2217616809f62805bae0c20c290179b7a7bea"
+    },
+    "drivers/pinctrl/sprd/Kconfig": {
+      "sha256": "7ad5664455164609eb48aba874254c61749a3d678465e17863260d3661b02a34"
+    },
+    "drivers/pinctrl/sprd/Makefile": {
+      "sha256": "527a92f2d8dc4c55350a10575a8bab56b20f75cafc91d21f18b7b44beea82b1a"
+    },
+    "drivers/pinctrl/sprd/pinctrl-sprd-qogirn6pro.c": {
+      "sha256": "6ab0c762d36581c24a767ab8a31909553af8fbba00692886d14357ca5ca782cd"
+    },
+    "drivers/pmdomain/Kconfig": {
+      "sha256": "a474692fc10ebd4662e722599c8c767b4272fb6595c0cb7df79a6478376321e6"
+    },
+    "drivers/pmdomain/Makefile": {
+      "sha256": "d28704db7a5c0827da29e1dcd79b091a23e01ae39a863e08c5bead9754bbe1ef"
+    },
+    "drivers/pmdomain/sprd/Makefile": {
+      "sha256": "2e59a3b5cb2cd498ab5e3c9dc646c37bc9ab72756a54cf1de1940cee686ffff9"
+    },
+    "drivers/pmdomain/sprd/ums9620-ipa-sys.c": {
+      "sha256": "ee71fdf1513a472119eb96592d5ccf5995347dc1091b771b1c7014200dbedeb9"
+    },
+    "drivers/power/supply/bq2560x-charger.c": {
+      "sha256": "e7a99ea539a66a5dfcf2b25f8a275c8eb0567a675ed029fdb0b087133822dd51"
+    },
+    "drivers/pwm/pwm-sprd.c": {
+      "sha256": "f77edc793cd2c4ae39c2dde3467aad0a14ac577a80623c7a4585c1c4f7a32268"
+    },
+    "drivers/regulator/ump9620-regulator.c": {
+      "sha256": "4509ac81fecece94f492fc7ef2ab7aa6744bb1cde14ee39231d4a04898621449"
+    },
+    "drivers/thermal/sprd_thermal_r5p0.c": {
+      "sha256": "6d6fdfb28e67c71da9540a3b4bf5fb5db7f4de35483f0cad9d59f3154613f2cb"
+    },
+    "drivers/ufs/host/ufs-sprd.c": {
+      "sha256": "d21faeb52feb5cf143d001792d416aa42674be64ea1bd2ad56c69d828f6ebe5d"
+    },
+    "drivers/unisoc_platform/sprd_audio/Makefile": {
+      "sha256": "2ed8da78da9a7303b8c868ff864fb9a01adc57a796dc977467b76816718cdf62"
+    },
+    "drivers/unisoc_platform/sprd_audio/audio-legacy-dt.c": {
+      "sha256": "c37616c9613d410ccb8ea906597fe11bbf6551b217bc8155738d054f731371c0"
+    },
+    "drivers/unisoc_platform/sprd_disp/qogirn6pro/global_dsi.c": {
+      "sha256": "f10fa2652bd79d6ea65ae99c9fdc8c86fbcea5ecd17e642da1480e7118e809b2"
+    },
+    "drivers/unisoc_platform/sprd_disp/sprd_bl.c": {
+      "sha256": "256897f6bcefdc13e827d534ee40a4d3459d6e31cd022598eec378d17c96d6cd"
+    },
+    "drivers/unisoc_platform/sprd_disp/sprd_dphy.c": {
+      "sha256": "c83a47be0c8f71f0587528cc98aaf250b256b585ce319e44abed54efba742c9b"
+    },
+    "drivers/unisoc_platform/sprd_disp/sprd_drm.c": {
+      "sha256": "a5e7b00db61066bae21ad691a4d94528f25d4530f794633c59ef3699748bc7e4"
+    },
+    "drivers/unisoc_platform/sprd_disp/sprd_dsi.c": {
+      "sha256": "6f921c346f30c7c5da043c3c40eacde2d9d05b0923354f56112d927bb26457db"
+    },
+    "drivers/unisoc_platform/sprd_disp/sprd_dsi_panel.c": {
+      "sha256": "b4ed179cfbb5c6a5aeb8949ce8de1c04ba49e7b40b6fd6557ffab409f09fea63"
+    },
+    "drivers/unisoc_platform/sprd_wlan_combo/sc2355/hw_param.c": {
+      "sha256": "290f36e120d1b49e44529a2600e2458d268c5f3efa7f9518d3d97016f9607820"
+    },
+    "drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h": {
+      "sha256": "c80e69bb51fb5b5fe1f8d170c5b27078a432de5f107998a05cd04a59a03e64ff"
+    },
+    "drivers/unisoc_platform/sprdwcn/platform/gnss_dump.c": {
+      "sha256": "1a6e7ff9d6cf4296fdac30386908c1d39eff9f98ab278640773f38032d6583d3"
+    },
+    "drivers/unisoc_platform/sprdwcn/platform/wcn_boot.c": {
+      "sha256": "f38e4a96bbe917edd221fcddb23e79cc0b71eb7c4a895e61b805f75c7e356ba3"
+    },
+    "drivers/unisoc_platform/sprdwcn/sdio/sdiohal_tx.c": {
+      "sha256": "9c4bd30d0829ee51c17ee1e3f2324001246493244203d56cdda70568cc99803c"
+    },
+    "drivers/usb/dwc3/core.c": {
+      "sha256": "37aaa1b5bf2a44990bb9b4df4d3fbfe97051a2feed366628a7310f0a8362e72c"
+    },
+    "drivers/usb/dwc3/dwc3-of-simple.c": {
+      "sha256": "8269386ebecc67de56c133b7356654e1107b3fac6d4777feaa071dd8a356717a"
+    },
+    "drivers/usb/phy/Kconfig": {
+      "sha256": "a8159e72d086dd370e7eeb8bf784d693bfaf277e5ac27e9a404001e23f22c6ef"
+    },
+    "drivers/usb/phy/Makefile": {
+      "sha256": "3288ead9f23c585851e03a778c5961f6053fd34deb2ebcbadcb7f39d34f9ca92"
+    },
+    "drivers/usb/phy/phy-generic.c": {
+      "sha256": "d87ae3870095295b35fe6f3805a1835457c040b917d8081f60d60d030ebd8b50"
+    },
+    "drivers/usb/phy/phy-sprd-ums9620-ssphy.c": {
+      "sha256": "0d25e915d7e4be8e0ef605f5b6c6dd2ed142f9a7f9d23eaa04916d06f0f898a4"
+    },
+    "include/dt-bindings/clock/sprd,ums9620-clk.h": {
+      "sha256": "754e2398f8d9bf7604ea0ad5d2cf3526e5ca7661e51d4a257251f04311bf67b0"
+    },
+    "include/dt-bindings/reset/sprd,ums9620-reset.h": {
+      "sha256": "4ac68c3919a86c7e935f34bd2e36d485323fef62de4b224c34075d4a9ca9178c"
+    },
+    "include/dt-bindings/soc/sprd,qogirn6pro-mask.h": {
+      "sha256": "0709197623ca1d0980b4b627eb10c4ee860cf498833039af146b74d024be3783"
+    },
+    "include/dt-bindings/soc/sprd,qogirn6pro-regs.h": {
+      "sha256": "048c5a1af9d0020c9f107f45a0d80790cb8289f9b8c02ec7b301a26bf5e0ede2"
+    },
+    "include/misc/marlin_platform.h": {
+      "sha256": "0e9bc86a5203b19efcd24ec0a864cdea650ba6059648f5faa120bc21c79dc2f4"
+    },
+    "sound/soc/soc-core.c": {
+      "sha256": "8cf8d6782a9f195e8225c1a83db618500ee5ad31b1544a9a640423834dbed832"
+    },
+    "sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-dai.c": {
+      "sha256": "8853bbc0e863179c7be5a557bb7e724d915f3439d4f22376aeea2b39b68c50b5"
+    },
+    "sound/soc/sprd/unisoc/dai/vbc_v4/vbc_dai/vbc-phy-v4.h": {
+      "sha256": "d6c0dc9a743db7218d7a4f7707583a95f916053cc992c91e6934d74fdadcab9e"
+    },
+    "sound/soc/sprd/unisoc/machine/sprd-asoc-card-utils.c": {
+      "sha256": "f9485ae91cfcbe28556dac5f61c32e91dd37e81cc0d348d73b52a7f0bdb7617e"
+    },
+    "sound/soc/sprd/unisoc/platform/dmaengine_pcm/sprd-dmaengine-pcm.c": {
+      "sha256": "bef2429822055b77ff8a7c25b38ab83fdb75d5f4248f2f6749f62db3431490e6"
+    }
+  }
+}

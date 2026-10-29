@@ -1,0 +1,368 @@
+ wifi: mode=0 vdd=0x0 pwr=0x0 ctl2=0x1008
+[   13.279029] sprd_iommu: sprd_iommu_get_resource() pgt_base:ffffffc08232d000,pgt_size:300
+[   13.507143] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x36000300
+[   13.513858] sprd_iommu: sprd_iommu_get_resource() ctrl_reg:0xffffffc08242d300
+[   13.520929] sprd_iommu: sprd_iommu_get_resource() iova_base:0x60000000,iova_size:20000000
+[   13.529065] sprd_iommu: sprd_iommu_get_resource() fault_page: 0x10da5d000
+[   13.535805] sprd_iommu: sprd_iommu_get_resource() no reserved rr page addr
+[   13.542790] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-jpg pagetable: virt[0xffffffc084361000], phy[0x82380000], size:0x80000
+[   13.555185] sprd_iommu: sprd_iommuvau_hw_init() begin
+[   13.560279] sprd_iommu: sprd_iommuvau_hw_init() done
+[   13.565146] sprd_iommu: sprd_iommu_probe() unisoc,iommuvaul6p-jpg end
+[   13.571609] platform 31880000.iommu: really_probe: drv=sprd_iommu_drv link_ret=0 defer_all=0
+[   13.571622] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   13.579943] sprd_iommu: sprd_iommu_probe() start
+[   13.587728] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   13.592323] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x31880000
+[   13.600874] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   13.607650] sprd_iommu: sprd_iommu_get_resource() pgt_base:ffffffc082435000,pgt_size:80
+[   13.612481] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   13.620436] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x31880800
+[   13.626259] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.632997] sprd_iommu: sprd_iommu_get_resource() ctrl_reg:0xffffffc08253e800
+[   13.641875] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.648907] sprd_iommu: sprd_iommu_get_resource() iova_base:0x30000000,iova_size:10000000
+[   13.657774] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.665866] sprd_iommu: sprd_iommu_get_resource() fault_page: 0x102746000
+[   13.674731] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.681443] sprd_iommu: sprd_iommu_get_resource() no reserved rr page addr
+[   13.697207] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-dispc1 pagetable: virt[0xffffffc084441000], phy[0xd0d00000], size:0x40000
+[   13.709857] sprd_iommu: sprd_iommuvau_hw_init() begin
+[   13.714920] sprd_iommu: sprd_iommuvau_hw_init() done
+[   13.719816] sprd_iommu: sprd_iommu_probe() unisoc,iommuvaul6p-dispc1 end
+[   13.726747] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   13.734479] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   13.743029] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   13.747886] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   13.753711] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.762554] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.771377] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.780207] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.780379] [KERNEL/LCM_BIAS]OCP2131_iic_init
+[   13.793375] [KERNEL/LCM_BIAS]OCP2131_iic_init success
+[   13.802047] display class register
+[   13.805463] platform 31000000.dpu: really_probe: drv=sprd-dpu-drv link_ret=0 defer_all=0
+[   13.813493] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+[   13.819414] [drm] backlight is not ready, dpu probe deferred
+[   13.825333] platform backlight: really_probe: drv=sprd-backlight link_ret=0 defer_all=0
+[   13.833237] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+[   13.839195] [drm] bl num: 256, brightness max:1024, min:0, dft:280, scale:1023
+[   13.839251] [drm] Current Brightness:69
+[   13.850203] [drm] sprd_backlight_probe
+[   13.853977] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   13.854254] platform 31300000.dsi: really_probe: drv=sprd-dsi-drv link_ret=0 defer_all=0
+[   13.861703] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   13.869750] sprd-dsi-drv 31300000.dsi: probe ENTER
+[   13.878305] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   13.883180] [drm][    dsi_glb_parse_dt] dsi reset via reset-syscon reg=0x4 mask=0x2
+[   13.887924] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   13.895558] sprd-dsi-drv 31300000.dsi: probe-step context_init ret=0
+[   13.901365] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.907696] sprd-dsi-drv 31300000.dsi: probe-step device_create ret=0
+[   13.916530] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.922894] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+[   13.931755] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.937681] sprd-dsi-drv 31300000.dsi: probe-step parse_dt ret=0 dual_en=0
+[   13.946550] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   13.953382] /soc/dpuvsp/dphy: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000/panel
+[   13.970608] /soc/dpuvsp/dsi@31300000/panel: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[   13.978930] platform 31000000.dpu: really_probe: drv=sprd-dpu-drv link_ret=0 defer_all=0
+[   13.978933] sprd-dsi-drv 31300000.dsi: probe-step host_init ret=0
+[   13.986937] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+[   13.993216] platform 31400000.dsi1: really_probe: drv=sprd-dsi-drv link_ret=0 defer_all=0
+[   13.998944] [drm][    dpu_context_init] read widevine-use-fastcall failed, fastcall_en = false
+[   13.998946] [drm][    dpu_context_init] can't find dpu qos cfg node
+[   14.007096] sprd-dsi-drv 31400000.dsi1: probe ENTER
+[   14.015641] [drm][    dpu_context_init] read arqos-low failed, use default
+[   14.015642] [drm][    dpu_context_init] read arqos-high failed, use default
+[   14.015643] [drm][    dpu_context_init] read awqos_low failed, use default
+[   14.015644] [drm][    dpu_context_init] read awqos-high failed, use default
+[   14.015707] [drm][    dpu_glb_parse_dt] read ctx_reset failed
+[   14.021883] [drm][  dsi_s_glb_parse_dt] dsi_s_glb_parse_dt enter
+[   14.026789] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+[   14.033566] [drm][  dsi_s_glb_parse_dt] dsi1 reset via syscon reg=0x4 mask=0x4
+[   14.040613] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   14.047350] sprd-dsi-drv 31400000.dsi1: probe-step context_init ret=0
+[   14.054246] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   14.059970] sprd-dsi-drv 31400000.dsi1: probe-step device_create ret=0
+[   14.065921] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   14.071891] [drm] dsi slave skip other action
+[   14.079083] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   14.087203] platform 31300000.dphy: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+[   14.093301] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.101880] [drm] dphy driver probe (dphy->ctx.id=0)
+[   14.108544] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.113215] [drm] dphy driver probe success
+[   14.113248] platform 31400000.dphy1: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+[   14.117623] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.123344] [drm] dphy driver probe (dphy->ctx.id=1)
+[   14.131630] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.140378] [drm] dphy driver probe success
+[   14.145413] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   14.154396] platform display-subsystem: really_probe: drv=sprd-drm-drv link_ret=0 defer_all=0
+[   14.158276] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   14.166572] [drm] sprd_drm_probe()
+[   14.175397] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   14.180330] sprd-drm-drv display-subsystem: match add: /soc/dpuvsp/dpu@31000000
+[   14.189174] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   14.193309] sprd-drm-drv display-subsystem: skip /soc/ipa-apb/dpu1@31880000: no driver for this crtc
+[   14.201181] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.209577] sprd-drm-drv display-subsystem: match add: /soc/dpuvsp/dsi@31300000
+[   14.218256] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.221523] [drm] sprd_drm_bind()
+[   14.226484] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.233680] [drm] sprd_dpu_bind()
+[   14.239542] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.248579] [drm] dpu irq_num = 56
+[   14.257481] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   14.264626] [drm] dpu attach dsi
+[   14.273459] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   14.276735] sprd-drm-drv display-subsystem: bound 31000000.dpu (ops dpu_component_ops [sprd_drm])
+[   14.285559] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   14.288851] [drm] dsi->edid_blob->base.id:120
+[   14.297689] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   14.301067] [drm] dsi irq0 num = 57
+[   14.347992] [drm] dsi irq1 num = 58
+[   14.351386] sprd-drm-drv display-subsystem: bound 31300000.dsi (ops dsi_component_ops [sprd_drm])
+[   14.360644] [drm] sprd_plane_reset()
+[   14.364124] [drm] sprd_plane_reset()
+[   14.367663] [drm] sprd_plane_reset()
+[   14.371215] [drm] sprd_plane_reset()
+[   14.374762] [drm] sprd_plane_reset()
+[   14.378310] [drm] sprd_plane_reset()
+[   14.381858] [drm] sprd_crtc_reset()
+[   14.385799] [drm] Initialized sprd 1.0.0 for display-subsystem on minor 0
+[   14.392949] [drm] sprd_dsi_connector_detect()
+[   14.397225] sprd-drm-drv display-subsystem: [drm] Cannot find any crtc or sizes
+[   14.404546] mipi-dsi 31300000.dsi.0: really_probe: drv=sprd-mipi-panel-drv link_ret=0 defer_all=0
+[   14.404600] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.413316] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+[   14.413344] sprd-mipi-panel-drv 31300000.dsi.0: supply power not found, using dummy regulator
+[   14.422250] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.428130] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+[   14.436689] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.445409] [drm][sprd_panel_parse_lcddtb] read sprd,dpi-clk-pixelpll failed, dpi_clk_pixelpll = false
+[   14.445419] [drm] can't find sprd,doze-in-command property
+[   14.451487] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.460202] [drm] can't find sprd,doze-out-command property
+[   14.460203] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-on-command property
+[   14.469597] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   14.474914] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-off-command property
+[   14.483758] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   14.489291] [drm] info->num_buildin_modes = 1
+[   14.498457] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   14.506290] [drm] sprd_dsi_host_attach()
+[   14.515520] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   14.524156] [drm] sprd_dsi_connector_detect()
+[   14.528509] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.533240] [drm] sprd_dsi_connector_get_modes()
+[   14.533242] [drm] sprd_panel_get_modes()
+[   14.533254] [drm] sprd_dsi_connector_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   14.537328] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.542574] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+[   14.542933] [drm] sprd_dpu_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   14.543177] [drm] args->pitch:1920 args->size:1642496 vaddr:0xffffffc084482000 dma:0x00000000d0e00000
+[   14.543244] CHANGXING60-LINUX: stage=display-ok wait=0s
+[   14.544327] CHANGXING60-LINUX: stage=audio-card-rebind rc=1 err=[]
+[   14.545201] CHANGXING60-LINUX: stage=audio-dev 56360000.audio-codec bound=NONE
+[   14.546632] CHANGXING60-LINUX: stage=audio-dev 64400000.spi:pmic@0:audio-codec@1000 bound=sprd-codec-ump9620
+[   14.547319] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.547817] CHANGXING60-LINUX: stage=audio-cards [ 0 [sprdphonesc2730]: sprdphone-sc273 - sprdphone-sc2730|                      sprdphone-sc2730|]
+[   14.549696] CHANGXING60-LINUX: stage=modules-done-block loop0,loop1,loop10,loop11,loop12,loop13,loop14,loop15,loop2,loop3,loop4,loop5,loop6,loop7,loop8,loop9,sda,sda1,sda10,sda11,sda12,sda13,sda14,sda15,sda16,sda17,sda18,sda19,sda2,sda20,sda21,sda22,sda23,sda24,sda25,sda26,sda27,sda28,sda29,sda3,sda30,sda31,sda32,sda33,sda34,sda35,sda36,sda37,sda38,sda39,sda4,sda40,sda41,sda42,sda43,sda44,sda45,sda46,sda47,sda48,sda49,sda5,sda50,sda51,sda52,sda53,sda54,sda55,sda56,sda57,sda58,sda59,sda6,sda60,sda61,sda62,sda63,sda64,sda65,sda66,sda67,sda68,sda69,sda7,sda70,sda71,sda72,sda73,sda74,sda75,sda76,sda8,sda9,sdb,sdc,zram0,
+[   14.550597] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal	,64280000.thermal	,
+[   14.552567] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,sprd_wcn,ufshcd-sprd,
+[   14.554288] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+[   14.574900] CHANGXING60-LINUX: dmesg: [   13.122118] sdhci_sprd wifi: mode=0 vdd=0x0 pwr=0x0 ctl2=0x1008
+[   14.575199] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   14.584492] CHANGXING60-LINUX: dmesg: [   13.135002] sdhci_set_power_noreg: vdd=0x15 pwr=0xf host_pwr=0xe reg=0x0
+[   14.590343] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   14.600514] CHANGXING60-LINUX: dmesg: [   13.138808] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-vsp pagetable: virt[0xffffffc0841e1000], phy[0xd0c00000], size:0x100000
+[   14.609146] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   14.614786] CHANGXING60-LINUX: dmesg: [   13.144532] sdhci_sprd wifi: mode=1 vdd=0x15 pwr=0x0 ctl2=0x1008
+[   14.620474] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   14.620492] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   14.628273] CHANGXING60-LINUX: dmesg: [   13.170228] sdhci_sprd wifi: mode=2 vdd=0x15 pwr=0x0 ctl2=0x1008
+[   14.880653] [drm] sprd_dsi_connector_best_encoder()
+[   14.880655] [drm] sprd_dsi_connector_best_encoder()
+[   14.880658] [drm] sprd_dpu_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   14.880662] [drm] sprd_dsi_encoder_atomic_check()
+[   14.880667] [drm] dpu has already powered off
+[   14.880673] [drm] sprd_dpu_mode_set_nofb() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   14.880677] [drm][         dpu_modeset] begin switch to 480 x 854
+[   14.880678] [drm] sprd_dsi_encoder_mode_set() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   14.880681] [drm] sprd_dpu_atomic_enable()
+[   14.880684] [drm][        dpu_clk_init] DPU_CORE_CLK = 614400000, DPI_CLK_SRC = 307200000
+[   14.880686] [drm][        dpu_clk_init] dpi clock is 38400000
+[   14.880914] [drm] dpu resume OK
+[   14.880917] [drm] sprd_dsi_encoder_enable(last_dpms=0, dpms=0)
+[   14.880919] [drm] dsi is initialized
+[   14.880928] Console: switching to colour frame buffer device 60x53
+[   14.880940] [drm] sprd_dsi_connector_best_encoder()
+[   14.880941] [drm] sprd_dsi_connector_best_encoder()
+[   14.880942] [drm] sprd_dsi_encoder_atomic_check()
+[   14.881064] CHANGXING60-LINUX: dmesg: [   13.219602] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   14.881550] CHANGXING60-LINUX: dmesg: [   13.219611] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   14.886018] sprd-drm-drv display-subsystem: [drm] fb0: sprddrmfb frame buffer device
+[   15.019482] CHANGXING60-LINUX: dmesg: [   13.219613] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   15.028771] CHANGXING60-LINUX: dmesg: [   13.219624] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   15.038548] [drm] sprd_dsi_connector_detect()
+[   15.040163] CHANGXING60-LINUX: dmesg: [   13.228388] sdhci_sprd wifi: mode=2 vdd=0x15 pwr=0x0 ctl2=0x1008
+[   15.042800] [drm] sprd_dsi_connector_get_modes()
+[   15.052786] CHANGXING60-LINUX: dmesg: [   13.231559] sdhci_sprd wifi: mode=2 vdd=0x15 pwr=0x0 ctl2=0x1008
+[   15.056904] [drm] sprd_panel_get_modes()
+[   15.056918] [drm] sprd_dsi_connector_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   15.066937] CHANGXING60-LINUX: dmesg: [   13.259249] sdhci_set_power_noreg: vdd=0x0 pwr=0x0 host_pwr=0x0 reg=0x0
+[   15.070317] [drm] sprd_dpu_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   15.070332] [drm] sprd_dsi_connector_best_encoder()
+[   15.081388] CHANGXING60-LINUX: dmesg: [   13.265959] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x36000000
+[   15.090999] [drm] sprd_dsi_connector_best_encoder()
+[   15.091001] [drm] sprd_dsi_encoder_atomic_check()
+[   15.101097] CHANGXING60-LINUX: dmesg: [   13.272262] sdhci_sprd wifi: mode=0 vdd=0x0 pwr=0x0 ctl2=0x1008
+[   15.139396] CHANGXING60-LINUX: dmesg: [   13.507143] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x36000300
+[   15.150630] CHANGXING60-LINUX: dmesg: [   13.542790] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-jpg pagetable: virt[0xffffffc084361000], phy[0x82380000], size:0x80000
+[   15.167893] CHANGXING60-LINUX: dmesg: [   13.571622] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   15.180351] CHANGXING60-LINUX: dmesg: [   13.587728] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   15.193456] CHANGXING60-LINUX: dmesg: [   13.592323] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x31880000
+[   15.204520] CHANGXING60-LINUX: dmesg: [   13.600874] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   15.213821] CHANGXING60-LINUX: dmesg: [   13.612481] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   15.223836] CHANGXING60-LINUX: dmesg: [   13.620436] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x31880800
+[   15.234884] CHANGXING60-LINUX: dmesg: [   13.697207] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-dispc1 pagetable: virt[0xffffffc084441000], phy[0xd0d00000], size:0x40000
+[   15.252573] CHANGXING60-LINUX: dmesg: [   13.726747] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   15.265064] CHANGXING60-LINUX: dmesg: [   13.734479] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   15.278302] CHANGXING60-LINUX: dmesg: [   13.743029] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   15.287588] CHANGXING60-LINUX: dmesg: [   13.747886] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   15.297704] CHANGXING60-LINUX: dmesg: [   13.819414] [drm] backlight is not ready, dpu probe deferred
+[   15.307838] CHANGXING60-LINUX: dmesg: [   13.853977] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   15.320347] CHANGXING60-LINUX: dmesg: [   13.861703] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   15.333558] CHANGXING60-LINUX: dmesg: [   13.878305] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   15.342870] CHANGXING60-LINUX: dmesg: [   13.887924] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   15.352924] CHANGXING60-LINUX: dmesg: [   13.953382] /soc/dpuvsp/dphy: Fixed dependency cycle(s) with /soc/dpuvsp/dsi@31300000/panel
+[   15.365951] CHANGXING60-LINUX: dmesg: [   13.970608] /soc/dpuvsp/dsi@31300000/panel: Fixed dependency cycle(s) with /soc/dpuvsp/dphy
+[   15.378855] CHANGXING60-LINUX: dmesg: [   13.998944] [drm][    dpu_context_init] read widevine-use-fastcall failed, fastcall_en = false
+[   15.392020] CHANGXING60-LINUX: dmesg: [   14.015641] [drm][    dpu_context_init] read arqos-low failed, use default
+[   15.403358] CHANGXING60-LINUX: dmesg: [   14.015642] [drm][    dpu_context_init] read arqos-high failed, use default
+[   15.414768] CHANGXING60-LINUX: dmesg: [   14.015643] [drm][    dpu_context_init] read awqos_low failed, use default
+[   15.425628] WCN SDIO: wait scan card time out
+[   15.428171] CHANGXING60-LINUX: dmesg: [   14.015644] [drm][    dpu_context_init] read awqos-high failed, use default
+[   15.441630] CHANGXING60-LINUX: dmesg: [   14.015707] [drm][    dpu_glb_parse_dt] read ctx_reset failed
+[   15.451703] CHANGXING60-LINUX: dmesg: [   14.040613] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   15.464254] CHANGXING60-LINUX: dmesg: [   14.054246] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   15.477387] CHANGXING60-LINUX: dmesg: [   14.065921] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   15.486723] CHANGXING60-LINUX: dmesg: [   14.079083] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   15.497003] CHANGXING60-LINUX: dmesg: [   14.087203] platform 31300000.dphy: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+[   15.509896] CHANGXING60-LINUX: dmesg: [   14.101880] [drm] dphy driver probe (dphy->ctx.id=0)
+[   15.519053] CHANGXING60-LINUX: dmesg: [   14.113215] [drm] dphy driver probe success
+[   15.527705] CHANGXING60-LINUX: dmesg: [   14.113248] platform 31400000.dphy1: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+[   15.540639] CHANGXING60-LINUX: dmesg: [   14.123344] [drm] dphy driver probe (dphy->ctx.id=1)
+[   15.549539] [drm] sprd_dsi_connector_detect()
+[   15.554035] [drm] sprd_dsi_connector_get_modes()
+[   15.554488] CHANGXING60-LINUX: dmesg: [   14.140378] [drm] dphy driver probe success
+[   15.558544] [drm] sprd_panel_get_modes()
+[   15.558559] [drm] sprd_dsi_connector_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   15.566584] CHANGXING60-LINUX: dmesg: [   14.145413] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   15.570141] [drm] sprd_dpu_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+[   15.581231] CHANGXING60-LINUX: dmesg: [   14.158276] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   15.592049] [drm] sprd_dsi_connector_best_encoder()
+[   15.602266] CHANGXING60-LINUX: dmesg: [   14.175397] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   15.613841] [drm] sprd_dsi_connector_best_encoder()
+[   15.613844] [drm] sprd_dsi_encoder_atomic_check()
+[   15.619190] CHANGXING60-LINUX: dmesg: [   14.189174] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   15.651109] CHANGXING60-LINUX: dmesg: [   14.257481] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   15.663597] CHANGXING60-LINUX: dmesg: [   14.273459] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   15.676827] CHANGXING60-LINUX: dmesg: [   14.285559] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   15.685893] CHANGXING60-LINUX: dmesg: [   14.297689] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   15.696047] CHANGXING60-LINUX: dmesg: [   14.413344] sprd-mipi-panel-drv 31300000.dsi.0: supply power not found, using dummy regulator
+[   15.709262] CHANGXING60-LINUX: dmesg: [   14.445409] [drm][sprd_panel_parse_lcddtb] read sprd,dpi-clk-pixelpll failed, dpi_clk_pixelpll = false
+[   15.723224] CHANGXING60-LINUX: dmesg: [   14.460203] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-on-command property
+[   15.737095] CHANGXING60-LINUX: dmesg: [   14.469597] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   15.749489] CHANGXING60-LINUX: dmesg: [   14.474914] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-off-command property
+[   15.763206] CHANGXING60-LINUX: dmesg: [   14.483758] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   15.776469] CHANGXING60-LINUX: dmesg: [   14.498457] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   15.785639] CHANGXING60-LINUX: dmesg: [   14.515520] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   15.795781] CHANGXING60-LINUX: dmesg: [   14.542574] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+[   15.806618] CHANGXING60-LINUX: dmesg: [   14.550597] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal	,64280000.thermal	,
+[   15.820345] CHANGXING60-LINUX: dmesg: [   14.552567] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,sprd_wcn,ufshcd-sprd,
+[   15.885394] CHANGXING60-LINUX: dmesg: [   14.554288] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+[   16.038997] CHANGXING60-LINUX: stage=persist-target dev=/dev/sda40 rootdisk=sda
+[   16.069881] CHANGXING60-LINUX: stage=usb-phy-state dummyphy_dev=[/sys/bus/platform/devices/soc:ipa-apb:dummyphy,] dummyphy_drv=[../../../../../bus/platform/drivers/usb_phy_generic,] phyclass=[] udc=[25100000.dwc3,] deferred=[64270000.thermal	 64280000.thermal	 64290000.thermal	 642a0000.thermal	 64a00000.usb	 ]
+[   16.101578] CHANGXING60-LINUX: stage=usb-configfs
+[   16.109467] CHANGXING60-LINUX: stage=usb-netfn ncm
+[   16.115902] CHANGXING60-LINUX: stage=usb-wait-udc
+[   16.122879] CHANGXING60-LINUX: stage=udc udc=25100000.dwc3 available=25100000.dwc3,
+[   16.540844] [drm:sprd_panel_esd_work_func [sprd_drm]] *ERROR* unknown esd check mode:4
+[   17.144250] CHANGXING60-LINUX: stage=usb-bind-start
+[   17.150456] gadget gadget.0: really_probe: drv=configfs-gadget.linux link_ret=0 defer_all=0
+[   17.159942] configfs-gadget.linux gadget.0: HOST MAC 02:50:00:00:77:02
+[   17.167236] configfs-gadget.linux gadget.0: MAC 02:50:00:00:77:01
+[   17.198685] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   17.198733] CHANGXING60-LINUX: stage=usb-bind-done rc=0
+[   17.207700] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   17.223881] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   17.233085] CHANGXING60-LINUX: stage=usb0-netdevs lo,usb0,
+[   17.233705] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   17.241718] loop0: detected capacity change from 0 to 97853440
+[   17.247918] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   17.257266] EXT4-fs (loop0): mounted filesystem 98a4c245-bebb-402d-80b6-cfcbb033b96b r/w with ordered data mode. Quota mode: none.
+[   17.261348] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[   17.286340] CHANGXING60-LINUX: stage=misc-restored dev=/dev/sda3
+[   17.287175] musb-sprd 64a00000.usb: musb dr_mode: 3
+[   17.294443] CHANGXING60-LINUX: stage=ext4-modem-skipped (no supported modem device or executable)
+[   17.297952] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   17.310033] CHANGXING60-LINUX: stage=switch-root root=/disk/openwrt init=/sbin/init os="OpenWrt 25.12.5"
+[   17.418252] init: Console is alive
+[   17.422004] init: - watchdog -
+[   17.429292] kmodloader: loading kernel modules from /etc/modules-boot.d/*
+[   17.438023] kmodloader: done loading kernel modules from /etc/modules-boot.d/*
+[   17.456339] init: - preinit -
+[   18.428074] random: crng init done
+[   18.492106] WCN BASEwait bus rescan card time out
+[   18.502757] sprd-wlan: failed to power on WCN!
+[   18.507345] sprd-wlan: sprd_iface_probe iface_set_power failed : -19
+[   18.507349] WCN BUS: [+]bus_chn_deinit(22, 0)
+[   18.518508] WCN BUS: [-]bus_chn_deinit(22)
+[   18.522718] WCN BUS: [+]bus_chn_deinit(23, 0)
+[   18.527186] WCN BUS: [-]bus_chn_deinit(23)
+[   18.531388] WCN BUS: [+]bus_chn_deinit(24, 0)
+[   18.535852] WCN BUS: [-]bus_chn_deinit(24)
+[   18.540048] WCN SDIO: p_data->data_list_tx is NULL!
+[   18.545023] WCN BUS: [+]bus_chn_deinit(8, 0)
+[   18.549395] WCN BUS: [-]bus_chn_deinit(8)
+[   18.553500] WCN BUS: [+]bus_chn_deinit(10, 0)
+[   18.557950] WCN BUS: [-]bus_chn_deinit(10)
+[   18.562168] sprd-wlan: sc2355_flush_tosendlist, 1145
+[   18.567226] sprd-wlan: tx_flush_data_txlist check if data freed complete start
+[   18.574741] sprd-wlan: tx_flush_data_txlist check if data freed complete end
+[   20.540448] sprd-vpu-pd soc:mm:power-domain@1: vpu pd delay work done!
+[   20.547732] sprd-vpu-pd soc:mm:power-domain@0: vpu pd delay work done!
+[   20.796955] sprd-vpu-pd soc:mm:power-domain@2: vpu pd delay work done!
+[   21.052459] sprd-vpu-pd soc:mm:power-domain@3: vpu pd delay work done!
+[   22.513472] mount_root: mounting /dev/root with options 
+[   22.540159] EXT4-fs (loop0): re-mounted 98a4c245-bebb-402d-80b6-cfcbb033b96b.
+[   22.551356] urandom-seed: Seeding with /etc/urandom.seed
+[   22.561487] procd: - early -
+[   22.564491] procd: - watchdog -
+[   23.097636] procd: - watchdog -
+[   23.101405] procd: - ubus -
+[   23.154394] procd: - init -
+[   23.157642] sprd_serial 20200000.serial: request TX DMA channel failed, ret = -19
+[   23.165378] sprd_serial 20200000.serial: request RX DMA channel failed, ret = -19
+[   23.173304] sprd_serial 20200000.serial: request TX DMA channel failed, ret = -19
+[   23.181054] sprd_serial 20200000.serial: request RX DMA channel failed, ret = -19
+[   23.275924] kmodloader: loading kernel modules from /etc/modules.d/*
+[   23.285166] kmodloader: done loading kernel modules from /etc/modules.d/*
+[   23.287244] urngd: v1.0.2 started.
+[   27.452224] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   27.461508] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   27.470687] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   27.479867] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   27.489071] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   27.497222] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[   77.325098] gadget gadget.0: really_probe: drv=configfs-gadget.linux link_ret=0 defer_all=0
+[   77.362216] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   77.372284] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   77.382109] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   77.391050] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[   77.400715] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[   77.409999] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[  261.965646] [drm][sprd_dsi_set_work_mode] tx cmd fifo or payload fifo is not empty
+[  261.980964] reboot: Restarting system

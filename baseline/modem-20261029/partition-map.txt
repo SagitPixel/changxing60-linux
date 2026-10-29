@@ -1,0 +1,13 @@
+nr_fixnv1_a /dev/sda14 102400
+nr_fixnv1_b /dev/sda15 102400
+nr_fixnv2_a /dev/sda16 102400
+nr_fixnv2_b /dev/sda17 102400
+nr_runtimenv1 /dev/sda18 112640
+nr_runtimenv2 /dev/sda19 112640
+nr_modem_a /dev/sda23 102400
+nr_modem_b /dev/sda24 102400
+nr_phy_a /dev/sda27 102400
+nr_phy_b /dev/sda28 102400
+misc /dev/sda3 2048
+pm_sys_a /dev/sda31 2048
+pm_sys_b /dev/sda32 2048

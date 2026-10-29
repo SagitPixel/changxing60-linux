@@ -1,0 +1,14 @@
+stty -echo
+root@changxing60:~# > Linux changxing60 6.18.54-7552n-probe1+ #64 SMP Wed Oct 28 07:04:45 UTC 2026 aarch64 GNU/Linux
+cat: can't open '/sys/module/wcn_bsp/parameters/keep_power_on': No such file or directory
+[    6.372341] WCN BASEmarlin power state:0, subsys: [WCN_AUTO] power 1
+[    9.289290] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+[   10.758770] WCN MEM_PD: save_bin_cp_ready ,cp while(1) state
+[   10.880427] WCN MEM_PD: save_bin_cp_ready ,wifi/bt power down, wait event
+[   10.987635] WCN BASEmarlin power state:100, subsys: [WCN_AUTO] power 0
+[   11.297184] WCN BASEmarlin power state:0, subsys: [MARLIN_WIFI] power 1
+[   14.341753] CHANGXING60-LINUX: dmesg: [    9.289290] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+[   16.344016] WCN MEM_PD: save_bin_cp_ready ,cp while(1) state
+[   16.407117] WCN MEM_PD: save_bin_cp_ready ,wifi/bt power down, wait event
+[   17.627181] WCN BASEmarlin power state:4, subsys: [MARLIN_WIFI] power 0
+92d376bfa39cc227c55c13cf7c0bc959209dc7514b14094f8545a67e66d6a1e2  /dev/sda3

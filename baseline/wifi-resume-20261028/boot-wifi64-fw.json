@@ -1,0 +1,13 @@
+{
+  "image": "boot-wifi64-fw.img",
+  "base": "boot-legacy-fw.img",
+  "sha256": "b8e743edcdb6f31cc296d7535b1d4c8da6b22fc8ae3f59e200b88f6e201eac1d",
+  "sha256_head56m": "9f60a8f6312ec5e8d67b64445be81351dced4a0f8bdfb4ecda7cd2b08f9fdb4d",
+  "kernel_sha256": "197075a80199c7b9554a42561bd6edaf784f0c35222b294aa5a3d6e3b307033a",
+  "ramdisk_size": 13211654,
+  "replaced": {
+    "init": "6a5f15363135ce1e4652a4d26d2e00b82413ad97f06e1404d471128493a6df22",
+    "etc/misc-bc-slot-a.bin": "ebcec16f41aa6bc1495ccea87b286f26f1a2e8da58041d51bf3e99b2157cb3f6",
+    "etc/misc-bc-slot-b-trial.bin": "5d630e9ac3f794f5938ce5f22e93560708e0b8b0742df1b184c7d3248c6d364c"
+  }
+}

@@ -1,0 +1,8 @@
+stty -echo
+root@changxing60:~# > 6.18.54-7552n-probe1+
+Command failed: Not found
+ 0 [sprdphonesc2730]: sprdphone-sc273 - sprdphone-sc2730
+                      sprdphone-sc2730
+lo     usb0   wlan0
+/sys/class/block/sda2/uevent
+/sys/class/block/sda3/uevent

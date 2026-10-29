@@ -1,0 +1,20 @@
+stty -echo
+root@changxing60:~# > Linux changxing60 6.18.54-7552n-probe1+ #64 SMP Wed Oct 28 07:04:45 UTC 2026 aarch64 GNU/Linux
+Command failed: Not found
+phy#0
+	Interface wlan0
+		ifindex 3
+		wdev 0x1
+		addr 40:45:da:c5:7a:04
+		type managed
+command failed: Out of memory (-12)
+scan_rc=244
+0
+[    6.929381] mmc1: new UHS-I speed SDR104 SDIO card at address 8800
+[    9.749825] WCN BASE: at cmd read:WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[   10.361345] mmc1: new UHS-I speed SDR104 SDIO card at address 8800
+[   28.491867] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[   43.852760] WCN BASE error: fw assert:WCN loopcheck erro!
+[   53.087478] WCN BASE error: fw assert:[CMD] CMD_SYNC_VERSION, [REASON] CMD_RSP_TIMEOUT_ERROR
+[   60.737899] mmc1: new UHS-I speed SDR104 SDIO card at address 8800
+[   61.939590] WCN BASE error: fw assert:WCN Assert in nvic_fault.c line 247, exp=0 info=[Hfault!(PC-3ffff12 LR-108ee7 BFAR-0 CFSR-00000001 HFSR-40000000 MMAR-0)]

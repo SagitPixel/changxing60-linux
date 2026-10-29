@@ -1,0 +1,103 @@
+changxing60-voice-audio selftest
+
+[python and libasound]
+  ok    python 3.13.15
+  ok    libasound.so.2 loads, PCM ioctls are reachable
+
+[the card]
+  ok    card 0 is sprdphone-sc273 - sprdphone-sc2730
+  ok    opened /dev/snd/controlC0
+  ok    369 controls on the card
+
+[the PCM pair]
+  ok    FE_ST_VOICE is hw:0,5
+  ok    playback and capture are both closed, so no call is up
+
+[the voice devices]
+  ok    /dev/audio_pipe_voice
+  ok    /dev/vbc_turning0
+  ok    /dev/vbc_turning1
+  ok    /dev/vbc_turning2
+  ok    /dev/vbc_turning3
+
+[the profile blobs]
+  ok    audio_structure: 67 modes of 730 bytes
+  ok    /dev/vbc_turning0: the kernel is holding a profile (67 modes of 730)
+  ok    dsp_vbc: 72 modes of 1732 bytes
+  ok    /dev/vbc_turning1: the kernel is holding a profile (72 modes of 1732)
+  ok    cvs: 67 modes of 828 bytes
+  ok    /dev/vbc_turning2: the kernel is holding a profile (67 modes of 828)
+  note  dsp_smartamp: absent (the smart-PA profile; not needed without the AW87xxx driver)
+
+[the mode table, against the audio_structure blob]
+  ok    read 67 per-mode gain curves at +0x244, 7 entries each
+  note  handset: loudest gain per band [917, 817, 5157, 8173] (NOT rising, NB<WB<SWB<FB is what to expect)
+  note  handsfree: loudest gain per band [1631, 2053, 2584, 32536] (rising, NB<WB<SWB<FB is what to expect)
+  note  bluetooth: loudest gain per band [8173, 8173, 8173, 8173] (rising, NB<WB<SWB<FB is what to expect)
+
+[the controls this program uses]
+  ok    S_VOICE_P_CODEC SWITCH             x1 bool            = off
+  ok    S_VOICE_C_CODEC SWITCH             x1 bool            = off
+  ok    VBC_MUX_DAC1_IIS_PORT_SEL          x1 enum items=5    = VBC_IIS_PORT_IIS1
+  ok    VBC_MUX_IIS0_PORT_DO_SEL           x1 enum items=3    = IIS_DO_VAL_DAC0
+  ok    VBC_MUX_ADC2                       x1 enum items=8    = ADC_IN_IIS0_ADC
+  ok    VBC_MUX_ADC2_IIS_PORT_SEL          x1 enum items=5    = VBC_IIS_PORT_IIS1
+  ok    VBC DAC1 DG Set                    x2 int             = 0,0
+  ok    VBC DAC1 DSP MDG Set               x2 int             = 0,0
+  ok    VBC_DL_MUTE                        x1 enum items=2    = disable
+  ok    VBC ADC2 DG Set                    x2 int             = 0,0
+  ok    VBC_VOLUME                         x1 int             = 0
+  ok    Speaker Mute                       x1 bool            = off
+  ok    Earpiece Mute                      x1 bool            = off
+  ok    Mic Function                       x1 bool            = off
+  ok    Speaker Function                   x1 bool            = off
+  ok    AO Mixer AOL Switch                x1 bool            = off
+  ok    AO Mixer AOR Switch                x1 bool            = off
+  ok    DA AOR Switch                      x1 bool            = off
+  ok    AOL EAR Sel                        x1 enum items=2    = EAR
+  ok    EAR_AOL Mixer DACAOL Switch        x1 bool            = off
+  ok    DAHP OS D                          x1 int             = 0
+  ok    EAR_HPL Mixer DACHPL Switch        x1 bool            = off
+  ok    HPL EAR Sel                        x1 enum items=2    = EAR
+  ok    VBC_MIXER1_DAC0                    x1 enum items=8    = NOT_MIX
+  ok    Earpiece Function                  x1 bool            = off
+  ok    ADC_1 Gain ADC_1 Capture Volume    x1 int             = 0
+  ok    ADC_1 Mixer MIC1PGA_1 Switch       x1 bool            = off
+  ok    AUD ADC0L Switch                   x1 bool            = off
+  ok    AUD ADC0R Switch                   x1 bool            = off
+  ok    DAC Gain DAC Playback Volume       x1 int             = 0
+  ok    AO Gain AO Playback Volume         x1 int             = 0
+  ok    EAR Gain EAR Playback Volume       x1 int             = 15
+  ok    DSP VBC Profile Select             x1 int             = 0
+  ok    Audio Structure Profile Select     x1 int             = 0
+  ok    NXP Profile Select                 x1 int             = 0
+  ok    SYS_IIS0                           x1 enum items=10   = vbc_iis0
+  ok    VBC_MUX_DAC0_IIS_PORT_SEL          x1 enum items=5    = VBC_IIS_PORT_IIS0
+  ok    VBC_MUX_IIS3_PORT_DO_SEL           x1 enum items=3    = IIS_DO_VAL_DAC0
+  ok    VBC_MUX_MST_IIS0_PORT_DO_SEL       x1 enum items=3    = IIS_DO_VAL_DAC0
+  ok    VBC_MUX_IIS2_PORT_DO_SEL           x1 enum items=3    = IIS_DO_VAL_DAC2
+  ok    VBC_MUX_ADC0_IIS_PORT_SEL          x1 enum items=5    = VBC_IIS_PORT_IIS1
+  ok    VBC_MUX_ADC1_IIS_PORT_SEL          x1 enum items=5    = VBC_IIS_PORT_IIS1
+  ok    VBC_IIS_TX0_WD_SEL                 x1 enum items=2    = WD_24BIT
+  ok    VBC_IIS_TX1_WD_SEL                 x1 enum items=2    = WD_16BIT
+  ok    VBC_IIS_RX0_WD_SEL                 x1 enum items=2    = WD_24BIT
+  ok    VBC_IIS_RX1_WD_SEL                 x1 enum items=2    = WD_24BIT
+  ok    VBC_IIS_RX2_WD_SEL                 x1 enum items=2    = WD_16BIT
+  ok    VBC_IIS_MASTER_ENALBE              x1 enum items=2    = disable
+  ok    VBC_IIS_MST_SEL_0_TYPE             x1 enum items=2    = VBC_MASTER_EXTERNAL
+  ok    S_VOICE_P_BT SWITCH                x1 bool            = off
+  ok    S_VOICE_C_BT SWITCH                x1 bool            = off
+  ok    VBC_SRC_BT_DAC                     x1 int             = 0
+  ok    VBC_SRC_BT_ADC                     x1 int             = 0
+  ok    DSP_DAC0_LR_EXCHANGE               x1 enum items=2    = disable
+  ok    VBC_IIS_TX0_LRMOD_SEL              x1 enum items=2    = LEFT_HIGH
+
+[summary]
+  55 controls used, 55 present
+  4 notes (not failures):
+    dsp_smartamp: absent (the smart-PA profile; not needed without the AW87xxx driver)
+    handset: loudest gain per band [917, 817, 5157, 8173] (NOT rising, NB<WB<SWB<FB is what to expect)
+    handsfree: loudest gain per band [1631, 2053, 2584, 32536] (rising, NB<WB<SWB<FB is what to expect)
+    bluetooth: loudest gain per band [8173, 8173, 8173, 8173] (rising, NB<WB<SWB<FB is what to expect)
+
+selftest: PASSED

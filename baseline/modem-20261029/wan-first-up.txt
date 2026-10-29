@@ -1,0 +1,85 @@
+{
+	"up": true,
+	"pending": false,
+	"available": true,
+	"autostart": true,
+	"dynamic": false,
+	"uptime": 2,
+	"l3_device": "sipa_eth0",
+	"proto": "changxing60cell",
+	"updated": [
+		"addresses",
+		"routes"
+	],
+	"metric": 0,
+	"dns_metric": 0,
+	"delegation": true,
+	"ipv4-address": [
+		{
+			"address": "10.142.66.253",
+			"mask": 8
+		}
+	],
+	"ipv6-address": [
+		
+	],
+	"ipv6-prefix": [
+		
+	],
+	"ipv6-prefix-assignment": [
+		
+	],
+	"route": [
+		{
+			"target": "0.0.0.0",
+			"mask": 0,
+			"nexthop": "0.0.0.0",
+			"source": "0.0.0.0/0"
+		}
+	],
+	"dns-server": [
+		"61.128.114.166",
+		"61.128.114.133"
+	],
+	"dns-search": [
+		
+	],
+	"neighbors": [
+		
+	],
+	"inactive": {
+		"ipv4-address": [
+			
+		],
+		"ipv6-address": [
+			
+		],
+		"route": [
+			
+		],
+		"dns-server": [
+			
+		],
+		"dns-search": [
+			
+		],
+		"neighbors": [
+			
+		]
+	},
+	"data": {
+		
+	}
+}
+12: sipa_eth0: <NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    inet 10.142.66.253/8 brd 10.255.255.255 scope global sipa_eth0
+       valid_lft forever preferred_lft forever
+default dev sipa_eth0 proto static scope link 
+10.0.0.0/8 dev sipa_eth0 proto kernel scope link src 10.142.66.253 
+192.168.8.0/24 dev br-wifi proto kernel scope link src 192.168.8.1 
+192.168.77.0/24 dev br-lan proto kernel scope link src 192.168.77.1 
+[35799.492692] sprd-wlan: enter reorder_ba_timeout lut_idx-tid 6-0 active 1
+[36551.068031] platform soc:ipa-apb:sipa-dele: really_probe: drv=sipa_delegate link_ret=0 defer_all=0
+[36551.077418] sipa_delegate soc:ipa-apb:sipa-dele: not get sipa_sys_eb
+[36551.084139] sipa_delegate soc:ipa-apb:sipa-dele: get resource failed for remote-base!
+[36551.092332] sipa_delegate soc:ipa-apb:sipa-dele: dts parsing failed

@@ -1,0 +1,217 @@
+[
+  [
+    "VBC DAC0 DSP MDG Set",
+    "0 1",
+    "0,0"
+  ],
+  [
+    "VBC DAC1 DSP MDG Set",
+    "0 4",
+    "0,0"
+  ],
+  [
+    "VBC DAC0 AUD MDG Set",
+    "0 1",
+    "0,0"
+  ],
+  [
+    "VBC DAC0 AUD23 MDG Set",
+    "0 1",
+    "0,0"
+  ],
+  [
+    "VBC DAC0 DG Set",
+    "33 33",
+    "0,0"
+  ],
+  [
+    "VBC DAC1 DG Set",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC ADC0 DG Set",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC ADC1 DG Set",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC ADC2 DG Set",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC ADC3 DG Set",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC FM DG Set",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC ST DG Set",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "OFFLOAD DG Set",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC_SMTHDG_DAC0",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC_MIXERDG_DAC0_MAIN",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC_MIXERDG_DAC0_MIX",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC_MIXERDG_DAC1_MAIN",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC_MIXERDG_DAC1_MIX",
+    "0 0",
+    "0,0"
+  ],
+  [
+    "VBC_MUX_DAC1_IIS_PORT_SEL",
+    "VBC_IIS_PORT_IIS0",
+    "VBC_IIS_PORT_IIS1"
+  ],
+  [
+    "VBC_MUX_IIS3_PORT_DO_SEL",
+    "IIS_DO_VAL_DAC2",
+    "IIS_DO_VAL_DAC0"
+  ],
+  [
+    "agdsp_access_en",
+    "On",
+    "off"
+  ],
+  [
+    "agdsp_access_a2dp_en",
+    "On",
+    "off"
+  ],
+  [
+    "VBC FM_MUTE_SMOOTHDG STEP",
+    "1",
+    "0"
+  ],
+  [
+    "DSP VBC Profile Update",
+    "0",
+    "1"
+  ],
+  [
+    "VBC_IIS_TX1_WD_SEL",
+    "WD_24BIT",
+    "WD_16BIT"
+  ],
+  [
+    "VBC_IIS_TX0_LRMOD_SEL",
+    "RIGHT_HIGH",
+    "LEFT_HIGH"
+  ],
+  [
+    "VBC_IIS_MST_WIDTH_SET",
+    "WD_16BIT",
+    "MST_WD_24BIT"
+  ],
+  [
+    "ag_iis0_ext_sel_v2",
+    "aud_4ad_iis0_da0",
+    "pad_top"
+  ],
+  [
+    "ag_iis3_ext_sel_v2",
+    "Failed to mixer_ctl_get_array",
+    "pad_top"
+  ],
+  [
+    "SBC_PARAS",
+    "00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00",
+    "0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00"
+  ],
+  [
+    "AUDIO_ZOOM_FOCUS",
+    "00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00",
+    "0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00"
+  ],
+  [
+    "Inter PA Config",
+    "303",
+    "2"
+  ],
+  [
+    "AO Gain AO Playback Volume",
+    "3",
+    "0"
+  ],
+  [
+    "S_NORMAL_AP01_P_CODEC SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_NORMAL_AP23_P_CODEC SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_OFFLOAD_CODEC SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_VOICE_P_CODEC SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_VOIP_P_CODEC SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_FM_CODEC SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_LOOP_P_CODEC SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_FM_DSP_CODEC SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_VOICE_PCM_P SWITCH",
+    "On",
+    "off"
+  ],
+  [
+    "S_FAST_P_SMART_AMP SWITCH",
+    "On",
+    "off"
+  ]
+]

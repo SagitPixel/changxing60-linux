@@ -1,0 +1,13 @@
+79df2ca0-bede-4bb1-9a42-b0ee20cc7090
+Discharging
+-5000
+0
+USB=1
+USB-HOST=0
+(null)=0
+(null)=0
+HEADPHONE=0
+board-thmzone
+42000
+* * * * * /opt/changxing60/bin/charge-fix >/dev/null 2>&1
+* * * * * /opt/changxing60/bin/bootdiag >/dev/null 2>&1

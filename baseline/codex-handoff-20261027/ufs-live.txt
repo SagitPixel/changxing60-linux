@@ -1,0 +1,172 @@
+stty -echo
+/ # > [  281.092050] [ASoC:ump9620] 'SDAAOL AO' POST_PMD
+[  281.146569] [ASoC:ump9620] 'SDM DC OS' PRE_PMD
+[  330.026112] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  330.031110] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  330.036104] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  330.041094] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  330.916856] [ASoC:ump9620] 'SDM DC OS' POST_PMU
+[  330.921522] [ASoC:ump9620] ramp reg: SDM_L 0xcd9f, SDM_H 0x0
+[  331.012589] [ASoC:ump9620] 'SDAAOR AO' POST_PMU
+[  331.031103] [ASoC:ump9620] 'SDAAOL AO' POST_PMU
+[  334.375685] [ASoC:ump9620] 'SDAAOR AO' POST_PMD
+[  334.388232] [ASoC:ump9620] 'SDAAOL AO' POST_PMD
+[  334.442736] [ASoC:ump9620] 'SDM DC OS' PRE_PMD
+[  356.853578] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  356.858573] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  356.863568] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  356.868556] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  357.759748] [ASoC:ump9620] 'SDM DC OS' POST_PMU
+[  357.764404] [ASoC:ump9620] ramp reg: SDM_L 0xcd9f, SDM_H 0x0
+[  357.855486] [ASoC:ump9620] 'SDAAOR AO' POST_PMU
+[  357.873989] [ASoC:ump9620] 'SDAAOL AO' POST_PMU
+[  359.443475] [ASoC:ump9620] 'SDAAOR AO' POST_PMD
+[  359.456026] [ASoC:ump9620] 'SDAAOL AO' POST_PMD
+[  359.510541] [ASoC:ump9620] 'SDM DC OS' PRE_PMD
+[  362.719025] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  362.724005] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  362.729011] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  362.733988] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  363.637436] [ASoC:ump9620] 'SDM DC OS' POST_PMU
+[  363.642101] [ASoC:ump9620] ramp reg: SDM_L 0xcd9f, SDM_H 0x0
+[  363.733177] [ASoC:ump9620] 'SDAAOR AO' POST_PMU
+[  363.751693] [ASoC:ump9620] 'SDAAOL AO' POST_PMU
+[  367.063655] [ASoC:ump9620] 'SDAAOR AO' POST_PMD
+[  367.076205] [ASoC:ump9620] 'SDAAOL AO' POST_PMD
+[  367.130715] [ASoC:ump9620] 'SDM DC OS' PRE_PMD
+[  368.303838] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  368.308818] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  368.313805] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  368.318783] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  368.592673] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  368.597670] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  368.602662] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  368.607648] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  368.880564] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  368.885557] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  368.890549] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  368.895543] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  369.168848] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  369.173843] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  369.178841] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  369.183826] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  369.457342] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  369.462339] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  369.467331] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  369.472318] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  370.902207] [ASoC:ump9620] 'SDM DC OS' POST_PMU
+[  370.906865] [ASoC:ump9620] ramp reg: SDM_L 0xcd9f, SDM_H 0x0
+[  370.997951] [ASoC:ump9620] 'SDAAOR AO' POST_PMU
+[  371.016467] [ASoC:ump9620] 'SDAAOL AO' POST_PMU
+[  374.327202] [ASoC:ump9620] 'SDAAOR AO' POST_PMD
+[  374.339745] [ASoC:ump9620] 'SDAAOL AO' POST_PMD
+[  374.394257] [ASoC:ump9620] 'SDM DC OS' PRE_PMD
+[  452.012941] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  452.017936] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  452.022927] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  452.027914] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  452.215182] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  452.220171] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  452.225165] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  452.230145] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  452.503715] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  452.508708] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  452.513704] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  452.518691] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  453.425298] [ASoC:ump9620] 'SDM DC OS' POST_PMU
+[  453.429949] [ASoC:ump9620] ramp reg: SDM_L 0xcd9f, SDM_H 0x0
+[  453.520882] [ASoC:ump9620] 'SDAAOR AO' POST_PMU
+[  453.539390] [ASoC:ump9620] 'SDAAOL AO' POST_PMU
+[  483.875572] [ASoC:ump9620] 'SDAAOR AO' POST_PMD
+[  483.888115] [ASoC:ump9620] 'SDAAOL AO' POST_PMD
+[  483.942632] [ASoC:ump9620] 'SDM DC OS' PRE_PMD
+[  492.749867] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  492.754847] [ASoC:ump9620] ramp read SDM_H 0 ( 0x0)
+[  492.759829] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+[  492.764806] [ASoC:ump9620] ramp read SDM_L 0 ( 0x0)
+major minor  #blocks  name
+
+   8        0       4096 sda
+   8       16       4096 sdb
+   8       32  124960768 sdc
+   8       33      65536 sdc1
+   8       34       1024 sdc2
+   8       35       1024 sdc3
+   8       36       6144 sdc4
+   8       37       6144 sdc5
+   8       38       1024 sdc6
+   8       39       1024 sdc7
+   8       40       5120 sdc8
+   8       41       5120 sdc9
+   8       42      16384 sdc10
+   8       43      20480 sdc11
+   8       44      20480 sdc12
+   8       45       8192 sdc13
+   8       46      51200 sdc14
+   8       47      51200 sdc15
+ 259        0      51200 sdc16
+ 259        1      51200 sdc17
+ 259        2      56320 sdc18
+ 259        3      56320 sdc19
+ 259        4       2048 sdc20
+ 259        5       8192 sdc21
+ 259        6      32768 sdc22
+ 259        7      51200 sdc23
+ 259        8      51200 sdc24
+ 259        9       1024 sdc25
+ 259       10       1024 sdc26
+ 259       11      51200 sdc27
+ 259       12      51200 sdc28
+ 259       13       6144 sdc29
+ 259       14       6144 sdc30
+ 259       15       1024 sdc31
+ 259       16       1024 sdc32
+ 259       17      16384 sdc33
+ 259       18      16384 sdc34
+ 259       19       1024 sdc35
+ 259       20       1024 sdc36
+ 259       21      10240 sdc37
+ 259       22      10240 sdc38
+ 259       23      65536 sdc39
+ 259       24      65536 sdc40
+ 259       25     102400 sdc41
+ 259       26     102400 sdc42
+ 259       27       8192 sdc43
+ 259       28       8192 sdc44
+ 259       29       8192 sdc45
+ 259       30       8192 sdc46
+ 259       31       8192 sdc47
+ 259       32       8192 sdc48
+ 259       33    6520832 sdc49
+ 259       34     512000 sdc50
+ 259       35     512000 sdc51
+ 259       36       1024 sdc52
+ 259       37       1024 sdc53
+ 259       38      65536 sdc54
+ 259       39      10240 sdc55
+ 259       40       1024 sdc56
+ 259       41       1024 sdc57
+ 259       42       1024 sdc58
+ 259       43       1024 sdc59
+ 259       44       1024 sdc60
+ 259       45       1024 sdc61
+ 259       46       1024 sdc62
+ 259       47       1024 sdc63
+ 259       48       1024 sdc64
+ 259       49       1024 sdc65
+ 259       50       1024 sdc66
+ 259       51       1024 sdc67
+ 259       52       8192 sdc68
+ 259       53       8192 sdc69
+ 259       54      16384 sdc70
+ 259       55      16384 sdc71
+ 259       56       4096 sdc72
+ 259       57       4096 sdc73
+ 259       58      34816 sdc74
+ 259       59      15360 sdc75
+ 259       60   67108864 sdc76
+0:0:0:0      0:0:0:1      0:0:0:2      0:0:0:49456  0:0:0:49476  0:0:0:49488
+249921536
+YMUS8A1TC2A2C1  
+running
+YMTC    

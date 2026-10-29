@@ -1,0 +1,55 @@
+sipa_dummy0      UNKNOWN        4e:f8:3d:ca:3f:0d <UP,LOWER_UP> 
+sipa_eth0        DOWN           <NOARP> 
+sipa_eth1        DOWN           <NOARP> 
+sipa_eth2        DOWN           <NOARP> 
+sipa_eth3        DOWN           <NOARP> 
+sipa_eth4        DOWN           <NOARP> 
+sipa_eth5        DOWN           <NOARP> 
+sipa_eth6        DOWN           <NOARP> 
+sipa_eth7        DOWN           <NOARP> 
+sipa_eth8        DOWN           <NOARP> 
+sipa_eth9        DOWN           <NOARP> 
+sipa_eth10       DOWN           <NOARP> 
+sipa_eth11       DOWN           <NOARP> 
+sipa_eth12       DOWN           <NOARP> 
+sipa_eth13       DOWN           <NOARP> 
+sipa_eth14       DOWN           <NOARP> 
+sipa_eth15       DOWN           <NOARP> 
+changxing60cell
+[36550.290083] platform sipa-eth9: really_probe: drv=sipa_eth link_ret=0 defer_all=0
+[36550.303216] sipa_dummy: dev sipa_eth9 evt 17 debug_cnt is 0
+[36550.312631] sipa_dummy: dev sipa_eth9 evt 5 debug_cnt is 0
+[36550.321807] platform sipa-eth10: really_probe: drv=sipa_eth link_ret=0 defer_all=0
+[36550.338055] sipa_dummy: dev sipa_eth10 evt 17 debug_cnt is 0
+[36550.347462] sipa_dummy: dev sipa_eth10 evt 5 debug_cnt is 0
+[36550.355631] platform sipa-eth11: really_probe: drv=sipa_eth link_ret=0 defer_all=0
+[36550.363521] sipa_dummy: dev sipa_eth11 evt 17 debug_cnt is 0
+[36550.364572] sipa_dummy: dev sipa_eth11 evt 5 debug_cnt is 0
+[36550.370742] platform sipa-eth12: really_probe: drv=sipa_eth link_ret=0 defer_all=0
+[36550.386988] sipa_dummy: dev sipa_eth12 evt 17 debug_cnt is 0
+[36550.396393] sipa_dummy: dev sipa_eth12 evt 5 debug_cnt is 0
+[36550.405570] platform sipa-eth13: really_probe: drv=sipa_eth link_ret=0 defer_all=0
+[36550.421814] sipa_dummy: dev sipa_eth13 evt 17 debug_cnt is 0
+[36550.430206] sipa_dummy: dev sipa_eth13 evt 5 debug_cnt is 0
+[36550.431129] platform sipa-eth14: really_probe: drv=sipa_eth link_ret=0 defer_all=0
+[36550.439024] sipa_dummy: dev sipa_eth14 evt 17 debug_cnt is 0
+[36550.445403] sipa_dummy: dev sipa_eth14 evt 5 debug_cnt is 0
+[36550.454586] platform sipa-eth15: really_probe: drv=sipa_eth link_ret=0 defer_all=0
+[36550.470831] sipa_dummy: dev sipa_eth15 evt 17 debug_cnt is 0
+[36550.480232] sipa_dummy: dev sipa_eth15 evt 5 debug_cnt is 0
+[36551.068031] platform soc:ipa-apb:sipa-dele: really_probe: drv=sipa_delegate link_ret=0 defer_all=0
+[36551.077418] sipa_delegate soc:ipa-apb:sipa-dele: not get sipa_sys_eb
+[36551.084139] sipa_delegate soc:ipa-apb:sipa-dele: get resource failed for remote-base!
+[36551.092332] sipa_delegate soc:ipa-apb:sipa-dele: dts parsing failed
+[36551.099562] sipa_rm: SIPA_RM_RES_CONS_WWAN_UL state: 0
+[36551.099565] sipa_rm: SIPA_RM_RES_CONS_WIFI_UL state: 0
+[36551.099568] sipa_rm: SIPA_RM_RES_CONS_WIFI_DL state: 0
++CGACT:11,1
+OK
++CGDCONT:11,IPV4V6,IMS,0.0.0.0,0,0,0,2,,,,,,0,,,0,,0,0,0,0
+OK
++COPS: 0,2,"46011",11
+OK
+10864 1000     8689m S    /vendor/bin/modem_control
+10865 root     8620m S    /vendor/bin/cp_diskserver
+10866 1000     8612m S    /vendor/bin/refnotify

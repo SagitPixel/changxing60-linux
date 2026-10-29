@@ -1,0 +1,136 @@
+clock:		0 Hz
+vdd:		0 (invalid)
+bus mode:	2 (push-pull)
+chip select:	0 (don't care)
+power mode:	0 (off)
+bus width:	0 (1 bits)
+timing spec:	0 (legacy)
+signal voltage:	0 (3.30 V)
+driver type:	0 (driver type B)
+clock:		0 Hz
+vdd:		0 (invalid)
+bus mode:	2 (push-pull)
+chip select:	0 (don't care)
+power mode:	0 (off)
+bus width:	0 (1 bits)
+timing spec:	0 (legacy)
+signal voltage:	0 (3.30 V)
+driver type:	0 (driver type B)
+clock:		208000000 Hz
+vdd:		18 (3.0 ~ 3.1 V)
+bus mode:	2 (push-pull)
+chip select:	0 (don't care)
+power mode:	2 (on)
+bus width:	2 (4 bits)
+timing spec:	6 (sd uhs SDR104)
+signal voltage:	1 (1.80 V)
+driver type:	0 (driver type B)
+caps  caps2  clock  ios  mmc2:8800
+ regulator                      use open bypass  opmode voltage current     min     max
+---------------------------------------------------------------------------------------
+ regulator-dummy                  2    3      0 unknown     0mV     0mA     0mV     0mV 
+    31300000.dsi.0                0                                 0mA     0mV     0mV
+    31300000.dsi.0                0                                 0mA     0mV     0mV
+    sprd-marlin3                  1                                 0mA     0mV     0mV
+ vddcpu1                          1    0      0 unknown   878mV     0mA   200mV  1596mV 
+ vddcpu2                          1    0      0 unknown   843mV     0mA   200mV  1596mV 
+ DCDC_GPU                         0    0      0 unknown   650mV     0mA     0mV     0mV 
+ vddcore                          1    0      0 unknown   750mV     0mA   200mV  1596mV 
+ vddpub                           1    0      0 unknown   650mV     0mA   300mV  1596mV 
+ vddmem                           1    0      0 unknown  1100mV     0mA   400mV  1593mV 
+ vddmemq                          1    0      0 unknown   600mV     0mA   400mV  1596mV 
+ vddgen0                          1    0      0 unknown  1875mV     0mA  1200mV  2390mV 
+ vddgen1                          1    0      0 unknown  1350mV     0mA   400mV  1593mV 
+ vddsram0                         1    0      0 unknown   750mV     0mA   200mV  1596mV 
+ DCDC_WPA                         0    0      0 unknown  3398mV     0mA     0mV     0mV 
+ avdd18                           1    0      0 unknown  1805mV     0mA  1175mV  1805mV 
+ LDO_VDDRF1V8                     0    0      0 unknown  1805mV     0mA     0mV     0mV 
+ vddwcn                           1    1      0 unknown  1200mV     0mA   900mV  1845mV 
+    sprd-marlin3                  1                                 0mA  1200mV  1200mV
+ vddcamd2                         0    0      0 unknown  1050mV     0mA   900mV  1365mV 
+ vddcamd1                         0    0      0 unknown  1050mV     0mA   900mV  1365mV 
+ vddcamd0                         0    0      0 unknown  1200mV     0mA   900mV  1365mV 
+ LDO_VDDRF0V9                     0    0      0 unknown   960mV     0mA     0mV     0mV 
+ LDO_VDDRF1V1                     0    0      0 unknown  1095mV     0mA     0mV     0mV 
+ avdd12                           1    0      0 unknown  1200mV     0mA   900mV  1365mV 
+ vddcama0                         0    0      0 unknown  2800mV     0mA  1200mV  3750mV 
+ vddcama1                         0    0      0 unknown  2800mV     0mA  1200mV  3750mV 
+ vddcama2                         0    0      0 unknown  2800mV     0mA  1200mV  3750mV 
+ vddcammot0                       0    0      0 unknown  2800mV     0mA  1200mV  3750mV 
+ vddcammot1                       0    0      0 unknown  2800mV     0mA  1200mV  3750mV 
+ LDO_VDDSIM0                      0    0      0 unknown  1800mV     0mA     0mV     0mV 
+ LDO_VDDSIM1                      0    0      0 unknown  3000mV     0mA     0mV     0mV 
+ vddsim2                          1    1      0 unknown  1800mV     0mA  1200mV  3750mV 
+    sprd-marlin3                  1                                 0mA  1800mV  1800mV
+ vddemmccore                      2    1      0 unknown  3000mV     0mA  1200mV  3750mV 
+    22000000.ufs                  1                                 0mA     0mV     0mV
+ vddsdcore                        0    1      0 unknown  3000mV     0mA  1200mV  3750mV 
+    22210000.sdio                 0                                 0mA  3000mV  3100mV
+ vddsdio                          0    1      0 unknown  3000mV     0mA  1200mV  3750mV 
+    22210000.sdio                 0                                 0mA  3000mV  3300mV
+ vddufs1v2                        1    1      0 unknown  1200mV     0mA   900mV  1365mV 
+    22000000.ufs                  1                                 0mA     0mV     0mV
+ vdd28                            1    0      0 unknown  2800mV     0mA  1200mV  3750mV 
+ vddwifipa                        1    1      0 unknown  3300mV     0mA  1200mV  3750mV 
+    sprd-marlin3                  1                                 0mA  3300mV  3300mV
+ vdd18_dcxo                       1    0      0 unknown  1800mV     0mA  1200mV  3750mV 
+ vddusb33                         1    2      0 unknown  3050mV     0mA  1200mV  3750mV 
+    25310000.ssphy                1                                 0mA     0mV     0mV
+    64300000.hsphy                0                                 0mA  3050mV  3050mV
+ LDO_VDDLDO0                      0    0      0 unknown  2800mV     0mA     0mV     0mV 
+ vddldo1                          1    0      0 unknown  1800mV     0mA  1200mV  3750mV 
+ vddldo2                          0    0      0 unknown  3300mV     0mA  1200mV  3750mV 
+ vddldo3                          0    0      0 unknown  1800mV     0mA  1200mV  3750mV 
+ LDO_VDDLDO4                      0    0      0 unknown  1200mV     0mA     0mV     0mV 
+ vddvib                           0    0      0 unknown  3000mV     0mA  1200mV  3750mV 
+ vddkpled                         0    0      0 unknown  3000mV     0mA  1200mV  3750mV 
+ vddcamio                         0    0      0 unknown  1200mV     0mA  1200mV  1830mV 
+ vddsram1                         1    0      0 unknown   850mV     0mA   300mV  1596mV 
+ vddsram2                         1    0      0 unknown   878mV     0mA   300mV  1596mV 
+ vddai                            0    1      0 unknown   650mV     0mA   200mV  1596mV 
+    27100000.npu                  0                                 0mA     0mV     0mV
+ DCDC_MODEM                       0    0      0 unknown   750mV     0mA     0mV     0mV 
+ vddcpu0                          1    0      0 unknown   850mV     0mA   200mV  1596mV 
+ vddmm                            1    0      0 unknown   650mV     0mA   200mV  1596mV 
+ vddvbus                          0    2      0 unknown  5000mV     0mA     0mV     0mV 
+    64a00000.usb                  0                                 0mA     0mV     0mV
+    25100000.usb3                 0                                 0mA     0mV     0mV
+ SRG_VREG                         1    2      0 unknown     0mV     0mA     0mV     0mV 
+    sprd-headset                  0                                 0mA     0mV     0mV
+    SRG_VB                        1    9      0 unknown     0mV     0mA     0mV     0mV 
+       sprd-headset               0                                 0mA     0mV     0mV
+       sc27xx-audio-codec         0                                 0mA     0mV     0mV
+       SRG_BG                     0    3      0 unknown     0mV     0mA     0mV     0mV 
+          sprd-headset            0                                 0mA     0mV     0mV
+          sc27xx-audio-codec      0                                 0mA     0mV     0mV
+          SRG_HEADMICBIAS         0    3      0 unknown     0mV     0mA     0mV     0mV 
+             sprd-headset         0                                 0mA     0mV     0mV
+             sc27xx-audio-codec   0                                 0mA     0mV     0mV
+             sc27xx-audio-codec   0                                 0mA     0mV     0mV
+       SRG_BIAS                   0    3      0 unknown     0mV     0mA     0mV     0mV 
+          sprd-headset            0                                 0mA     0mV     0mV
+          sc27xx-audio-codec      0                                 0mA     0mV     0mV
+          sc27xx-audio-codec      0                                 0mA     0mV     0mV
+       SRG_MICBIAS1               0    2      0 unknown     0mV     0mA     0mV     0mV 
+          sprd-headset            0                                 0mA     0mV     0mV
+          sc27xx-audio-codec      0                                 0mA     0mV     0mV
+       SRG_MICBIAS2               0    2      0 unknown     0mV     0mA     0mV     0mV 
+          sprd-headset            0                                 0mA     0mV     0mV
+          sc27xx-audio-codec      0                                 0mA     0mV     0mV
+       SRG_MICBIAS3               0    1      0 unknown     0mV     0mA     0mV     0mV 
+          sc27xx-audio-codec      0                                 0mA     0mV     0mV
+       SRG_DCL                    2    5      0 unknown     0mV     0mA     0mV     0mV 
+          sprd-headset            0                                 0mA     0mV     0mV
+          sc27xx-audio-codec      0                                 0mA     0mV     0mV
+          SRG_DIG_CLK_INTC        1    2      0 unknown     0mV     0mA     0mV     0mV 
+             sprd-headset         1                                 0mA     0mV     0mV
+             sc27xx-audio-codec   0                                 0mA     0mV     0mV
+          SRG_DIG_CLK_HID         0    2      0 unknown     0mV     0mA     0mV     0mV 
+             sprd-headset         0                                 0mA     0mV     0mV
+             sc27xx-audio-codec   0                                 0mA     0mV     0mV
+          SRG_CLK_DCL_32K         1    2      0 unknown     0mV     0mA     0mV     0mV 
+             sprd-headset         1                                 0mA     0mV     0mV
+             sc27xx-audio-codec   0                                 0mA     0mV     0mV
+       SRG_DAHPL_CHN              0    1      0 unknown     0mV     0mA     0mV     0mV 
+          sc27xx-audio-codec      0                                 0mA     0mV     0mV
+/sys/firmware/devicetree/base/soc/ap-ahb/sdio@22220000

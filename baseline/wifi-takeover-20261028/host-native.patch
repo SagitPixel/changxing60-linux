@@ -1,0 +1,134 @@
+diff --git a/drivers/mmc/host/sdhci-sprd.c b/drivers/mmc/host/sdhci-sprd.c
+index c2acafd37..34206d03f 100644
+--- a/drivers/mmc/host/sdhci-sprd.c
++++ b/drivers/mmc/host/sdhci-sprd.c
+@@ -107,6 +107,7 @@ struct sdhci_sprd_host {
+ 	struct register_hotplug reg_debounce_cn;
+ 	struct register_hotplug reg_rmldo_en;
+ 	bool fast_hotplug;
++	bool is_wifi;
+ 	bool sd_power_valid;
+ 	unsigned char sd_power_mode;
+ 	unsigned short sd_power_vdd;
+@@ -369,8 +370,18 @@ static void sdhci_sprd_set_uhs_signaling(struct sdhci_host *host,
+ 	struct mmc_host *mmc = host->mmc;
+ 	u32 *p = sprd_host->phy_delay;
+ 	u16 ctrl_2;
++	bool en = false;
+ 
+-	if (timing == host->timing)
++	/*
++	 * The vendor driver only skips the re-apply for mmc0 (the SD/eMMC
++	 * slot).  The Wi-Fi SDIO controller is mmc1: on its first set_ios
++	 * the timing still equals the default MMC_TIMING_LEGACY, so the
++	 * upstream-style early return here skipped the DLL delay and the
++	 * DLL invert programming entirely -- CMD5 went out with an
++	 * unconfigured PHY and the SC2355 never answered.
++	 */
++	if ((timing == host->timing) &&
++	    (strcmp(mmc_hostname(mmc), "mmc0") == 0))
+ 		return;
+ 
+ 	ctrl_2 = sdhci_readw(host, SDHCI_HOST_CONTROL2);
+@@ -405,8 +416,16 @@ static void sdhci_sprd_set_uhs_signaling(struct sdhci_host *host,
+ 		break;
+ 	}
+ 
++
+ 	sdhci_writew(host, ctrl_2, SDHCI_HOST_CONTROL2);
+ 
++	if (timing == MMC_TIMING_SD_HS || timing == MMC_TIMING_MMC_HS ||
++	    timing == MMC_TIMING_LEGACY)
++		en = true;
++
++	sdhci_sprd_set_dll_invert(host, SDHCI_SPRD_BIT_CMD_DLY_INV |
++				  SDHCI_SPRD_BIT_POSRD_DLY_INV, en);
++
+ 	if (!mmc->ios.enhanced_strobe)
+ 		sdhci_writel(host, p[timing], SDHCI_SPRD_REG_32_DLL_DLY);
+ }
+@@ -446,6 +465,14 @@ static unsigned int sdhci_sprd_get_ro(struct sdhci_host *host)
+ static void sdhci_sprd_request_done(struct sdhci_host *host,
+ 				    struct mmc_request *mrq)
+ {
++	if (((struct sdhci_sprd_host *)TO_SPRD_HOST(host))->is_wifi && mrq->cmd &&
++	    (mrq->cmd->opcode == 5 || mrq->cmd->opcode == 3 ||
++	     mrq->cmd->opcode == 7 || mrq->cmd->opcode == 11 ||
++	     mrq->cmd->opcode == 52))
++		dev_info(mmc_dev(host->mmc),
++			 "wifi-cmd op=%u arg=%08x err=%d resp=%08x\n",
++			 mrq->cmd->opcode, mrq->cmd->arg,
++			 mrq->cmd->error, mrq->cmd->resp[0]);
+ 	/* Validate if the request was from software queue firstly. */
+ 	if (mmc_hsq_finalize_request(host->mmc, mrq))
+ 		return;
+@@ -579,6 +606,7 @@ static void sdhci_sprd_set_power(struct sdhci_host *host, unsigned char mode,
+ 		break;
+ 	case MMC_POWER_UP:
+ 		ret = mmc_regulator_set_ocr(mmc, mmc->supply.vmmc, vdd);
++
+ 		if (!ret && sprd_host->fast_hotplug) {
+ 			/* The factory enables VQMMC after VMMC has settled. */
+ 			usleep_range(200, 250);
+@@ -596,6 +624,22 @@ static void sdhci_sprd_set_power(struct sdhci_host *host, unsigned char mode,
+ 	sprd_host->sd_power_mode = mode;
+ 	sprd_host->sd_power_vdd = vdd;
+ 	sprd_host->sd_power_valid = true;
++
++	/*
++	 * The generic sdhci core no longer writes SDHCI_POWER_CONTROL for a
++	 * controller that installs .set_power: sdhci_set_power_and_bus_voltage()
++	 * delegates the whole job to the op.  The vendor op only programmed the
++	 * regulators, so on 6.18 the power register stayed 0 and the SC2355 SDIO
++	 * slot (mmc1, sdio_wifi) never powered up -- CMD5 had no response and
++	 * the WCN scan timed out.  Write the register here, as the 5.4 core used
++	 * to do.
++	 */
++
++	sdhci_set_power_noreg(host, mode, vdd);
++	if (sprd_host->is_wifi)
++		dev_info(mmc_dev(mmc), "wifi-power mode=%u vdd=%u signal=%u\n", mode, vdd, mmc->ios.signal_voltage);
++
++
+ }
+ 
+ static const struct sdhci_ops sdhci_sprd_ops = {
+@@ -958,6 +1002,9 @@ static int sdhci_sprd_probe(struct platform_device *pdev)
+ 		host->always_defer_done = true;
+ 
+ 	sprd_host = TO_SPRD_HOST(host);
++	sprd_host->is_wifi = of_property_match_string(pdev->dev.of_node,
++						       "sprd,name", "sdio_wifi") >= 0;
++
+ 	/* Shared eMMC policy: preserve FUA durability through flush emulation.
+ 	 * Runtime PM, aggressive PM and CLK_AUTO retain their normal behavior. */
+ 	if (!mmc_card_is_removable(host->mmc) &&
+@@ -1073,6 +1120,28 @@ static int sdhci_sprd_probe(struct platform_device *pdev)
+ 		host->mmc->ocr_avail_mmc &= ocr_mask;
+ 	}
+ 
++	/*
++	 * The vendor DT gives sdio@22220000 (sprd,name = sdio_wifi, the
++	 * SC2355) no vmmc-supply.  With a dummy regulator the OCR mask can
++	 * end up empty, so mmc_power_up() hands .set_power a vdd of 0 and
++	 * SDHCI_POWER_CONTROL is written as 0 -- CMD5 then goes out with
++	 * argument 0 and the WCN SDIO scan times out although the chip itself
++	 * is powered.  The slot is a 3.3 V part on this board; force the 3.3 V
++	 * range for the wifi host only.
++	 */
++	if (of_property_match_string(pdev->dev.of_node, "sprd,name",
++				     "sdio_wifi") >= 0) {
++		host->mmc->ocr_avail = MMC_VDD_30_31;
++		host->mmc->ocr_avail_sdio = MMC_VDD_30_31;
++		/* WCN powers the chip after the host's initial scan and requests
++		 * another scan through mmc_detect_change(). NONREMOVABLE would
++		 * make mmc_rescan() return after that first, unpowered attempt.
++		 * BROKEN_CARD_DETECTION already makes get_cd() return present.
++		 */
++		host->mmc->caps &= ~MMC_CAP_NONREMOVABLE;
++		dev_info(&pdev->dev, "Wi-Fi SDIO: WCN-controlled power and rescans\n");
++	}
++
+ 	/*
+ 	 * A controller for an SDIO chip only (the Wi-Fi/BT combo chip: no-sd,
+ 	 * no-mmc) is not polled for a card: the chip's driver powers it and

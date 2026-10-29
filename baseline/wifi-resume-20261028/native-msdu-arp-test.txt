@@ -1,0 +1,15 @@
+PING 192.168.8.123 (192.168.8.123): 56 data bytes
+
+--- 192.168.8.123 ping statistics ---
+1 packets transmitted, 0 packets received, 100% packet loss
+[   60.481126] sprd-wlan: [60388]cid 1 tx[CMD_TX_DATA]
+[   60.494403] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[   60.538433] sprd-wlan: cid 1 [CMD_TX_DATA]rsp timeout, printk=4
+phy#0
+	Interface wlan0
+		ifindex 8
+		wdev 0x2
+		addr 40:45:da:17:6d:75
+		ssid CHANGXING60-CEAB
+		type AP
+		channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz

@@ -1,0 +1,11 @@
+{
+  "image": "boot-wcn-dt.img",
+  "base": "boot-native.img",
+  "sha256": "d3d708bb32c629c7c56f5bb3ac3750a476862a7bcd7d9c32d68c7614e3322a22",
+  "sha256_head56m": "ea6c62ed70444ccac16f31c2b07158efdb27dfd6660d595e70c0808440dce578",
+  "kernel_sha256": "1f06fe2d6289f80226f04a6c4ee2c95a5744acf7895d18f9f342d88443b01763",
+  "ramdisk_size": 13206635,
+  "replaced": {
+    "linux-modules/wcn_bsp.ko": "d0e8af3acc0f84fcecf34d6453d5a151d4ffbda53547ae0112f89fe2a2627790"
+  }
+}

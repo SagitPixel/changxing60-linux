@@ -1,0 +1,186 @@
+stty -echo
+/ # / # / # > Simple mixer control 'S_FAST_P_CODEC SWITCH',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'VBC_MUX_DAC0_OUT_SEL',0
+  Capabilities: enum
+  Items: 'DAC_OUT_FROM_IIS' 'DAC_OUT_FROM_VBCIF'
+  Item0: 'DAC_OUT_FROM_IIS'
+Simple mixer control 'AOL EAR Sel',0
+  Capabilities: enum
+  Items: 'EAR' 'AOL'
+  Item0: 'AOL'
+Simple mixer control 'AO Mixer AOL',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'AO Mixer AOR',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'DA AOR',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'Speaker Mute',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [off]
+Simple mixer control 'Earpiece Function',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [off]
+Simple mixer control 'EAR_AOL Mixer DACAOL',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [off]
+Simple mixer control 'DSP VBC Profile Update',0
+  Capabilities: volume volume-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: 0 - 2
+  Mono: 1 [50%]
+Simple mixer control 'DSP VBC Profile Select',0
+  Capabilities: volume volume-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: 0 - 2147483647
+  Mono: 1078657024 [50%]
+Simple mixer control 'Speaker Function',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+FAST pcm=3 start=58.81 441.50
+aplay_rc=1
+Playing WAVE '/tone-30s.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+aplay: pcm_write:2178: write error: Input/output error
+access: RW_INTERLEAVED
+format: S16_LE
+subformat: STD
+channels: 2
+rate: 48000 (48000/1)
+period_size: 6000
+buffer_size: 24000
+sample=1 uptime=58.81
+sample=2 uptime=58.96
+state: OPEN
+hw_ptr      : 0
+appl_ptr    : 0
+sample=3 uptime=59.56
+state: OPEN
+hw_ptr      : 0
+appl_ptr    : 0
+sample=4 uptime=59.71
+state: SETUP
+hw_ptr      : 0
+appl_ptr    : 0
+sample=5 uptime=59.87
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=6 uptime=60.05
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=7 uptime=60.20
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=8 uptime=60.36
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=9 uptime=60.51
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=10 uptime=60.67
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=11 uptime=60.82
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=12 uptime=60.98
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=13 uptime=61.13
+state: RUNNING
+hw_ptr      : 360
+appl_ptr    : 24360
+sample=14 uptime=61.29
+sample=15 uptime=61.61
+sample=16 uptime=61.76
+sample=17 uptime=61.92
+sample=18 uptime=62.07
+sample=19 uptime=62.22
+sample=20 uptime=62.38
+sample=21 uptime=62.53
+sample=22 uptime=62.69
+sample=23 uptime=62.84
+sample=24 uptime=63.00
+sample=25 uptime=63.15
+sample=26 uptime=63.31
+sample=27 uptime=63.46
+sample=28 uptime=63.61
+sample=29 uptime=63.77
+sample=30 uptime=63.92
+sample=31 uptime=64.07
+sample=32 uptime=64.23
+sample=33 uptime=64.38
+sample=34 uptime=64.54
+sample=35 uptime=64.69
+sample=36 uptime=64.85
+sample=37 uptime=65.00
+sample=38 uptime=65.15
+sample=39 uptime=65.31
+sample=40 uptime=65.46
+60648803187 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60675897764 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60676746879 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60676823456 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60774967879 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60830382071 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60830854418 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60830886341 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60898821264 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60984363533 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60985274533 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+60985337225 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+61023639187 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+61139467533 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+61140101264 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+61140131340 chan=0 cookie=2 status=1 branch=current pos=0xaf7255a0 residue_is_addr=1
+[    2.283722] ump9620-wdt 64400000.spi:pmic@0:watchdog@40: LK ctrl 0xa, running with 60 s timeout
+[    5.937782] [Audio:SIPC]  value2: 0x100e0, value3: 0x0, timeout: -1
+[    5.996763] [Audio:SIPC]  value2: 0x100e0, value3: 0x0, timeout: -1
+[    7.119950] platform 56500000.mcdt: really_probe: drv=mcdt_sprd link_ret=0 defer_all=0
+[   12.131824] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   13.075177] CHANGXING60-LINUX: dmesg: [   12.131824] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   14.615231] CHANGXING60-LINUX: stage=rootfs-unavailable-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   15.488674] CHANGXING60-LINUX: dmesg: [   13.075177] CHANGXING60-LINUX: dmesg: [   12.131824] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   15.763283] CHANGXING60-LINUX: dmesg: [   14.615231] CHANGXING60-LINUX: stage=rootfs-unavailable-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   56.357617] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[   58.534530] [ASoC: VBC ] vbc_profile_put: 3757:vbc-profile-select: id=1 value=0x404b0000 offset=64 pid=75 dsp_case=0 max=72 data=1
+[   58.634474] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[   58.659358] [ASoC: VBC ] vbc_profile_set: 3136:vbc-profile-set: type=1 mode=0x404b0000 off=64 pid=75 dsp_case=0 len=1732 ret=0
+[   58.671288] [ASoC: VBC ] vbc_profile_try_apply: 3171:vbc-profile-apply: id=1 now_mode=0x404b0000 mode_offset=64 ret=0
+[   58.918824] [ASoC: VBC ] scene_fast_startup: 9274:scene_fast_startup dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[   59.385495] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[   59.513746] [ASoC: VBC ] scene_fast_hw_params: 9350:scene_fast_hw_params dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[   59.526487] [ASoC: VBC ] scene_fast_hw_params: 9373:scene_fast_hw_params data_fmt=VBC_DAT_L16, chan=2, rate =48000
+[   59.588372] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[   59.618773] [MCDT] mcdt_dac_dma_enable_r2 1068 mcdt_dma_ap_channel=4
+[   59.642872] [ASoC: PCM ] Chan0 DMA ID=9
+[   59.657364] [ASoC: PCM ] src_dw=4, dst_dw=4 frag=0, burst:480, slave_id=9, step=4, ll_cfg_virt_addr=000000008db3a94e, ll_cfg_phy_addr=2943496192 ,dst_addr:1448083472, src_addr:2943504384,chan=0
+[   59.928187] [ASoC: VBC ] scene_fast_trigger: 9423:scene_fast_trigger dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback, cmd=1
+[   59.972818] [ASoC: PCM ] pcm Start branch=SUBMIT ch[0]=chan cookie=0x2 desc=set
+[   59.980406] [ASoC: PCM ] pcm Start branch=SUBMIT ch[1]=null cookie=0x0 desc=null
+[   59.988082] [ASoC: PCM ] pcm Start branch=SUBMIT
+[   61.264867] [ASoC: VBC ] scene_fast_trigger: 9423:scene_fast_trigger dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback, cmd=0
+[   61.298443] [ASoC: VBC ] scene_fast_hw_free: 9397:scene_fast_hw_free dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[   61.318093] [ASoC: VBC ] scene_fast_shutdown: 9314:scene_fast_shutdown dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[   61.405323] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750

@@ -1,0 +1,11 @@
+{
+  "image": "boot-tx-copy.img",
+  "base": "boot-keydiag.img",
+  "sha256": "6144bdf2958e5be2ecc02934af34a4c54fe1c2c53d16f1ccda22535763ccd524",
+  "sha256_head56m": "990041c49f725985471393cafeee0cf47cc6214ce22e543a8b0dd612b220c112",
+  "kernel_sha256": "197075a80199c7b9554a42561bd6edaf784f0c35222b294aa5a3d6e3b307033a",
+  "ramdisk_size": 13207416,
+  "replaced": {
+    "linux-modules/wcn_bsp.ko": "279c739ada06fd98ecba1b95173dc28337f0a36a859ba650a97daf888d2fd008"
+  }
+}

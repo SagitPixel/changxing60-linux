@@ -1,0 +1,27 @@
+PING 223.5.5.5 (223.5.5.5): 56 data bytes
+64 bytes from 223.5.5.5: seq=0 ttl=47 time=111.723 ms
+64 bytes from 223.5.5.5: seq=1 ttl=47 time=109.771 ms
+64 bytes from 223.5.5.5: seq=2 ttl=47 time=110.612 ms
+
+--- 223.5.5.5 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 109.771/110.702/111.723 ms
+Server:		61.128.114.166
+Address:	61.128.114.166:53
+
+Non-authoritative answer:
+Name:	openwrt.org
+Address: 64.226.122.113
+
+Non-authoritative answer:
+Name:	openwrt.org
+Address: 2a03:b0c0:3:d0::1a51:c001
+
+12: sipa_eth0: <NOARP,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP mode DEFAULT group default qlen 1000
+    link/none 
+    RX:  bytes packets errors dropped  missed   mcast           
+           850      10      0       0       0       0 
+    TX:  bytes packets errors dropped carrier collsns           
+           834      13      0       0       0       0 
+[36551.084139] sipa_delegate soc:ipa-apb:sipa-dele: get resource failed for remote-base!
+[36551.092332] sipa_delegate soc:ipa-apb:sipa-dele: dts parsing failed

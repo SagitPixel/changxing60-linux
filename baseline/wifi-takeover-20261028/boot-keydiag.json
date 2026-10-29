@@ -1,0 +1,11 @@
+{
+  "image": "boot-keydiag.img",
+  "base": "boot-keydiag-base.img",
+  "sha256": "de3af0707f67c361c6009c858e02096800540c91e945683a2b5069157ba6ece4",
+  "sha256_head56m": "c677c6fc463094752fd0182558715ca9f27ec1a76da79fc897db9aa47f3e41c5",
+  "kernel_sha256": "197075a80199c7b9554a42561bd6edaf784f0c35222b294aa5a3d6e3b307033a",
+  "ramdisk_size": 13207107,
+  "replaced": {
+    "linux-modules/sprd_wlan_combo.ko": "b394fd66665ed0dba23a934be362c8f6a9b3827b7812e3ca6bb45f188af37114"
+  }
+}

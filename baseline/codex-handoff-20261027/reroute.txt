@@ -1,0 +1,7 @@
+stty -echo
+/ # > reroute_after_access_on rc=0
+330.01 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+330.77 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+333.82 state: DRAINING|hw_ptr      : 134040|appl_ptr    : 144000|
+334.02 state: DRAINING|hw_ptr      : 143640|appl_ptr    : 144000|
+Playing WAVE '/tone-30s.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo

@@ -1,0 +1,36 @@
+make: Entering directory '/k/linux'
+make[1]: Entering directory '/k/build'
+  GEN     Makefile
+  UPD     include/generated/compile.h
+  CALL    /k/linux/scripts/checksyscalls.sh
+  CC      init/version.o
+  AR      init/built-in.a
+  CC      drivers/mmc/host/sdhci-sprd.o
+  AR      drivers/mmc/host/built-in.a
+  AR      drivers/mmc/built-in.a
+  AR      drivers/built-in.a
+  AR      built-in.a
+  AR      vmlinux.a
+  LD      vmlinux.o
+  MODPOST vmlinux.symvers
+  UPD     include/generated/utsversion.h
+  CC      init/version-timestamp.o
+  KSYMS   .tmp_vmlinux0.kallsyms.S
+  AS      .tmp_vmlinux0.kallsyms.o
+  LD      .tmp_vmlinux1
+  NM      .tmp_vmlinux1.syms
+  KSYMS   .tmp_vmlinux1.kallsyms.S
+  AS      .tmp_vmlinux1.kallsyms.o
+  LD      .tmp_vmlinux2
+  NM      .tmp_vmlinux2.syms
+  KSYMS   .tmp_vmlinux2.kallsyms.S
+  AS      .tmp_vmlinux2.kallsyms.o
+  LD      vmlinux.unstripped
+  NM      System.map
+  SORTTAB vmlinux.unstripped
+  OBJCOPY vmlinux
+  GEN     modules.builtin.modinfo
+  GEN     modules.builtin
+  OBJCOPY arch/arm64/boot/Image
+make[1]: Leaving directory '/k/build'
+make: Leaving directory '/k/linux'

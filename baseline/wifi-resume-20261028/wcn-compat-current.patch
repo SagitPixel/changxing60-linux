@@ -1,0 +1,170 @@
+diff --git a/drivers/unisoc_platform/sprdwcn/platform/gnss_dump.c b/drivers/unisoc_platform/sprdwcn/platform/gnss_dump.c
+index 788d67e66..a56bb6e3a 100644
+--- a/drivers/unisoc_platform/sprdwcn/platform/gnss_dump.c
++++ b/drivers/unisoc_platform/sprdwcn/platform/gnss_dump.c
+@@ -647,6 +647,10 @@ static int gnss_ext_dump_mem(void)
+ 	int ret = 0;
+ 	int i = 0;
+ 
++	if (!GNSS_CP_START_ADDR || !GNSS_FIRMWARE_MAX_SIZE ||
++	    !GNSS_DUMP_PACKET_SIZE || !GNSS_DUMP_REG_NUMBER)
++		return -EOPNOTSUPP;
++
+ 	GNSSDUMP_INFO("%s entry\n", __func__);
+ 	gnss_ext_hold_cpu();
+ 	gnss_ring_reset();
+diff --git a/drivers/unisoc_platform/sprdwcn/platform/wcn_boot.c b/drivers/unisoc_platform/sprdwcn/platform/wcn_boot.c
+index 2644588b5..970e7bbc2 100644
+--- a/drivers/unisoc_platform/sprdwcn/platform/wcn_boot.c
++++ b/drivers/unisoc_platform/sprdwcn/platform/wcn_boot.c
+@@ -88,6 +88,18 @@ module_param(clktype, int, 0444);
+ static char *slot_suffix;
+ module_param(slot_suffix, charp, 0444);
+ 
++#undef MODULE_PARAM_PREFIX
++#ifdef MODULE
++#define MODULE_PARAM_PREFIX ""
++#else
++#define MODULE_PARAM_PREFIX KBUILD_MODNAME "."
++#endif
++static bool keep_power_on_override;
++module_param_named(keep_power_on, keep_power_on_override, bool, 0444);
++MODULE_PARM_DESC(keep_power_on,
++	"Use the existing keep-power-on mode across Wi-Fi interface reopen");
++
++
+ #ifndef SUFFIX
+ #define SUFFIX "androidboot.slot_suffix="
+ #define SUFFIXS "sprdboot.slot_suffix="
+@@ -1178,7 +1190,7 @@ static int marlin_parse_dt(struct platform_device *pdev)
+ 	struct device_node *np = pdev->dev.of_node;
+ 	struct device_node *cmdline_node;
+ 	struct regmap *pmu_apb_gpr;
+-	int ret, rc;
++	int ret, rc = -ENOENT;
+ 	char *buf, *parse_cmdline;
+ 	const char *cmd_line;
+ 	struct wcn_clock_info *clk;
+@@ -1189,32 +1201,20 @@ static int marlin_parse_dt(struct platform_device *pdev)
+ 
+ 	wcn_get_pmic_config(np);
+ 
+-	ret = of_property_read_u32(np, "sprd,gnss-cp-start-addr",
+-				   &GNSS_CP_START_ADDR);
+-	if (ret) {
+-		WCN_ERR("failed to read sprd,gnss-cp-start-addr\n");
+-		return -EINVAL;
+-	}
+-
+-	ret = of_property_read_u32(np, "sprd,gnss-firmware-max-size",
+-				   &GNSS_FIRMWARE_MAX_SIZE);
+-	if (ret) {
+-		WCN_ERR("failed to read sprd,gnss-firmware-max-size\n");
+-		return -EINVAL;
+-	}
+-
+-	ret = of_property_read_u32(np, "sprd,gnss-dump-packet-size",
+-				   &GNSS_DUMP_PACKET_SIZE);
+-	if (ret) {
+-		WCN_ERR("failed to read sprd,gnss-dump-packet-size\n");
+-		//return -EINVAL;
+-	}
+-
+-	ret = of_property_read_u32(np, "sprd,gnss-dump-reg-number",
+-				   &GNSS_DUMP_REG_NUMBER);
+-	if (ret) {
+-		WCN_ERR("failed to read sprd,gnss-dump-reg-number\n");
+-		return -EINVAL;
++	/* Legacy SC2355 DTs do not describe GNSS diagnostic dump ranges.
++	 * These are not BT/Wi-Fi boot resources: do not skip every regulator,
++	 * GPIO and clock below just because optional dump metadata is absent.
++	 * gnss_dump_mem rejects external dumps without a complete layout.
++	 */
++	if (of_property_read_u32(np, "sprd,gnss-cp-start-addr", &GNSS_CP_START_ADDR) ||
++	    of_property_read_u32(np, "sprd,gnss-firmware-max-size", &GNSS_FIRMWARE_MAX_SIZE) ||
++	    of_property_read_u32(np, "sprd,gnss-dump-packet-size", &GNSS_DUMP_PACKET_SIZE) ||
++	    of_property_read_u32(np, "sprd,gnss-dump-reg-number", &GNSS_DUMP_REG_NUMBER)) {
++		GNSS_CP_START_ADDR = 0;
++		GNSS_FIRMWARE_MAX_SIZE = 0;
++		GNSS_DUMP_PACKET_SIZE = 0;
++		GNSS_DUMP_REG_NUMBER = 0;
++		dev_info(&pdev->dev, "legacy DT: external GNSS diagnostic dump disabled\n");
+ 	}
+ 
+ 	marlin_dev->wakeup_ap = of_get_named_gpio(np, "m2-wakeup-ap-gpios", 0);
+@@ -1453,7 +1453,7 @@ static int marlin_parse_dt(struct platform_device *pdev)
+ 		pr_info("cmd config clk %d\n", clk->type);
+ 	}
+ 
+-	if (of_property_read_bool(np, "keep-power-on")) {
++	if (keep_power_on_override || of_property_read_bool(np, "keep-power-on")) {
+ 		pr_info("wcn config keep power on\n");
+ 		marlin_dev->keep_power_on = true;
+ 	}
+@@ -1463,24 +1463,22 @@ static int marlin_parse_dt(struct platform_device *pdev)
+ 		marlin_dev->wait_ge2 = true;
+ 	}
+ 
+-	pmu_apb_gpr = syscon_regmap_lookup_by_phandle(np,
+-				"sprd,syscon-pmu-apb");
+-	if (IS_ERR(pmu_apb_gpr)) {
+-		pr_err("%s:failed to find pmu_apb_gpr(26M)(ignore)\n",
+-				__func__);
+-		return -EINVAL;
+-	}
+-	ret = regmap_read(pmu_apb_gpr, REG_PMU_APB_XTL_WAIT_CNT0,
+-					&clk_wait_val);
+-	pr_info("marlin2 clk_wait value is 0x%x\n", clk_wait_val);
+-
+-	ret = of_property_read_u32(np, "sprd,reg-m2-apb-xtl-wait-addr",
+-			&marlin2_clk_wait_reg);
+-	if (ret) {
+-		pr_err("Did not find reg-m2-apb-xtl-wait-addr\n");
+-		return -EINVAL;
++	/* Legacy boards leave crystal wait programming to WCN firmware.
++	 * Both endpoints must exist before we copy a PMU wait count to CP.
++	 */
++	marlin2_clk_wait_reg = 0;
++	clk_wait_val = 0;
++	if (of_property_read_u32(np, "sprd,reg-m2-apb-xtl-wait-addr",
++				 &marlin2_clk_wait_reg)) {
++		dev_info(&pdev->dev, "legacy DT: keeping firmware crystal wait configuration\n");
++		return 0;
+ 	}
+-	pr_info("marlin2 clk reg is 0x%x\n", marlin2_clk_wait_reg);
++	pmu_apb_gpr = syscon_regmap_lookup_by_phandle(np, "sprd,syscon-pmu-apb");
++	if (IS_ERR(pmu_apb_gpr))
++		return PTR_ERR(pmu_apb_gpr);
++	ret = regmap_read(pmu_apb_gpr, REG_PMU_APB_XTL_WAIT_CNT0, &clk_wait_val);
++	if (ret)
++		return ret;
+ 
+ 	return 0;
+ }
+@@ -2319,6 +2317,8 @@ static int chip_power_on(enum wcn_sub_sys subsys)
+ 	usleep_range_state(50, 60, TASK_UNINTERRUPTIBLE);
+ 	wifipa_enable(1);
+ 	wcn_wifipa_bound_xtl(true);
++	/* Give the WCN SDIO interface time to come out of reset. */
++	msleep(20);
+ 	if (bus_scan_card() < 0)
+ 		return -1;
+ 	loopcheck_ready_set();
+@@ -3069,13 +3069,10 @@ int marlin_probe(struct platform_device *pdev)
+ 	flag_download_done = 0;
+ 	err = marlin_parse_dt(pdev);
+ 	if (err < 0) {
+-		pr_info("marlin parse_dt some para not config\n");
+-		if (err == -EPROBE_DEFER) {
+-			devm_kfree(&pdev->dev, marlin_dev);
+-			pr_err("%s: get some resources fail, defer probe it\n",
+-			       __func__);
+-			return err;
+-		}
++		dev_err_probe(&pdev->dev, err, "WCN resource parsing failed\n");
++		devm_kfree(&pdev->dev, marlin_dev);
++		marlin_dev = NULL;
++		return err;
+ 	}
+ 	if (gpio_is_valid(marlin_dev->reset))
+ 		gpio_direction_output(marlin_dev->reset, 0);

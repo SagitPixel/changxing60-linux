@@ -1,0 +1,70 @@
+cat: /sys/kernel/debug/mmc2: Is a directory
+[    5.214128] [c4] mmc2: card 8800 removed
+[    5.218647] [c4] sprd-wlan: sc2355_sdio_init: register 5 ops
+[    5.244685] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[    5.245145] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[    5.284564] [c4] mmc2: dll config 0xa0250d02, dll count 62, tuning length: 93
+[    5.286714] [c4] mmc2: the best tuning step range 53-31(the length is 41)
+[    5.286717] [c4] mmc2: the best step 11, phase 0x2d, delay value 0x7d2d2d00
+[    5.288239] [c4] mmc2: new ultra high speed SDR104 SDIO card at address 8800
+[    5.288374] [c4] probe of mmc2:8800 returned 0 after 21 usecs
+[    5.289421] [c4] probe of mmc2:8800:1 returned 1 after 1018 usecs
+[    5.968429] [c4] mmc2: card 8800 removed
+[    5.995912] [c5] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[    5.999815] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[    6.000288] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[    6.005740] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[    6.006223] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[    6.006666] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[    6.007103] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[    6.036611] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x08004547 0x10000000 0x00000000
+[    6.037213] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x08004547 0x10000000 0x00000000
+[    6.042759] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x08004547 0x10000000 0x00000000
+[    6.043356] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x08004547 0x10000000 0x00000000
+[    6.043925] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x08004547 0x10000000 0x00000000
+[    6.044496] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x08004547 0x10000000 0x00000000
+[    6.075605] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x0800e847 0x10000000 0x00000000
+[    6.076662] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x0800e847 0x10000000 0x00000000
+[    6.082229] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x0800e847 0x10000000 0x00000000
+[    6.083561] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x0800e847 0x10000000 0x00000000
+[    6.084452] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x0800e847 0x10000000 0x00000000
+[    6.086883] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x0800e847 0x10000000 0x00000000
+[    6.116263] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x08000087 0x10000000 0x00000000
+[    6.117221] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x08000087 0x10000000 0x00000000
+[    6.122804] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x08000087 0x10000000 0x00000000
+[    6.123711] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x08000087 0x10000000 0x00000000
+[    6.124621] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x08000087 0x10000000 0x00000000
+[    6.125542] [c0] mmc2: sprd-sdhci: CMD5 Error 0x00018001 0x08000087 0x10000000 0x00000000
+[    7.106240] [c3] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[    7.614872] [c1] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[    7.724461] [c2] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   12.732509] [c3] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   12.842628] [c1] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   13.907896] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[   13.908461] [c0] mmc2: sprd-sdhci: CMD52 Error 0x00018001 0x0800f407 0x10000000 0x00000000
+[   13.948734] [c6] mmc2: dll config 0xa0250d02, dll count 62, tuning length: 93
+[   13.951004] [c6] mmc2: the best tuning step range 53-31(the length is 41)
+[   13.951007] [c6] mmc2: the best step 11, phase 0x2d, delay value 0x7d2d2d00
+[   13.952397] [c6] mmc2: new ultra high speed SDR104 SDIO card at address 8800
+[   13.952658] [c6] probe of mmc2:8800 returned 0 after 30 usecs
+[   13.956309] [c6] probe of mmc2:8800:1 returned 1 after 3603 usecs
+[   14.550471] [c2] wlan0: sprd_cfg80211_set_power_mgmt power save status:0
+[   14.797470] [c6] wlan0: iface_set_power_save: set suspend mode,value : 1
+[   15.499494] [c4] wlan0: iface_set_power_save: set suspend mode,value : 1
+[   15.505460] [c5] wlan0: sprd_cfg80211_set_power_mgmt power save status:1
+[   15.520386] [c5] wlan0: iface_set_power_save: set suspend mode,value : 0
+[   17.849332] [c5] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   17.962300] [c1] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   20.275074] [c5] wlan0: iface_set_power_save: set suspend mode,value : 0
+[   20.283949] [c5] wlan0: sprd_cfg80211_set_power_mgmt power save status:0
+[   22.972227] [c2] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   23.083264] [c2] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   23.811485] [c6] wlan0: sprd_cfg80211_set_power_mgmt power save status:1
+[   24.092264] [c3] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   24.204677] [c3] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+[   28.138718] [c6] wlan0: iface_set_power_save: set suspend mode,value : 1
+[   29.214976] [c2] bq2560x_charger_set_powerpath: [bq2560x-MASTER]:bq2560x: set bq2560x powerpath val:0  #####
+DRIVER=sdiohal
+SDIO_CLASS=00
+SDIO_ID=0000:0000
+MODALIAS=sdio:c00v0000d0000

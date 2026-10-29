@@ -1,0 +1,19 @@
+stty -echo
+/ # > profile_cfg not load
+hwen_status: invalid
+[  412.948601] [Awinic] [6-0058]aw87xxx_device_parse_topo_id_dt: read aw-rx-topo-id failed,use default
+[  412.957977] [Awinic] [6-0058]aw87xxx_device_parse_topo_id_dt: rx-topo-id: 0x1000ff01
+[  412.966800] [Awinic] [6-0058]aw87xxx_dev_get_chipid: read chipid[0x676] succeed
+[  412.974460] [Awinic] [6-0058]aw_dev_check_chip_model: product is pid_76 class
+[  412.982188] [Awinic] [6-0058]aw87xxx_fw_load_init: enter
+[  412.987634] [Awinic] [6-0058]aw_monitor_dtsi_parse: esd_enable parse failed, user default[disable]
+[  412.996947] [Awinic] [6-0058]aw87xxx_monitor_init: monitor init succeed
+[  413.004493] [Awinic] [6-0058]aw87xxx_i2c_probe: succeed, dev_index=[0], g_aw87xxx_dev_cnt= [1]
+[  413.013732] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[  413.023635] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[  413.032269] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[  413.041650] musb-sprd 64a00000.usb: musb dr_mode: 3
+[  413.046910] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[  413.053588] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[  413.063595] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[  413.072889] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0

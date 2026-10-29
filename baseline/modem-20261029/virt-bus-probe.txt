@@ -1,0 +1,131 @@
+/dev/modem
+/dev/pmsys
+/dev/spipe_ch0
+/dev/spipe_ch1
+/dev/spipe_nr0
+/dev/spipe_nr1
+/dev/spipe_nr10
+/dev/spipe_nr11
+/dev/spipe_nr12
+/dev/spipe_nr13
+/dev/spipe_nr14
+/dev/spipe_nr15
+/dev/spipe_nr16
+/dev/spipe_nr17
+/dev/spipe_nr18
+/dev/spipe_nr19
+/dev/spipe_nr2
+/dev/spipe_nr3
+/dev/spipe_nr4
+/dev/spipe_nr5
+/dev/spipe_nr6
+/dev/spipe_nr7
+/dev/spipe_nr8
+/dev/spipe_nr9
+/dev/stty_nr0
+[36379.635099] platform sipc-virt:core@5: really_probe: drv=sprd-sipc link_ret=0 defer_all=0
+[36379.635106] sprd-sipc sipc-virt:core@5: label  =sipc-pscp
+[36379.635108] sprd-sipc sipc-virt:core@5: dst    =5
+[36379.635110] sprd-sipc sipc-virt:core@5: smem count=0, base=0x87800000, dstbase=0x87800000, size=0x400000
+[36379.635139] sprd-sipc sipc-virt:core@5: sprd ipc probe success
+[36379.635187] platform sipc-virt:core@5:channel@2: really_probe: drv=sprd-spool link_ret=0 defer_all=0
+[36379.635196] sprd-spool sipc-virt:core@5:channel@2: name=imsbr_data, dst=5, channel=2, pre_cfg=0
+[36379.635198] sprd-spool sipc-virt:core@5:channel@2: tx_num=64, tx_size=1524, rx_num=64, rx_size=1524
+[36379.635594] platform sipc-virt:core@5:channel@3: really_probe: drv=sprd-spool link_ret=0 defer_all=0
+[36379.635603] sprd-spool sipc-virt:core@5:channel@3: name=imsbr_ctrl, dst=5, channel=3, pre_cfg=0
+[36379.635605] sprd-spool sipc-virt:core@5:channel@3: tx_num=64, tx_size=128, rx_num=64, rx_size=128
+[36379.635936] platform sipc-virt:core@5:channel@4: really_probe: drv=sprd-spipe link_ret=0 defer_all=0
+[36379.635943] sprd-spipe sipc-virt:core@5:channel@4: After parse device tree, name=spipe_nr, dst=5, channel=4, ringnr=20,  rxbuf_size=0x1000, txbuf_size=0x1000
+[36379.635946] sprd-sbuf: channel 5-4, offset = 0x0!
+[36379.636690] platform sipc-virt:core@5:channel@21: really_probe: drv=sprd-spipe link_ret=0 defer_all=0
+[36379.636697] sprd-spipe sipc-virt:core@5:channel@21: After parse device tree, name=sdiag_nr, dst=5, channel=21, ringnr=1,  rxbuf_size=0x40000, txbuf_size=0x8000
+[36379.636700] sprd-sbuf: channel 5-21, offset = 0x0!
+[36379.636943] platform sipc-virt:core@5:channel@6: really_probe: drv=sprd-spipe link_ret=0 defer_all=0
+[36379.636950] sprd-spipe sipc-virt:core@5:channel@6: After parse device tree, name=stty_nr, dst=5, channel=6, ringnr=32,  rxbuf_size=0x800, txbuf_size=0x800
+[36379.636953] sprd-sbuf: channel 5-6, offset = 0x0!
+[36379.637841] platform sipc-virt:core@5:channel@40: really_probe: drv=sprd-spipe link_ret=0 defer_all=0
+[36379.637849] sprd-spipe sipc-virt:core@5:channel@40: After parse device tree, name=snv_nr, dst=5, channel=40, ringnr=1,  rxbuf_size=0x40400, txbuf_size=0x1000
+[36379.637852] sprd-sbuf: channel 5-40, offset = 0x0!
+[36379.637968] platform sipc-virt:core@5:channel@5: really_probe: drv=sprd-spool link_ret=0 defer_all=0
+[36379.637976] sprd-spool sipc-virt:core@5:channel@5: name=slog_nr, dst=5, channel=5, pre_cfg=1
+[36379.637978] sprd-spool sipc-virt:core@5:channel@5: tx_num=0, tx_size=0, rx_num=1000, rx_size=2048
+[36379.638796] platform sipc-virt:core@7: really_probe: drv=sprd-sipc link_ret=0 defer_all=0
+[36379.638803] sprd-sipc sipc-virt:core@7: label  =sipc-phycp
+[36379.638804] sprd-sipc sipc-virt:core@7: dst    =7
+[36379.638806] sprd-sipc sipc-virt:core@7: smem count=0, base=0x87c00000, dstbase=0x87c00000, size=0x400000
+[36379.638833] sprd-sipc sipc-virt:core@7: sprd ipc probe success
+[36379.638881] platform sipc-virt:core@7:channel@5: really_probe: drv=sprd-spool link_ret=0 defer_all=0
+[36379.638888] sprd-spool sipc-virt:core@7:channel@5: name=slog_phy, dst=7, channel=5, pre_cfg=1
+[36379.638890] sprd-spool sipc-virt:core@7:channel@5: tx_num=0, tx_size=0, rx_num=500, rx_size=8192
+[36379.639430] unisoc-sipc-virt-bus sipc-virt: Populate sub sipc-virt-bus success
+chsys
+modem
+phycp
+pmsys
+data0_gnss
+sctl_ch
+sctl_pm
+sdiag_nr
+slog_ch
+slog_pm
+snv_nr
+spipe_ch0
+spipe_ch1
+spipe_nr0
+spipe_nr1
+spipe_nr10
+spipe_nr11
+spipe_nr12
+spipe_nr13
+spipe_nr14
+spipe_nr15
+spipe_nr16
+spipe_nr17
+spipe_nr18
+spipe_nr19
+spipe_nr2
+spipe_nr3
+spipe_nr4
+spipe_nr5
+spipe_nr6
+spipe_nr7
+spipe_nr8
+spipe_nr9
+stime_ch
+stty_nr0
+stty_nr1
+stty_nr10
+stty_nr11
+stty_nr12
+stty_nr13
+stty_nr14
+stty_nr15
+stty_nr16
+stty_nr17
+stty_nr18
+stty_nr19
+stty_nr2
+stty_nr20
+stty_nr21
+stty_nr22
+stty_nr23
+stty_nr24
+stty_nr25
+stty_nr26
+stty_nr27
+stty_nr28
+stty_nr29
+stty_nr3
+stty_nr30
+stty_nr31
+stty_nr4
+stty_nr5
+stty_nr6
+stty_nr7
+stty_nr8
+stty_nr9
+64270000.thermal	
+64280000.thermal	
+64290000.thermal	
+642a0000.thermal	
+64a00000.usb	

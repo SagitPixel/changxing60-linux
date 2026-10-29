@@ -1,0 +1,138 @@
+stty -echo
+/ # > #!/bin/sh
+# changxing60-audio-up -- bring the ASoC stack up in the order the DSP actually wants.
+#
+# WHY THIS EXISTS (measured 2026-10-24 on this board, three facts):
+#
+#   * `sprd-dma` (the DMA controller at 56650000.dma-controller) is what lets sprd-pcm-audio off its
+#     "waiting_for_supplier" and sound@0 probe. Without it /proc/asound/cards is empty -- that is why
+#     the 27-module list alone never produced a card.
+#   * `vbc_codec->codec` -- the pointer vbc_turning_ndp_write() passes into the profile loader -- is set
+#     in vbc_codec_soc_probe(), i.e. when the ASoC component probes, which happens as part of the machine
+#     card binding. Writing a profile before that leaves it NULL, and vbc_turning_profile_loading()
+#     dereferences it without a check: NULL + offsetof(vbc_profile_setting) = NULL + 0x18, which is
+#     exactly the fault address in the pstore trace (vbc_turning_ndp_write+0x150, 2026-10-24, twice).
+#
+# So the order is: modules -> sprd-dma -> WAIT for the card -> profiles. Not "profiles then card" (that
+# crashed too) and not "card then profiles immediately" (the card appears asynchronously, the write raced
+# it). The wait is what was missing both times.
+#
+set -u
+export PATH="$PATH:/opt/changxing60/bin:/opt/changxing60/busybox-bin:/usr/sbin:/sbin"
+
+LOAD=/opt/changxing60/bin/changxing60-audio-load
+VBC=/opt/changxing60/bin/changxing60-vbc-load
+MODDIR=/lib/modules/$(uname -r)
+LOG=/root/audio-up.log
+
+say() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$LOG"
+    logger -t changxing60-audio "$*"
+}
+
+loaded() { [ -d "/sys/module/$1" ]; }
+
+say "audio-up: start (VBC_LOAD=${CHANGXING60_VBC_LOAD:-1})"
+
+# 0. The speaker amplifier driver, BEFORE anything else. snd-soc-sprd-card's speaker hook calls
+#    aw87xxx_set_profile() through an `extern int __weak` declaration, and a weak symbol is resolved
+#    when the referring module is loaded: if this driver is not in the kernel by then the pointer stays
+#    NULL for the life of the boot and the amp is never switched out of its "Off" profile -- silently,
+#    because the hook just returns.
+#!/bin/sh
+# Vendor drivers Android loads that the initramfs does not. Loaded one by one; a failure is logged, not fatal.
+#
+# Two kernels, two module sets: the list below is the vendor 5.4 one (thermal throttling, status LEDs, SAR
+# power backoff, SIM tray detection, vibrator, DDR/CP DVFS, Mali). On mainline 6.18 those same jobs are done
+# by the four out-of-tree modules the 6.18 tree builds -- mali_kbase, mu300_thermal, sprd_pmic_wdt and (by
+# wifi-start, not here) the WCN pair -- and none of the vendor names exist, so modprobe would just log
+# FAILED for all of them and nothing would come up. Picked off uname, so 5.4 is untouched.
+#
+# `mu300_thermal` keeps the upstream spelling and is NOT a leftover of the 2026-10-16 device rename: it is the
+# module's own name in the tree that builds it (`upstream/modules/mu300_thermal/`, `obj-m += mu300_thermal.o`,
+# lifted from kanoqwq's project), so it is also the .ko filename. A rename pass did rewrite it here once, which
+# made this line ask modprobe for a module that has never existed on either kernel -- and a missing .ko is
+# silent, so the only symptom would have been the "no message from modprobe" line below.
+case "$(uname -r)" in
+6.*) MODULES="mali_kbase mu300_thermal sprd_pmic_wdt" ;;
+*)   MODULES="sprd_soc_thm thermal-generic-adc sprd_cpu_cooling leds-sc27xx-bltc zte_sar zte_card_holder_det sc27xx-vibra sprd_cp_dvfs sprd_ddr_dvfs sprd_gpu_cooling" ;;
+esac
+
+for m in $MODULES; do
+    if modprobe "$m" 2>/tmp/changxing60-modprobe.err; then
+        echo "loaded $m"
+    else
+        why=$(cat /tmp/changxing60-modprobe.err)
+        # busybox modprobe writes nothing to stderr when the .ko file simply is not there, so a bare
+        # "FAILED x:" reads the same as a CRC/vermagic rejection. Say which one it is -- a missing
+        # file means the *build* is wrong, a rejection means the module is. (mali_kbase sat as a
+        # nameless "FAILED" for several rounds for want of this line.)
+        [ -n "$why" ] || why="no message from modprobe -- $m.ko is probably not installed"
+        echo "FAILED $m: $why"
+    fi
+done
+true
+#!/bin/sh
+# Vendor drivers Android loads that the boot module set does not carry, staged from the 5.4 build
+# tree (out-linux) so their vermagic matches the kernel that actually runs here.
+#
+# Why not /etc/module-order: that list lives in the initramfs, so a module that wedges its probe
+# there is fatal to the boot. Everything below only registers a device node -- nothing the network
+# needs depends on it -- so here a wedged probe costs one timeout(1) and a failure is a log line.
+#
+# Groups (the Android-vs-OpenWrt table behind this list is docs/changxing60/drivers.md):
+#   crypto   CPU crypto offload (AES/PMULL/GHASH/SHA1/ARC4/Twofish). No probe and no device node: it
+#            only makes the kernel's crypto API faster, which is what WPA, OpenVPN and Clash pay for.
+#   usbnet   USB-Ethernet adapters (asix, ax88179_178a) on the OTG port. Dormant until one is plugged.
+#   misc     Vendor glue Android loads at boot: sensor hub, ION heaps, DMA engine, AP/DPU/GSP DVFS,
+#            uid/stats/bootreason and the status-LED pattern trigger.
+#
+# ONLY crypto + usbnet are in GROUPS, because one of the misc modules arms a timer with a NULL
+# callback and takes the kernel down with `CFI failure (target: 0x0)` about three seconds after it
+# loads (2026-10-16, first adaptation boot). Which one is not known yet, so `vendor-modules bisect`
+# walks /etc/changxing60/vendor-candidates one batch per 20 s window, records every attempt in
+# /root/vendor-bisect.log *before* loading it, and appends what survived to /etc/changxing60/vendor-good
+# -- which the default path then loads. A batch that kills the kernel leaves TRYING with no OK, and
+# the next boot marks it bad and skips it. So the box converges on the largest safe set by itself,
+# one reboot per culprit.
+#
+# Status 2026-10-16: it converged. /etc/changxing60/vendor-bad is empty and all 11 batches (13 modules)
+# are in /etc/changxing60/vendor-good, so load_good() below loads them *every boot*. GROUPS staying at
+# "crypto usbnet" is therefore belt-and-braces, not a statement that the misc set is off: what
+# actually gates those 13 is vendor-good, and the TRYING/OK pair around good-set is what drops one
+# again if it ever starts killing the kernel.
+#
+#!/bin/sh
+# Bring up the SC2355 (Marlin3) Wi-Fi on the ZTE 7552N (5.4 vendor kernel).
+# The WCN chip enumerates on SDIO (mmc2) here, not PCIe; pcie-sprd/pcie-sprd-misc are still
+# loaded because wcn_bsp links against their symbols (modinfo depends). All four are modules,
+# flat in /lib/modules/<release> -- no modules.dep on this rootfs, so insmod by path.
+set -e
+command -v depmod >/dev/null && depmod -a
+[ -e /sys/class/net/wlan0 ] && exit 0   # the WCN drivers cannot be reloaded; never load them twice
+K=${CHANGXING60_KMOD:-/lib/modules/$(uname -r)}
+# load order follows the module dependency chain: pcie-sprd-misc -> pcie-sprd -> wcn_bsp -> sprd_wlan_combo
+for m in pcie-sprd-misc pcie-sprd wcn_bsp sprd_wlan_combo; do
+    n=$(echo "$m" | tr - _)
+    grep -q "^$n " /proc/modules && continue
+    modprobe "$m" 2>/dev/null && continue
+    f=$K/$m.ko
+    [ -f "$f" ] || f=$K/extra/$m.ko
+    if [ -f "$f" ]; then
+        insmod "$f" || echo "wifi-start: insmod $m failed" >&2
+    else
+        echo "wifi-start: missing $m.ko" >&2
+    fi
+done
+for n in $(seq 1 30); do [ -e /sys/class/net/wlan0 ] && break; sleep 1; done
+# wcn_bsp turns the Marlin3 firmware (ARM) log on at boot; every firmware log packet is printed to the kernel log
+[ -w /proc/mdbg/at_cmd ] && printf 'at+armlog=0\r' > /proc/mdbg/at_cmd 2>/dev/null || true
+# See https://openwrt.org/docs/guide-user/base-system/dropbear
+config dropbear main
+        option enable '1'
+        option PasswordAuth 'on'
+        option RootPasswordAuth 'on'
+        option Port         '22'
+#       option BannerFile   '/etc/banner'
+#       option LocalPortForward 'off'
+#       option RemotePortForward 'off'

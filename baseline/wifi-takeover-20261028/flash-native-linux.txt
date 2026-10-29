@@ -1,0 +1,5 @@
+boot_b=/dev/sdc40 misc=/dev/sdc3
+image: f24fb019157bb0e5eecf63f58fdfdd4bb8369eb434613d831a61cac858ca55b4
+target: f24fb019157bb0e5eecf63f58fdfdd4bb8369eb434613d831a61cac858ca55b4
+bcb: 77ce02a0bbf8e659fc8e75f33da4d2ad
+armed; reboot to boot it

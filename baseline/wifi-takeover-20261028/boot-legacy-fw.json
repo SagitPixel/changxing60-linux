@@ -1,0 +1,13 @@
+{
+  "image": "boot-legacy-fw.img",
+  "base": "boot-tx-copy.img",
+  "sha256": "9e42b3f87bcffc32eee1352b343f5f2f66f0692fc1760c1079c502981caffc1f",
+  "sha256_head56m": "be193c18f1d37ed150255c8309b3fcf04ee983cc849a36bf7c352c64361d9d61",
+  "kernel_sha256": "197075a80199c7b9554a42561bd6edaf784f0c35222b294aa5a3d6e3b307033a",
+  "ramdisk_size": 13207605,
+  "replaced": {
+    "init": "c22e44a54fca037086b6abc7c162411034417cef8c3ec0a688466c37671b7a0b",
+    "linux-modules/wcn_bsp.ko": "82120b2271d920eb2444de16c50a54a7b4297902e9c908d70f47e2ec4deb5a68",
+    "linux-modules/sprd_wlan_combo.ko": "aa2a211c6bcb1f92e6b672fc85026f912ee98867ff877cee04c3b48410e68120"
+  }
+}

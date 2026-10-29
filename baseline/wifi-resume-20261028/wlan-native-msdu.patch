@@ -1,0 +1,210 @@
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.c b/drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.c
+index 97874c583..1a1268888 100755
+--- a/drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.c
++++ b/drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.c
+@@ -4,6 +4,7 @@
+ */
+ 
+ #include <linux/rtc.h>
++#include <linux/moduleparam.h>
+ #include <linux/timekeeping.h>
+ #include "acs.h"
+ #include "cfg80211.h"
+@@ -22,6 +23,11 @@
+ #include "pamwifi/pamwifi.h"
+ #endif
+ 
++bool sprd_legacy_fw_compat;
++module_param_named(legacy_fw_compat, sprd_legacy_fw_compat, bool, 0644);
++MODULE_PARM_DESC(legacy_fw_compat,
++	"Stock SC2355 firmware: AP CCMP key selection and global power-backoff context");
++
+ static char type_name[16][32] = {
+ 	"ASSO REQ",
+ 	"ASSO RESP",
+@@ -572,6 +578,12 @@ int sprd_cfg80211_set_default_key(struct wiphy *wiphy, struct net_device *ndev,
+ 		return -EINVAL;
+ 	}
+ 
++	netdev_info(ndev, "key-default idx=%u crypto=%u uc=%u mc=%u skip=%u\n",
++		    key_index, vif->prwise_crypto, unicast, multicast,
++		    sprd_legacy_fw_compat);
++	if (sprd_legacy_fw_compat && vif->wdev.iftype == NL80211_IFTYPE_AP &&
++	    vif->prwise_crypto == SPRD_CIPHER_CCMP)
++		return 0;
+ 	return sprd_set_def_key(vif->priv, vif, key_index);
+ }
+ 
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/common/common.h b/drivers/unisoc_platform/sprd_wlan_combo/common/common.h
+index b96cd59db..a859e5f3a 100755
+--- a/drivers/unisoc_platform/sprd_wlan_combo/common/common.h
++++ b/drivers/unisoc_platform/sprd_wlan_combo/common/common.h
+@@ -438,3 +438,6 @@ static inline bool sprd_is_sta_ap_coexist(struct sprd_priv *priv)
+ 		return false;
+ }
+ #endif
++
++/* Stock SC2355 firmware compatibility, selected by the board init. */
++extern bool sprd_legacy_fw_compat;
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.c b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.c
+index 91ee0c895..abea52ed7 100755
+--- a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.c
++++ b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.c
+@@ -2385,14 +2385,20 @@ int sc2355_set_power_backoff(struct sprd_priv *priv, struct sprd_vif *vif,
+ 	struct sprd_msg *msg;
+ 	struct cmd_set_power_backoff *p;
+ 
+-	msg = get_cmdbuf(priv, vif, sizeof(*p), CMD_POWER_SAVE);
++	/* Stock SC2355 treats power backoff as a chip-wide command, as
++	 * in the vendor 5.4 driver. Keep the table and limits unchanged. */
++	msg = get_cmdbuf(priv, sprd_legacy_fw_compat ? NULL : vif,
++			 sizeof(*p), CMD_POWER_SAVE);
+ 	if (!msg)
+ 		return -ENOMEM;
+ 
+ 	p = (struct cmd_set_power_backoff *)msg->data;
+ 	memset(p, 0, sizeof(*p));
+ 	p->power_save_type = SPRD_SET_POWER_BACKOFF;
+-	if (data)
++	/* The downstream table contains tuning for other OEM projects.
++	 * Stock compatibility uses the existing all-zero reset command:
++	 * retain this board's firmware/INI defaults and cfg80211 regdomain. */
++	if (data && !sprd_legacy_fw_compat)
+ 		memcpy(&p->backoff, data, sizeof(*data));
+ 	wl_info("power_save [SET_POWER_BACKOFF]\n");
+ 	return send_cmd_recv_rsp(priv, msg, NULL, NULL);
+@@ -3547,7 +3553,14 @@ int sc2355_hif_fill_msdu_dscr(struct sprd_vif *vif,
+ 	dscr->pkt_len = cpu_to_le16(skb->len - DSCR_LEN);
+ 	dscr->offset = DSCR_LEN;
+ /*TODO*/
+-	dscr->tx_ctrl.sw_rate = (is_special_data == 1 ? 1 : 0);
++	/* The 7552N stock SDIO BSP leaves this bit clear for ARP/TDLS.
++	 * Its 2024 SC2355 firmware asserts in cmd_tx.c when the newer
++	 * special-packet software-rate flag is set. Keep the alternative
++	 * behind the existing board compatibility switch for comparison.
++	 */
++	dscr->tx_ctrl.sw_rate =
++		(sprd_legacy_fw_compat && hif->hw_type == SPRD_HW_SC2355_SDIO) ?
++		0 : is_special_data;
+ 	//dscr->tx_ctrl.wds = 0; /*TBD*/
+ 	//dscr->tx_ctrl.swq_flag = 0; /*TBD*/
+ 	//dscr->tx_ctrl.rsvd = 0; /*TBD*/
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
+index feeba3d6d..b21dedd91 100644
+--- a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
++++ b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/sae.h
+@@ -1,57 +1,57 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/* SC2355 firmware SAE; shared by SDIO and PCIe. Included by cmdevt.c. */
+-static int sc2355_prepare_sae(struct sprd_priv *priv, struct sprd_vif *vif,
+-			    struct cfg80211_ap_settings *settings)
+-{
+-	struct sc2355_sae_password {
+-		__le16 request_type;
+-		__le16 entry_type, entry_len;
+-		__le16 password_type, password_len;
+-		u8 data[];
+-	} __packed;
+-	const struct cfg80211_crypto_settings *crypto = &settings->crypto;
+-	struct sc2355_sae_password *p;
+-	struct sprd_msg *msg;
+-	bool sae = false;
+-	int i;
+-
+-	for (i = 0; i < crypto->n_akm_suites; i++) {
+-		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_FT_OVER_SAE)
+-			return -EOPNOTSUPP;
+-		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_SAE)
+-			sae = true;
+-	}
+-	if (!sae)
+-		return 0; /* Preserve the existing WPA2/EAP/open path. */
+-	if (!(priv->extend_feature & SPRD_EXTEND_SOATAP_WPA3) ||
+-	    !(priv->fw_capa & SPRD_CAPA_AP_SME) ||
+-	    !(priv->fw_std & SPRD_STD_11W))
+-		return -EOPNOTSUPP;
+-	/* The recovered BSP interface supports hunting-and-pecking. Do not
+-	 * advertise H2E while feeding the firmware a legacy password entry.
+-	 */
+-	if (crypto->sae_pwe == NL80211_SAE_PWE_HASH_TO_ELEMENT ||
+-	    crypto->sae_pwe == NL80211_SAE_PWE_BOTH)
+-		return -EOPNOTSUPP;
+-	if (!crypto->sae_pwd || !crypto->sae_pwd_len ||
+-	    crypto->sae_pwd_len > 63)
+-		return -EINVAL;
+-
+-	/* Same wire format as Android's vendor command 43:
+-	 * request 2, ENTRY(0), PWD(7), END(255), 16-bit LE TLV headers.
+-	 * No terminator is included in the password length. Four-way/EAPOL
+-	 * remains in hostapd, using the firmware's 40:45:da:04 PMK indication.
+-	 */
+-	msg = get_cmdbuf(priv, vif, sizeof(*p) + crypto->sae_pwd_len + 4,
+-			 CMD_SET_SAE_PARAM);
+-	if (!msg)
+-		return -ENOMEM;
+-	p = (struct sc2355_sae_password *)msg->data;
+-	memset(p, 0, sizeof(*p) + crypto->sae_pwd_len + 4);
+-	p->request_type = cpu_to_le16(SPRD_SAE_PASSWORD_ENTRY);
+-	p->password_type = cpu_to_le16(7);
+-	p->password_len = cpu_to_le16(crypto->sae_pwd_len);
+-	memcpy(p->data, crypto->sae_pwd, crypto->sae_pwd_len);
+-	p->data[crypto->sae_pwd_len] = 0xff;
+-	return send_cmd_recv_rsp(priv, msg, NULL, NULL);
+-}
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* SC2355 firmware SAE; shared by SDIO and PCIe. Included by cmdevt.c. */
++static int sc2355_prepare_sae(struct sprd_priv *priv, struct sprd_vif *vif,
++			    struct cfg80211_ap_settings *settings)
++{
++	struct sc2355_sae_password {
++		__le16 request_type;
++		__le16 entry_type, entry_len;
++		__le16 password_type, password_len;
++		u8 data[];
++	} __packed;
++	const struct cfg80211_crypto_settings *crypto = &settings->crypto;
++	struct sc2355_sae_password *p;
++	struct sprd_msg *msg;
++	bool sae = false;
++	int i;
++
++	for (i = 0; i < crypto->n_akm_suites; i++) {
++		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_FT_OVER_SAE)
++			return -EOPNOTSUPP;
++		if (crypto->akm_suites[i] == WLAN_AKM_SUITE_SAE)
++			sae = true;
++	}
++	if (!sae)
++		return 0; /* Preserve the existing WPA2/EAP/open path. */
++	if (!(priv->extend_feature & SPRD_EXTEND_SOATAP_WPA3) ||
++	    !(priv->fw_capa & SPRD_CAPA_AP_SME) ||
++	    !(priv->fw_std & SPRD_STD_11W))
++		return -EOPNOTSUPP;
++	/* The recovered BSP interface supports hunting-and-pecking. Do not
++	 * advertise H2E while feeding the firmware a legacy password entry.
++	 */
++	if (crypto->sae_pwe == NL80211_SAE_PWE_HASH_TO_ELEMENT ||
++	    crypto->sae_pwe == NL80211_SAE_PWE_BOTH)
++		return -EOPNOTSUPP;
++	if (!crypto->sae_pwd || !crypto->sae_pwd_len ||
++	    crypto->sae_pwd_len > 63)
++		return -EINVAL;
++
++	/* Same wire format as Android's vendor command 43:
++	 * request 2, ENTRY(0), PWD(7), END(255), 16-bit LE TLV headers.
++	 * No terminator is included in the password length. Four-way/EAPOL
++	 * remains in hostapd, using the firmware's 40:45:da:04 PMK indication.
++	 */
++	msg = get_cmdbuf(priv, vif, sizeof(*p) + crypto->sae_pwd_len + 4,
++			 CMD_SET_SAE_PARAM);
++	if (!msg)
++		return -ENOMEM;
++	p = (struct sc2355_sae_password *)msg->data;
++	memset(p, 0, sizeof(*p) + crypto->sae_pwd_len + 4);
++	p->request_type = cpu_to_le16(SPRD_SAE_PASSWORD_ENTRY);
++	p->password_type = cpu_to_le16(7);
++	p->password_len = cpu_to_le16(crypto->sae_pwd_len);
++	memcpy(p->data, crypto->sae_pwd, crypto->sae_pwd_len);
++	p->data[crypto->sae_pwd_len] = 0xff;
++	return send_cmd_recv_rsp(priv, msg, NULL, NULL);
++}

@@ -1,0 +1,25 @@
+stty -echo
+root@changxing60:~# ( ls -ld /etc/dropbear /root/.ssh; ls -l /etc/dropbear/autho
+rized_keys /etc/dropbear/codex-7552n.pub; awk '{print NR, length(\), \, \}' /etc
+/dropbear/authorized_keys; logread | grep dropbear | tail -10; cat /etc/inittab
+> ); _codex_rc=$?; printf '\nCODEX_DONE_58cdaa523c714f769661f352adfdd4fd:%s\n' "
+$_codex_rc"
+ls: /root/.ssh: No such file or directory
+drwx------    2 root     root          4096 Oct 27 19:12 /etc/dropbear
+-rw-------    1 root     root           211 Oct 27 19:12 /etc/dropbear/authorized_keys
+-rw-r--r--    1 root     root           102 Oct 27 19:12 /etc/dropbear/codex-7552n.pub
+awk: cmd. line:1: Unexpected token
+Tue Oct 27 19:15:18 2026 authpriv.info dropbear[1943]: Not backgrounding
+Tue Oct 27 19:16:10 2026 authpriv.info dropbear[4737]: Child connection from 192.168.77.199:6463
+Tue Oct 27 19:16:10 2026 authpriv.info dropbear[4737]: Exit before auth from <192.168.77.199:6463>: (user 'root', 0 fails): Error reading: Connection reset by peer
+::sysinit:/etc/init.d/rcS S boot
+::shutdown:/etc/init.d/rcS K shutdown
+ttyAMA0::askfirst:/usr/libexec/login.sh
+ttyS0::askfirst:/usr/libexec/login.sh
+tty1::askfirst:/usr/libexec/login.sh
+hvc0::askfirst:/usr/libexec/login.sh
+ttymxc0::askfirst:/usr/libexec/login.sh
+ttymxc1::askfirst:/usr/libexec/login.sh
+ttymxc2::askfirst:/usr/libexec/login.sh
+ttySC0::askfirst:/usr/libexec/login.sh
+ttyGS0::askfirst:/usr/libexec/login.sh

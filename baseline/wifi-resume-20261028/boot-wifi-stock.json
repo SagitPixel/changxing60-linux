@@ -1,0 +1,12 @@
+{
+  "image": "boot-wifi-stock.img",
+  "base": "boot-wifi-keep.img",
+  "sha256": "5d17b5a981ee0670c78602d4920ebb50a7eabaf6941395212a8ae9c68f58fce5",
+  "sha256_head56m": "3cdf9d9338bc2bff48aa6dfc1eeb0b477ba63835fb669495a9be00cc260b60a2",
+  "kernel_sha256": "197075a80199c7b9554a42561bd6edaf784f0c35222b294aa5a3d6e3b307033a",
+  "ramdisk_size": 13211795,
+  "replaced": {
+    "linux-modules/wcn_bsp.ko": "913c29beb4301cb7017f0cf18780b222bf10faeb867a50f31d6175d04da7fcf7",
+    "linux-modules/sprd_wlan_combo.ko": "38af8b55178c7fb19363e6c4abdc1c554937b8ec56fadd1f24c47641dae73864"
+  }
+}

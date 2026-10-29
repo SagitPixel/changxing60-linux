@@ -1,0 +1,20 @@
+root@changxing60:~# >  20:14:45 up 0 min,  load average: 0.33, 0.09, 0.03
+/dev/loop0 / ext4 rw,noatime 0 0
+proc /proc proc rw,nosuid,nodev,noexec,relatime 0 0
+cgroup2 /sys/fs/cgroup cgroup2 rw,nosuid,nodev,noexec,relatime,nsdelegate 0 0
+tmpfs /tmp tmpfs rw,nosuid,nodev,noatime 0 0
+tmpfs /dev tmpfs rw,nosuid,noexec,noatime,size=512k,mode=755 0 0
+devpts /dev/pts devpts rw,nosuid,noexec,noatime,mode=600,ptmxmode=000 0 0
+bpffs /sys/fs/bpf bpf rw,nosuid,nodev,noexec,noatime,mode=700 0 0
+none /sys/fs/pstore pstore rw,nosuid,nodev,noexec,noatime 0 0
+[   28.019852] sprd-vpu-pd soc:mm:power-domain@2: sync_state() pending due to 32100000.enc-core1
+[   28.019857] sprd-vpu-pd soc:mm:power-domain@3: sync_state() pending due to 32200000.video-codec
+[   28.019864] ums9620-ipa-sys-pd soc:aon:sipa-sys: sync_state() pending due to 25210000.pamu3
+[   28.019868] ums9620-ipa-sys-pd soc:aon:sipa-sys: sync_state() pending due to 31880000.dpu1
+[   28.019873] ums9620-ipa-sys-pd soc:aon:sipa-sys: sync_state() pending due to soc:ipa-apb:sipa-dele
+[   28.019878] ums9620-ipa-sys-pd soc:aon:sipa-sys: sync_state() pending due to 25220000.sipa
+[   28.019885] sprd-agdsp-pd soc:agcp:agdsp-access: sync_state() pending due to 56360000.audio-codec
+[   28.019890] sprd-agdsp-pd soc:agcp:agdsp-access: sync_state() pending due to soc:agcp:voice_trigger_irq
+[   28.019922] sprd-vpu-pd soc:mm:power-domain@0: sync_state() pending due to 30130000.sprd-gsp0
+[   28.019926] sprd-vpu-pd soc:mm:power-domain@0: sync_state() pending due to sprd-gsp1@31200000
+cat: can't open '/run/init.log': No such file or directory

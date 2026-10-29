@@ -1,0 +1,95 @@
+stty -echo
+/ # > > > > > UFS boot log
+[    2.326413] platform 22000000.ufs: really_probe: drv=ufshcd-sprd link_ret=0 defer_all=0
+[    2.364712] ufshcd-sprd 22000000.ufs: ufshcd_populate_vreg: Unable to find vdd-hba-supply regulator, assuming enabled
+[    2.375212] ufshcd-sprd 22000000.ufs: ufshcd_populate_vreg: unable to find vcc-max-microamp
+[    2.383505] ufshcd-sprd 22000000.ufs: ufshcd_populate_vreg: Unable to find vccq-supply regulator, assuming enabled
+[    2.393800] ufshcd-sprd 22000000.ufs: ufshcd_populate_vreg: Unable to find vccq2-supply regulator, assuming enabled
+[    2.393889] ufs-sprd: sprd,ufs-anlg-syscon resolved via vendor property phy_sram_ext_ld_done
+[    2.420374] ufshcd-sprd 22000000.ufs: failed to get ufs syscon:sprd,aon-apb-syscon, skipping its writes
+[    2.429711] ufshcd-sprd 22000000.ufs: skip syscon sprd,aon-apb-syscon (-19)
+[    2.429755] ufshcd-sprd 22000000.ufs: ufs clocks: hclk=0 src=0 set_parent=0
+[    2.451357] ufshcd-sprd 22000000.ufs: ufs gate ufs_eb: enable=0
+[    2.457235] ufshcd-sprd 22000000.ufs: ufs gate ufs_cfg_eb: enable=0
+[    2.463465] ufshcd-sprd 22000000.ufs: ufs gate ufs_hclk: enable=0
+[    2.469526] ufshcd-sprd 22000000.ufs: ufs aon aon_apb_ufs_clk_en: reg=0xc14 mask=0xc0 val=0xc0
+[    2.478091] ufshcd-sprd 22000000.ufs: ufs aon ufsdev_refclk_en: reg=0xce8 mask=0x2 val=0x6
+[    2.486311] ufshcd-sprd 22000000.ufs: ufs aon usb31pllv_ref2mphy_en: reg=0xcfc mask=0x1 val=0xf
+[    2.495815] ufshcd-sprd 22000000.ufs: ufs device reset!
+[    2.502060] ufs-anlg: write reg=0xc bits=0x2 val=0x2
+[    2.506919] ufs-anlg: write reg=0xc done
+[    2.519894] ufs-anlg: write reg=0xc bits=0x4 val=0x4
+[    2.531232] ufs-anlg: write reg=0xc done
+[    2.545425] ufshcd-sprd 22000000.ufs: ufs host reset!
+[    2.556831] ufshcd-sprd 22000000.ufs: ufs host reset!
+[    2.658939] ufs-anlg: read reg=0xc ...
+[    2.662587] ufs-anlg: read reg=0xc = 0x7
+[    2.909059] ufs-anlg: write reg=0xc bits=0x2 val=0x0
+[    2.913931] ufs-anlg: write reg=0xc done
+[    3.065575] ufshcd-sprd 22000000.ufs: Undefined ref clk gating wait time, use default 255us
+[    3.111860] scsi host0: ufshcd
+[    3.289234] sd 0:0:0:0: [sdc] 31240192 4096-byte logical blocks: (128 GB/119 GiB)
+[    3.304622] sd 0:0:0:0: [sdc] Write Protect is off
+[    3.318974] sd 0:0:0:0: [sdc] Mode Sense: 00 32 00 10
+[    3.331413] sd 0:0:0:0: [sdc] Write cache: enabled, read cache: enabled, supports DPO and FUA
+[    3.346062] sd 0:0:0:0: [sdc] Preferred minimum I/O size 524288 bytes
+[    3.359994] sd 0:0:0:0: [sdc] Optimal transfer size 524288 bytes
+[    3.503176] sd 0:0:0:1: [sda] Attached SCSI disk
+[    3.503212] sd 0:0:0:2: [sdb] Attached SCSI disk
+[    3.582933] sd 0:0:0:0: [sdc] Attached SCSI disk
+[   12.131824] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   13.075177] CHANGXING60-LINUX: dmesg: [   12.131824] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   14.615231] CHANGXING60-LINUX: stage=rootfs-unavailable-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   15.488674] CHANGXING60-LINUX: dmesg: [   13.075177] CHANGXING60-LINUX: dmesg: [   12.131824] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+[   15.763283] CHANGXING60-LINUX: dmesg: [   14.615231] CHANGXING60-LINUX: stage=rootfs-unavailable-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+
+Root disk identification
+boot_b=sdc40 disk=sdc
+
+Root filesystem magic at recorded offset
+ 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+*
+ a0 a8 2e 00 00 a0 ba 00 c2 dd 01 00 18 a3 b5 00
+ 93 99 2e 00 00 00 00 00 02 00 00 00 02 00 00 00
+ 00 80 00 00 00 80 00 00 f0 1f 00 00 05 b8 e0 6a
+ 05 b8 e0 6a 29 00 ff ff 53 ef 01 00 01 00 00 00
+ 9c bf dc 6a 00 00 00 00 00 00 00 00 01 00 00 00
+ 00 00 00 00 0b 00 00 00 00 01 00 00 2c 00 00 00
+
+Loop device read-only state
+1
+
+Superblock magic
+ 53 ef
+/dev/loop0 on /mnt/codex-ufs-root type ext4 (ro,relatime,norecovery)
+Filesystem                Size      Used Available Use% Mounted on
+/dev/loop0               45.7G    271.2M     44.9G   1% /mnt/codex-ufs-root
+total 28
+drwxr-xr-x    5 0        0             4096 Oct 24 14:24 .
+drwxr-xr-x    3 0        0               60 Oct 27 16:09 ..
+drwxr-xr-x    2 0        0             4096 Oct 24 14:24 .changxing60
+drwx------    2 0        0            16384 Oct 24 14:24 lost+found
+drwxr-xr-x   18 0        0             4096 Oct 13 19:58 openwrt
+=== ubuntu ===
+=== openwrt ===
+NAME="OpenWrt"
+VERSION="25.12.5"
+ID="openwrt"
+ID_LIKE="lede openwrt"
+PRETTY_NAME="OpenWrt 25.12.5"
+VERSION_ID="25.12.5"
+HOME_URL="https://openwrt.org/"
+BUG_URL="https://bugs.openwrt.org/"
+SUPPORT_URL="https://forum.openwrt.org/"
+FIRMWARE_URL="https://downloads.openwrt.org/"
+BUILD_ID="r33051-f5dae5ece4"
+OPENWRT_BOARD="armsr/armv8"
+OPENWRT_ARCH="aarch64_generic"
+OPENWRT_TAINTS=""
+OPENWRT_DEVICE_MANUFACTURER="OpenWrt"
+OPENWRT_DEVICE_MANUFACTURER_URL="https://openwrt.org/"
+OPENWRT_DEVICE_PRODUCT="Generic"
+OPENWRT_DEVICE_REVISION="v0"
+OPENWRT_RELEASE="OpenWrt 25.12.5 r33051-f5dae5ece4"
+OPENWRT_BUILD_DATE="1782737960"
+-rwxr-xr-x    1 0        0            16649 Jun 29 12:59 /mnt/codex-ufs-root/openwrt/sbin/init

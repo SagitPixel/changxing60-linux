@@ -1,0 +1,4 @@
+boot_b=/dev/sda40 misc=/dev/sda3
+image: 859c4ba9e22ad67f3c587fa1683ab965961b34cbd36cd5a701319134370f8903
+target: e2f51e0b8681ab79ad516b086f5c61bc6bb0c9e23019d6aa8af6979a9a9f829b
+boot_b readback mismatch; trial not armed

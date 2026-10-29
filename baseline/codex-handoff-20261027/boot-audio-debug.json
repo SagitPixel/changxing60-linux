@@ -1,0 +1,11 @@
+{
+  "image": "boot-audio-debug.img",
+  "base": "boot-b-before.img",
+  "sha256": "dc4cb6d3fd706fc55668301b61aabb4ee22766dd202a9bc44408c34a754c1c1f",
+  "sha256_head56m": "a33f03dc09d10b5d9dea28a08abe3eb675b3a76af543df82f33389fd458a3df4",
+  "kernel_sha256": "13a531f36e9e1f159e38af947c27eafaacb6e81e0088d69a71cba3c6cfa73aa1",
+  "ramdisk_size": 24100692,
+  "replaced": {
+    "init": "be6ce31d110fc42137050b62843e7c5d40de88119e7f69bb60c4cc20f1019333"
+  }
+}

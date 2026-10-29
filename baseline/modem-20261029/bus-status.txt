@@ -1,0 +1,7 @@
+root@changxing60:~# > spipe 12288 0 - Live 0xffffffc079e7a000
+sprd_modem_loader 24576 0 - Live 0xffffffc079e76000
+sipc_core 151552 6 spool,spipe,sprd_modem_loader,agdsp_pd,sprd_wlan_combo,wcn_bsp, Live 0xffffffc079a60000
+sprd_power_manager 20480 2 sprd_modem_loader,sipc_core, Live 0xffffffc079a2b000
+20289 root      1136 S    /usr/sbin/dropbear -F -P /var/run/dropbear.main.pid -p 22 -K 300 -T 3
+23673 root      1180 S    /usr/sbin/dropbear -F -P /var/run/dropbear.main.pid -p 22 -K 300 -T 3 -2 9
+23840 root      1336 S    grep dropbear

@@ -1,0 +1,102 @@
+stty -echo
+root@changxing60:~# > Linux changxing60 6.18.54-7552n-probe1+ #63 SMP Wed Oct 28 06:53:46 UTC 2026 aarch64 GNU/Linux
+[    6.645169] sdio cmd52: fn=0 addr=0x6 wr=1 ret=-110 resp0=0x00000000
+[    6.645170] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[    6.648335] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[    6.651225] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[    6.652864] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[    6.654504] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[    6.656133] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[    6.656148] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[    9.427919] WCN SDIO: wait scan card time out
+[   12.600755] WCN BASEwait bus rescan card time out
+[   12.784318] sprd-wlan: sprd_iface_set_power Power on WCN (0 time)
+[   12.784324] WCN BASEmarlin power state:0, subsys: [MARLIN_WIFI] power 1
+[   12.795049] WCN BASEthe first power on start
+[   12.819715] WCN BASEmarlin_digital_power_enable D1v2 1
+[   12.918275] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   12.944847] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   12.957373] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   12.979686] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   12.989860] sdio cmd52: fn=0 addr=0x6 wr=0 ret=-110 resp0=0x00000000
+[   13.001606] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   13.013135] sdio cmd52: fn=0 addr=0x6 wr=1 ret=-110 resp0=0x00000000
+[   13.026368] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.042738] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.060845] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.071535] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.083395] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.098187] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.127359] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   13.141982] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   13.154507] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.253004] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   13.267998] sdio cmd52: fn=0 addr=0x6 wr=0 ret=-110 resp0=0x00000000
+[   13.288096] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   13.300881] sdio cmd52: fn=0 addr=0x6 wr=1 ret=-110 resp0=0x00000000
+[   13.314107] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.316857] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.329159] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.342533] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.357767] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.371610] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.391040] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   13.403241] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   13.432998] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.446344] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   13.458471] sdio cmd52: fn=0 addr=0x6 wr=0 ret=-110 resp0=0x00000000
+[   13.459295] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   13.472490] sdio cmd52: fn=0 addr=0x6 wr=1 ret=-110 resp0=0x00000000
+[   13.486752] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.489605] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.502682] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.515718] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.531195] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.543315] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   13.570348] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   13.582723] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   13.595270] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.615548] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   13.624883] sdio cmd52: fn=0 addr=0x6 wr=0 ret=-110 resp0=0x00000000
+[   13.640685] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   13.649887] sdio cmd52: fn=0 addr=0x6 wr=1 ret=-110 resp0=0x00000000
+[   13.663463] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.677446] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   13.690319] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.214188] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.262475] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.280557] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.280764] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   14.509434] CHANGXING60-LINUX: dmesg: [   13.253004] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   14.509910] CHANGXING60-LINUX: dmesg: [   13.288096] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   14.510647] CHANGXING60-LINUX: dmesg: [   13.314107] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   14.511114] CHANGXING60-LINUX: dmesg: [   13.316857] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   14.511550] CHANGXING60-LINUX: dmesg: [   13.329159] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.511998] CHANGXING60-LINUX: dmesg: [   13.342533] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.512428] CHANGXING60-LINUX: dmesg: [   13.357767] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.512884] CHANGXING60-LINUX: dmesg: [   13.371610] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.519909] CHANGXING60-LINUX: dmesg: [   13.391040] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   14.521061] CHANGXING60-LINUX: dmesg: [   13.403241] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   14.522356] CHANGXING60-LINUX: dmesg: [   13.432998] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   14.522778] CHANGXING60-LINUX: dmesg: [   13.446344] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   14.523220] CHANGXING60-LINUX: dmesg: [   13.459295] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   14.523652] CHANGXING60-LINUX: dmesg: [   13.486752] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   14.524084] CHANGXING60-LINUX: dmesg: [   13.489605] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   14.524511] CHANGXING60-LINUX: dmesg: [   13.502682] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.524949] CHANGXING60-LINUX: dmesg: [   13.515718] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.525821] CHANGXING60-LINUX: dmesg: [   13.531195] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.528384] CHANGXING60-LINUX: dmesg: [   13.543315] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.529234] CHANGXING60-LINUX: dmesg: [   13.570348] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   14.530075] CHANGXING60-LINUX: dmesg: [   13.582723] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   14.530510] CHANGXING60-LINUX: dmesg: [   13.595270] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   14.530956] CHANGXING60-LINUX: dmesg: [   13.615548] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   14.531402] CHANGXING60-LINUX: dmesg: [   13.640685] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   14.531814] CHANGXING60-LINUX: dmesg: [   13.663463] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   14.532251] CHANGXING60-LINUX: dmesg: [   13.677446] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   14.532673] CHANGXING60-LINUX: dmesg: [   13.690319] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.533113] CHANGXING60-LINUX: dmesg: [   14.214188] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.533553] CHANGXING60-LINUX: dmesg: [   14.262475] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.534842] CHANGXING60-LINUX: dmesg: [   14.280557] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   14.535682] CHANGXING60-LINUX: dmesg: [   14.280764] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   15.690939] WCN SDIO: wait scan card time out
+[   18.745853] WCN BASEwait bus rescan card time out

@@ -1,0 +1,16 @@
+PING 192.168.8.123 (192.168.8.123): 56 data bytes
+
+--- 192.168.8.123 ping statistics ---
+1 packets transmitted, 0 packets received, 100% packet loss
+#
+# entries-in-buffer/entries-written: 1/1   #P:8
+#
+#                                _-----=> irqs-off/BH-disabled
+#                               / _----=> need-resched
+#                              | / _---=> hardirq/softirq
+#                              || / _--=> preempt-depth
+#                              ||| / _-=> migrate-disable
+#                              |||| /     delay
+#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+#              | |         |   |||||     |         |
+   kworker/u41:1-143     [004] d....    99.369976: codex_wifi_msdu: (sc2355_send_cmd_recv_rsp+0x0/0x7a0 [sprd_wlan_combo]) id=72 len=70 flag=0x33323130 common=0x20 off=11 ctrl=0x0 plen=42 tid=0x1 lut=4

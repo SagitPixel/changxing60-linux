@@ -1,0 +1,4 @@
+stty -echo
+root@changxing60:~# > 6.18.54-7552n-probe1+
+ 06:20:31 up  9:54,  load average: 0.01, 0.00, 0.00
+/dev/sda3

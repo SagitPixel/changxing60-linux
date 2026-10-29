@@ -1,0 +1,15 @@
+PING 192.168.8.146 (192.168.8.146): 56 data bytes
+64 bytes from 192.168.8.146: seq=0 ttl=64 time=88.156 ms
+64 bytes from 192.168.8.146: seq=1 ttl=64 time=126.366 ms
+64 bytes from 192.168.8.146: seq=2 ttl=64 time=5.397 ms
+64 bytes from 192.168.8.146: seq=3 ttl=64 time=116.218 ms
+64 bytes from 192.168.8.146: seq=4 ttl=64 time=66.235 ms
+
+--- 192.168.8.146 ping statistics ---
+5 packets transmitted, 5 packets received, 0% packet loss
+round-trip min/avg/max = 5.397/80.474/126.366 ms
+Station 9e:aa:7e:cc:e4:ae (on wlan0)
+	current time:	1793208265607 ms
+
+[   60.494403] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[  100.394508] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0

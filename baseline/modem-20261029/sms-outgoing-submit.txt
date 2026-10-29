@@ -1,0 +1,2 @@
+sent (reference 1)
+sms_submit_rc=0

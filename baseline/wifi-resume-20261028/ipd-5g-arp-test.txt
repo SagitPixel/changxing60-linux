@@ -1,0 +1,15 @@
+phy#0
+	Interface wlan0
+		ifindex 9
+		wdev 0x3
+		addr 40:45:da:6b:30:37
+		ssid CHANGXING60-CEAB
+		type AP
+		channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz
+Thu Oct 29 06:21:18 2026 daemon.notice hostapd: wlan0: AP-DISABLED
+Thu Oct 29 06:21:19 2026 daemon.notice hostapd: wlan0: AP-ENABLED
+PING 192.168.8.123 (192.168.8.123): 56 data bytes
+
+--- 192.168.8.123 ping statistics ---
+3 packets transmitted, 0 packets received, 100% packet loss
+[35732.728565] sprd-wlan: sc2355_get_nvm_table: chip=2 IPD=0 file=wifi_board_config.ini

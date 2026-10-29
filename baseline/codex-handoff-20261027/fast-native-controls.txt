@@ -1,0 +1,347 @@
+stty -echo
+/ # / # / # > Simple mixer control 'ag_iis0_ext_sel_v2',0
+  Capabilities: enum
+  Items: 'pad_top' 'aud_4ad_iis0_da0' 'pdm_top_iis0'
+  Item0: 'aud_4ad_iis0_da0'
+Simple mixer control 'agdsp_access_en',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'VBC_IIS_TX0_LRMOD_SEL',0
+  Capabilities: enum
+  Items: 'LEFT_HIGH' 'RIGHT_HIGH'
+  Item0: 'RIGHT_HIGH'
+Simple mixer control 'VBC_IIS_TX1_WD_SEL',0
+  Capabilities: enum
+  Items: 'WD_16BIT' 'WD_24BIT'
+  Item0: 'WD_24BIT'
+Simple mixer control 'VBC_MUX_DAC1_IIS_PORT_SEL',0
+  Capabilities: enum
+  Items: 'VBC_IIS_PORT_IIS0' 'VBC_IIS_PORT_IIS1' 'VBC_IIS_PORT_IIS2' 'VBC_IIS_PORT_IIS3' 'VBC_IIS_PORT_MST_IIS0'
+  Item0: 'VBC_IIS_PORT_IIS0'
+Simple mixer control 'VBC_MUX_IIS3_PORT_DO_SEL',0
+  Capabilities: enum
+  Items: 'IIS_DO_VAL_DAC0' 'IIS_DO_VAL_DAC1' 'IIS_DO_VAL_DAC2'
+  Item0: 'IIS_DO_VAL_DAC2'
+Simple mixer control 'VBC_IIS_MST_WIDTH_SET',0
+  Capabilities: enum
+  Items: 'MST_WD_24BIT' 'MST_WD_16BIT'
+  Item0: 'MST_WD_16BIT'
+numid=1,iface=MIXER,name='VBC DAC0 DSP MDG Set'
+  ; type=INTEGER,access=rw---R--,values=2,min=0,max=8191,step=0
+  : values=0,1
+  | dBscale-min=-94.50dB,step=1.50dB,mute=1
+numid=2,iface=MIXER,name='VBC DAC1 DSP MDG Set'
+  ; type=INTEGER,access=rw---R--,values=2,min=0,max=8191,step=0
+  : values=0,4
+  | dBscale-min=-94.50dB,step=1.50dB,mute=1
+numid=3,iface=MIXER,name='VBC DAC0 AUD MDG Set'
+  ; type=INTEGER,access=rw---R--,values=2,min=0,max=8191,step=0
+  : values=0,1
+  | dBscale-min=-94.50dB,step=1.50dB,mute=1
+numid=4,iface=MIXER,name='VBC DAC0 AUD23 MDG Set'
+  ; type=INTEGER,access=rw---R--,values=2,min=0,max=8191,step=0
+  : values=0,1
+  | dBscale-min=-94.50dB,step=1.50dB,mute=1
+numid=14,iface=MIXER,name='VBC DAC0 DG Set'
+  ; type=INTEGER,access=rw---R--,values=2,min=0,max=127,step=0
+  : values=33,33
+  | dBscale-min=-94.50dB,step=1.50dB,mute=1
+Simple mixer control 'S_FAST_P_CODEC SWITCH',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'VBC_MUX_DAC0_OUT_SEL',0
+  Capabilities: enum
+  Items: 'DAC_OUT_FROM_IIS' 'DAC_OUT_FROM_VBCIF'
+  Item0: 'DAC_OUT_FROM_IIS'
+Simple mixer control 'AOL EAR Sel',0
+  Capabilities: enum
+  Items: 'EAR' 'AOL'
+  Item0: 'AOL'
+Simple mixer control 'AO Mixer AOL',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'AO Mixer AOR',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'DA AOR',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+Simple mixer control 'Speaker Mute',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [off]
+Simple mixer control 'Earpiece Function',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [off]
+Simple mixer control 'EAR_AOL Mixer DACAOL',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [off]
+Simple mixer control 'DSP VBC Profile Update',0
+  Capabilities: volume volume-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: 0 - 2
+  Mono: 1 [50%]
+Simple mixer control 'DSP VBC Profile Select',0
+  Capabilities: volume volume-joined
+  Playback channels: Mono
+  Capture channels: Mono
+  Limits: 0 - 2147483647
+  Mono: 1078657024 [50%]
+Simple mixer control 'Speaker Function',0
+  Capabilities: pswitch pswitch-joined
+  Playback channels: Mono
+  Mono: Playback [on]
+FAST pcm=3 start=188.11 1458.58
+aplay_rc=0
+Playing WAVE '/tone-30s.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+access: RW_INTERLEAVED
+format: S16_LE
+subformat: STD
+channels: 2
+rate: 48000 (48000/1)
+period_size: 6000
+buffer_size: 24000
+sample=1 uptime=188.11
+state: OPEN
+hw_ptr      : 0
+appl_ptr    : 0
+sample=2 uptime=188.82
+state: OPEN
+hw_ptr      : 0
+appl_ptr    : 0
+sample=3 uptime=188.97
+state: SETUP
+hw_ptr      : 0
+appl_ptr    : 0
+sample=4 uptime=189.12
+state: RUNNING
+hw_ptr      : 1320
+appl_ptr    : 24000
+sample=5 uptime=189.30
+state: RUNNING
+hw_ptr      : 8760
+appl_ptr    : 31320
+sample=6 uptime=189.46
+state: RUNNING
+hw_ptr      : 16200
+appl_ptr    : 37320
+sample=7 uptime=189.61
+state: RUNNING
+hw_ptr      : 23640
+appl_ptr    : 43320
+sample=8 uptime=189.77
+state: RUNNING
+hw_ptr      : 31080
+appl_ptr    : 49320
+sample=9 uptime=189.92
+state: RUNNING
+hw_ptr      : 38520
+appl_ptr    : 61320
+sample=10 uptime=190.08
+state: RUNNING
+hw_ptr      : 45960
+appl_ptr    : 67320
+sample=11 uptime=190.23
+state: RUNNING
+hw_ptr      : 53400
+appl_ptr    : 73320
+sample=12 uptime=190.39
+state: RUNNING
+hw_ptr      : 60840
+appl_ptr    : 79320
+sample=13 uptime=190.54
+state: RUNNING
+hw_ptr      : 68280
+appl_ptr    : 91320
+sample=14 uptime=190.70
+state: RUNNING
+hw_ptr      : 75720
+appl_ptr    : 97320
+sample=15 uptime=190.85
+state: RUNNING
+hw_ptr      : 83160
+appl_ptr    : 103320
+sample=16 uptime=191.01
+state: RUNNING
+hw_ptr      : 90360
+appl_ptr    : 109320
+sample=17 uptime=191.16
+state: RUNNING
+hw_ptr      : 97800
+appl_ptr    : 121320
+sample=18 uptime=191.31
+state: RUNNING
+hw_ptr      : 105240
+appl_ptr    : 127320
+sample=19 uptime=191.47
+state: RUNNING
+hw_ptr      : 112680
+appl_ptr    : 133320
+sample=20 uptime=191.62
+state: RUNNING
+hw_ptr      : 120120
+appl_ptr    : 139320
+sample=21 uptime=191.78
+state: RUNNING
+hw_ptr      : 127560
+appl_ptr    : 151320
+sample=22 uptime=191.93
+state: RUNNING
+hw_ptr      : 135000
+appl_ptr    : 157320
+sample=23 uptime=192.09
+state: RUNNING
+hw_ptr      : 142440
+appl_ptr    : 163320
+sample=24 uptime=192.24
+state: RUNNING
+hw_ptr      : 149880
+appl_ptr    : 169320
+sample=25 uptime=192.40
+state: RUNNING
+hw_ptr      : 157320
+appl_ptr    : 181320
+sample=26 uptime=192.55
+state: RUNNING
+hw_ptr      : 164760
+appl_ptr    : 187320
+sample=27 uptime=192.71
+state: RUNNING
+hw_ptr      : 172200
+appl_ptr    : 193320
+sample=28 uptime=192.86
+state: RUNNING
+hw_ptr      : 179640
+appl_ptr    : 199320
+sample=29 uptime=193.02
+state: RUNNING
+hw_ptr      : 187080
+appl_ptr    : 205320
+sample=30 uptime=193.17
+state: RUNNING
+hw_ptr      : 194520
+appl_ptr    : 217320
+sample=31 uptime=193.33
+state: RUNNING
+hw_ptr      : 201960
+appl_ptr    : 223320
+sample=32 uptime=193.48
+state: RUNNING
+hw_ptr      : 209400
+appl_ptr    : 229320
+sample=33 uptime=193.64
+state: RUNNING
+hw_ptr      : 216840
+appl_ptr    : 235320
+sample=34 uptime=193.79
+state: RUNNING
+hw_ptr      : 224280
+appl_ptr    : 247320
+sample=35 uptime=193.95
+state: RUNNING
+hw_ptr      : 231480
+appl_ptr    : 253320
+sample=36 uptime=194.10
+state: RUNNING
+hw_ptr      : 239160
+appl_ptr    : 259320
+sample=37 uptime=194.26
+state: RUNNING
+hw_ptr      : 246600
+appl_ptr    : 265320
+sample=38 uptime=194.41
+state: RUNNING
+hw_ptr      : 254040
+appl_ptr    : 277320
+sample=39 uptime=194.57
+state: RUNNING
+hw_ptr      : 261240
+appl_ptr    : 283320
+sample=40 uptime=194.72
+state: RUNNING
+hw_ptr      : 268680
+appl_ptr    : 289320
+217905011190 chan=0 cookie=4 status=1 branch=current pos=0xaf732020 residue_is_addr=1
+218028822074 chan=0 cookie=4 status=1 branch=current pos=0xaf737de0 residue_is_addr=1
+218028874805 chan=0 cookie=4 status=1 branch=current pos=0xaf737de0 residue_is_addr=1
+218154088074 chan=0 cookie=4 status=1 branch=current pos=0xaf7264a0 residue_is_addr=1
+218154143728 chan=0 cookie=4 status=1 branch=current pos=0xaf7264a0 residue_is_addr=1
+218278384805 chan=0 cookie=4 status=1 branch=current pos=0xaf72c260 residue_is_addr=1
+218278433767 chan=0 cookie=4 status=1 branch=current pos=0xaf72c260 residue_is_addr=1
+218404928343 chan=0 cookie=4 status=1 branch=current pos=0xaf732020 residue_is_addr=1
+218404979113 chan=0 cookie=4 status=1 branch=current pos=0xaf732020 residue_is_addr=1
+218528781151 chan=0 cookie=4 status=1 branch=current pos=0xaf737de0 residue_is_addr=1
+218528840536 chan=0 cookie=4 status=1 branch=current pos=0xaf737de0 residue_is_addr=1
+218654927151 chan=0 cookie=4 status=1 branch=current pos=0xaf7264a0 residue_is_addr=1
+218778769382 chan=0 cookie=4 status=1 branch=current pos=0xaf72c260 residue_is_addr=1
+218904909381 chan=0 cookie=4 status=1 branch=current pos=0xaf732020 residue_is_addr=1
+219029903766 chan=0 cookie=4 status=1 branch=current pos=0xaf737de0 residue_is_addr=1
+219153838343 chan=0 cookie=4 status=1 branch=current pos=0xaf7264a0 residue_is_addr=1
+[   59.588372] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[   59.618773] [MCDT] mcdt_dac_dma_enable_r2 1068 mcdt_dma_ap_channel=4
+[   59.642872] [ASoC: PCM ] Chan0 DMA ID=9
+[   59.657364] [ASoC: PCM ] src_dw=4, dst_dw=4 frag=0, burst:480, slave_id=9, step=4, ll_cfg_virt_addr=000000008db3a94e, ll_cfg_phy_addr=2943496192 ,dst_addr:1448083472, src_addr:2943504384,chan=0
+[   59.928187] [ASoC: VBC ] scene_fast_trigger: 9423:scene_fast_trigger dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback, cmd=1
+[   59.972818] [ASoC: PCM ] pcm Start branch=SUBMIT ch[0]=chan cookie=0x2 desc=set
+[   59.980406] [ASoC: PCM ] pcm Start branch=SUBMIT ch[1]=null cookie=0x0 desc=null
+[   59.988082] [ASoC: PCM ] pcm Start branch=SUBMIT
+[   61.264867] [ASoC: VBC ] scene_fast_trigger: 9423:scene_fast_trigger dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback, cmd=0
+[   61.298443] [ASoC: VBC ] scene_fast_hw_free: 9397:scene_fast_hw_free dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[   61.318093] [ASoC: VBC ] scene_fast_shutdown: 9314:scene_fast_shutdown dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[   61.405323] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  115.476016] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  117.780671] [ASoC: VBC ] scene_fast_startup: 9274:scene_fast_startup dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[  118.246719] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  118.374968] [ASoC: VBC ] scene_fast_hw_params: 9350:scene_fast_hw_params dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[  118.387707] [ASoC: VBC ] scene_fast_hw_params: 9373:scene_fast_hw_params data_fmt=VBC_DAT_L16, chan=2, rate =48000
+[  118.449586] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  118.479985] [MCDT] mcdt_dac_dma_enable_r2 1068 mcdt_dma_ap_channel=4
+[  118.504034] [ASoC: PCM ] Chan0 DMA ID=9
+[  118.518543] [ASoC: PCM ] src_dw=4, dst_dw=4 frag=0, burst:480, slave_id=9, step=4, ll_cfg_virt_addr=0000000065cf2abc, ll_cfg_phy_addr=2943496192 ,dst_addr:1448083472, src_addr:2943504384,chan=0
+[  118.787128] [ASoC: VBC ] scene_fast_trigger: 9423:scene_fast_trigger dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback, cmd=1
+[  118.831738] [ASoC: PCM ] pcm Start branch=SUBMIT ch[0]=chan cookie=0x3 desc=set
+[  118.839327] [ASoC: PCM ] pcm Start branch=SUBMIT ch[1]=null cookie=0x0 desc=null
+[  118.847004] [ASoC: PCM ] pcm Start branch=SUBMIT
+[  120.114432] [ASoC: VBC ] scene_fast_trigger: 9423:scene_fast_trigger dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback, cmd=0
+[  120.147949] [ASoC: VBC ] scene_fast_hw_free: 9397:scene_fast_hw_free dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[  120.167569] [ASoC: VBC ] scene_fast_shutdown: 9314:scene_fast_shutdown dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[  120.254659] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  168.379876] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  168.667819] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  168.955820] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  169.244505] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  184.123506] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  184.408054] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  184.692654] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  184.977605] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  185.260707] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  185.345735] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  185.436034] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  185.522503] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  185.607189] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  185.683878] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  186.174597] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  188.206195] [ASoC: VBC ] scene_fast_startup: 9274:scene_fast_startup dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[  188.648744] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  188.774212] [ASoC: VBC ] scene_fast_hw_params: 9350:scene_fast_hw_params dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[  188.786950] [ASoC: VBC ] scene_fast_hw_params: 9373:scene_fast_hw_params data_fmt=VBC_DAT_L16, chan=2, rate =48000
+[  188.848839] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750
+[  188.879223] [MCDT] mcdt_dac_dma_enable_r2 1068 mcdt_dma_ap_channel=4
+[  188.903265] [ASoC: PCM ] Chan0 DMA ID=9
+[  188.917762] [ASoC: PCM ] src_dw=4, dst_dw=4 frag=0, burst:480, slave_id=9, step=4, ll_cfg_virt_addr=0000000010db0f5f, ll_cfg_phy_addr=2943496192 ,dst_addr:1448083472, src_addr:2943504384,chan=0
+[  189.183170] [ASoC: VBC ] scene_fast_trigger: 9423:scene_fast_trigger dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback, cmd=1
+[  189.227774] [ASoC: PCM ] pcm Start branch=SUBMIT ch[0]=chan cookie=0x4 desc=set
+[  189.235362] [ASoC: PCM ] pcm Start branch=SUBMIT ch[1]=null cookie=0x0 desc=null
+[  189.243038] [ASoC: PCM ] pcm Start branch=SUBMIT
+[  219.270824] [ASoC: VBC ] scene_fast_trigger: 9423:scene_fast_trigger dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback, cmd=0
+[  219.304523] [ASoC: VBC ] scene_fast_hw_free: 9397:scene_fast_hw_free dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[  219.324249] [ASoC: VBC ] scene_fast_shutdown: 9314:scene_fast_shutdown dai:BE_DAI_ID_FAST_P_CODEC(3) scene:VBC_DAI_ID_FAST_P playback
+[  219.411551] [Audio:SIPC]  value2: 0xaf980000, value3: 0x0, timeout: 750

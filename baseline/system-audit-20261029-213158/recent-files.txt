@@ -1,0 +1,111 @@
+FILE /root/audio-load.log
+2026-10-27 17:44:36 already loaded: audio_mem
+2026-10-27 17:44:36 already loaded: mcdt_hw_r2p0
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-card
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-codec-ump9620-power-dev
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-dummy-codec
+2026-10-27 17:44:36 already loaded: sprd-platform-pcm-routing
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-codec-ump9620
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-codec-ump9620-power
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-tdm
+2026-10-27 17:44:36 already loaded: audio_sipc
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-pdm-r2p0
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-vbc-v4
+2026-10-27 17:44:36 already loaded: sprd-dmaengine-pcm
+2026-10-27 17:44:36 already loaded: audio-dsp-dump
+2026-10-27 17:44:36 already loaded: audio-pipe
+2026-10-27 17:44:36 already loaded: sprd-compr-2stage-dma
+2026-10-27 17:44:36 already loaded: snd-soc-sprd-vbc-fe
+2026-10-27 17:44:36 MISSING: agdsp_access
+2026-10-27 17:44:37 MISSING: saudio
+2026-10-27 17:44:37 MISSING: snd-soc-unisoc-dp-codec
+2026-10-27 17:44:37 MISSING: sprd_apipe
+2026-10-27 17:44:37 MISSING: voice_trigger_node
+2026-10-27 17:44:37 MISSING: snd-soc-sprd-vaudio
+2026-10-27 17:44:37 MISSING: voice_trigger_irq
+2026-10-27 17:44:37 MISSING: snd-soc-sprd-dai
+2026-10-27 17:44:37 MISSING: sprd_audcp_boot
+2026-10-27 17:44:37 MISSING: sprd_audcp_dvfs
+2026-10-27 17:44:37 incomplete: 10 not loaded
+FILE /root/audio-route.log
+2026-10-25 05:29:02 audio-route: applied (card 0)
+2026-10-25 05:54:59 audio-route: applied (card 0)
+2026-10-25 05:58:11 audio-route: applied (card 0)
+2026-10-25 06:10:54 audio-route: applied (card 0)
+2026-10-25 06:14:33 audio-route: applied (card 0)
+2026-10-25 06:35:49 audio-route: applied (card 0)
+2026-10-25 06:39:50 audio-route: applied (card 0)
+2026-10-25 07:00:19 audio-route: applied (card 0)
+2026-10-25 07:04:19 audio-route: applied (card 0)
+2026-10-25 07:21:52 audio-route: applied (card 0)
+2026-10-25 12:49:47 audio-route: applied (card 0)
+2026-10-25 13:03:10 audio-route: applied (card 0)
+2026-10-25 14:00:18 audio-route: applied (card 0)
+2026-10-25 15:20:26 audio-route: applied (card 0)
+2026-10-25 16:33:56 audio-route: applied (card 0)
+2026-10-25 16:49:29 audio-route: applied (card 0)
+2026-10-25 18:06:59 audio-route: applied (card 0)
+2026-10-27 15:32:14 audio-route: applied (card 0)
+2026-10-27 15:54:17 audio-route: applied (card 0)
+2026-10-27 16:21:43 audio-route: applied (card 0)
+2026-10-27 16:49:34 audio-route: applied (card 0)
+2026-10-27 17:49:37 audio-route: applied (card 0)
+FILE /root/voice-audio.log
+2026-10-25 18:26:37 changxing60-voice-audio: DAC Gain DAC Playback Volume: 3 is above the card maximum 2, using 2
+2026-10-25 18:26:37 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=4
+2026-10-25 18:26:37 changxing60-voice-audio: DAC Gain DAC Playback Volume: 3 is above the card maximum 2, using 2
+2026-10-25 18:26:37 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=4
+2026-10-25 18:26:37 changxing60-voice-audio: VOICE-RUNNING hw:0,5 playback/capture, receiver, 8000 Hz, band=narrowband
+2026-10-25 18:26:37 changxing60-voice-audio: voice notification listener started on /dev/audio_pipe_voice
+2026-10-25 18:27:06 changxing60-voice-audio: DSP notification cmd=0x35 channel=2 params=0x0,0x0,0x0,0x0
+2026-10-25 18:27:06 changxing60-voice-audio: CP voice enabled=False (mask=0x0)
+2026-10-25 18:27:10 changxing60-voice-audio: VOICE-STOPPED; mixer restored (27 written, 24 already correct)
+2026-10-25 18:27:10 changxing60-voice-audio: monitor stopped
+2026-10-25 18:28:55 changxing60-voice-audio: DAC Gain DAC Playback Volume: 3 is above the card maximum 2, using 2
+2026-10-25 18:28:55 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=4
+2026-10-25 18:28:55 changxing60-voice-audio: DAC Gain DAC Playback Volume: 3 is above the card maximum 2, using 2
+2026-10-25 18:28:55 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=4
+2026-10-25 18:28:55 changxing60-voice-audio: VOICE-RUNNING hw:0,5 playback/capture, receiver, 8000 Hz, band=narrowband
+2026-10-25 18:28:55 changxing60-voice-audio: voice notification listener started on /dev/audio_pipe_voice
+2026-10-25 18:29:25 changxing60-voice-audio: DSP notification cmd=0x35 channel=2 params=0x0,0x0,0x0,0x0
+2026-10-25 18:29:25 changxing60-voice-audio: CP voice enabled=False (mask=0x0)
+2026-10-25 18:29:28 changxing60-voice-audio: VOICE-STOPPED; mixer restored (26 written, 25 already correct)
+2026-10-25 18:29:28 changxing60-voice-audio: monitor stopped
+2026-10-25 18:32:26 changxing60-voice-audio: DAC Gain DAC Playback Volume: 3 is above the card maximum 2, using 2
+2026-10-25 18:32:26 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=4
+2026-10-25 18:32:27 changxing60-voice-audio: DAC Gain DAC Playback Volume: 3 is above the card maximum 2, using 2
+2026-10-25 18:32:27 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=4
+2026-10-25 18:32:27 changxing60-voice-audio: VOICE-RUNNING hw:0,5 playback/capture, receiver, 8000 Hz, band=narrowband
+2026-10-25 18:32:27 changxing60-voice-audio: VOICE-STOPPED; mixer restored (30 written, 25 already correct)
+2026-10-26 03:59:06 changxing60-voice-audio: profiles: select=0x2020005 band=wideband output=receiver VBC_VOLUME=2
+2026-10-26 03:59:06 changxing60-voice-audio: profiles: select=0x2020005 band=wideband output=receiver VBC_VOLUME=2
+2026-10-26 03:59:06 changxing60-voice-audio: VOICE-RUNNING hw:0,5 playback/capture, receiver, 8000 Hz, band=wideband
+2026-10-26 03:59:08 changxing60-voice-audio: VOICE-STOPPED; mixer restored (37 written, 35 already correct)
+2026-10-26 04:00:14 changxing60-voice-audio: DAC Gain DAC Playback Volume: 3 is above the card maximum 2, using 2
+2026-10-26 04:00:14 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=4
+2026-10-26 04:00:14 changxing60-voice-audio: DAC Gain DAC Playback Volume: 3 is above the card maximum 2, using 2
+2026-10-26 04:00:14 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=4
+2026-10-26 04:00:14 changxing60-voice-audio: VOICE-RUNNING hw:0,5 playback/capture, receiver, 8000 Hz, band=narrowband
+2026-10-26 04:00:14 changxing60-voice-audio: voice notification listener started on /dev/audio_pipe_voice
+2026-10-26 04:00:14 changxing60-voice-audio: VOICE-STOPPED; mixer restored (30 written, 25 already correct)
+2026-10-26 04:00:14 changxing60-voice-audio: monitor stopped
+2026-10-26 04:00:14 changxing60-voice-audio: profiles: select=0x2020005 band=wideband output=receiver VBC_VOLUME=2
+2026-10-26 04:00:15 changxing60-voice-audio: profiles: select=0x2020005 band=wideband output=receiver VBC_VOLUME=2
+2026-10-26 04:00:15 changxing60-voice-audio: VOICE-RUNNING hw:0,5 playback/capture, receiver, 8000 Hz, band=wideband
+2026-10-26 04:00:15 changxing60-voice-audio: voice notification listener started on /dev/audio_pipe_voice
+2026-10-26 04:00:15 changxing60-voice-audio: DSP notification cmd=0x0 channel=2 params=0x10,0x0,0x0,0x0
+2026-10-26 04:00:15 changxing60-voice-audio: DSP bandwidth change net=0x10 band=narrowband
+2026-10-26 04:00:15 changxing60-voice-audio: profiles: select=0x5 band=narrowband output=receiver VBC_VOLUME=2
+2026-10-26 04:00:15 changxing60-voice-audio: DSP notification cmd=0x0 channel=2 params=0x10,0x1,0x0,0x0
+2026-10-26 04:00:15 changxing60-voice-audio: DSP bandwidth change net=0x10 band=wideband
+2026-10-26 04:00:15 changxing60-voice-audio: profiles: select=0x2020005 band=wideband output=receiver VBC_VOLUME=2
+2026-10-26 04:00:15 changxing60-voice-audio: DSP notification cmd=0x0 channel=2 params=0x10,0x1,0x0,0x0
+2026-10-26 04:01:21 changxing60-voice-audio: VOICE-STOPPED; mixer restored (37 written, 35 already correct)
+2026-10-26 04:01:21 changxing60-voice-audio: monitor stopped
+2026-10-29 06:42:07 changxing60-voice-audio: profiles: select=0x2020005 band=wideband output=receiver VBC_VOLUME=3
+2026-10-29 06:42:07 changxing60-voice-audio: profiles: select=0x2020005 band=wideband output=receiver VBC_VOLUME=3
+2026-10-29 06:42:07 changxing60-voice-audio: VOICE-RUNNING hw:0,5 playback/capture, receiver, 8000 Hz, band=wideband
+2026-10-29 06:42:07 changxing60-voice-audio: voice notification listener started on /dev/audio_pipe_voice
+2026-10-29 06:42:10 changxing60-voice-audio: VOICE-STOPPED; mixer restored (37 written, 28 already correct)
+2026-10-29 06:42:10 changxing60-voice-audio: monitor stopped
+FILE /run/modem_control.log

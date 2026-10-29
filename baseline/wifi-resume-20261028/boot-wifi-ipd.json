@@ -1,0 +1,13 @@
+{
+  "image": "boot-wifi-ipd.img",
+  "base": "boot-wifi-stock.img",
+  "sha256": "769277a978da8490d5fd91dccd1b42ff48b178226461aed1355eaf0a18a8d607",
+  "sha256_head56m": "0bc29659cdd9754a619a6c9fda7a1680bf7a349b82883c617149ad4fa02577bd",
+  "kernel_sha256": "197075a80199c7b9554a42561bd6edaf784f0c35222b294aa5a3d6e3b307033a",
+  "ramdisk_size": 13211933,
+  "replaced": {
+    "init": "a4937615eb0e2a6817e1bdb275d0e8c5bbe500ef258510dc6a13a490d0163542",
+    "linux-modules/wcn_bsp.ko": "2a8b05e1be7d70c3893122a566910e10554cb4361fb668949dac12fe06a28c6f",
+    "linux-modules/sprd_wlan_combo.ko": "85cf016490f6fd23f004481c76302ec268660d978d98e652873f894abb087fda"
+  }
+}

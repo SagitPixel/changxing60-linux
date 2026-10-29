@@ -1,0 +1,66 @@
+10864 1000     8689m S    /vendor/bin/modem_control
+10865 root      1336 S    /bin/sh -c sleep 12; exec /opt/changxing60/bin/android-run cp_diskserver
+10866 root      1336 S    /bin/sh -c sleep 12; exec /opt/changxing60/bin/android-run refnotify
+1793244833 10864 D MODEM_CTRL: modem_load_run: run = 1!
+
+1793244833 10864 D MODEM_CTRL: modem_ioctrl_start, path=/dev/modem!
+
+1793244833 10864 D MODEM_CTRL: modem_ctrl_set_modem_state: g_modem_state = 2
+
+1793244833 10864 D MODEM_CTRL: load_modem_img: wake lock bEnable = 0!
+1793244833 12654 D MODEM_CTRL: enter modem_ctrl_listen_sp
+1793244833 12654 D MODEM_CTRL: modem_ctrl_listen_sp: open /dev/sctl_pm success
+
+1793244833 12655 D MODEM_CTRL: enter modem_ctrl_listen_ch
+1793244833 10864 D MODEM_CTRL: wait_for_modem_alive: wake lock bEnable = 1!
+1793244833 12656 D MODEM_CTRL: Enter modem_ctrl_listen_modem !
+1793244833 10864 D MODEM_CTRL: modem_ctrl_get_alive_dev: alive_dev=/dev/spipe_nr2, has_alive_prop=1
+
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: ro.vendor.modem.assert = /dev/spipe_nr2
+
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: /dev/modemwdtirq = /dev/modemwdtirq
+
+1793244833 12656 D MODEM_CTRL: modem_ctrl_get_alive_dev: alive_dev=/dev/spipe_nr2, has_alive_prop=1
+
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: open assert dev: /dev/spipe_nr2, fd = 13
+
+1793244833 12656 D MODEM_CTRL: open /dev/modemwdtirq unsupport watchdog, errno: No such file or directory
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: wait for modem assert/hangup event ...
+1793244833 12657 D MODEM_CTRL: modem_ctrl_listen_clients: start listen clients...
+
+1793244833 12654 W libc: Unable to set property "vendor.modem.sp-boot" to "1": connection failed; errno=2 (No such file or directory)
+1793244833 12654 D MODEM_CTRL: modem_ctrl_listen_sp: enter read ...
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: wake lock bEnable = 1!
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: enter read ...
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: read Modem Alive from modem!
+
+1793244833 12656 D MODEM_CTRL: modem_ctrl_set_modem_state: g_modem_state = 3
+
+1793244833 12656 D MODEM_CTRL: process_message(11) : Modem Alive
+1793244833 12656 D MODEM_CTRL: control nvitemd! isStart 1
+1793244833 12656 W libc: Unable to set property "ctl.start" to "vendor.cp_diskserver": connection failed; errno=2 (No such file or directory)
+1793244833 12656 D MODEM_CTRL: wifionly get wifionly prop : false
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: write to clients len = 0
+
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: wake lock bEnable = 0!
+1793244833 12656 D MODEM_CTRL: modem_ctrl_listen_modem: wait for modem assert/hangup event ...
+1793244833 10864 D MODEM_CTRL: wait_for_modem_alive: wait modem alive!
+1793244833 10864 D MODEM_CTRL: wait_for_modem_alive: wake lock bEnable = 0!
+[36487.145819] sprd-sbuf: channel 9-4 state = 0, recv cmd msg, flag = 1!
+[36487.145966] unisoc-mailbox channel 9-7 receive open msg!
+[36487.145968] unisoc-mailbox channel 9-7 success
+[36487.145970] sprd-sbuf: channel 9-7 state = 0, recv cmd msg, flag = 1!
+[36487.146091] unisoc-mailbox channel 9-41 receive open msg!
+[36487.146093] unisoc-mailbox channel 9-41 success
+[36487.146095] sprd-sbuf: channel 9-41 state = 0, recv cmd msg, flag = 1!
+[36487.230374] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[36487.230383] WCN BASE: tx:at+loopcheck=36487224,8824
+[36487.230383] 
+[36487.234464] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36487.238280] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[36487.238287] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36487.238375] WCN BASE: mdbg_tx_cb, chn:0
+[36487.238532] WCN BASE: rx:loopcheck_ack:ap_send=36487224,cp2_bootup=8824,cp2_send=36487253
+[36487.238532] 
+[36487.296912] unisoc-mailbox channel 7-5 receive open msg!
+[36487.296917] unisoc-mailbox channel 7-5 success

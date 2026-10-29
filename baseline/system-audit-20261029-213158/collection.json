@@ -1,0 +1,42 @@
+{
+  "dmesg.txt": {
+    "rc": 0,
+    "bytes": 4194278,
+    "stderr": ""
+  },
+  "syslog.txt": {
+    "rc": 0,
+    "bytes": 142820,
+    "stderr": ""
+  },
+  "stages.txt": {
+    "rc": 0,
+    "bytes": 12423,
+    "stderr": ""
+  },
+  "processes.txt": {
+    "rc": 0,
+    "bytes": 12539,
+    "stderr": ""
+  },
+  "services.json": {
+    "rc": 0,
+    "bytes": 7905,
+    "stderr": ""
+  },
+  "state.txt": {
+    "rc": 0,
+    "bytes": 17813,
+    "stderr": ""
+  },
+  "recent-files.txt": {
+    "rc": 0,
+    "bytes": 8655,
+    "stderr": ""
+  },
+  "pstore-summary.txt": {
+    "rc": 0,
+    "bytes": 696,
+    "stderr": ""
+  }
+}

@@ -1,0 +1,21 @@
+root@changxing60:~# >  06:31:28 up 10:05,  load average: 0.00, 0.00, 0.00
+[36333.630823] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[36333.630830] WCN BASE: tx:at+loopcheck=36333624,8824
+[36333.630830] 
+[36333.634863] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36333.638649] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[36333.638652] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36333.638716] WCN BASE: mdbg_tx_cb, chn:0
+[36333.639072] WCN BASE: rx:loopcheck_ack:ap_send=36333624,cp2_bootup=8824,cp2_send=36333653
+[36333.639072] 
+[36338.751064] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[36338.751071] WCN BASE: tx:at+loopcheck=36338745,8824
+[36338.751071] 
+[36338.755118] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36338.758857] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[36338.758860] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36338.759068] WCN BASE: mdbg_tx_cb, chn:0
+[36338.759734] WCN BASE: rx:loopcheck_ack:ap_send=36338745,cp2_bootup=8824,cp2_send=36338774
+[36338.759734] 
+ls: /dev/stty_nr1: No such file or directory
+/dev/modem

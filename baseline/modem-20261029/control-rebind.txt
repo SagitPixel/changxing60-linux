@@ -1,0 +1,17 @@
+crw-------    1 root     root      506,   0 Oct 29 06:33 /dev/modem
+crw-------    1 root     root      508,   0 Oct 29 06:33 /dev/pmsys
+crw-------    1 root     root      493,   1 Oct 29 06:32 /dev/stty_nr1
+[36256.017175] sprd-mpm: phycp-rd pms init failed, dst=7.
+[36256.030959] sprd-mpm: phycp-wt pms init failed, dst=7.
+[36379.595569] sprd-sipc sipc-virt:core@6: sprd ipc probe success
+[36379.633218] sprd-sipc sipc-virt:core@9: sprd ipc probe success
+[36379.635139] sprd-sipc sipc-virt:core@5: sprd ipc probe success
+[36379.638833] sprd-sipc sipc-virt:core@7: sprd ipc probe success
+[36379.639430] unisoc-sipc-virt-bus sipc-virt: Populate sub sipc-virt-bus success
+[36464.890227] platform modem@0: really_probe: drv=modem link_ret=0 defer_all=0
+[36464.898177] modem modem@0: offset = 0x128, mask = 0x1.
+[36464.898644] platform modem@1: really_probe: drv=modem link_ret=0 defer_all=0
+[36464.914236] modem modem@1: offset = 0x124, mask = 0x1.
+[36464.924236] platform modem@2: really_probe: drv=modem link_ret=0 defer_all=0
+[36464.939934] platform modem@3: really_probe: drv=modem link_ret=0 defer_all=0
+ 8338 root      1340 S    ash -c if pgrep modem_control >/dev/null; then echo vendor-already-running; exit 1; fi; for d in /sys/bus

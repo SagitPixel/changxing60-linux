@@ -1,0 +1,14 @@
+root@changxing60:~# > command failed: Out of memory (-12)
+scan_rc=244
+0
+ 15:07:34 up 0 min,  load average: 0.45, 0.17, 0.06
+0
+phy#0
+	Interface wlan0
+		ifindex 9
+		wdev 0x3
+		addr 40:45:da:79:8e:dc
+		type AP
+[   44.800173] misc wlan wlan0: key-default idx=1 crypto=4 uc=0 mc=1 skip=1
+[   44.906737] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[   44.949836] sprd-wlan: cid 0 [CMD_POWER_SAVE]rsp timeout, printk=4

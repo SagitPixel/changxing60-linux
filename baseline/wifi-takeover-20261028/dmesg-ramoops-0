@@ -1,0 +1,473 @@
+Panic#1 Part1
+<3>[    8.543806] mipi-dsi 31300000.dsi.0: really_probe: drv=sprd-mipi-panel-drv link_ret=0 defer_all=0
+<6>[    8.549640] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_NORMAL_AP01_P, Sink = FE_IF_NORMAL_AP01_P
+<6>[    8.555095] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+<6>[    8.563292] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_NORMAL_AP01_C, Sink = FE_DAI_NORMAL_AP01_C
+<4>[    8.570081] sprd-mipi-panel-drv 31300000.dsi.0: supply power not found, using dummy regulator
+<6>[    8.577139] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_NORMAL_AP23_P, Sink = FE_IF_NORMAL_AP23_P
+<6>[    8.585331] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+<6>[    8.592025] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_NORMAL_AP23_C, Sink = FE_DAI_NORMAL_AP23_C
+<6>[    8.598866] [drm][sprd_panel_parse_lcddtb] read sprd,dpi-clk-pixelpll failed, dpi_clk_pixelpll = false
+<6>[    8.611495] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_CAP_DSP_C, Sink = FE_DAI_CAP_DSP_C
+<6>[    8.616526] [drm] can't find sprd,doze-in-command property
+<6>[    8.621443] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_FAST_P, Sink = FE_IF_FAST_P
+<6>[    8.621450] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_OFFLOAD_P, Sink = FE_IF_OFFLOAD_P
+<6>[    8.627935] [drm] can't find sprd,doze-out-command property
+<6>[    8.636335] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_VOICE_P, Sink = FE_IF_VOICE_P
+<3>[    8.640915] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-on-command property
+<6>[    8.647664] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_VOICE_C, Sink = FE_DAI_VOICE_C
+<6>[    8.647671] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_VOIP_P, Sink = FE_IF_VOIP_P
+<3>[    8.655889] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-off-command property
+<6>[    8.662638] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_VOIP_C, Sink = FE_DAI_VOIP_C
+<6>[    8.669754] [drm] info->num_buildin_modes = 1
+<6>[    8.677869] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_FM_P, Sink = FE_IF_FM_P
+<6>[    8.684698] [drm] sprd_dsi_host_attach()
+<6>[    8.691457] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_FM_CAP_C, Sink = FE_DAI_FM_CAP_C
+<6>[    8.691463] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_VOICE_CAP_C, Sink = FE_DAI_VOICE_CAP_C
+<11>[    8.747431] CHANGXING60-LINUX: stage=modules-done loaded=30 failed=0
+<6>[    8.748662] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_LOOP_P, Sink = FE_IF_LOOP_P
+<6>[   10.411474] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_LOOP_C, Sink = FE_DAI_LOOP_C
+<6>[   10.419799] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_A2DP_OFFLOAD_P, Sink = FE_IF_A2DP_OFFLOAD_P
+<6>[   10.429577] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_A2DP_PCM_P, Sink = FE_IF_A2DP_PCM_P
+<6>[   10.438658] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_FM_CAP_DSP_C, Sink = FE_DAI_FM_CAP_DSP_C
+<6>[   10.448096] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_BTSCO_CAP_DSP_C, Sink = FE_DAI_BTSCO_CAP_DSP_C
+<6>[   10.458043] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_FM_DSP_P, Sink = FE_IF_FM_DSP_P
+<6>[   10.466789] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_DUMP_C, Sink = FE_DAI_DUMP_C
+<6>[   10.475182] [ASoC: FE.VBC ] Add route for capture:  Src = FE_IF_BTCAP_AP_C, Sink = FE_DAI_BTCAP_AP_C
+<6>[   10.484266] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP01_CODEC_P, Sink = BE_DAI_NORMAL_AP01_CODEC_P
+<6>[   10.496818] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_NORMAL_AP01_CODEC_C, Sink = BE_IF_NORMAL_AP01_CODEC_C
+<6>[   10.509366] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP23_CODEC_P, Sink = BE_DAI_NORMAL_AP23_CODEC_P
+<6>[   10.521914] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_NORMAL_AP23_CODEC_C, Sink = BE_IF_NORMAL_AP23_CODEC_C
+<6>[   10.534463] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_CAP_DSP_CODEC_C, Sink = BE_IF_CAP_DSP_CODEC_C
+<6>[   10.546311] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FAST_CODEC_P, Sink = BE_DAI_FAST_CODEC_P
+<6>[   10.557655] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_OFFLOAD_CODEC_P, Sink = BE_DAI_OFFLOAD_CODEC_P
+<6>[   10.569507] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOICE_CODEC_P, Sink = BE_DAI_VOICE_CODEC_P
+<6>[   10.581015] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOICE_CODEC_C, Sink = BE_IF_VOICE_CODEC_C
+<6>[   10.592529] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOIP_CODEC_P, Sink = BE_DAI_VOIP_CODEC_P
+<6>[   10.603865] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOIP_CODEC_C, Sink = BE_IF_VOIP_CODEC_C
+<6>[   10.615203] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FM_CODEC_P, Sink = BE_DAI_FM_CODEC_P
+<6>[   10.626194] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_LOOP_CODEC_P, Sink = BE_DAI_LOOP_CODEC_P
+<6>[   10.637529] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_LOOP_CODEC_C, Sink = BE_IF_LOOP_CODEC_C
+<6>[   10.648865] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FM_DSP_CODEC_P, Sink = BE_DAI_FM_DSP_CODEC_P
+<6>[   10.660549] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP01_USB_P, Sink = BE_DAI_NORMAL_AP01_USB_P
+<6>[   10.672750] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_NORMAL_AP01_USB_C, Sink = BE_IF_NORMAL_AP01_USB_C
+<6>[   10.684952] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP23_USB_P, Sink = BE_DAI_NORMAL_AP23_USB_P
+<6>[   10.697156] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_NORMAL_AP23_USB_C, Sink = BE_IF_NORMAL_AP23_USB_C
+<6>[   10.709356] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_CAP_DSP_USB_C, Sink = BE_IF_CAP_DSP_USB_C
+<6>[   10.720862] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FAST_USB_P, Sink = BE_DAI_FAST_USB_P
+<3>[   10.722732] [drm:sprd_panel_esd_work_func [sprd_drm]] *ERROR* unknown esd check mode:4
+<6>[   10.731853] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_OFFLOAD_USB_P, Sink = BE_DAI_OFFLOAD_USB_P
+<6>[   10.731855] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOICE_USB_P, Sink = BE_DAI_VOICE_USB_P
+<6>[   10.762405] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOICE_USB_C, Sink = BE_IF_VOICE_USB_C
+<6>[   10.773569] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOIP_USB_P, Sink = BE_DAI_VOIP_USB_P
+<6>[   10.784558] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOIP_USB_C, Sink = BE_IF_VOIP_USB_C
+<6>[   10.795548] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FM_USB_P, Sink = BE_DAI_FM_USB_P
+<6>[   10.806194] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_LOOP_USB_P, Sink = BE_DAI_LOOP_USB_P
+<6>[   10.817183] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_LOOP_USB_C, Sink = BE_IF_LOOP_USB_C
+<6>[   10.828173] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FM_DSP_USB_P, Sink = BE_DAI_FM_DSP_USB_P
+<6>[   10.839509] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_OFFLOAD_A2DP_P, Sink = BE_DAI_OFFLOAD_A2DP_P
+<6>[   10.851192] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_PCM_A2DP_P, Sink = BE_DAI_PCM_A2DP_P
+<6>[   10.862178] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOICE_BT_P, Sink = BE_DAI_VOICE_BT_P
+<6>[   10.873169] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOICE_BT_C, Sink = BE_IF_VOICE_BT_C
+<6>[   10.884164] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOIP_BT_P, Sink = BE_DAI_VOIP_BT_P
+<6>[   10.894981] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOIP_BT_C, Sink = BE_IF_VOIP_BT_C
+<6>[   10.905798] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_LOOP_BT_P, Sink = BE_DAI_LOOP_BT_P
+<6>[   10.916615] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_LOOP_BT_C, Sink = BE_IF_LOOP_BT_C
+<6>[   10.927433] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_CAP_BT_C, Sink = BE_IF_CAP_BT_C
+<6>[   10.938074] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOICE_CAP_C, Sink = BE_IF_VOICE_CAP_C
+<6>[   10.949240] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_FM_CAP_C, Sink = BE_IF_CAP_FM_CAP_C
+<6>[   10.960227] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_CAP_DSP_FM_C, Sink = BE_IF_CAP_DSP_FM_C
+<6>[   10.971564] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_CAP_DSP_BTSCO_C, Sink = BE_IF_CAP_DSP_BTSCO_C
+<6>[   10.983420] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_DUMP_C, Sink = BE_IF_DUMP_C
+<6>[   10.993718] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FAST_BTSCO_P, Sink = BE_DAI_FAST_BTSCO_P
+<6>[   11.005058] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP01_BTSCO_P, Sink = BE_DAI_NORMAL_AP01_BTSCO_P
+<6>[   11.017602] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_VOICE_PCM_P, Sink = FE_IF_VOICE_PCM_P
+<6>[   11.026866] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOICE_PCM_P, Sink = BE_DAI_VOICE_PCM_P
+<6>[   11.038031] [ASoC: FE.VBC ] Add route for playback: Src = FE_DAI_MM_P, Sink = FE_IF_MM_P
+<6>[   11.046077] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_ID_FAST_P_SMART_AMP, Sink = BE_DAI_ID_FAST_P_SMART_AMP
+<3>[   11.059287] vbc-rxpx-codec-sc27xx sound@0: ASoC: driver name too long 'sprdphone-sc2730' -> 'sprdphone-sc273'
+<3>[   11.069095] vbc-rxpx-codec-sc27xx sound@0: ASoC: unknown pin inter HP PA
+<3>[   11.075748] vbc-rxpx-codec-sc27xx sound@0: ASoC: unknown pin inter Spk PA
+<3>[   11.082496] vbc-rxpx-codec-sc27xx sound@0: ASoC: unknown pin inter Ear PA
+<6>[   11.089242] [ASoC:BOARD] sprd_add_hwdep_dev: enter
+<6>[   11.094003] [ASoC:BOARD] sprd_add_hwdep_dev: exit
+<6>[   11.100817] [Audio:agdsp-pd]: sprd_agdsp_pw_off,dsp_ac->state->ap_enable_cnt=0,dsp_ac->state->cp_enable_cnt=0.
+<6>[   11.101405] input: sprdphone-sc2730 Headset Jack as /devices/platform/sound@0/sound/card0/input1
+<6>[   11.119522] input: sprdphone-sc2730 Headset Keyboard as /devices/platform/sound@0/sound/card0/input2
+<6>[   11.128693] vbc-rxpx-codec-sc27xx sound@0: 7552n: snd_soc_register_card -> 0 (links=57)
+<3>[   11.136690] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   11.145555] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   11.154385] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   11.163200] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   11.172034] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<6>[   11.179763] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<6>[   11.188323] musb-sprd 64a00000.usb: musb dr_mode: 3
+<3>[   11.193180] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<3>[   11.199016] platform 31000000.dpu: really_probe: drv=sprd-dpu-drv link_ret=0 defer_all=0
+<6>[   11.207055] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+<6>[   11.212989] [drm][    dpu_context_init] read widevine-use-fastcall failed, fastcall_en = false
+<4>[   11.221551] [drm][    dpu_context_init] can't find dpu qos cfg node
+<4>[   11.227781] [drm][    dpu_context_init] read arqos-low failed, use default
+<4>[   11.234618] [drm][    dpu_context_init] read arqos-high failed, use default
+<4>[   11.241540] [drm][    dpu_context_init] read awqos_low failed, use default
+<4>[   11.248376] [drm][    dpu_context_init] read awqos-high failed, use default
+<4>[   11.255384] [drm][    dpu_glb_parse_dt] read ctx_reset failed
+<6>[   11.261102] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+<6>[   11.267032] [drm] sprd_drm_bind()
+<6>[   11.270326] [drm] sprd_dpu_bind()
+<6>[   11.273635] [drm] dpu irq_num = 55
+<6>[   11.276963] [drm] dpu attach dsi
+<6>[   11.280159] sprd-drm-drv display-subsystem: bound 31000000.dpu (ops dpu_component_ops [sprd_drm])
+<6>[   11.288984] [drm] dsi->edid_blob->base.id:120
+<6>[   11.293327] [drm] dsi irq0 num = 56
+<6>[   11.296786] [drm] dsi irq1 num = 57
+<6>[   11.300237] sprd-drm-drv display-subsystem: bound 31300000.dsi (ops dsi_component_ops [sprd_drm])
+<6>[   11.309110] [drm] sprd_plane_reset()
+<6>[   11.312607] [drm] sprd_plane_reset()
+<6>[   11.316152] [drm] sprd_plane_reset()
+<6>[   11.319699] [drm] sprd_plane_reset()
+<6>[   11.323246] [drm] sprd_plane_reset()
+<6>[   11.326795] [drm] sprd_plane_reset()
+<6>[   11.330340] [drm] sprd_crtc_reset()
+<6>[   11.333896] [drm] Initialized sprd 1.0.0 for display-subsystem on minor 0
+<6>[   11.340627] [drm] sprd_dsi_connector_detect()
+<6>[   11.344902] [drm] sprd_dsi_connector_get_modes()
+<6>[   11.349486] [drm] sprd_panel_get_modes()
+<6>[   11.353391] [drm] sprd_dsi_connector_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+<6>[   11.363938] [drm] sprd_dpu_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+<6>[   11.373884] [drm] args->pitch:1920 args->size:1642496 vaddr:0xffffffc084682000 dma:0x00000000d1a00000
+<6>[   11.383093] [drm] sprd_dsi_connector_best_encoder()
+<6>[   11.383095] [drm] sprd_dsi_connector_best_encoder()
+<6>[   11.383097] [drm] sprd_dpu_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+<6>[   11.383100] [drm] sprd_dsi_encoder_atomic_check()
+<4>[   11.383104] [drm] dpu has already powered off
+<6>[   11.383108] [drm] sprd_dpu_mode_set_nofb() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+<6>[   11.383111] [drm][         dpu_modeset] begin switch to 480 x 854
+<6>[   11.383113] [drm] sprd_dsi_encoder_mode_set() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+<6>[   11.383116] [drm] sprd_dpu_atomic_enable()
+<6>[   11.383117] [drm][        dpu_clk_init] DPU_CORE_CLK = 614400000, DPI_CLK_SRC = 307200000
+<6>[   11.383119] [drm][        dpu_clk_init] dpi clock is 38400000
+<6>[   11.383325] [drm] dpu resume OK
+<6>[   11.383328] [drm] sprd_dsi_encoder_enable(last_dpms=0, dpms=0)
+<6>[   11.383329] [drm] dsi is initialized
+<6>[   11.383336] Console: switching to colour frame buffer device 60x53
+<6>[   11.383346] [drm] sprd_dsi_connector_best_encoder()
+<6>[   11.383346] [drm] sprd_dsi_connector_best_encoder()
+<6>[   11.383348] [drm] sprd_dsi_encoder_atomic_check()
+<6>[   11.490906] sprd-drm-drv display-subsystem: [drm] fb0: sprddrmfb frame buffer device
+<3>[   11.502765] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<6>[   11.511900] [drm] sprd_dsi_connector_detect()
+<6>[   11.516330] [drm] sprd_dsi_connector_get_modes()
+<3>[   11.520928] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<6>[   11.521017] [drm] sprd_panel_get_modes()
+<3>[   11.529822] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<6>[   11.533667] [drm] sprd_dsi_connector_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+<3>[   11.542530] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<6>[   11.553044] [drm] sprd_dpu_mode_valid() mode: "480x854": 60 38400 480 560 564 624 854 984 988 1028 0x48 0x0
+<3>[   11.561920] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<6>[   11.571571] [drm] sprd_dsi_connector_best_encoder()
+<6>[   11.579356] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<6>[   11.584197] [drm] sprd_dsi_connector_best_encoder()
+<6>[   11.592766] musb-sprd 64a00000.usb: musb dr_mode: 3
+<6>[   11.597610] [drm] sprd_dsi_encoder_atomic_check()
+<3>[   11.602468] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<11>[   11.758681] CHANGXING60-LINUX: stage=display-ok wait=3s
+<11>[   11.765661] CHANGXING60-LINUX: stage=audio-card-rebind rc=1 err=[]
+<11>[   11.773636] CHANGXING60-LINUX: stage=audio-dev 56360000.audio-codec bound=NONE
+<11>[   11.783132] CHANGXING60-LINUX: stage=audio-dev 64400000.spi:pmic@0:audio-codec@1000 bound=sprd-codec-ump9620
+<11>[   11.794795] CHANGXING60-LINUX: stage=audio-cards [ 0 [sprdphonesc2730]: sprdphone-sc273 - sprdphone-sc2730|                      sprdphone-sc2730|]
+<11>[   11.811043] CHANGXING60-LINUX: stage=modules-done-block loop0,loop1,loop10,loop11,loop12,loop13,loop14,loop15,loop2,loop3,loop4,loop5,loop6,loop7,loop8,loop9,sda,sdb,sdc,sdc1,sdc10,sdc11,sdc12,sdc13,sdc14,sdc15,sdc16,sdc17,sdc18,sdc19,sdc2,sdc20,sdc21,sdc22,sdc23,sdc24,sdc25,sdc26,sdc27,sdc28,sdc29,sdc3,sdc30,sdc31,sdc32,sdc33,sdc34,sdc35,sdc36,sdc37,sdc38,sdc39,sdc4,sdc40,sdc41,sdc42,sdc43,sdc44,sdc45,sdc46,sdc47,sdc48,sdc49,sdc5,sdc50,sdc51,sdc52,sdc53,sdc54,sdc55,sdc56,sdc57,sdc58,sdc59,sdc6,sdc60,sdc61,sdc62,sdc63,sdc64,sdc65,sdc66,sdc67,sdc68,sdc69,sdc7,sdc70,sdc71,sdc72,sdc73,sdc74,sdc75,sdc76,sdc8,sdc9,zram0,
+<11>[   11.870816] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal	,64280000.thermal	,64290000.thermal	,642a0000.thermal	,64a00000.usb	,
+<11>[   11.886371] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+<11>[   11.947914] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+<11>[   11.976233] CHANGXING60-LINUX: dmesg: [    7.750592] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x38000200
+<11>[   11.988027] CHANGXING60-LINUX: dmesg: [    7.750713] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-cpp pagetable: virt[0xffffffc083640000], phy[0x82200000], size:0x80000
+<11>[   12.006189] CHANGXING60-LINUX: dmesg: [    7.750951] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x32000000
+<11>[   12.017909] CHANGXING60-LINUX: dmesg: [    7.750965] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x32000000
+<11>[   12.029571] CHANGXING60-LINUX: dmesg: [    7.751087] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-vsp1 pagetable: virt[0xffffffc08427a000], phy[0x82280000], size:0x80000
+<11>[   12.047708] CHANGXING60-LINUX: dmesg: [    7.751275] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x32100000
+<11>[   12.058761] CHANGXING60-LINUX: dmesg: [    7.751289] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x32100000
+<11>[   12.069829] CHANGXING60-LINUX: dmesg: [    7.751411] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-vsp2 pagetable: virt[0xffffffc0842fb000], phy[0x82300000], size:0x80000
+<11>[   12.087309] CHANGXING60-LINUX: dmesg: [    7.751591] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x32200000
+<11>[   12.098489] CHANGXING60-LINUX: dmesg: [    7.751606] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x32200000
+<11>[   12.109681] CHANGXING60-LINUX: dmesg: [    7.751813] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-vsp pagetable: virt[0xffffffc08437c000], phy[0xd1800000], size:0x100000
+<11>[   12.127007] CHANGXING60-LINUX: dmesg: [    7.752061] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x36000000
+<11>[   12.138180] CHANGXING60-LINUX: dmesg: [    7.752076] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x36000300
+<11>[   12.149373] CHANGXING60-LINUX: dmesg: [    7.752197] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-jpg pagetable: virt[0xffffffc08447d000], phy[0x82380000], size:0x80000
+<11>[   12.166610] CHANGXING60-LINUX: dmesg: [    7.752471] sprd_iommu: sprd_iommu_get_resource() pgt_base phy:0x31880000
+<11>[   12.177780] CHANGXING60-LINUX: dmesg: [    7.752485] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x31880800
+<11>[   12.188852] CHANGXING60-LINUX: dmesg: [    7.752563] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-dispc1 pagetable: virt[0xffffffc083800000], phy[0xd1900000], size:0x40000
+<11>[   12.206471] CHANGXING60-LINUX: dmesg: [    8.026759] [drm] backlight is not ready, dpu probe deferred
+<11>[   12.216494] CHANGXING60-LINUX: dmesg: [    8.176298] [drm][    dsi_glb_parse_dt] read ctx_reset failed
+<11>[   12.226481] CHANGXING60-LINUX: dmesg: [    8.209363] [ASoC:HDST9620] sprd_headset_parse_dt: parse 'impd-en'' failed!
+<11>[   12.237850] CHANGXING60-LINUX: dmesg: [    8.322034] [ASoC:HDST9620] sprd_headset_power_set name CLK_DCL_32K, power_on 1, en 0
+<11>[   12.250150] CHANGXING60-LINUX: dmesg: [    8.334490] [drm][  dsi_s_glb_parse_dt] read s_ctx_reset failed
+<11>[   12.260459] CHANGXING60-LINUX: dmesg: [    8.351065] [ASoC:HDST9620] sprd_headset_power_set name DIG_CLK_INTC, power_on 1, en 0
+<11>[   12.272862] CHANGXING60-LINUX: dmesg: [    8.364027] [ASoC:HDST9620] sprd_headset_regulator_init PMU0(0000) 2420, PMU1(0004) 0, DCL1(0100) 700, CLK0(0068) 2000
+<11>[   12.288207] CHANGXING60-LINUX: dmesg: [    8.386084] platform 31300000.dphy: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+<11>[   12.301058] CHANGXING60-LINUX: dmesg: [    8.400820] [drm] dphy driver probe (dphy->ctx.id=0)
+<11>[   12.310244] CHANGXING60-LINUX: dmesg: [    8.414335] [drm] dphy driver probe success
+<11>[   12.318677] CHANGXING60-LINUX: dmesg: [    8.431773] platform 31400000.dphy1: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+<11>[   12.331638] CHANGXING60-LINUX: dmesg: [    8.443147] [drm] dphy driver probe (dphy->ctx.id=1)
+<11>[   12.340951] CHANGXING60-LINUX: dmesg: [    8.456129] [drm] dphy driver probe success
+<11>[   12.349530] CHANGXING60-LINUX: dmesg: [    8.570081] sprd-mipi-panel-drv 31300000.dsi.0: supply power not found, using dummy regulator
+<11>[   12.362661] CHANGXING60-LINUX: dmesg: [    8.598866] [drm][sprd_panel_parse_lcddtb] read sprd,dpi-clk-pixelpll failed, dpi_clk_pixelpll = false
+<11>[   12.376570] CHANGXING60-LINUX: dmesg: [    8.640915] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-on-command property
+<11>[   12.390408] CHANGXING60-LINUX: dmesg: [    8.655889] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-off-command property
+<11>[   12.404268] CHANGXING60-LINUX: dmesg: [    8.747431] CHANGXING60-LINUX: stage=modules-done loaded=30 failed=0
+<11>[   12.414912] CHANGXING60-LINUX: dmesg: [   10.660549] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP01_USB_P, Sink = BE_DAI_NORMAL_AP01_USB_P
+<11>[   12.431810] CHANGXING60-LINUX: dmesg: [   10.672750] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_NORMAL_AP01_USB_C, Sink = BE_IF_NORMAL_AP01_USB_C
+<11>[   12.448709] CHANGXING60-LINUX: dmesg: [   10.684952] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP23_USB_P, Sink = BE_DAI_NORMAL_AP23_USB_P
+<11>[   12.465460] CHANGXING60-LINUX: dmesg: [   10.697156] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_NORMAL_AP23_USB_C, Sink = BE_IF_NORMAL_AP23_USB_C
+<11>[   12.482340] CHANGXING60-LINUX: dmesg: [   10.709356] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_CAP_DSP_USB_C, Sink = BE_IF_CAP_DSP_USB_C
+<11>[   12.498553] CHANGXING60-LINUX: dmesg: [   10.720862] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FAST_USB_P, Sink = BE_DAI_FAST_USB_P
+<11>[   12.514170] CHANGXING60-LINUX: dmesg: [   10.722732] [drm:sprd_panel_esd_work_func [sprd_drm]] *ERROR* unknown esd check mode:4
+<11>[   12.526726] CHANGXING60-LINUX: dmesg: [   10.731853] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_OFFLOAD_USB_P, Sink = BE_DAI_OFFLOAD_USB_P
+<11>[   12.542937] CHANGXING60-LINUX: dmesg: [   10.731855] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOICE_USB_P, Sink = BE_DAI_VOICE_USB_P
+<11>[   12.558642] CHANGXING60-LINUX: dmesg: [   10.762405] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOICE_USB_C, Sink = BE_IF_VOICE_USB_C
+<11>[   12.574486] CHANGXING60-LINUX: dmesg: [   10.773569] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOIP_USB_P, Sink = BE_DAI_VOIP_USB_P
+<11>[   12.590162] CHANGXING60-LINUX: dmesg: [   10.784558] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOIP_USB_C, Sink = BE_IF_VOIP_USB_C
+<11>[   12.605734] CHANGXING60-LINUX: dmesg: [   10.795548] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FM_USB_P, Sink = BE_DAI_FM_USB_P
+<11>[   12.621064] CHANGXING60-LINUX: dmesg: [   10.806194] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_LOOP_USB_P, Sink = BE_DAI_LOOP_USB_P
+<11>[   12.636732] CHANGXING60-LINUX: dmesg: [   10.817183] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_LOOP_USB_C, Sink = BE_IF_LOOP_USB_C
+<11>[   12.652443] CHANGXING60-LINUX: dmesg: [   10.828173] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FM_DSP_USB_P, Sink = BE_DAI_FM_DSP_USB_P
+<11>[   12.668468] CHANGXING60-LINUX: dmesg: [   11.172034] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<11>[   12.680959] CHANGXING60-LINUX: dmesg: [   11.179763] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<11>[   12.694168] CHANGXING60-LINUX: dmesg: [   11.188323] musb-sprd 64a00000.usb: musb dr_mode: 3
+<11>[   12.703449] CHANGXING60-LINUX: dmesg: [   11.193180] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<11>[   12.713670] CHANGXING60-LINUX: dmesg: [   11.212989] [drm][    dpu_context_init] read widevine-use-fastcall failed, fastcall_en = false
+<11>[   12.726795] CHANGXING60-LINUX: dmesg: [   11.227781] [drm][    dpu_context_init] read arqos-low failed, use default
+<11>[   12.737893] CHANGXING60-LINUX: dmesg: [   11.234618] [drm][    dpu_context_init] read arqos-high failed, use default
+<11>[   12.749106] CHANGXING60-LINUX: dmesg: [   11.241540] [drm][    dpu_context_init] read awqos_low failed, use default
+<11>[   12.760228] CHANGXING60-LINUX: dmesg: [   11.248376] [drm][    dpu_context_init] read awqos-high failed, use default
+<11>[   12.771568] CHANGXING60-LINUX: dmesg: [   11.255384] [drm][    dpu_glb_parse_dt] read ctx_reset failed
+<11>[   12.781715] CHANGXING60-LINUX: dmesg: [   11.383117] [drm][        dpu_clk_init] DPU_CORE_CLK = 614400000, DPI_CLK_SRC = 307200000
+<11>[   12.794497] CHANGXING60-LINUX: dmesg: [   11.383119] [drm][        dpu_clk_init] dpi clock is 38400000
+<11>[   12.804612] CHANGXING60-LINUX: dmesg: [   11.561920] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<11>[   12.817070] CHANGXING60-LINUX: dmesg: [   11.579356] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<11>[   12.830278] CHANGXING60-LINUX: dmesg: [   11.592766] musb-sprd 64a00000.usb: musb dr_mode: 3
+<11>[   12.839406] CHANGXING60-LINUX: dmesg: [   11.602468] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<11>[   12.849526] CHANGXING60-LINUX: dmesg: [   11.870816] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal	,64280000.thermal	,64290000.thermal	,642a0000.thermal	,64a00000.usb	,
+<11>[   12.867759] CHANGXING60-LINUX: dmesg: [   11.886371] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+<11>[   12.932117] CHANGXING60-LINUX: dmesg: [   11.947914] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+<11>[   13.054121] CHANGXING60-LINUX: stage=persist-target dev=/dev/sdc40 rootdisk=sdc
+<11>[   13.078373] CHANGXING60-LINUX: stage=usb-phy-state dummyphy_dev=[/sys/bus/platform/devices/soc:ipa-apb:dummyphy,] dummyphy_drv=[../../../../../bus/platform/drivers/usb_phy_generic,] phyclass=[] udc=[25100000.dwc3,] deferred=[64270000.thermal	 64280000.thermal	 64290000.thermal	 642a0000.thermal	 64a00000.usb	 ]
+<11>[   13.108659] CHANGXING60-LINUX: stage=usb-configfs
+<11>[   13.115796] CHANGXING60-LINUX: stage=usb-netfn ncm
+<11>[   13.121511] CHANGXING60-LINUX: stage=usb-wait-udc
+<11>[   13.127983] CHANGXING60-LINUX: stage=udc udc=25100000.dwc3 available=25100000.dwc3,
+<11>[   14.149863] CHANGXING60-LINUX: stage=usb-bind-start
+<3>[   14.155634] gadget gadget.0: really_probe: drv=configfs-gadget.linux link_ret=0 defer_all=0
+<6>[   14.164535] configfs-gadget.linux gadget.0: HOST MAC 02:50:00:00:77:02
+<6>[   14.171410] configfs-gadget.linux gadget.0: MAC 02:50:00:00:77:01
+<11>[   14.200813] CHANGXING60-LINUX: stage=usb-bind-done rc=0
+<3>[   14.200955] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   14.216341] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   14.226175] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<11>[   14.228464] CHANGXING60-LINUX: stage=usb0-netdevs lo,usb0,
+<3>[   14.235084] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<11>[   14.241374] CHANGXING60-LINUX: stage=ramdisk-only root mount skipped
+<3>[   14.249354] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<11>[   14.263414] CHANGXING60-LINUX: stage=rootfs-unavailable 
+<6>[   14.263807] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<11>[   14.275645] CHANGXING60-LINUX: stage=rootfs-unavailable-block loop0,loop1,loop10,loop11,loop12,loop13,loop14,loop15,loop2,loop3,loop4,loop5,loop6,loop7,loop8,loop9,sda,sdb,sdc,sdc1,sdc10,sdc11,sdc12,sdc13,sdc14,sdc15,sdc16,sdc17,sdc18,sdc19,sdc2,sdc20,sdc21,sdc22,sdc23,sdc24,sdc25,sdc26,sdc27,sdc28,sdc29,sdc3,sdc30,sdc31,sdc32,sdc33,sdc34,sdc35,sdc36,sdc37,sdc38,sdc39,sdc4,sdc40,sdc41,sdc42,sdc43,sdc44,sdc45,sdc46,sdc47,sdc48,sdc49,sdc5,sdc50,sdc51,sdc52,sdc53,sdc54,sdc55,sdc56,sdc57,sdc58,sdc59,sdc6,sdc60,sdc61,sdc62,sdc63,sdc64,sdc65,sdc66,sdc67,sdc68,sdc69,sdc7,sdc70,sdc71,sdc72,sdc73,sdc74,sdc75,sdc76,sdc8,sdc9,zram0,
+<6>[   14.282789] musb-sprd 64a00000.usb: musb dr_mode: 3
+<11>[   14.338877] CHANGXING60-LINUX: stage=rootfs-unavailable-deferred 64270000.thermal	,64280000.thermal	,64290000.thermal	,642a0000.thermal	,
+<3>[   14.342516] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<11>[   14.356479] CHANGXING60-LINUX: stage=rootfs-unavailable-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+<11>[   14.429435] CHANGXING60-LINUX: stage=rootfs-unavailable-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+<11>[   14.449093] CHANGXING60-LINUX: dmesg: [   12.177780] CHANGXING60-LINUX: dmesg: [    7.752485] sprd_iommu: sprd_iommu_get_resource() ctrl_reg phy:0x31880800
+<11>[   14.464880] CHANGXING60-LINUX: dmesg: [   12.188852] CHANGXING60-LINUX: dmesg: [    7.752563] sprd_iommu: sprd_iommu_pt_cma_alloc() unisoc,iommuvaul6p-dispc1 pagetable: virt[0xffffffc083800000], phy[0xd1900000], size:0x40000
+<11>[   14.487177] CHANGXING60-LINUX: dmesg: [   12.206471] CHANGXING60-LINUX: dmesg: [    8.026759] [drm] backlight is not ready, dpu probe deferred
+<11>[   14.500889] CHANGXING60-LINUX: dmesg: [   12.216494] CHANGXING60-LINUX: dmesg: [    8.176298] [drm][    dsi_glb_parse_dt] read ctx_reset failed
+<11>[   14.514919] CHANGXING60-LINUX: dmesg: [   12.226481] CHANGXING60-LINUX: dmesg: [    8.209363] [ASoC:HDST9620] sprd_headset_parse_dt: parse 'impd-en'' failed!
+<11>[   14.530141] CHANGXING60-LINUX: dmesg: [   12.237850] CHANGXING60-LINUX: dmesg: [    8.322034] [ASoC:HDST9620] sprd_headset_power_set name CLK_DCL_32K, power_on 1, en 0
+<11>[   14.546190] CHANGXING60-LINUX: dmesg: [   12.250150] CHANGXING60-LINUX: dmesg: [    8.334490] [drm][  dsi_s_glb_parse_dt] read s_ctx_reset failed
+<11>[   14.560268] CHANGXING60-LINUX: dmesg: [   12.260459] CHANGXING60-LINUX: dmesg: [    8.351065] [ASoC:HDST9620] sprd_headset_power_set name DIG_CLK_INTC, power_on 1, en 0
+<11>[   14.576531] CHANGXING60-LINUX: dmesg: [   12.272862] CHANGXING60-LINUX: dmesg: [    8.364027] [ASoC:HDST9620] sprd_headset_regulator_init PMU0(0000) 2420, PMU1(0004) 0, DCL1(0100) 700, CLK0(0068) 2000
+<11>[   14.595729] CHANGXING60-LINUX: dmesg: [   12.288207] CHANGXING60-LINUX: dmesg: [    8.386084] platform 31300000.dphy: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+<11>[   14.612237] CHANGXING60-LINUX: dmesg: [   12.301058] CHANGXING60-LINUX: dmesg: [    8.400820] [drm] dphy driver probe (dphy->ctx.id=0)
+<11>[   14.625352] CHANGXING60-LINUX: dmesg: [   12.310244] CHANGXING60-LINUX: dmesg: [    8.414335] [drm] dphy driver probe success
+<11>[   14.637836] CHANGXING60-LINUX: dmesg: [   12.318677] CHANGXING60-LINUX: dmesg: [    8.431773] platform 31400000.dphy1: really_probe: drv=sprd-dphy-drv link_ret=0 defer_all=0
+<11>[   14.654315] CHANGXING60-LINUX: dmesg: [   12.331638] CHANGXING60-LINUX: dmesg: [    8.443147] [drm] dphy driver probe (dphy->ctx.id=1)
+<11>[   14.667548] CHANGXING60-LINUX: dmesg: [   12.340951] CHANGXING60-LINUX: dmesg: [    8.456129] [drm] dphy driver probe success
+<11>[   14.680023] CHANGXING60-LINUX: dmesg: [   12.349530] CHANGXING60-LINUX: dmesg: [    8.570081] sprd-mipi-panel-drv 31300000.dsi.0: supply power not found, using dummy regulator
+<11>[   14.696837] CHANGXING60-LINUX: dmesg: [   12.362661] CHANGXING60-LINUX: dmesg: [    8.598866] [drm][sprd_panel_parse_lcddtb] read sprd,dpi-clk-pixelpll failed, dpi_clk_pixelpll = false
+<11>[   14.714644] CHANGXING60-LINUX: dmesg: [   12.376570] CHANGXING60-LINUX: dmesg: [    8.640915] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-on-command property
+<11>[   14.732236] CHANGXING60-LINUX: dmesg: [   12.390408] CHANGXING60-LINUX: dmesg: [    8.655889] [drm:sprd_panel_parse_lcddtb [sprd_drm]] *ERROR* can't find sprd,cabc-off-command property
+<11>[   14.749818] CHANGXING60-LINUX: dmesg: [   12.404268] CHANGXING60-LINUX: dmesg: [    8.747431] CHANGXING60-LINUX: stage=modules-done loaded=30 failed=0
+<11>[   14.764485] CHANGXING60-LINUX: dmesg: [   12.414912] CHANGXING60-LINUX: dmesg: [   10.660549] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP01_USB_P, Sink = BE_DAI_NORMAL_AP01_USB_P
+<11>[   14.785303] CHANGXING60-LINUX: dmesg: [   12.431810] CHANGXING60-LINUX: dmesg: [   10.672750] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_NORMAL_AP01_USB_C, Sink = BE_IF_NORMAL_AP01_USB_C
+<11>[   14.806001] CHANGXING60-LINUX: dmesg: [   12.448709] CHANGXING60-LINUX: dmesg: [   10.684952] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_NORMAL_AP23_USB_P, Sink = BE_DAI_NORMAL_AP23_USB_P
+<11>[   14.826785] CHANGXING60-LINUX: dmesg: [   12.465460] CHANGXING60-LINUX: dmesg: [   10.697156] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_NORMAL_AP23_USB_C, Sink = BE_IF_NORMAL_AP23_USB_C
+<11>[   14.847594] CHANGXING60-LINUX: dmesg: [   12.482340] CHANGXING60-LINUX: dmesg: [   10.709356] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_CAP_DSP_USB_C, Sink = BE_IF_CAP_DSP_USB_C
+<11>[   14.867566] CHANGXING60-LINUX: dmesg: [   12.498553] CHANGXING60-LINUX: dmesg: [   10.720862] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FAST_USB_P, Sink = BE_DAI_FAST_USB_P
+<11>[   14.887087] CHANGXING60-LINUX: dmesg: [   12.514170] CHANGXING60-LINUX: dmesg: [   10.722732] [drm:sprd_panel_esd_work_func [sprd_drm]] *ERROR* unknown esd check mode:4
+<11>[   14.903276] CHANGXING60-LINUX: dmesg: [   12.526726] CHANGXING60-LINUX: dmesg: [   10.731853] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_OFFLOAD_USB_P, Sink = BE_DAI_OFFLOAD_USB_P
+<11>[   14.923324] CHANGXING60-LINUX: dmesg: [   12.542937] CHANGXING60-LINUX: dmesg: [   10.731855] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOICE_USB_P, Sink = BE_DAI_VOICE_USB_P
+<11>[   14.942943] CHANGXING60-LINUX: dmesg: [   12.558642] CHANGXING60-LINUX: dmesg: [   10.762405] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOICE_USB_C, Sink = BE_IF_VOICE_USB_C
+<11>[   14.962703] CHANGXING60-LINUX: dmesg: [   12.574486] CHANGXING60-LINUX: dmesg: [   10.773569] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_VOIP_USB_P, Sink = BE_DAI_VOIP_USB_P
+<11>[   14.982158] CHANGXING60-LINUX: dmesg: [   12.590162] CHANGXING60-LINUX: dmesg: [   10.784558] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_VOIP_USB_C, Sink = BE_IF_VOIP_USB_C
+<11>[   15.001688] CHANGXING60-LINUX: dmesg: [   12.605734] CHANGXING60-LINUX: dmesg: [   10.795548] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FM_USB_P, Sink = BE_DAI_FM_USB_P
+<11>[   15.020911] CHANGXING60-LINUX: dmesg: [   12.621064] CHANGXING60-LINUX: dmesg: [   10.806194] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_LOOP_USB_P, Sink = BE_DAI_LOOP_USB_P
+<11>[   15.040454] CHANGXING60-LINUX: dmesg: [   12.636732] CHANGXING60-LINUX: dmesg: [   10.817183] [ASoC: VBC ] sprd_dai_vbc_probe: 6732:Add route for capture:  Src = BE_DAI_LOOP_USB_C, Sink = BE_IF_LOOP_USB_C
+<11>[   15.060021] CHANGXING60-LINUX: dmesg: [   12.652443] CHANGXING60-LINUX: dmesg: [   10.828173] [ASoC: VBC ] sprd_dai_vbc_probe: 6722:Add route for playback: Src = BE_IF_FM_DSP_USB_P, Sink = BE_DAI_FM_DSP_USB_P
+<11>[   15.079887] CHANGXING60-LINUX: dmesg: [   12.668468] CHANGXING60-LINUX: dmesg: [   11.172034] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<11>[   15.095975] CHANGXING60-LINUX: dmesg: [   12.680959] CHANGXING60-LINUX: dmesg: [   11.179763] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<11>[   15.112821] CHANGXING60-LINUX: dmesg: [   12.694168] CHANGXING60-LINUX: dmesg: [   11.188323] musb-sprd 64a00000.usb: musb dr_mode: 3
+<11>[   15.125989] CHANGXING60-LINUX: dmesg: [   12.703449] CHANGXING60-LINUX: dmesg: [   11.193180] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<11>[   15.139964] CHANGXING60-LINUX: dmesg: [   12.713670] CHANGXING60-LINUX: dmesg: [   11.212989] [drm][    dpu_context_init] read widevine-use-fastcall failed, fastcall_en = false
+<11>[   15.156855] CHANGXING60-LINUX: dmesg: [   12.726795] CHANGXING60-LINUX: dmesg: [   11.227781] [drm][    dpu_context_init] read arqos-low failed, use default
+<11>[   15.171964] CHANGXING60-LINUX: dmesg: [   12.737893] CHANGXING60-LINUX: dmesg: [   11.234618] [drm][    dpu_context_init] read arqos-high failed, use default
+<11>[   15.187179] CHANGXING60-LINUX: dmesg: [   12.749106] CHANGXING60-LINUX: dmesg: [   11.241540] [drm][    dpu_context_init] read awqos_low failed, use default
+<11>[   15.202220] CHANGXING60-LINUX: dmesg: [   12.760228] CHANGXING60-LINUX: dmesg: [   11.248376] [drm][    dpu_context_init] read awqos-high failed, use default
+<11>[   15.217308] CHANGXING60-LINUX: dmesg: [   12.771568] CHANGXING60-LINUX: dmesg: [   11.255384] [drm][    dpu_glb_parse_dt] read ctx_reset failed
+<11>[   15.231221] CHANGXING60-LINUX: dmesg: [   12.781715] CHANGXING60-LINUX: dmesg: [   11.383117] [drm][        dpu_clk_init] DPU_CORE_CLK = 614400000, DPI_CLK_SRC = 307200000
+<11>[   15.247663] CHANGXING60-LINUX: dmesg: [   12.794497] CHANGXING60-LINUX: dmesg: [   11.383119] [drm][        dpu_clk_init] dpi clock is 38400000
+<11>[   15.261717] CHANGXING60-LINUX: dmesg: [   12.804612] CHANGXING60-LINUX: dmesg: [   11.561920] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<11>[   15.277843] CHANGXING60-LINUX: dmesg: [   12.817070] CHANGXING60-LINUX: dmesg: [   11.579356] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<11>[   15.294699] CHANGXING60-LINUX: dmesg: [   12.830278] CHANGXING60-LINUX: dmesg: [   11.592766] musb-sprd 64a00000.usb: musb dr_mode: 3
+<11>[   15.307707] CHANGXING60-LINUX: dmesg: [   12.839406] CHANGXING60-LINUX: dmesg: [   11.602468] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<11>[   15.321864] CHANGXING60-LINUX: dmesg: [   12.849526] CHANGXING60-LINUX: dmesg: [   11.870816] CHANGXING60-LINUX: stage=modules-done-deferred 64270000.thermal	,64280000.thermal	,64290000.thermal	,642a0000.thermal	,64a00000.usb	,
+<11>[   15.343737] CHANGXING60-LINUX: dmesg: [   12.867759] CHANGXING60-LINUX: dmesg: [   11.886371] CHANGXING60-LINUX: stage=modules-done-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+<11>[   15.411866] CHANGXING60-LINUX: dmesg: [   12.932117] CHANGXING60-LINUX: dmesg: [   11.947914] CHANGXING60-LINUX: stage=modules-done-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+<11>[   15.429599] CHANGXING60-LINUX: dmesg: [   13.078373] CHANGXING60-LINUX: stage=usb-phy-state dummyphy_dev=[/sys/bus/platform/devices/soc:ipa-apb:dummyphy,] dummyphy_drv=[../../../../../bus/platform/drivers/usb_phy_generic,] phyclass=[] udc=[25100000.dwc3,] deferred=[64270000.thermal	 64280000.thermal	 64290000.thermal	 642a0000.thermal	 64a00000.usb	 ]
+<11>[   15.462483] CHANGXING60-LINUX: dmesg: [   13.108659] CHANGXING60-LINUX: stage=usb-configfs
+<11>[   15.471535] CHANGXING60-LINUX: dmesg: [   13.115796] CHANGXING60-LINUX: stage=usb-netfn ncm
+<11>[   15.480762] CHANGXING60-LINUX: dmesg: [   13.121511] CHANGXING60-LINUX: stage=usb-wait-udc
+<11>[   15.489924] CHANGXING60-LINUX: dmesg: [   13.127983] CHANGXING60-LINUX: stage=udc udc=25100000.dwc3 available=25100000.dwc3,
+<11>[   15.502297] CHANGXING60-LINUX: dmesg: [   14.149863] CHANGXING60-LINUX: stage=usb-bind-start
+<11>[   15.511496] CHANGXING60-LINUX: dmesg: [   14.200813] CHANGXING60-LINUX: stage=usb-bind-done rc=0
+<11>[   15.520970] CHANGXING60-LINUX: dmesg: [   14.228464] CHANGXING60-LINUX: stage=usb0-netdevs lo,usb0,
+<11>[   15.530961] CHANGXING60-LINUX: dmesg: [   14.249354] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<11>[   15.543480] CHANGXING60-LINUX: dmesg: [   14.263807] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<11>[   15.556722] CHANGXING60-LINUX: dmesg: [   14.282789] musb-sprd 64a00000.usb: musb dr_mode: 3
+<11>[   15.566068] CHANGXING60-LINUX: dmesg: [   14.338877] CHANGXING60-LINUX: stage=rootfs-unavailable-deferred 64270000.thermal	,64280000.thermal	,64290000.thermal	,642a0000.thermal	,
+<11>[   15.583296] CHANGXING60-LINUX: dmesg: [   14.342516] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<11>[   15.593921] CHANGXING60-LINUX: dmesg: [   14.356479] CHANGXING60-LINUX: stage=rootfs-unavailable-pdrv dwc3,dwc3-generic-plat,dwc3-of-simple,mcdt_sprd,musb-sprd,sdhci_sprd_r11,sprd-adc,sprd-adi,sprd-agdsp-pd,sprd-audio-power,sprd-backlight,sprd-bc1p2,sprd-bltc,sprd-camsys-pd,sprd-codec-ump9620,sprd-compr-platform,sprd-dma,sprd-dphy-drv,sprd-dpu-drv,sprd-drm-drv,sprd-dsi-drv,sprd-dummy-playback,sprd-efuse,sprd-eic,sprd-gpio,sprd-i2c,sprd-pcm-audio,sprd-pcm-routing,sprd-pinctrl,sprd-pmic-eic,sprd-pwm,sprd-rtc,sprd-sipc,sprd-ssphy,sprd-thermal-r5p0,sprd-trusty-core,sprd-trusty-irq,sprd-trusty-virtio,sprd-vpu-pd,sprd_audio_dsp_dump,sprd_audio_pipe,sprd_hwspinlock,sprd_iommu_drv,sprd_serial,ufshcd-sprd,
+<11>[   15.658775] CHANGXING60-LINUX: dmesg: [   14.429435] CHANGXING60-LINUX: stage=rootfs-unavailable-bnd /sys/bus/platform/drivers/dwc3:,25100000.dwc3,
+<11>[   15.677929] CHANGXING60-LINUX: stage=misc-restored dev=/dev/sdc3
+<11>[   15.686301] CHANGXING60-LINUX: stage=usb0 usb0      Link encap:Ethernet  HWaddr 02:50:00:00:77:01  
+<11>[   15.698915] CHANGXING60-LINUX: stage=ttyGS0-console on
+<11>[   15.704716] CHANGXING60-LINUX: stage=ready
+<11>[   17.028429] CHANGXING60-LINUX: stage=android-chroot-ready nodes=ls: /dev/modem: No such file or directory,ls: /dev/pmsys: No such file or directory,ls: /dev/sctl_pm: No such file or directory,/dev/trusty-ipc-dev0,
+<11>[   17.048697] CHANGXING60-LINUX: stage=modem_control-started pid=1424
+<6>[   17.726730] sprd-vpu-pd soc:mm:power-domain@3: vpu pd delay work done!
+<6>[   17.740528] sprd-vpu-pd soc:mm:power-domain@2: vpu pd delay work done!
+<6>[   17.747409] sprd-vpu-pd soc:mm:power-domain@1: vpu pd delay work done!
+<6>[   17.754290] sprd-vpu-pd soc:mm:power-domain@0: vpu pd delay work done!
+<5>[   17.934731] random: crng init done
+<11>[   20.707716] CHANGXING60-LINUX: stage=usb0-stats rx 7860 78 tx 2180 10 leases=[] arp=[]
+<3>[   24.382790] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   24.392164] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   24.401461] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   24.410761] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+<3>[   24.420058] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+<6>[   24.428255] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+<6>[   24.437223] musb-sprd 64a00000.usb: musb dr_mode: 3
+<3>[   24.442247] musb-sprd 64a00000.usb: Error getting usb-phy -517
+<4>[   24.448485] platform 64270000.thermal: deferred probe pending: (reason unknown)
+<4>[   24.456159] platform 64280000.thermal: deferred probe pending: (reason unknown)
+<4>[   24.463812] platform 64290000.thermal: deferred probe pending: (reason unknown)
+<4>[   24.471467] platform 642a0000.thermal: deferred probe pending: (reason unknown)
+<4>[   24.479121] platform 64a00000.usb: deferred probe pending: (reason unknown)
+<11>[   25.719392] CHANGXING60-LINUX: stage=usb0-stats rx 15648 148 tx 8396 21 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+<11>[   30.739040] CHANGXING60-LINUX: stage=usb0-stats rx 22395 199 tx 8608 23 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+<11>[   35.759394] CHANGXING60-LINUX: stage=usb0-stats rx 25175 211 tx 8608 23 leases=[] arp=[192.168.77.4     0x1         0x2         02:50:00:00:77:02     *        usb0;]
+<4>[   35.903123] regulator: Not disabling unused regulators
+<6>[   38.988417] [drm] sprd_dsi_connector_best_encoder()
+<6>[   38.988422] [drm] sprd_dsi_connector_best_encoder()
+<6>[   38.988425] [drm] sprd_dsi_encoder_atomic_check()
+<6>[   38.988432] [drm] sprd_dsi_encoder_disable(last_dpms=0, dpms=0)
+<6>[   39.031699] [drm][  dpu_wait_stop_done] dpu is idle now
+<6>[   39.031705] [drm][            dpu_stop] dpu stop
+<3>[   39.031849] [drm][sprd_dsi_set_work_mode] tx cmd fifo or payload fifo is not empty
+<4>[   39.031858] display panel0: Skipping disable of already disabled panel
+<4>[   39.031881] display panel0: Skipping unprepare of already unprepared panel
+<6>[   39.032150] [drm] sprd_dpu_atomic_disable()
+<6>[   39.032226] [drm] sprd_dsi_connector_best_encoder()
+<6>[   39.032228] [drm] sprd_dsi_connector_best_encoder()
+<6>[   39.032230] [drm] sprd_dsi_encoder_atomic_check()
+<6>[   39.037030] sprd-vpu-pd: PMU_APB_PIXELPLL pw off
+<6>[   39.037032] sprd-vpu-pd: power-domain@0: vpu_pw_off OK
+<6>[   40.116627] [drm] sprd_dsi_connector_best_encoder()
+<6>[   40.116632] [drm] sprd_dsi_connector_best_encoder()
+<6>[   40.116635] [drm] sprd_dsi_encoder_atomic_check()
+<6>[   40.116644] [drm] sprd_dpu_atomic_enable()
+<6>[   40.116649] sprd-vpu-pd: PMU_APB_PIXELPLL pw on 
+<6>[   40.117255] sprd-vpu-pd: power-domain@0: vpu_pw_on OK
+<6>[   40.117261] [drm] sprd_dsi_encoder_enable(last_dpms=0, dpms=0)
+<6>[   40.117278] [drm][       sprd_dsi_init] escape clock divider = 4
+<6>[   40.117409] [drm][      sprd_dphy_init] lanes : 2
+<6>[   40.117410] [drm][      sprd_dphy_init] freq : 552000
+<6>[   40.118252] [drm] sprd_panel_prepare()
+<6>[   40.118276] [drm] lcd name: lcd_easyquick_aixiesheng_boe_mipi_hd
+<6>[   40.118280] [drm] LCD name = lcd_easyquick_aixiesheng_boe_mipi_hd
+<3>[   40.119287] [KERNEL/LCM_BIAS]OCP2131 write enter !!
+<3>[   40.125289] [KERNEL/LCM_BIAS]OCP2131 write enter !!
+<6>[   40.170299] [drm] sprd_panel_enable()
+<3>[   40.335112] [drm][sprd_dsi_set_work_mode] tx cmd fifo or payload fifo is not empty
+<6>[   40.335232] [drm][        dpu_clk_init] DPU_CORE_CLK = 614400000, DPI_CLK_SRC = 307200000
+<6>[   40.335234] [drm][        dpu_clk_init] dpi clock is 38400000
+<2>[   40.335259] SError Interrupt on CPU7, code 0x00000000be000011 -- SError
+<4>[   40.335263] CPU: 7 UID: 0 PID: 1553 Comm: sh Tainted: G   M                6.18.54-7552n-probe1+ #38 NONE 
+<4>[   40.335267] Tainted: [M]=MACHINE_CHECK
+<4>[   40.335269] Hardware name: Spreadtrum UMS9620 SoC (DT)
+<4>[   40.335271] pstate: 60000009 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+<4>[   40.335273] pc : dpu_init+0x6a0/0xeb0 [sprd_drm]
+<4>[   40.335317] lr : sprd_dpu_enable+0xac/0x120 [sprd_drm]
+<4>[   40.335346] sp : ffffffc08697b910
+<4>[   40.335347] x29: ffffffc08697b940 x28: ffffff8080876518 x27: ffffffc080eed9c8
+<4>[   40.335351] x26: ffffffc079ceb048 x25: 0000000000000000 x24: ffffff808e655380
+<4>[   40.335353] x23: ffffff8082cb8080 x22: ffffffc079ce2caf x21: ffffff808dcb8080
+<4>[   40.335356] x20: ffffff808d810080 x19: ffffff808de9c3a8 x18: 0000000046dcff00
+<4>[   40.335358] x17: 52535f4b4c435f49 x16: 5044202c30303030 x15: 0000000000000004
+<4>[   40.335360] x14: ffffff80fa2f8000 x13: 0000000000000000 x12: ffffffc083024300
+<4>[   40.335363] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000380
+<4>[   40.335365] x8 : ffffffc079d0d32c x7 : 7064202020202020 x6 : 20205b5d6d72645b
+<4>[   40.335367] x5 : 0000000000000003 x4 : 0000000000000000 x3 : 0000000000000000
+<4>[   40.335370] x2 : 0000000000000001 x1 : 00000000124f8000 x0 : ffffff808de9c3a8
+<0>[   40.335373] Kernel panic - not syncing: Asynchronous SError Interrupt
+<4>[   40.335374] CPU: 7 UID: 0 PID: 1553 Comm: sh Tainted: G   M                6.18.54-7552n-probe1+ #38 NONE 
+<4>[   40.335377] Tainted: [M]=MACHINE_CHECK
+<4>[   40.335378] Hardware name: Spreadtrum UMS9620 SoC (DT)
+<4>[   40.335379] Call trace:
+<4>[   40.335380]  show_stack+0x1c/0x30 (C)
+<4>[   40.335386]  dump_stack_lvl+0x3c/0x80
+<4>[   40.335390]  dump_stack+0x14/0x1c
+<4>[   40.335393]  vpanic+0x128/0x300
+<4>[   40.335395]  panic+0x4c/0x58
+<4>[   40.335397]  nmi_panic+0x7c/0x88
+<4>[   40.335400]  arm64_serror_panic+0x70/0x88
+<4>[   40.335403]  do_serror+0x84/0x90
+<4>[   40.335406]  el1h_64_error_handler+0x34/0x50
+<4>[   40.335410]  el1h_64_error+0x6c/0x70
+<4>[   40.335412]  dpu_init+0x6a0/0xeb0 [sprd_drm] (P)
+<4>[   40.335440]  sprd_dpu_enable+0xac/0x120 [sprd_drm]
+<4>[   40.335466]  sprd_dpu_resume+0x1c/0x50 [sprd_drm]
+<4>[   40.335492]  sprd_dsi_encoder_enable+0x260/0x300 [sprd_drm]
+<4>[   40.335518]  drm_atomic_helper_commit_encoder_bridge_enable+0x120/0x148 [drm_kms_helper]
+<4>[   40.335536]  drm_atomic_helper_commit_modeset_enables+0x3c/0xd0 [drm_kms_helper]
+<4>[   40.335549]  sprd_commit_tail+0x48/0xd8 [sprd_drm]
+<4>[   40.335576]  sprd_atomic_helper_commit+0x224/0x248 [sprd_drm]
+<4>[   40.335603]  drm_atomic_commit+0xa8/0xc0
+<4>[   40.335607]  drm_client_modeset_commit_atomic+0x280/0x330
+<4>[   40.335611]  drm_client_modeset_dpms+0x6c/0x1f0
+<4>[   40.335614]  drm_fb_helper_blank+0xcc/0xf0 [drm_kms_helper]
+<4>[   40.335628]  fb_blank+0x44/0x68
+<4>[   40.335632]  store_blank+0x4c/0x88
+<4>[   40.335635]  dev_attr_store+0x1c/0x38
+<4>[   40.335640]  sysfs_kf_write+0x5c/0x78
+<4>[   40.335643]  kernfs_fop_write_iter+0xe8/0x190
+<4>[   40.335645]  vfs_write+0x234/0x3a8
+<4>[   40.335648]  ksys_write+0x70/0xd0
+<4>[   40.335650]  __arm64_sys_write+0x20/0x30
+<4>[   40.335653]  invoke_syscall+0x4c/0xb8
+<4>[   40.335656]  do_el0_svc+0x80/0xb0
+<4>[   40.335660]  el0_svc+0x20/0x58
+<4>[   40.335663]  el0t_64_sync_handler+0x7c/0x120
+<4>[   40.335666]  el0t_64_sync+0x154/0x158
+<2>[   40.335668] SMP: stopping secondary CPUs
+<0>[   40.335947] Kernel Offset: disabled
+<0>[   40.335948] CPU features: 0x000000,0000e000,08004081,0400500b
+<0>[   40.335950] Memory Limit: none

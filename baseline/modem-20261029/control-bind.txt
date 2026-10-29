@@ -1,0 +1,42 @@
+crw-------    1 root     root      506,   0 Oct 29 06:30 /dev/modem
+crw-------    1 root     root      508,   0 Oct 29 06:30 /dev/pmsys
+[36255.984572] sprd-mpm: modem-rd pms init failed, dst=5.
+[36255.984765] musb-sprd 64a00000.usb: musb dr_mode: 3
+[36255.989790] create pms modem-rd failed!
+[36255.990001] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[36255.990364] sprd-mpm: modem-wt pms init failed, dst=5.
+[36255.996118] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[36256.001188] create pms modem-wt failed!
+[36256.001203] platform modem@3: really_probe: drv=modem link_ret=0 defer_all=0
+[36256.010082] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[36256.017175] sprd-mpm: phycp-rd pms init failed, dst=7.
+[36256.025898] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[36256.030958] create pms phycp-rd failed!
+[36256.030959] sprd-mpm: phycp-wt pms init failed, dst=7.
+[36256.030960] create pms phycp-wt failed!
+[36256.049154] platform 642a0000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[36256.058393] platform 64a00000.usb: really_probe: drv=musb-sprd link_ret=0 defer_all=0
+[36256.066558] musb-sprd 64a00000.usb: dwc3 probe finish or donnot need loading, musb start probe
+[36256.066563] musb-sprd 64a00000.usb: musb dr_mode: 3
+[36256.066578] musb-sprd 64a00000.usb: Error getting usb-phy -517
+[36256.072775] platform 64270000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[36256.082028] platform 64280000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[36256.091274] platform 64290000.thermal: really_probe: drv=sprd-thermal-r5p0 link_ret=0 defer_all=0
+[36256.830972] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[36256.830979] WCN BASE: tx:at+loopcheck=36256824,8824
+[36256.830979] 
+[36256.834871] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36256.838657] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[36256.838659] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36256.838831] WCN BASE: mdbg_tx_cb, chn:0
+[36256.839307] WCN BASE: rx:loopcheck_ack:ap_send=36256824,cp2_bootup=8824,cp2_send=36256853
+[36256.839307] 
+[36261.951583] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[36261.951590] WCN BASE: tx:at+loopcheck=36261945,8824
+[36261.951590] 
+[36261.955636] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36261.959426] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[36261.959429] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[36261.959637] WCN BASE: mdbg_tx_cb, chn:0
+[36261.960295] WCN BASE: rx:loopcheck_ack:ap_send=36261945,cp2_bootup=8824,cp2_send=36261974
+[36261.960295] 

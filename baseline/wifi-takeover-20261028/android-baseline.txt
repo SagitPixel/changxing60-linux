@@ -1,0 +1,116 @@
+uid=0(root) gid=0(root) groups=0(root) context=u:r:magisk:s0
+mmc2:8800:1
+===/sys/class/mmc_host/mmc0
+/sys/devices/platform/soc/soc:ap-ahb/22200000.sdio/mmc_host/mmc0
+===/sys/class/mmc_host/mmc1
+/sys/devices/platform/soc/soc:ap-ahb/22210000.sdio/mmc_host/mmc1
+===/sys/class/mmc_host/mmc2
+/sys/devices/platform/soc/soc:ap-ahb/22220000.sdio/mmc_host/mmc2
+magisk on /debug_ramdisk type tmpfs (rw,seclabel,relatime,size=1770220k,nr_inodes=442555,mode=755)
+devpts on /debug_ramdisk/.magisk/pts type devpts (rw,seclabel,nosuid,noexec,relatime,mode=600,ptmxmode=000)
+/dev/block/dm-8 on /system_ext/bin/ylogdebug.sh type erofs (ro,seclabel,relatime,user_xattr,acl,cache_strategy=readaround)
+cat: /sys/kernel/debug/mmc*/ios: No such file or directory
+[  164.834820] [c2] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[  164.834823] [c2] WCN BASE: tx:at+loopcheck=164837,14250\x0d\x0a
+[  164.844178] [c2] WCN BASEavdd18_dcxo 1v8 have enable
+[  164.844181] [c2] WCN SLP_MGR:  cnt-0, subsys-2
+[  164.846730] [c2] WCN BASE: mdbg_tx_cb, chn:0
+[  164.847414] [c0] WCN BOOT: : irq_cnt124!!
+[  164.847451] [c1] WCN BASE: : rx:loopcheck_ack:ap_send=164837,cp2_bootup=14250,cp2_send=164812\x0a
+[  164.847597] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  164.847758] [c1] WCN SLP_MGR: allow sleep
+[  169.954850] [c2] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[  169.954853] [c2] WCN BASE: tx:at+loopcheck=169957,14250\x0d\x0a
+[  169.964230] [c2] WCN BASEavdd18_dcxo 1v8 have enable
+[  169.964233] [c2] WCN SLP_MGR:  cnt-0, subsys-2
+[  169.966746] [c2] WCN BASE: mdbg_tx_cb, chn:0
+[  169.967429] [c0] WCN BOOT: : irq_cnt125!!
+[  169.967454] [c1] WCN BASE: : rx:loopcheck_ack:ap_send=169957,cp2_bootup=14250,cp2_send=169932\x0a
+[  169.967603] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  169.967767] [c1] WCN SLP_MGR: allow sleep
+[  175.074766] [c3] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[  175.074775] [c3] WCN BASE: tx:at+loopcheck=175076,14250\x0d\x0a
+[  175.084953] [c3] WCN BASEavdd18_dcxo 1v8 have enable
+[  175.084962] [c3] WCN SLP_MGR:  cnt-0, subsys-2
+[  175.086984] [c0] WCN BOOT: : irq_cnt126!!
+[  175.087339] [c3] WCN BASE: mdbg_tx_cb, chn:0
+[  175.087462] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  175.087572] [c1] WCN SLP_MGR: allow sleep
+[  175.088380] [c1] WCN BASE: : rx:loopcheck_ack:ap_send=175076,cp2_bootup=14250,cp2_send=175053\x0a
+[  175.088414] [c0] WCN BOOT: : irq_cnt127!!
+[  175.088593] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  175.088698] [c1] WCN SLP_MGR: allow sleep
+[  180.194180] [c3] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[  180.194187] [c3] WCN BASE: tx:at+loopcheck=180196,14250\x0d\x0a
+[  180.204406] [c3] WCN BASEavdd18_dcxo 1v8 have enable
+[  180.204415] [c3] WCN SLP_MGR:  cnt-0, subsys-2
+[  180.206401] [c0] WCN BOOT: : irq_cnt128!!
+[  180.206751] [c3] WCN BASE: mdbg_tx_cb, chn:0
+[  180.206872] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  180.206981] [c1] WCN SLP_MGR: allow sleep
+[  180.207737] [c1] WCN BASE: : rx:loopcheck_ack:ap_send=180196,cp2_bootup=14250,cp2_send=180172\x0a
+[  180.207770] [c0] WCN BOOT: : irq_cnt129!!
+[  180.207950] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  180.208109] [c1] WCN SLP_MGR: allow sleep
+[  185.318177] [c3] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[  185.318182] [c3] WCN BASE: tx:at+loopcheck=185320,14250\x0d\x0a
+[  185.327492] [c3] WCN BASEavdd18_dcxo 1v8 have enable
+[  185.327501] [c3] WCN SLP_MGR:  cnt-0, subsys-2
+[  185.330384] [c0] WCN BOOT: : irq_cnt130!!
+[  185.330538] [c3] WCN BASE: mdbg_tx_cb, chn:0
+[  185.330713] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  185.330823] [c1] WCN SLP_MGR: allow sleep
+[  185.331537] [c1] WCN BASE: : rx:loopcheck_ack:ap_send=185320,cp2_bootup=14250,cp2_send=185296\x0a
+[  185.331570] [c0] WCN BOOT: : irq_cnt131!!
+[  185.331749] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  185.331855] [c1] WCN SLP_MGR: allow sleep
+[  190.434476] [c0] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[  190.434484] [c0] WCN BASE: tx:at+loopcheck=190436,14250\x0d\x0a
+[  190.443583] [c0] WCN BASEavdd18_dcxo 1v8 have enable
+[  190.443592] [c0] WCN SLP_MGR:  cnt-0, subsys-2
+[  190.446693] [c0] WCN BOOT: : irq_cnt132!!
+[  190.446931] [c0] WCN BASE: mdbg_tx_cb, chn:0
+[  190.447087] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  190.447397] [c1] WCN SLP_MGR: forbid slp module-0x2
+[  190.447589] [c0] WCN BOOT: : irq_cnt133!!
+[  190.447707] [c1] WCN BASE: : rx:loopcheck_ack:ap_send=190436,cp2_bootup=14250,cp2_send=190412\x0a
+[  190.447960] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  190.448290] [c1] WCN SLP_MGR: allow sleep
+[  195.557816] [c0] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[  195.557824] [c0] WCN BASE: tx:at+loopcheck=195560,14250\x0d\x0a
+[  195.566972] [c0] WCN BASEavdd18_dcxo 1v8 have enable
+[  195.566987] [c0] WCN SLP_MGR:  cnt-0, subsys-2
+[  195.570048] [c0] WCN BOOT: : irq_cnt134!!
+[  195.570193] [c0] WCN BASE: mdbg_tx_cb, chn:0
+[  195.570291] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  195.570390] [c1] WCN SLP_MGR: allow sleep
+[  195.571517] [c0] WCN BOOT: : irq_cnt135!!
+[  195.571683] [c1] WCN BASE: : rx:loopcheck_ack:ap_send=195560,cp2_bootup=14250,cp2_send=195535\x0a
+[  195.571972] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  195.572117] [c1] WCN SLP_MGR: allow sleep
+[  200.674175] [c0] WCN BASE: WCN_VER:Platform Version:MARLIN3_20A_RLS2_W24.29.5~Project Version:sc2355_marlin3_lite~07-19-2024 09:58:12~
+[  200.674180] [c0] WCN BASE: tx:at+loopcheck=200676,14250\x0d\x0a
+[  200.683260] [c0] WCN BASEavdd18_dcxo 1v8 have enable
+[  200.683269] [c0] WCN SLP_MGR:  cnt-0, subsys-2
+[  200.686383] [c0] WCN BOOT: : irq_cnt136!!
+[  200.686750] [c0] WCN BASE: mdbg_tx_cb, chn:0
+[  200.686938] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  200.687346] [c1] WCN SLP_MGR: forbid slp module-0x2
+[  200.687543] [c1] WCN BASE: : rx:loopcheck_ack:ap_send=200676,cp2_bootup=14250,cp2_send=200652\x0a
+[  200.687582] [c0] WCN BOOT: : irq_cnt137!!
+[  200.687781] [c1] WCN BOOT: : PUB_INT_STS0-0x4
+[  200.687890] [c1] WCN SLP_MGR: allow sleep
+Wifi is enabled
+Wifi scanning is always available
+==== ClientModeManager instance: ConcreteClientModeManager{id=13832 iface=wlan0 role=ROLE_CLIENT_PRIMARY} ====
+Wifi is connected to "AABB"
+WifiInfo: SSID: "AABB", BSSID: 32:07:5c:53:b5:ff, MAC: 6e:b7:d6:ce:8c:a2, IP: /192.168.1.223, Security type: 4, Supplicant state: COMPLETED, Wi-Fi standard: 5, RSSI: -56, Link speed: 263Mbps, Tx Link speed: 263Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 390Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz, Net ID: 0, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none>"AABB"wpa3-saeMLO Information: , AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>
+successfulTxPackets: 405
+successfulTxPacketsPerSecond: 1.0623297518057797
+retriedTxPackets: 432
+retriedTxPacketsPerSecond: 1.255480615770467
+lostTxPackets: 0
+lostTxPacketsPerSecond: 0.0
+successfulRxPackets: 232
+successfulRxPacketsPerSecond: 0.7919185422552176
+NetworkCapabilities: [ Transports: WIFI Capabilities: NOT_METERED&INTERNET&NOT_RESTRICTED&TRUSTED&NOT_VPN&VALIDATED&NOT_ROAMING&FOREGROUND&NOT_CONGESTED&NOT_SUSPENDED&NOT_VCN_MANAGED LinkUpBandwidth>=12000Kbps LinkDnBandwidth>=56328Kbps TransportInfo: <SSID: <unknown ssid>, BSSID: 02:00:00:00:00:00, MAC: 02:00:00:00:00:00, IP: /192.168.1.223, Security type: 4, Supplicant state: COMPLETED, Wi-Fi standard: 5, RSSI: -56, Link speed: 263Mbps, Tx Link speed: 263Mbps, Max Supported Tx Link speed: 433Mbps, Rx Link speed: 390Mbps, Max Supported Rx Link speed: 433Mbps, Frequency: 5260MHz, Net ID: -1, Metered hint: false, score: 60, isUsable: true, CarrierMerged: false, SubscriptionId: -1, IsPrimary: 1, Trusted: true, Restricted: false, Ephemeral: false, OEM paid: false, OEM private: false, OSU AP: false, FQDN: <none>, Provider friendly name: <none>, Requesting package name: <none><none>MLO Information: , AP MLD Address: <none>, AP MLO Link Id: <none>, AP MLO Affiliated links: <none>> SignalStrength: -56 AdminUids: [1000] SSID: "AABB" UnderlyingNetworks: Null]

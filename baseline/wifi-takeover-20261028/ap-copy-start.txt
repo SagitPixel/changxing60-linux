@@ -1,0 +1,14 @@
+root@changxing60:~# > phy#0
+	Interface wlan0
+		ifindex 8
+		wdev 0x2
+		addr 40:45:da:67:b1:0f
+		ssid CHANGXING60-CEAB
+		type AP
+		channel 36 (5180 MHz), width: 80 MHz, center1: 5210 MHz
+[   51.929063] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[   52.987142] sprd-wlan: [52890]cid 1 tx[CMD_KEY]
+[   52.987499] misc wlan wlan0: key-default idx=1 crypto=4 uc=0 mc=1 skip=0
+[   52.987503] sprd-wlan: [52890]cid 1 tx[CMD_KEY]
+[   52.992481] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[   53.030687] sprd-wlan: cid 1 [CMD_KEY]rsp timeout, printk=4

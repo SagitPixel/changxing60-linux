@@ -1,0 +1,122 @@
+stty -echo
+root@changxing60:~# > Linux changxing60 6.18.54-7552n-probe1+ #63 SMP Wed Oct 28 06:53:46 UTC 2026 aarch64 GNU/Linux
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: usb0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master br-lan state UP mode DEFAULT group default qlen 1000
+    link/ether 02:50:00:00:77:01 brd ff:ff:ff:ff:ff:ff
+5: br-wifi: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 40:45:da:ff:a9:74 brd ff:ff:ff:ff:ff:ff
+6: wlan0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast master br-wifi state UP mode DEFAULT group default qlen 1000
+    link/ether 40:45:da:ff:a9:74 brd ff:ff:ff:ff:ff:ff permaddr 40:45:da:58:95:37
+8: br-lan: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP mode DEFAULT group default qlen 1000
+    link/ether 02:50:00:00:77:01 brd ff:ff:ff:ff:ff:ff
+[   49.079381] WCN SDIO: SDIOHAL RX DEBUG POINT[12]:
+[   49.079383] WCN SDIO: [0]chn:22, time=48770421810, 00000000b56ac894, 00000000b56ac894, 1, 0
+[   49.079385] WCN SDIO: [1]chn:22, time=48770678657, 000000000fe41be7, 000000000fe41be7, 1, 0
+[   49.079387] WCN SDIO: [2]chn:22, time=48775651887, 000000005e7c351e, 000000005e7c351e, 1, 0
+[   49.079389] WCN SDIO: [3]chn:22, time=48872953310, 00000000f6459273, 00000000f6459273, 1, 0
+[   49.079391] WCN SDIO: [4]chn:22, time=48873014118, 000000006398ffac, 000000006398ffac, 1, 0
+[   49.079393] WCN SDIO: [5]chn:22, time=48924639041, 000000004a78b9b0, 000000004a78b9b0, 1, 0
+[   49.079395] WCN SDIO: [6]chn:22, time=48924888079, 000000007ab4acfc, 000000007ab4acfc, 1, 0
+[   49.079397] WCN SDIO: [7]chn:22, time=48925066195, 00000000fcf1e23f, 00000000fcf1e23f, 1, 0
+[   49.079399] WCN SDIO: [8]chn:22, time=48925232772, 000000002b898edf, 000000002b898edf, 1, 0
+[   49.079401] WCN SDIO: [9]chn:22, time=48957537926, 00000000323c395f, 00000000323c395f, 1, 0
+[   49.079403] WCN SDIO: [10]chn:22, time=48958323887, 0000000056b5d415, 0000000056b5d415, 1, 0
+[   49.079404] WCN SDIO: [11]chn:22, time=48959016849, 000000000e033ff4, 000000000e033ff4, 1, 0
+[   49.079407] WCN SDIO: [12]chn:14, time=48959326041, 0000000009af8e98, 0000000009af8e98, 1, 0[LAST]
+[   49.079409] WCN SDIO: [13]chn:13, time=48657626849, 00000000421e927f, 00000000421e927f, 1, 0
+[   49.079411] WCN SDIO: [14]chn:13, time=48658148195, 0000000080166801, 0000000080166801, 1, 0
+[   49.079413] WCN SDIO: [15]chn:15, time=48658235272, 0000000068613abd, 0000000068613abd, 1, 0
+[   49.079415] WCN SDIO: [16]chn:13, time=48658580849, 0000000066b751f5, 0000000066b751f5, 1, 0
+[   49.079417] WCN SDIO: [17]chn:13, time=48658990541, 00000000ef919dbc, 00000000ef919dbc, 1, 0
+[   49.079419] WCN SDIO: [18]chn:13, time=48659400272, 0000000080819a42, 0000000080819a42, 1, 0
+[   49.079421] WCN SDIO: [19]chn:22, time=48715408041, 00000000c2e64267, 00000000c2e64267, 1, 0
+[   49.079423] WCN SDIO: [20]chn:22, time=48733511772, 00000000c0a4fa67, 00000000c0a4fa67, 1, 0
+[   49.079425] WCN SDIO: [21]chn:22, time=48735429080, 0000000002dd20b7, 0000000002dd20b7, 1, 0
+[   49.079428] WCN SDIO: [22]chn:22, time=48736371233, 00000000b7e68b50, 00000000b7e68b50, 1, 0
+[   49.079430] WCN SDIO: [23]chn:22, time=48752133003, 00000000ff3879cc, 00000000ff3879cc, 1, 0
+[   49.079431] WCN SDIO: [24]chn:22, time=48754774657, 0000000050697acd, 0000000050697acd, 1, 0
+[   49.079433] WCN SDIO: [25]chn:22, time=48763838272, 00000000989d12c8, 00000000989d12c8, 1, 0
+[   49.079436] WCN SDIO: [26]chn:22, time=48765180464, 000000002c80cc08, 000000002c80cc08, 1, 0
+[   49.079438] WCN SDIO: [27]chn:22, time=48765471041, 00000000d9780927, 00000000d9780927, 1, 0
+[   49.079440] WCN SDIO: [28]chn:22, time=48765890503, 00000000f39077d9, 00000000f39077d9, 1, 0
+[   49.079442] WCN SDIO: [29]chn:22, time=48766120849, 00000000c02791d8, 00000000c02791d8, 1, 0
+[   49.079444] WCN BASE: stop_loopcheck
+[   49.079448] WCN BASE: log:2048 left in ringbuf not read
+[   49.079449] WCN BASE: wcn_reset_process reset begin
+[   49.079452] WCN SDIO: sdiohal_runtime_put disable device
+[   49.079456] WCN BASEavdd12-bound-wbreq unbound
+[   49.079535] sprd-wlan: fc_find_color_per_mode, 362, new mode:2, assign color:0
+[   49.081482] WCN BASEavdd33-bound-wbreq unbound
+[   49.083505] WCN BASEavdd12-parent-bound-chip bound
+[   49.085527] WCN BASEwifipa 3v3 0
+[   49.090576] WCN BASEmarlin chip en pull down
+[   49.090577] WCN BASEmarlin_digital_power_enable D1v2 0
+[   49.095594] WCN BASEmarlin_analog_power_enable avdd12 power disable
+[   49.095605] WCN MEM_PD: mem_pd_chip_poweroff_deinit
+[   49.095657] WCN SDIO: sdiohal_remove remove card successful
+[   49.095691] WCN SDIO: remove card end
+[   49.095704] WCN BASE: wcn_reset: reset callback coming
+[   49.095707] sprd-wlan: iface_host_reset start process
+[   49.095710] WCN SDIO: carddump flag set[0]
+[   49.095711] WCN BOOT:  error: Notify firmware error:cp2 alive
+[   49.095713] sprd-wlan: cmdevt_recv_rsp_timeout cmd->refcnt=1
+[   49.101355] WCN BASE: wcn_reset_process reset end
+[   49.106972] sprd-wlan: cid 1 [CMD_KEY]rsp timeout, printk=4
+[   49.113363] sprd-wlan: sc2355_tx_get_msg can not get msg: hif->exit
+[   49.113777] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=1
+[   49.119930] sprd-wlan: sc2355_get_cmdbuf, 527, fail to get msg, mode=2
+[   49.120363] sprd-wlan: Try to report assert a 1 time 
+[   49.127187] sprd-wlan: sprd_iface_report_assert_evt success
+[   49.127196] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=1
+[   49.139728] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.152480] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   49.152926] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   49.152945] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.155645] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.157328] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.157757] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.158185] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.158615] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.158634] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   49.159899] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   49.172046] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.184592] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   49.185164] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   49.185180] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.187930] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.189744] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.190306] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.190870] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.191429] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.191446] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   49.192710] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   49.204058] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.216862] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   49.217701] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   49.217717] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.220570] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.222651] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.223481] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.224311] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.225299] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.225322] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   49.226590] sdhci_sprd_r11 22220000.sdio: wifi-power mode=1 vdd=18 signal=0
+[   49.239138] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.253396] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=00000c00 err=-110 resp=00000000
+[   49.255042] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=52 arg=80000c08 err=-110 resp=00000000
+[   49.255059] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.258224] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=0
+[   49.261240] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.262881] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.264724] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.266651] sdhci_sprd_r11 22220000.sdio: wifi-cmd op=5 arg=00000000 err=-110 resp=00000000
+[   49.266959] sdhci_sprd_r11 22220000.sdio: wifi-power mode=0 vdd=0 signal=0
+[   49.636410] sprd-wlan: Try to report assert a 2 time 
+[   49.636449] sprd-wlan: sprd_iface_report_assert_evt success
+[   50.148415] sprd-wlan: Try to report assert a 3 time 
+[   50.148444] sprd-wlan: sprd_iface_report_assert_evt success
+[   50.660354] sprd-wlan: Try to report assert a 4 time 
+[   50.660393] sprd-wlan: sprd_iface_report_assert_evt success
+[   51.172047] sprd-wlan: Try to report assert a 5 time 
+[   51.172061] sprd-wlan: sprd_iface_report_assert_evt success

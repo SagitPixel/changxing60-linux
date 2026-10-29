@@ -1,0 +1,5 @@
+boot_b=/dev/sda40 misc=/dev/sda3
+image: d3d708bb32c629c7c56f5bb3ac3750a476862a7bcd7d9c32d68c7614e3322a22
+target: d3d708bb32c629c7c56f5bb3ac3750a476862a7bcd7d9c32d68c7614e3322a22
+bcb: 77ce02a0bbf8e659fc8e75f33da4d2ad
+armed; reboot to boot it

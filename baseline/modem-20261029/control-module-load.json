@@ -1,0 +1,14 @@
+{
+  "sprd_modem_loader": {
+    "sha256": "d4a1948509f0334760015e6411f2bf102d1a32101154fe1bfe6fbcba2209b3d3",
+    "load": "rc=0\n"
+  },
+  "spipe": {
+    "sha256": "769ca587c2bed17f467339baa7eceaa2cf76af358b10bb8d8783f5733e6fa850",
+    "load": "rc=0\n"
+  },
+  "spool": {
+    "sha256": "6850ecc43f82307101bd2ae4ea66c570d31344c64a4bd9dc0900636ca46d603c",
+    "load": "rc=0\n"
+  }
+}

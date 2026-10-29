@@ -1,0 +1,11 @@
+stty -echo
+/ # > >Music
+ Voice
+ Receiver
+ Off
+hwen_status: invalid
+Simple mixer control 'AO Gain AO',0
+  Capabilities: pvolume pvolume-joined
+  Playback channels: Mono
+  Limits: Playback 0 - 15
+  Mono: Playback 3 [20%] [4.50dB]

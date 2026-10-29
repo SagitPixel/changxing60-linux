@@ -1,0 +1,11 @@
+stty -echo
+root@changxing60:~# > Linux changxing60 6.18.54-7552n-probe1+ #64 SMP Wed Oct 28 07:04:45 UTC 2026 aarch64 GNU/Linux
+Y
+Y
+[    6.876871] mmc1: new UHS-I speed SDR104 SDIO card at address 8800
+[    8.740771] mmc1: new UHS-I speed SDR104 SDIO card at address 8800
+[    8.832048] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+[   13.546793] CHANGXING60-LINUX: dmesg: [    8.832048] CHANGXING60-LINUX: stage=modules-done loaded=32 failed=0
+[   15.890200] CHANGXING60-LINUX: stage=misc-restored-prev dev=/dev/sdc3 sha=4799d330881fac24a079db6cacf592ea30374f363c326bcf4d028c06a5cb5ace
+[   16.100931] CHANGXING60-LINUX: stage=misc-restored dev=/dev/sdc3
+[   24.927656] WCN BASE error: fw assert:[CMD] CMD_SYNC_VERSION, [REASON] CMD_RSP_TIMEOUT_ERROR

@@ -1,0 +1,10 @@
+root@changxing60:~# > scan_rc=0
+8
+[   10.758770] WCN MEM_PD: save_bin_cp_ready ,cp while(1) state
+[   10.880427] WCN MEM_PD: save_bin_cp_ready ,wifi/bt power down, wait event
+[   16.344016] WCN MEM_PD: save_bin_cp_ready ,cp while(1) state
+[   16.407117] WCN MEM_PD: save_bin_cp_ready ,wifi/bt power down, wait event
+[   16.746418] sprd-wlan: [16649]cid 0 tx[CMD_SYNC_VERSION]
+[   95.261974] WCN MEM_PD: save_bin_cp_ready ,cp while(1) state
+[   95.264785] WCN MEM_PD: save_bin_cp_ready ,wifi/bt power down, wait event
+[   95.327760] sprd-wlan: [95230]cid 0 tx[CMD_SYNC_VERSION]

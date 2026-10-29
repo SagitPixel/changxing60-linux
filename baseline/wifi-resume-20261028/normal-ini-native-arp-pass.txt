@@ -1,0 +1,29 @@
+phy#0
+	Interface wlan0
+		ifindex 18
+		wdev 0x6
+		addr 40:45:da:17:6d:75
+		ssid CHANGXING60-CEAB
+		type AP
+		channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz
+[  100.380916] sprd-wlan: [100288]cid 1 tx[CMD_TX_DATA]
+[  100.394508] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[  100.426442] sprd-wlan: cid 1 [CMD_TX_DATA]rsp timeout, printk=4
+[  386.453440] misc wlan wlan0: key-default idx=1 crypto=4 uc=0 mc=1 skip=1
+[  388.547037] sprd-wlan: [388454]cid 1 tx[CMD_TX_DATA]
+[  389.560938] sprd-wlan: [389468]cid 1 tx[CMD_TX_DATA]
+[  390.585074] sprd-wlan: [390492]cid 1 tx[CMD_TX_DATA]
+[  426.508144] misc wlan wlan0: key-default idx=1 crypto=4 uc=0 mc=1 skip=0
+[  438.511896] sprd-wlan: [438419]cid 1 tx[CMD_TX_DATA]
+[  439.513045] sprd-wlan: [439420]cid 1 tx[CMD_TX_DATA]
+[  439.522027] sprd-wlan: [439429]cid 1 tx[CMD_TX_DATA]
+[  440.514356] sprd-wlan: [440421]cid 1 tx[CMD_TX_DATA]
+[  440.541020] sprd-wlan: [440448]cid 1 tx[CMD_TX_DATA]
+[  440.542008] sprd-wlan: [440449]cid 1 tx[CMD_TX_DATA]
+[  441.515588] sprd-wlan: [441422]cid 1 tx[CMD_TX_DATA]
+[  441.529021] sprd-wlan: [441436]cid 1 tx[CMD_TX_DATA]
+[  441.565022] sprd-wlan: [441472]cid 1 tx[CMD_TX_DATA]
+[  442.516935] sprd-wlan: [442424]cid 1 tx[CMD_TX_DATA]
+[  442.525744] sprd-wlan: [442432]cid 1 tx[CMD_TX_DATA]
+[  442.553224] sprd-wlan: [442460]cid 1 tx[CMD_TX_DATA]
+1793250907 02:50:00:00:77:02 192.168.77.199 GOHAN 01:02:50:00:00:77:02

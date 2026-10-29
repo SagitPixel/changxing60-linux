@@ -1,0 +1,10 @@
+{
+  "start": "state=running\npid=30449\noutput=receiver\nband=wideband\nvolume=7\nprofile=0x02020005\npcm=0,5\nspeaker=0\nmuted=0\nuptime=0\n",
+  "pcm_playback": "state: RUNNING\nowner_pid   : 30449\ntrigger_time: 36978.796875243\ntstamp      : 0.000000000\ndelay       : 1280\navail       : 0\navail_max   : 0\n-----\nhw_ptr      : 0\nappl_ptr    : 1280\n",
+  "pcm_capture": "state: RUNNING\nowner_pid   : 30449\ntrigger_time: 36978.806035517\ntstamp      : 0.000000000\ndelay       : 0\navail       : 0\navail_max   : 0\n-----\nhw_ptr      : 0\nappl_ptr    : 0\n",
+  "amp_running": " Music\n Voice\n>Receiver\n Off\n",
+  "stop": "stopped\n",
+  "mixer_restored": true,
+  "amp_restored": true,
+  "closed": "closed\nclosed\n"
+}

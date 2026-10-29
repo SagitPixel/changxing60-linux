@@ -1,0 +1,8 @@
+root@changxing60:~# >               total        used        free      shared  buff/cache   available
+Mem:        3471964      113276     3257276        1316      101412     3292392
+Swap:       1735980           0     1735980
+[35732.722570] sprd-wlan: sc2355_rx_work_queue reset rsp_event_cnt
+-r--r--r--    1 root     root          4096 Oct 29 06:33 /sys/class/ext_modem/chsys/dev
+-r--r--r--    1 root     root          4096 Oct 29 06:33 /sys/class/ext_modem/modem/dev
+-r--r--r--    1 root     root          4096 Oct 29 06:33 /sys/class/ext_modem/phycp/dev
+-r--r--r--    1 root     root          4096 Oct 29 06:33 /sys/class/ext_modem/pmsys/dev

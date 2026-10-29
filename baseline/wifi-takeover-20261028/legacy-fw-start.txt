@@ -1,0 +1,8 @@
+stty -echo
+root@changxing60:~# > Y
+Y
+Cannot find device "wlan0"
+command failed: No such device (-19)
+scan_rc=237
+0
+[   18.937596] WCN BASE error: fw assert:[CMD] CMD_DOWNLOAD_INI, [REASON] LOAD_INI_DATA_FAILED

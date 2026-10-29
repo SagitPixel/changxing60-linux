@@ -1,0 +1,2 @@
+* * * * * /opt/changxing60/bin/charge-fix >/dev/null 2>&1
+* * * * * /opt/changxing60/bin/bootdiag >/dev/null 2>&1

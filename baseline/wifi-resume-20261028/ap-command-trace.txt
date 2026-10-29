@@ -1,0 +1,15 @@
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 1/1   #P:8
+#
+#                                _-----=> irqs-off/BH-disabled
+#                               / _----=> need-resched
+#                              | / _---=> hardirq/softirq
+#                              || / _--=> preempt-depth
+#                              ||| / _-=> migrate-disable
+#                              |||| /     delay
+#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+#              | |         |   |||||     |         |
+    kworker/7:11-287     [007] dN... 18177.437416: codex_wifi_cmd: (sc2355_send_cmd_recv_rsp+0x0/0x7a0 [sprd_wlan_combo]) id=5 len=30 common=0x10 sub=17 val=0
+[18011.751825] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[18090.746773] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0

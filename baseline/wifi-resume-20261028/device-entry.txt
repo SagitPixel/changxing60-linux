@@ -1,0 +1,14 @@
+Linux localhost 5.4.254-android12-9-gd5a8ab235157 #1 SMP PREEMPT Fri Sep 20 15:03:11 CST 2024 aarch64 Toybox
+ 19:53:00 up 46 min,  0 users,  load average: 17.06, 17.03, 16.26
+lrwxrwxrwx 1 root root 16 1970-01-01 08:00 /dev/block/by-name/boot_b -> /dev/block/sda40
+lrwxrwxrwx 1 root root 15 1970-01-01 08:00 /dev/block/by-name/misc -> /dev/block/sda3
+1048576
+_a
+ 254       32       6920 dm-32
+ 254       33        772 dm-33
+ 254       34       8476 dm-34
+ 254       35      20224 dm-35
+ 254       36       7232 dm-36
+ 254       38       5672 dm-38
+ 254       39   67108864 dm-39
+ 253        0    2662924 zram0

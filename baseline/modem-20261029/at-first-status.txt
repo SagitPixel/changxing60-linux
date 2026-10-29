@@ -1,0 +1,15 @@
+10864 1000     8689m S    /vendor/bin/modem_control
+10865 root      1336 S    /bin/sh -c sleep 12; exec /opt/changxing60/bin/android-run cp_diskserver
+10866 root      1336 S    /bin/sh -c sleep 12; exec /opt/changxing60/bin/android-run refnotify
+13840 root      2224 S    /opt/changxing60/bin/busybox ash /opt/changxing60/bin/changxing60-atd
+13882 root      2224 S    /opt/changxing60/bin/busybox ash /opt/changxing60/bin/changxing60-atd
+cmd
+owner
+urc
+OK
++CPIN: READY
+OK
++CFUN: 0
+OK
++CEREG: 2,0
+OK

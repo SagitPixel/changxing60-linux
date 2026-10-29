@@ -1,0 +1,75 @@
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.c b/drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.c
+index 97874c583..1a1268888 100755
+--- a/drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.c
++++ b/drivers/unisoc_platform/sprd_wlan_combo/common/cfg80211.c
+@@ -4,6 +4,7 @@
+ */
+ 
+ #include <linux/rtc.h>
++#include <linux/moduleparam.h>
+ #include <linux/timekeeping.h>
+ #include "acs.h"
+ #include "cfg80211.h"
+@@ -22,6 +23,11 @@
+ #include "pamwifi/pamwifi.h"
+ #endif
+ 
++bool sprd_legacy_fw_compat;
++module_param_named(legacy_fw_compat, sprd_legacy_fw_compat, bool, 0644);
++MODULE_PARM_DESC(legacy_fw_compat,
++	"Stock SC2355 firmware: AP CCMP key selection and global power-backoff context");
++
+ static char type_name[16][32] = {
+ 	"ASSO REQ",
+ 	"ASSO RESP",
+@@ -572,6 +578,12 @@ int sprd_cfg80211_set_default_key(struct wiphy *wiphy, struct net_device *ndev,
+ 		return -EINVAL;
+ 	}
+ 
++	netdev_info(ndev, "key-default idx=%u crypto=%u uc=%u mc=%u skip=%u\n",
++		    key_index, vif->prwise_crypto, unicast, multicast,
++		    sprd_legacy_fw_compat);
++	if (sprd_legacy_fw_compat && vif->wdev.iftype == NL80211_IFTYPE_AP &&
++	    vif->prwise_crypto == SPRD_CIPHER_CCMP)
++		return 0;
+ 	return sprd_set_def_key(vif->priv, vif, key_index);
+ }
+ 
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/common/common.h b/drivers/unisoc_platform/sprd_wlan_combo/common/common.h
+index b96cd59db..a859e5f3a 100755
+--- a/drivers/unisoc_platform/sprd_wlan_combo/common/common.h
++++ b/drivers/unisoc_platform/sprd_wlan_combo/common/common.h
+@@ -438,3 +438,6 @@ static inline bool sprd_is_sta_ap_coexist(struct sprd_priv *priv)
+ 		return false;
+ }
+ #endif
++
++/* Stock SC2355 firmware compatibility, selected by the board init. */
++extern bool sprd_legacy_fw_compat;
+diff --git a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.c b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.c
+index 91ee0c895..cb62f571b 100755
+--- a/drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.c
++++ b/drivers/unisoc_platform/sprd_wlan_combo/sc2355/cmdevt.c
+@@ -2385,14 +2385,20 @@ int sc2355_set_power_backoff(struct sprd_priv *priv, struct sprd_vif *vif,
+ 	struct sprd_msg *msg;
+ 	struct cmd_set_power_backoff *p;
+ 
+-	msg = get_cmdbuf(priv, vif, sizeof(*p), CMD_POWER_SAVE);
++	/* Stock SC2355 treats power backoff as a chip-wide command, as
++	 * in the vendor 5.4 driver. Keep the table and limits unchanged. */
++	msg = get_cmdbuf(priv, sprd_legacy_fw_compat ? NULL : vif,
++			 sizeof(*p), CMD_POWER_SAVE);
+ 	if (!msg)
+ 		return -ENOMEM;
+ 
+ 	p = (struct cmd_set_power_backoff *)msg->data;
+ 	memset(p, 0, sizeof(*p));
+ 	p->power_save_type = SPRD_SET_POWER_BACKOFF;
+-	if (data)
++	/* The downstream table contains tuning for other OEM projects.
++	 * Stock compatibility uses the existing all-zero reset command:
++	 * retain this board's firmware/INI defaults and cfg80211 regdomain. */
++	if (data && !sprd_legacy_fw_compat)
+ 		memcpy(&p->backoff, data, sizeof(*data));
+ 	wl_info("power_save [SET_POWER_BACKOFF]\n");
+ 	return send_cmd_recv_rsp(priv, msg, NULL, NULL);

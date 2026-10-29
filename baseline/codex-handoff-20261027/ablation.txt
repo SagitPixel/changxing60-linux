@@ -1,0 +1,33 @@
+stty -echo
+/ # / # > master24 rc=0
+255.70 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+256.46 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+259.51 state: DRAINING|hw_ptr      : 134040|appl_ptr    : 144000|
+259.71 state: DRAINING|hw_ptr      : 143880|appl_ptr    : 144000|
+Playing WAVE '/tone-30s.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+master16 rc=0
+261.76 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+262.36 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+265.42 state: DRAINING|hw_ptr      : 134520|appl_ptr    : 144000|
+265.62 state: DRAINING|hw_ptr      : 144360|appl_ptr    : 144000|
+Playing WAVE '/tone-30s.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+dg0 rc=0
+267.24 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+267.82 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+270.87 state: DRAINING|hw_ptr      : 134280|appl_ptr    : 144000|
+271.08 state: DRAINING|hw_ptr      : 144120|appl_ptr    : 144000|
+Playing WAVE '/tone-30s.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+access_off rc=1
+272.93 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+273.53 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+274.75 state: RUNNING|hw_ptr      : 360|appl_ptr    : 24360|
+274.95 state: RUNNING|hw_ptr      : 360|appl_ptr    : 24360|
+Playing WAVE '/tone-30s.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+aplay: pcm_write:2178: write error: Input/output error
+access_on rc=1
+278.66 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+279.25 state: OPEN|hw_ptr      : 0|appl_ptr    : 0|
+280.46 state: RUNNING|hw_ptr      : 360|appl_ptr    : 24360|
+280.67 state: RUNNING|hw_ptr      : 360|appl_ptr    : 24360|
+Playing WAVE '/tone-30s.wav' : Signed 16 bit Little Endian, Rate 48000 Hz, Stereo
+aplay: pcm_write:2178: write error: Input/output error

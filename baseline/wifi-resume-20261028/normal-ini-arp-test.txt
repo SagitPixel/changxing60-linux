@@ -1,0 +1,28 @@
+PING 192.168.8.123 (192.168.8.123): 56 data bytes
+
+--- 192.168.8.123 ping statistics ---
+1 packets transmitted, 0 packets received, 100% packet loss
+[    9.098893] sprd-wlan: sc2355_get_nvm_table, chip id of marlin3 lite is 2, open wifi_board_config.xpe.ini
+[   59.244039] sprd-wlan: sc2355_get_nvm_table, chip id of marlin3 lite is 2, open wifi_board_config.xpe.ini
+[   60.481126] sprd-wlan: [60388]cid 1 tx[CMD_TX_DATA]
+[   60.494403] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[   60.538433] sprd-wlan: cid 1 [CMD_TX_DATA]rsp timeout, printk=4
+[   97.127340] sprd-wlan: sc2355_get_nvm_table, chip id of marlin3 lite is 2, open wifi_board_config.xpe.ini
+[   99.369979] sprd-wlan: [99277]cid 1 tx[CMD_TX_DATA]
+[  100.380916] sprd-wlan: [100288]cid 1 tx[CMD_TX_DATA]
+[  100.394508] WCN BASE error: fw assert:WCN Assert in cmd_tx.c line 2374, 0
+[  100.426442] sprd-wlan: cid 1 [CMD_TX_DATA]rsp timeout, printk=4
+[  386.360836] sprd-wlan: sc2355_get_nvm_table, chip id of marlin3 lite is 2, open wifi_board_config.xpe.ini
+[  388.547037] sprd-wlan: [388454]cid 1 tx[CMD_TX_DATA]
+phy#0
+	Interface wlan0
+		ifindex 12
+		wdev 0x4
+		addr 40:45:da:17:6d:75
+		ssid CHANGXING60-CEAB
+		type AP
+		channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz
+   kworker/u41:1-143     [004] d....    99.369976: codex_wifi_msdu: (sc2355_send_cmd_recv_rsp+0x0/0x7a0 [sprd_wlan_combo]) id=72 len=70 flag=0x33323130 common=0x20 off=11 ctrl=0x0 plen=42 tid=0x1 lut=4
+   kworker/u41:1-143     [005] d....   100.380912: codex_wifi_msdu: (sc2355_send_cmd_recv_rsp+0x0/0x7a0 [sprd_wlan_combo]) id=72 len=70 flag=0x33323130 common=0x20 off=11 ctrl=0x0 plen=42 tid=0x1 lut=4
+   kworker/u41:1-143     [007] d....   388.547035: codex_wifi_msdu: (sc2355_send_cmd_recv_rsp+0x0/0x7a0 [sprd_wlan_combo]) id=72 len=70 flag=0x33323130 common=0x20 off=11 ctrl=0x0 plen=42 tid=0x1 lut=4
+   kworker/u41:1-143     [007] d....   389.560934: codex_wifi_msdu: (sc2355_send_cmd_recv_rsp+0x0/0x7a0 [sprd_wlan_combo]) id=72 len=70 flag=0x33323130 common=0x20 off=11 ctrl=0x0 plen=42 tid=0x1 lut=4

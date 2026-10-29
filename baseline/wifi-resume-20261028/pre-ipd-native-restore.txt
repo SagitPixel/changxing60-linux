@@ -1,0 +1,3 @@
+3ff60f8e6756e839cf51531d52965dc43446492d843c749da60f1ad70ac7fde6  /lib/firmware/wifi_board_config.xpe.ini
+1793251316 9e:aa:7e:cc:e4:ae 192.168.8.146 REDMI-K80-Ultra 01:9e:aa:7e:cc:e4:ae
+1793250907 02:50:00:00:77:02 192.168.77.199 GOHAN 01:02:50:00:00:77:02

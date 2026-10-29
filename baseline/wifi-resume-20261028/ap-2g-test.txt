@@ -1,0 +1,20 @@
+phy#0
+	Interface wlan0
+		ifindex 19
+		wdev 0x9
+		addr 40:45:da:79:8e:dc
+		ssid CHANGXING60-CEAB
+		type AP
+		channel 6 (2437 MHz), width: 20 MHz, center1: 2437 MHz
+[18055.779190] WCN BASE: tx:at+loopcheck=18055773,18053592
+[18055.779190] 
+[18055.782993] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[18055.786778] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[18055.786781] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[18055.786981] WCN BASE: mdbg_tx_cb, chn:0
+[18055.787403] WCN BASE: rx:loopcheck_ack:ap_send=18055773,cp2_bootup=18053592,cp2_send=18055744
+[18055.787403] 
+[18055.787414] WCN BASE: loopcheck(1) 2026-10-28_20:07:34.508670563
+[18056.416898] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1
+[18056.420481] sdhci_set_power_noreg: vdd=0x12 pwr=0xd host_pwr=0xc reg=0x0
+[18056.420484] sdhci_sprd_r11 22220000.sdio: wifi-power mode=2 vdd=18 signal=1

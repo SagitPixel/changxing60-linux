@@ -1,0 +1,3 @@
+root@changxing60:~# > 6.18.54-7552n-probe1+
+br-lan   br-wifi  lo       usb0
+/sys/class/block/sda49/uevent

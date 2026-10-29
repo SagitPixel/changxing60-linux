@@ -1,0 +1,43 @@
+0x400c070f
+0x00620000
+state
+mmc0
+mmc1
+mmc2
+consumer:sprd-marlin3  mmc_host  subsystem
+driver                 modalias  supplier:64920000.clock-controller
+driver_override        of_node   supplier:soc:apahb-gate
+leds                   power     uevent
+===assigned-clock-parents
+    16000000    01000000
+===assigned-clocks
+    0a000000    28000000
+===bus-width
+    04000000
+===clock-names
+    6f696473    616e6500    00656c62
+===clocks
+    0a000000    28000000    0d000000    01000000
+===compatible
+    64727073    6864732c    722d6963    00003131
+===interrupts
+    00000000    ca000000    04000000
+===name
+    6f696473    00000000
+===no-mmc
+===no-sd
+===phandle
+    3b010000
+===reg
+    00002202    00100000
+===sd-uhs-sdr104
+===sd-uhs-sdr50
+===sprd,name
+    6f696473    6669775f    00000069
+===sprd,phy-delay-sd-uhs-sdr104
+    00000000    7f000000    7d000000    7d000000
+===sprd,phy-delay-sd-uhs-sdr50
+    00000000    bf000000    c1000000    c1000000
+===sprd,sdio-adma
+===status
+    79616b6f    00000000

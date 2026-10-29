@@ -1,0 +1,11 @@
+{
+  "image": "boot-wifi-native-msdu.img",
+  "base": "boot-wifi-stock.img",
+  "sha256": "0c6046cde3ede103495309a2f035ce5456caf3b77436f373e8bff07f95809f6c",
+  "sha256_head56m": "f0493995a0b3f476294a763fabe7921274eeea5e1b47f03a19d70b3dcf54dfcf",
+  "kernel_sha256": "197075a80199c7b9554a42561bd6edaf784f0c35222b294aa5a3d6e3b307033a",
+  "ramdisk_size": 13211817,
+  "replaced": {
+    "linux-modules/sprd_wlan_combo.ko": "0d7c9d97ad28e20d7ec6b8aa6b17b745e477afc56fde6587c083a8a6d20c100a"
+  }
+}

@@ -1,0 +1,19 @@
+compatible
+name
+phandle
+power-domains
+sprd,dl-fifo-depth
+sprd,ul-fifo-depth
+sprd,orca-sipa-delegate 
+
+bind
+module
+soc:ipa-apb:sipa-dele
+uevent
+unbind
+OK
+^ORIG: 1,2
+OK
++CGCONTRDP: 1,6,ctnet,10.142.66.253.255.0.0.0,,61.128.114.166,61.128.114.133,,,,,0,,0,,,,0,2,1,0,1.0,0,0,0
++CGCONTRDP: 1,6,ctnet,0.0.0.0.0.0.0.0.24.226.226.193.193.224.61.228.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0,,36.14.0.81.200.0.0.4.0.0.0.0.0.0.0.5,36.14.0.81.200.0.0.4.0.0.0.0.0.0.0.4,,,,,0,,0,,,,0,2,1,0,1.0,0,0,0
+OK
