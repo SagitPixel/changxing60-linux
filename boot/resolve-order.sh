@@ -31,6 +31,13 @@ for line in dep:
 
 # entry points we actually want loaded, in the order we want them probed
 roots = [
+    # Power supplies must be present before charger-manager starts.  Keep the
+    # board's real fuel-gauge/charger pair ahead of the audio roots; AW32257 is
+    # intentionally not included because 7552N uses the TI BQ2560x at 0x6b.
+    'sprd_battery_info.ko',
+    'ump96xx_fuel_gauge.ko',
+    'bq2560x-charger.ko',
+    'sprd-charger-manager.ko',
     'agdsp_pd.ko',
     'audio_sipc.ko',
     'audio_mem.ko',
@@ -80,7 +87,19 @@ for r in roots:
 # So: amplifier first, then the card, then everything else. The card's own probe can
 # only succeed once the codecs are bound, so /init rebinds sound@0 once at the end.
 FIRST = ('snd-soc-sprd-pa-aw87xxx.ko', 'snd-soc-sprd-card.ko')
-order = [m for m in FIRST if m in order] + [m for m in order if m not in FIRST]
+POWER = (
+    'sprd_battery_info.ko',
+    'sprd-charger-manager.ko',
+    'ump96xx_fuel_gauge.ko',
+    'bq2560x-charger.ko',
+)
+# Probe the real battery/charger stack before any unrelated device drivers.
+# depmod cannot express the DT-only relationship between charger-manager and
+# the gauge/charger, so make that policy explicit here.
+all_order = order
+order = [m for m in POWER if m in all_order]
+order += [m for m in FIRST if m in all_order]
+order += [m for m in all_order if m not in POWER and m not in FIRST]
 
 out.write_text('\n'.join(order) + '\n')
 print(f'{len(order)} modules, dependencies first')

@@ -63,6 +63,35 @@ for f in audio_structure cvs dsp_vbc; do
 done
 echo "firmware: audio_structure cvs dsp_vbc"
 
+# The SC2355 Wi-Fi driver loads its board/NVM config with request_firmware()
+# during the ramdisk phase, before switch_root. Without it the driver retries
+# five times, then asserts the firmware and wlan0 never comes up.
+for f in wifi_board_config.ini wifi_board_config.xpe.ini \
+         wifi_board_config_aa.ini wifi_board_config_aa.xpe.ini; do
+    [ -f "$FW/$f" ] || { echo "MISSING firmware: $f" >&2; exit 1; }
+    if printf '%s\n' "$EXISTING" | grep -qx "lib/firmware/$f"; then
+        set -- "$@" --set "lib/firmware/$f=$FW/$f"
+    else
+        set -- "$@" --add "lib/firmware/$f=$FW/$f"
+    fi
+done
+echo "firmware: wifi_board_config*.ini (4 files)"
+
+# WCN chip power-on runs a GNSS auto-download before Wi-Fi firmware is loaded.
+# Without gnssmodem.bin the driver waits 10 s, powers the whole chip off and
+# reports "failed to power on WCN", so wlan0 never appears; wcnmodem.bin is the
+# BTWF/Wi-Fi firmware itself. Both are request_firmware() users in the ramdisk
+# phase (before switch_root), so they have to live in the initramfs.
+for f in gnssmodem.bin wcnmodem.bin; do
+    [ -f "$FW/$f" ] || { echo "MISSING firmware: $f" >&2; exit 1; }
+    if printf '%s\n' "$EXISTING" | grep -qx "lib/firmware/$f"; then
+        set -- "$@" --set "lib/firmware/$f=$FW/$f"
+    else
+        set -- "$@" --add "lib/firmware/$f=$FW/$f"
+    fi
+done
+echo "firmware: gnssmodem.bin wcnmodem.bin"
+
 # The 7552N analogue PA needs its board-specific ACF before its first probe.
 # DSP profiles alone allow PCM progress but leave the speaker amplifier off.
 AW_FW=${AW_FW:-$ROOT/work/audio/aw87xxx_acf.bin}

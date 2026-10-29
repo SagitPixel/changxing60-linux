@@ -26,6 +26,8 @@ SOURCE is a file on the host. --show lists what the base image's ramdisk holds.
 import argparse
 import hashlib
 import json
+import os
+import shlex
 import struct
 import subprocess
 import sys
@@ -34,6 +36,8 @@ from pathlib import Path
 PAGE = 4096
 # 7552n-port: boot_b's tail holds a persistent init log; the image body has to end before it.
 PERSIST_LOG_OFFSET = 56 << 20
+# Override with e.g. LZ4="python tools/lz4shim.py" where no lz4 CLI is installed.
+LZ4 = shlex.split(os.environ.get('LZ4') or 'lz4')
 
 
 def read_cpio(blob):
@@ -101,7 +105,7 @@ def main():
     if ram[:4] != bytes.fromhex('02214c18'):
         sys.exit('the base image\'s ramdisk is not LZ4 legacy framed; this kernel will not boot it')
 
-    cpio = subprocess.run(['lz4', '-d', '-c'], input=ram, capture_output=True, check=True).stdout
+    cpio = subprocess.run(LZ4 + ['-d', '-c'], input=ram, capture_output=True, check=True).stdout
     entries, trailer_ino = read_cpio(cpio)
 
     if a.show:
@@ -150,7 +154,7 @@ def main():
         new_entries.append((name, 0o100644, next_ino, (0, 0), data))
         next_ino += 1
     new_cpio = write_cpio(new_entries, trailer_ino)
-    new_ram = subprocess.run(['lz4', '-l', '-12', '-c'], input=new_cpio, capture_output=True, check=True).stdout
+    new_ram = subprocess.run(LZ4 + ['-l', '-12', '-c'], input=new_cpio, capture_output=True, check=True).stdout
     assert new_ram[:4] == bytes.fromhex('02214c18'), 'lz4 did not produce legacy framing'
 
     hdr = bytearray(base[:PAGE])

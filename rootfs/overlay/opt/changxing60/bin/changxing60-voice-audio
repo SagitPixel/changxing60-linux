@@ -121,6 +121,12 @@ FIRMWARE = os.environ.get('CHANGXING60_VOICE_AUDIO_FIRMWARE', '/lib/firmware')
 PCM_STATUS = os.environ.get('CHANGXING60_VOICE_AUDIO_PROC', '/proc/asound')
 PIPE_VOICE = os.environ.get('CHANGXING60_VOICE_AUDIO_PIPE', '/dev/audio_pipe_voice')
 TURNING = os.environ.get('CHANGXING60_VOICE_AUDIO_TURNING', '/dev/vbc_turning%d')
+AMP_PROFILE = os.environ.get('CHANGXING60_VOICE_AUDIO_AMP',
+                             '/sys/bus/i2c/devices/6-0058/profile')
+# The 7552N's tested 6.18 board path is AO -> AW87xxx for both outputs.
+# Keep the older path available for the 5.4 image and host test fixtures.
+NATIVE_618 = os.environ.get('CHANGXING60_VOICE_AUDIO_PLATFORM', '') == '7552n-6.18' or (
+    os.uname().release.startswith('6.') and os.path.isfile(AMP_PROFILE))
 
 PIDFILE = os.path.join(RUN, 'pid')
 STATEFILE = os.path.join(RUN, 'state')
@@ -234,6 +240,21 @@ CODEC_IIS = {
     'VBC_MUX_IIS2_PORT_DO_SEL': 'IIS_DO_VAL_DAC2',
     'VBC_MUX_IIS3_PORT_DO_SEL': 'IIS_DO_VAL_DAC2',
 }
+NATIVE_IIS = {
+    'ag_iis0_ext_sel_v2': 'aud_4ad_iis0_da0',
+    'ag_iis1_ext_sel_v2': 'aud_4ad_iis0_ad0',
+}
+NATIVE_MIC = {
+    'Aux Mic2 Function': 'on',
+    'ADC_3 Mixer MIC3PGA_3 Switch': 'on',
+    'ADC_3 Gain ADC_3 Capture Volume': '7',
+    'ADC1 LRCLK Select': 'invert',
+    'ADD0 DATA SEL': 'ADD0_DATA_MIC13',
+    'Digital ADC1 In Sel': 'ADC',
+}
+if NATIVE_618:
+    ROUTES.update({'VBC_MUX_ADC2': 'ADC_IN_IIS0_ADC',
+                   'VBC DAC1 DG Set': '25,25'})
 # The profile blobs, and the nodes they are loaded through. The kernel must hold them before a
 # Select can mean anything; changxing60-vbc-load puts them there at boot from /lib/firmware.
 PROFILE_BLOBS = (('audio_structure', 0), ('dsp_vbc', 1), ('cvs', 2), ('dsp_smartamp', 3))
@@ -242,6 +263,11 @@ FW_MAGIC = b'audio_profile'
 
 VOICE_CONTROLS = tuple(dict.fromkeys(
     (*ROUTES, *RECEIVER, *SPEAKER, *MIC_CAPTURE, *ANALOG_GAINS, *PROFILES, *BLUETOOTH, *BT_SRC, *CODEC_IIS)))
+if NATIVE_618:
+    # Snapshot first, restore last: hold access through IIS and amp restoration.
+    VOICE_CONTROLS = tuple(dict.fromkeys(
+        ('agdsp_access_en', *NATIVE_IIS, *NATIVE_MIC, 'VBC_SYSTEM_DEV_CHANGE',
+         *VOICE_CONTROLS)))
 
 
 class Failure(RuntimeError):
@@ -674,6 +700,7 @@ class VoiceAudio:
         self.mixer = None
         self.handles = []
         self.saved = {}
+        self.saved_amp = None
         self.band = 0
         self.speaker = self.config.get('output', 'receiver') == 'speaker'
         self.bluetooth = False
@@ -684,6 +711,9 @@ class VoiceAudio:
         self.applied_volume = None
         self.modes = {name: list(bands) for name, bands in MODES.items()}
         self.gains = dict(GAIN_DEFAULTS)
+        if NATIVE_618:
+            self.gains.update({'gain-dac-receiver': 0, 'gain-dac-speaker': 0,
+                               'gain-ao-receiver': 5, 'gain-ao-speaker': 3})
         self._apply_config()
 
     def _apply_config(self):
@@ -760,6 +790,10 @@ class VoiceAudio:
             return
         for name, value in CODEC_IIS.items():
             self.put(name, value)
+        if NATIVE_618:
+            for name, value in NATIVE_IIS.items():
+                self.put(name, value)
+            self.put('VBC_SYSTEM_DEV_CHANGE', 'TYPE_SPK' if self.speaker else 'TYPE_RCV')
         speaker = self.speaker
         self.put('DAC Gain DAC Playback Volume',
                  self.codec_gain('DAC Gain DAC Playback Volume',
@@ -791,8 +825,36 @@ class VoiceAudio:
             if 'Capture Volume' in name:
                 value = self.codec_gain(name, int(value))
             self.put(name, value)
-        for name, value in (SPEAKER if self.speaker else RECEIVER).items():
+        if NATIVE_618:
+            for name, value in NATIVE_MIC.items():
+                self.put(name, value)
+        for name, value in (SPEAKER if self.speaker or NATIVE_618 else RECEIVER).items():
             self.put(name, value)
+        if NATIVE_618:
+            self.amplifier('Music' if self.speaker else 'Receiver')
+
+    def amplifier(self, profile):
+        try:
+            with open(AMP_PROFILE) as handle:
+                lines = handle.read().splitlines()
+            if self.saved_amp is None:
+                self.saved_amp = next(line[1:].strip() for line in lines if line.startswith('>'))
+            available = [line.lstrip('>').strip() for line in lines]
+            if profile not in available:
+                raise Failure('AW87xxx profile %r is unavailable' % profile)
+            with open(AMP_PROFILE, 'w') as handle:
+                handle.write(profile + '\n')
+        except (OSError, StopIteration) as error:
+            raise Failure('cannot configure AW87xxx: %s' % error)
+
+    def restore_amplifier(self):
+        if self.saved_amp is not None:
+            profile, self.saved_amp = self.saved_amp, None
+            try:
+                with open(AMP_PROFILE, 'w') as handle:
+                    handle.write(profile + '\n')
+            except OSError as error:
+                raise Failure('cannot restore AW87xxx: %s' % error)
 
     def apply_volume(self, force=False):
         """The DSP volume step, and the downlink mute that volume 0 implies.
@@ -829,6 +891,13 @@ class VoiceAudio:
         # to put back what it found, and the caller has no other copy of the mixer state.
         self.saved = {name: self.get(name) for name in self.controls()}
         try:
+            if NATIVE_618:
+                self.put('agdsp_access_en', 'on')
+                # Update is a load operation, not a reliable loaded-state flag.
+                # Files are checked by selftest and held by the driver after this.
+                for name in ('Audio Structure Profile Update', 'DSP VBC Profile Update',
+                             'CVS Profile Update'):
+                    self.put(name, '1')
             self.profiles()
             for name, value in ROUTES.items():
                 self.put(name, value)
@@ -889,6 +958,11 @@ class VoiceAudio:
         order = list(enabled) + [name for name in reversed(tuple(values)) if name not in enabled]
         for name in order:
             value = str(values[name])
+            if name == 'agdsp_access_en':
+                try:
+                    self.restore_amplifier()
+                except Failure as error:
+                    errors.append(str(error))
             try:
                 if self.get(name) == value:
                     skipped += 1

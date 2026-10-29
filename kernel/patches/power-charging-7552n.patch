@@ -1,0 +1,210 @@
+--- a/drivers/power/supply/sprd_vchg_detect.c
++++ b/drivers/power/supply/sprd_vchg_detect.c
+@@ -16,6 +16,12 @@
+ #include <linux/power/charger-manager.h>
+ #include <linux/power/sprd_vchg_detect.h>
+ 
++/* Opt-in for the 7552N PHY, which reports VBUS through EXTCON_USB but does
++ * not publish USB-charger notifications. Keep other boards on their old path. */
++static bool legacy_usb_extcon;
++module_param(legacy_usb_extcon, bool, 0444);
++MODULE_PARM_DESC(legacy_usb_extcon, "Use PHY EXTCON_USB and charger USB_TYPE on 7552N");
++
+ static enum power_supply_usb_type sprd_vchg_get_bc1p2_type(struct sprd_vchg_info *info)
+ {
+ 	enum power_supply_usb_type usb_type  = POWER_SUPPLY_USB_TYPE_UNKNOWN;
+@@ -24,6 +30,22 @@
+ 	if (!info) {
+ 		pr_err("%s:line%d: NULL pointer!!!\n", SPRD_VCHG_TAG, __LINE__);
+ 		return usb_type;
++	}
++
++	if (legacy_usb_extcon) {
++		struct power_supply *psy;
++		union power_supply_propval val;
++		const char *name;
++		int ret;
++
++		if (of_property_read_string(info->dev->of_node, "cm-hardware-psy", &name))
++			return POWER_SUPPLY_USB_TYPE_UNKNOWN;
++		psy = power_supply_get_by_name(name);
++		if (!psy)
++			return POWER_SUPPLY_USB_TYPE_UNKNOWN;
++		ret = power_supply_get_property(psy, POWER_SUPPLY_PROP_USB_TYPE, &val);
++		power_supply_put(psy);
++		return ret ? POWER_SUPPLY_USB_TYPE_UNKNOWN : val.intval;
+ 	}
+ 
+ 	type = info->usb_phy->chg_type;
+@@ -134,9 +156,31 @@
+ 	return NOTIFY_OK;
+ }
+ 
++static int sprd_vchg_legacy_extcon_event(struct notifier_block *nb,
++				       unsigned long event, void *data)
++{
++	struct sprd_vchg_info *info = container_of(nb, struct sprd_vchg_info, usb_notify);
++
++	if (info->shutdown_flag)
++		return NOTIFY_OK;
++	info->chgr_online = !!event;
++	__pm_wakeup_event(info->sprd_vchg_ws, SPRD_VCHG_WAKE_UP_MS);
++	schedule_work(&info->sprd_vchg_work);
++	return NOTIFY_OK;
++}
++
+ static void sprd_vchg_detect_status(struct sprd_vchg_info *info)
+ {
+ 	int state = 0;
++
++	if (legacy_usb_extcon) {
++		state = extcon_get_state(info->typec_extcon, EXTCON_USB);
++		if (state >= 0) {
++			info->chgr_online = !!state;
++			schedule_work(&info->sprd_vchg_work);
++		}
++		return;
++	}
+ 
+ 	if (info->use_typec_extcon) {
+ 		state = extcon_get_state(info->typec_extcon, SPRD_VCHG_EXTCON_SINK);
+@@ -340,6 +384,20 @@
+ 	info->psy = psy;
+ 	INIT_WORK(&info->sprd_vchg_work, sprd_vchg_work);
+ 
++	if (legacy_usb_extcon) {
++		info->typec_extcon = info->usb_phy->edev;
++		if (!info->typec_extcon) {
++			ret = -EPROBE_DEFER;
++			goto remove_wakeup;
++		}
++		info->usb_notify.notifier_call = sprd_vchg_legacy_extcon_event;
++		ret = extcon_register_notifier(info->typec_extcon, EXTCON_USB, &info->usb_notify);
++		if (ret)
++			goto remove_wakeup;
++		sprd_vchg_detect_status(info);
++		return 0;
++	}
++
+ 	if (!info->use_typec_extcon) {
+ 		info->usb_notify.notifier_call = sprd_vchg_change;
+ 		ret = usb_register_notifier(info->usb_phy, &info->usb_notify);
+@@ -429,6 +487,12 @@
+ 		return;
+ 	}
+ 
++	if (legacy_usb_extcon) {
++		info->shutdown_flag = true;
++		extcon_unregister_notifier(info->typec_extcon, EXTCON_USB, &info->usb_notify);
++		cancel_work_sync(&info->sprd_vchg_work);
++		return;
++	}
+ 	if (!info->use_typec_extcon)
+ 		usb_unregister_notifier(info->usb_phy, &info->usb_notify);
+ 
+@@ -448,6 +512,12 @@
+ 	}
+ 
+ 	info->shutdown_flag = true;
++
++	if (legacy_usb_extcon) {
++		extcon_unregister_notifier(info->typec_extcon, EXTCON_USB, &info->usb_notify);
++		cancel_work_sync(&info->sprd_vchg_work);
++		return;
++	}
+ 
+ 	if (!info->use_typec_extcon)
+ 		usb_unregister_notifier(info->usb_phy, &info->usb_notify);
+--- a/drivers/power/supply/charger-manager.c
++++ b/drivers/power/supply/charger-manager.c
+@@ -32,6 +32,10 @@
+ #include <linux/thermal.h>
+ #include <linux/usb/sprd_pd.h>
+ #include <linux/workqueue.h>
++
++static char *legacy_board_thermal_zone;
++module_param(legacy_board_thermal_zone, charp, 0444);
++MODULE_PARM_DESC(legacy_board_thermal_zone, "Board thermal zone when legacy DT omits cm-thermal-zone");
+ #include <linux/usb/sprd_tcpm.h>
+ #include <linux/usb/sprd_pd.h>
+ 
+@@ -7576,6 +7580,8 @@
+ 	of_property_read_string(np, "cm-fuel-gauge", &desc->psy_fuel_gauge);
+ 
+ 	of_property_read_string(np, "cm-thermal-zone", &desc->thermal_zone);
++	if (!desc->thermal_zone && legacy_board_thermal_zone)
++		desc->thermal_zone = legacy_board_thermal_zone;
+ 
+ 	of_property_read_u32(np, "cm-battery-cold", &desc->temp_min);
+ 	if (of_get_property(np, "cm-battery-cold-in-minus", NULL))
+--- a/drivers/power/supply/bq2560x-charger.c
++++ b/drivers/power/supply/bq2560x-charger.c
+@@ -1205,6 +1205,7 @@
+ {
+ 	struct bq2560x_charger_info *info = power_supply_get_drvdata(psy);
+ 	u32 cur = 0, health,vol, enabled = 0;
++	u8 input_status;
+ 	int ret = 0;
+ 
+ 	if (!info) {
+@@ -1286,7 +1287,21 @@
+ 
+ 		break;
+ 	case POWER_SUPPLY_PROP_ONLINE:
+-			val->intval = info->chip_type;
++		ret = bq2560x_read(info, BQ2560X_REG_8, &input_status);
++		if (!ret)
++			val->intval = !!(input_status & BIT(2)) &&
++				((input_status >> 5) & 7) != 7;
++		break;
++	case POWER_SUPPLY_PROP_USB_TYPE:
++		ret = bq2560x_read(info, BQ2560X_REG_8, &input_status);
++		if (ret)
++			break;
++		switch ((input_status >> 5) & 7) {
++		case 1: val->intval = POWER_SUPPLY_USB_TYPE_SDP; break;
++		case 2: val->intval = POWER_SUPPLY_USB_TYPE_CDP; break;
++		case 3: val->intval = POWER_SUPPLY_USB_TYPE_DCP; break;
++		default: val->intval = POWER_SUPPLY_USB_TYPE_UNKNOWN; break;
++		}
+ 		break;
+ 	case POWER_SUPPLY_PROP_CHARGE_FULL:
+ 			val->intval = bq2560x_charge_done(info);
+@@ -1474,6 +1489,7 @@
+ }
+ 
+ static enum power_supply_property bq2560x_usb_props[] = {
++	POWER_SUPPLY_PROP_USB_TYPE,
+ 	POWER_SUPPLY_PROP_STATUS,
+ 	POWER_SUPPLY_PROP_CONSTANT_CHARGE_CURRENT,
+ 	POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT,
+@@ -1489,6 +1505,8 @@
+ static const struct power_supply_desc bq2560x_charger_desc = {
+ 	.name			= "bq2560x_charger",
+ 	.type			= POWER_SUPPLY_TYPE_UNKNOWN,
++	.usb_types = BIT(POWER_SUPPLY_USB_TYPE_UNKNOWN) | BIT(POWER_SUPPLY_USB_TYPE_SDP) |
++		BIT(POWER_SUPPLY_USB_TYPE_CDP) | BIT(POWER_SUPPLY_USB_TYPE_DCP),
+ 	.properties		= bq2560x_usb_props,
+ 	.num_properties		= ARRAY_SIZE(bq2560x_usb_props),
+ 	.get_property		= bq2560x_charger_usb_get_property,
+@@ -1499,6 +1517,8 @@
+ static const struct power_supply_desc bq2560x_slave_charger_desc = {
+ 	.name			= "bq2560x_slave_charger",
+ 	.type			= POWER_SUPPLY_TYPE_UNKNOWN,
++	.usb_types = BIT(POWER_SUPPLY_USB_TYPE_UNKNOWN) | BIT(POWER_SUPPLY_USB_TYPE_SDP) |
++		BIT(POWER_SUPPLY_USB_TYPE_CDP) | BIT(POWER_SUPPLY_USB_TYPE_DCP),
+ 	.properties		= bq2560x_usb_props,
+ 	.num_properties		= ARRAY_SIZE(bq2560x_usb_props),
+ 	.get_property		= bq2560x_charger_usb_get_property,
+@@ -1978,9 +1998,8 @@
+ 	}
+ 
+ 	of_node_put(otg_parent_nd);
+-
+-	/* otg-vbus is a child of the I2C charger on 7552N; use that device
+-	 * directly instead of looking it up as a platform device. */
++	/* 7552N puts otg-vbus below the I2C charger node.  The parent is an
++	 * I2C client, not a platform device, so use the charger device itself. */
+ 	cfg.dev = info->dev;
+ 	cfg.driver_data = info;
+ 	reg = devm_regulator_register(cfg.dev, &bq2560x_charger_vbus_desc, &cfg);
