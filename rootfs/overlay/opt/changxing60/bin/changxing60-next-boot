@@ -14,11 +14,38 @@ BC_A=/run/changxing60/misc-bc-slot-a.bin
 BC_B=/run/changxing60/misc-bc-slot-b-trial.bin
 MISC=$(cat /run/changxing60/misc-dev 2>/dev/null || readlink -f /dev/block/by-name/misc)
 
-write_bc() {
-    dd if="$1" of="$MISC" bs=1 seek=2048 conv=notrunc 2>/dev/null
+write_bc() {  # write_bc RECORD EXPECTED-SLOT-LETTER
+    [ -b "$MISC" ] || { echo "no misc partition ($MISC)" >&2; return 1; }
+    # The record has to be exactly one 32-byte bootloader_control: a truncated or
+    # cross-slot file must never reach misc. count=32 below caps the write even if
+    # this check were wrong; this check catches the wrong file before it is armed.
+    [ "$(wc -c < "$1" 2>/dev/null)" = 32 ] || { echo "record $1 is not 32 bytes" >&2; return 1; }
+    [ "$(dd if="$1" bs=1 count=2 2>/dev/null)" = "_$2" ] || { echo "record $1 is not a _$2 record" >&2; return 1; }
+    [ "$(dd if="$1" bs=1 skip=4 count=4 2>/dev/null)" = BCAB ] || { echo "record $1 has no BCAB magic" >&2; return 1; }
+    [ "$(dd if="$1" bs=1 skip=20 count=8 2>/dev/null | tr -d '\000' | wc -c)" -eq 0 ] ||
+        { echo "record $1 has non-zero reserved bytes" >&2; return 1; }
+    prev=/run/changxing60/misc-bc-prev.bin
+    mkdir -p /run/changxing60
+    dd if="$MISC" of="$prev" bs=1 skip=2048 count=32 2>/dev/null
+    [ "$(wc -c < "$prev" 2>/dev/null)" = 32 ] || { echo "cannot read the live control block" >&2; return 1; }
+    rev=$(sha256sum "$prev" 2>/dev/null | cut -d' ' -f1)
+    if cmp -s "$prev" "$1"; then
+        echo "misc already holds $(sha256sum "$1" | cut -d' ' -f1) (no write)"
+        return 0
+    fi
+    echo "replacing misc bc $rev with $(sha256sum "$1" | cut -d' ' -f1)"
+    dd if="$1" of="$MISC" bs=1 seek=2048 count=32 conv=notrunc 2>/dev/null
     sync
-    [ "$(dd if="$MISC" bs=1 skip=2048 count=32 2>/dev/null | od -An -tx1 -v | tr -d ' \n')" = "$(od -An -tx1 -v "$1" | tr -d ' \n')" ] \
-        || { echo "misc verify failed" >&2; exit 1; }
+    dd if="$MISC" of=/run/changxing60/misc-bc-readback.bin bs=1 skip=2048 count=32 2>/dev/null
+    if ! cmp -s /run/changxing60/misc-bc-readback.bin "$1"; then
+        echo "misc verify failed; putting $rev back" >&2
+        dd if="$prev" of="$MISC" bs=1 seek=2048 count=32 conv=notrunc 2>/dev/null
+        sync
+        dd if="$MISC" of=/run/changxing60/misc-bc-readback.bin bs=1 skip=2048 count=32 2>/dev/null
+        cmp -s /run/changxing60/misc-bc-readback.bin "$prev" || { echo "restore failed: misc control block is wrong" >&2; return 1; }
+        echo "previous control block restored" >&2
+        return 1
+    fi
 }
 
 slot_state() {
@@ -28,9 +55,18 @@ slot_state() {
 }
 
 case "${1:-status}" in
-    linux)   mkdir -p /etc/changxing60; echo linux > "$CONF"; write_bc "$BC_B"; echo "default boot: linux (slot b armed)" ;;
-    android) mkdir -p /etc/changxing60; echo android > "$CONF"; write_bc "$BC_A"; echo "next boot: android (slot a)" ;;
-    --rearm) [ "$(cat "$CONF" 2>/dev/null)" = linux ] && write_bc "$BC_B" && echo "slot b re-armed" || echo "default boot is not linux, nothing to do" ;;
+    linux)   mkdir -p /etc/changxing60; echo linux > "$CONF"; write_bc "$BC_B" b; echo "default boot: linux (slot b armed)" ;;
+    android) mkdir -p /etc/changxing60; echo android > "$CONF"; write_bc "$BC_A" a; echo "next boot: android (slot a)" ;;
+    --rearm)
+        # A failed write must not be swallowed by an `|| echo`: the boot-ok service
+        # needs the non-zero exit, otherwise a device whose misc write failed looks
+        # like a healthy boot and stops re-arming slot b.
+        if [ "$(cat "$CONF" 2>/dev/null)" = linux ]; then
+            write_bc "$BC_B" b && echo "slot b re-armed"
+        else
+            echo "default boot is not linux, nothing to do"
+        fi
+        ;;
     status)  echo "default boot: $(cat "$CONF" 2>/dev/null || echo android)"; slot_state ;;
     *) echo "usage: $0 linux|android|status" >&2; exit 2 ;;
 esac

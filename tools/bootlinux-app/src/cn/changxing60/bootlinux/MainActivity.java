@@ -20,21 +20,23 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Locale;
+import java.util.zip.CRC32;
 
 /**
- * 一键从 Android 重启到 OpenWrt。
+ * 一键从 Android 重启到 Linux/OpenWrt。
  *
  * 原理和 work/arm-linux.sh 完全一样：往 misc 分区偏移 2048 处写 32 字节的 bootloader_control，
  * 把 slot b 标成待启动，然后重启。boot_b 上的 Linux 镜像不动，只改这一个标志位；Linux 起不来时
  * LK 会自己落回 Android。
  *
  * 没有后台服务、没有定时任务，只在按钮被按下时才动 misc。
+ *
+ * 启动记录不写死：每次动作都从设备当前 misc 读取 bootloader_control，校验 CRC，
+ * 再按 7552N 的规则派生 slot-b 试启动记录。这样不会把另一台设备或旧备份的 32 字节
+ * 记录误写进本机 misc。
  */
 public class MainActivity extends Activity {
-
-    /** slot b 的 bootloader_control，取自 work/boot-linux-slotb.misc-slot-b-trial.bin。 */
-    private static final String BLOB_HEX =
-            "5f6200004243414201020000fe002f000000000000000000000000001c751554";
 
     private static final String MISC = "/dev/block/by-name/misc";
     private static final int MISC_OFFSET = 2048;
@@ -62,14 +64,14 @@ public class MainActivity extends Activity {
         root.setPadding(pad, dp(56), pad, pad);
 
         TextView title = new TextView(this);
-        title.setText("重启到 OpenWrt");
+        title.setText("重启到 Linux");
         title.setTextSize(TypedValue.COMPLEX_UNIT_SP, 26);
         title.setTextColor(0xFFF2F5F7);
         title.setTypeface(Typeface.DEFAULT_BOLD);
         root.addView(title);
 
         TextView desc = new TextView(this);
-        desc.setText("写入引导标志后重启。boot_b 上的系统不动，只改 misc 里 32 字节的启动标志；"
+        desc.setText("写入引导标志后重启。boot_b 上的 Linux 不动，只改 misc 里 32 字节的启动标志；"
                 + "Linux 起不来时引导器会自己落回 Android。");
         desc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         desc.setTextColor(0xFF9AA6B2);
@@ -92,7 +94,7 @@ public class MainActivity extends Activity {
         root.addView(spacer, new LinearLayout.LayoutParams(0, 0, 1f));
 
         go = new Button(this);
-        go.setText("重启到 OpenWrt");
+        go.setText("重启到 Linux");
         go.setAllCaps(false);
         go.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         go.setTextColor(0xFF07120C);
@@ -126,15 +128,21 @@ public class MainActivity extends Activity {
             String slot = run("getprop ro.boot.slot_suffix").trim();
             boolean haveRoot = "0".equals(root);
 
+            String bcb = haveRoot ? readBcb() : "";
+            boolean bcbOk = validateBcbHex(bcb, true) == null;
             String text = "root：" + (haveRoot ? "已授权" : "没有（su 不可用）")
                     + "\n当前系统槽位：" + (TextUtils.isEmpty(slot) ? "未知" : slot);
+
+            if (haveRoot) {
+                text += "\n启动记录：" + (bcbOk ? "已校验" : "不可用");
+            }
 
             if (haveRoot && !"_a".equals(slot)) {
                 text += "\n\n注意：Android 应该跑在 slot a 上。现在不是，引导标志可能对不上。";
             }
 
             final String t = text;
-            final boolean enabled = haveRoot;
+            final boolean enabled = haveRoot && "_a".equals(slot) && bcbOk;
             ui.post(() -> {
                 status.setText(t);
                 go.setEnabled(enabled);
@@ -147,8 +155,8 @@ public class MainActivity extends Activity {
 
     private void confirm() {
         new AlertDialog.Builder(this)
-                .setTitle("重启到 OpenWrt？")
-                .setMessage("会把 misc 里的启动标志改成 slot b，然后立即重启。\n\n"
+                .setTitle("重启到 Linux？")
+                .setMessage("会读取并校验当前 misc，然后只改写其中 32 字节的启动标志到 slot b，最后立即重启。\n\n"
                         + "想回 Android，在 Linux 里 poweroff -f 或正常重启即可。")
                 .setNegativeButton("取消", null)
                 .setPositiveButton("重启", (d, w) -> doIt())
@@ -161,20 +169,46 @@ public class MainActivity extends Activity {
         status.setText("正在写入引导标志…");
 
         new Thread(() -> {
-            // 先把 32 字节落到应用自己的缓存目录，让 root 去 dd 它 —— 比在 shell 里拼转义字符串稳。
-            File blob = new File(getCacheDir(), "bc.bin");
+            String slot = run("getprop ro.boot.slot_suffix").trim();
+            if (!"_a".equals(slot)) {
+                fail("当前不是 Android slot _a，已停止，没有写入 misc。\n当前：" + slot);
+                return;
+            }
+
+            String live = readBcb();
+            String problem = validateBcbHex(live, true);
+            if (problem != null) {
+                fail("当前 misc 启动记录校验失败，没有写入：\n" + problem);
+                return;
+            }
+            String trial = deriveSlotB(live);
+
+            // 把两个精确的 32 字节记录落到应用缓存，让 root 去 dd；不在 shell 里拼二进制。
+            File before = new File(getCacheDir(), "bc-before.bin");
+            File blob = new File(getCacheDir(), "bc-slot-b.bin");
             try (OutputStream out = new FileOutputStream(blob)) {
-                out.write(hex(BLOB_HEX));
+                out.write(hex(trial));
+            } catch (Exception e) {
+                fail("写临时文件失败：" + e.getMessage());
+                return;
+            }
+            try (OutputStream out = new FileOutputStream(before)) {
+                out.write(hex(live));
             } catch (Exception e) {
                 fail("写临时文件失败：" + e.getMessage());
                 return;
             }
 
-            String write = "dd if=" + blob.getAbsolutePath() + " of=" + MISC
-                    + " bs=1 seek=" + MISC_OFFSET + " conv=notrunc 2>&1 && sync && echo DD_OK";
+            String qBefore = shellQuote(before.getAbsolutePath());
+            String qBlob = shellQuote(blob.getAbsolutePath());
+            String write = "set -e; live=$(dd if=" + MISC + " bs=1 skip=" + MISC_OFFSET
+                    + " count=32 2>/dev/null | od -An -tx1 -v | tr -d ' \\n'); "
+                    + "[ \"$live\" = \"" + live + "\" ]; "
+                    + "dd if=" + qBlob + " of=" + MISC
+                    + " bs=1 seek=" + MISC_OFFSET + " count=32 conv=notrunc 2>&1; sync; echo DD_OK";
             String r1 = run(write);
             if (!r1.contains("DD_OK")) {
-                fail("写入 misc 失败：\n" + r1.trim());
+                fail("写入 misc 失败或启动记录已变化，没有重启：\n" + r1.trim());
                 return;
             }
 
@@ -182,9 +216,17 @@ public class MainActivity extends Activity {
             String read = "dd if=" + MISC + " bs=1 skip=" + MISC_OFFSET
                     + " count=32 2>/dev/null | od -An -tx1 -v | tr -d ' \\n'";
             String got = run(read).trim().toLowerCase();
-            String want = BLOB_HEX.toLowerCase();
-            if (!want.equals(got)) {
-                fail("校验不一致，没有重启。\n读到：" + got + "\n应为：" + want);
+            if (!trial.equals(got)) {
+                // 读回不一致时，用本次动作前保存的精确记录恢复；恢复失败也不重启。
+                String restore = "dd if=" + qBefore + " of=" + MISC
+                        + " bs=1 seek=" + MISC_OFFSET + " count=32 conv=notrunc 2>&1; sync; echo RESTORED";
+                String rr = run(restore);
+                String back = run(read).trim().toLowerCase();
+                if (!rr.contains("RESTORED") || !live.equals(back)) {
+                    fail("校验不一致，且恢复失败；没有重启。\n读到：" + got);
+                } else {
+                    fail("校验不一致，已恢复原启动记录，没有重启。\n读到：" + got);
+                }
                 return;
             }
 
@@ -222,6 +264,60 @@ public class MainActivity extends Activity {
         }
     }
 
+    private String readBcb() {
+        return run("dd if=" + MISC + " bs=1 skip=" + MISC_OFFSET
+                + " count=32 2>/dev/null | od -An -tx1 -v | tr -d ' \\n'")
+                .trim().toLowerCase(Locale.US);
+    }
+
+    /** Return null when valid, otherwise a short human-readable reason. */
+    private static String validateBcbHex(String hex, boolean requireAndroid) {
+        if (hex == null || hex.length() != 64) return "长度不是 32 字节";
+        byte[] b;
+        try {
+            b = hex(hex);
+        } catch (RuntimeException e) {
+            return "不是十六进制记录";
+        }
+        if ((b[0] != '_' || (b[1] != 'a' && b[1] != 'b')) || b[2] != 0 || b[3] != 0)
+            return "slot 后缀不是 _a/_b";
+        if (b[4] != 'B' || b[5] != 'C' || b[6] != 'A' || b[7] != 'B')
+            return "没有 BCAB magic";
+        if (requireAndroid && b[1] != 'a') return "当前 misc 不是 slot-a 记录";
+        if (b[9] < 2 || b[9] > 4) return "slot 数量异常";
+        for (int i = 20; i < 28; i++) if (b[i] != 0) return "reserved 字节非零";
+        for (int off = 12; off < 12 + 2 * b[9]; off += 2) {
+            int info = b[off] & 0xff;
+            if (b[off + 1] != 0) return "slot metadata 保留字节非零";
+            if ((info & 0x0f) > 15 || ((info >>> 4) & 0x07) > 7)
+                return "slot metadata 越界";
+        }
+        CRC32 crc = new CRC32();
+        crc.update(b, 0, 28);
+        long want = ((long) b[28] & 0xff) | (((long) b[29] & 0xff) << 8)
+                | (((long) b[30] & 0xff) << 16) | (((long) b[31] & 0xff) << 24);
+        if (crc.getValue() != want) return "CRC 不匹配";
+        return null;
+    }
+
+    /** Derive the slot-b trial record from the exact live record, matching build-boot-image.py. */
+    private static String deriveSlotB(String liveHex) {
+        byte[] b = hex(liveHex);
+        b[0] = '_'; b[1] = 'b'; b[2] = 0; b[3] = 0;
+        b[14] = 0x2f; // slot b: priority 15, tries 2, successful 0
+        b[12] = (byte) ((b[12] & 0xf0) | Math.min(b[12] & 0x0f, 14));
+        CRC32 crc = new CRC32();
+        crc.update(b, 0, 28);
+        long v = crc.getValue();
+        b[28] = (byte) v; b[29] = (byte) (v >>> 8);
+        b[30] = (byte) (v >>> 16); b[31] = (byte) (v >>> 24);
+        return hex(b);
+    }
+
+    private static String shellQuote(String path) {
+        return "'" + path.replace("'", "'\\''") + "'";
+    }
+
     private static byte[] hex(String s) {
         int n = s.length() / 2;
         byte[] out = new byte[n];
@@ -229,5 +325,11 @@ public class MainActivity extends Activity {
             out[i] = (byte) Integer.parseInt(s.substring(i * 2, i * 2 + 2), 16);
         }
         return out;
+    }
+
+    private static String hex(byte[] b) {
+        StringBuilder s = new StringBuilder(b.length * 2);
+        for (byte x : b) s.append(String.format(Locale.US, "%02x", x & 0xff));
+        return s.toString();
     }
 }

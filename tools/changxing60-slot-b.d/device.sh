@@ -7,14 +7,19 @@
 # is a plain OpenWrt and the UFS comes up as sdaN with no by-name symlinks (same reason boot/init
 # scans for them).  boot_a / vendor_boot_a are not in any list here and must never be added.
 set -eu
+export PATH="$PATH:/opt/changxing60/busybox-bin"
 
 part() {
+    found=
     for u in /sys/class/block/*/uevent; do
         grep -qx "PARTNAME=$1" "$u" 2>/dev/null || continue
-        echo "/dev/$(basename "$(dirname "$u")")"
-        return 0
+        node="/dev/$(basename "$(dirname "$u")")"
+        [ -b "$node" ] || continue
+        [ -z "$found" ] || { echo "PARTNAME=$1 matches both $found and $node" >&2; return 1; }
+        found=$node
     done
-    return 1
+    [ -n "$found" ] || return 1
+    echo "$found"
 }
 
 psize() {  # psize /dev/sdaN -> bytes
@@ -64,8 +69,14 @@ flash)
     db=$(part boot_b) || { echo "no boot_b" >&2; exit 1; }
     dv=$(part vendor_boot_b) || { echo "no vendor_boot_b" >&2; exit 1; }
     dm=$(part misc) || { echo "no misc" >&2; exit 1; }
+    for f in /tmp/changxing60-boot.img /tmp/changxing60-vb.img /tmp/changxing60-bc.bin; do
+        [ -f "$f" ] || { echo "missing pushed file $f -- nothing written" >&2; exit 1; }
+    done
     echo "targets: boot_b=$db vendor_boot_b=$dv misc=$dm"
-    echo "live misc bc before: $(hexdump32 "$dm")"
+    [ "$(psize "$dm")" -eq 1048576 ] || { echo "misc is $(psize "$dm") B, expected 1 MiB; refusing" >&2; exit 1; }
+    [ "$(psize "$db")" -eq "$(wc -c < /tmp/changxing60-boot.img)" ] ||
+        { echo "boot image size does not match boot_b; nothing written" >&2; exit 1; }
+    echo "live misc bc before: sha256 $(dd if="$dm" bs=1 skip=2048 count=32 2>/dev/null | sha256sum | cut -d' ' -f1) hex $(hexdump32 "$dm")"
 
     # The images arrived over ssh as raw bytes; check them again here rather than trusting the push.
     [ "$(sha256sum /tmp/changxing60-boot.img | cut -d' ' -f1)" = "$want_boot" ] ||
@@ -74,6 +85,24 @@ flash)
         { echo "PUSHED vendor_boot hash mismatch -- nothing written" >&2; exit 1; }
     [ "$(sha256sum /tmp/changxing60-bc.bin | cut -d' ' -f1)" = "$bc_sum" ] ||
         { echo "PUSHED misc blob hash mismatch -- nothing written" >&2; exit 1; }
+    # Structure only (magic, slot suffix, reserved bytes); the exact record was already
+    # pinned by the host-side sha256 above.
+    [ "$(wc -c < /tmp/changxing60-bc.bin)" -eq 32 ] || { echo "misc blob is not 32 bytes" >&2; exit 1; }
+    [ "$(dd if=/tmp/changxing60-bc.bin bs=1 skip=4 count=4 2>/dev/null)" = BCAB ] ||
+        { echo "misc blob has no BCAB magic" >&2; exit 1; }
+    case "$(dd if=/tmp/changxing60-bc.bin bs=1 count=2 2>/dev/null)" in
+        _a|_b) ;;
+        *) echo "misc blob has no _a/_b slot suffix" >&2; exit 1 ;;
+    esac
+    [ "$(dd if=/tmp/changxing60-bc.bin bs=1 skip=20 count=8 2>/dev/null | tr -d '\000' | wc -c)" -eq 0 ] ||
+        { echo "misc blob has non-zero reserved bytes" >&2; exit 1; }
+
+    # Keep the record we are about to replace both on the device (for the restore below)
+    # and in this log (the ssh output), so a wrong slot choice stays reconstructable.
+    dd if="$dm" of=/tmp/misc-bc-before.bin bs=1 skip=2048 count=32 2>/dev/null
+    [ "$(wc -c < /tmp/misc-bc-before.bin)" -eq 32 ] ||
+        { echo "cannot read the live misc control block; nothing written" >&2; exit 1; }
+    echo "live misc bc file sha256: $(sha256sum /tmp/misc-bc-before.bin | cut -d' ' -f1)"
 
     dd if=/tmp/changxing60-boot.img of="$db" bs=4M 2>&1 | tail -1
     sync
@@ -89,16 +118,26 @@ flash)
         { echo "vendor_boot_b verify FAILED: $got -- slot a untouched, safe to reboot" >&2; exit 1; }
     echo "vendor_boot_b written and verified"
 
-    dd if=/tmp/changxing60-bc.bin of="$dm" bs=1 seek=2048 conv=notrunc 2>/dev/null
+    # count=32 caps the write at the record itself. The gate is a sha256 of the window,
+    # not a hex dump: this rootfs has no od/hexdump unless the static busybox is present.
+    dd if=/tmp/changxing60-bc.bin of="$dm" bs=1 seek=2048 count=32 conv=notrunc 2>/dev/null
     sync
-    new=$(hexdump32 "$dm")
-    [ "$new" = "$bc_sum" ] || { echo "misc verify FAILED: $new != $bc_sum" >&2; exit 1; }
-    echo "misc armed: $new"
+    new_sha=$(dd if="$dm" bs=1 skip=2048 count=32 2>/dev/null | sha256sum | cut -d' ' -f1)
+    if [ "$new_sha" != "$bc_sum" ]; then
+        echo "misc verify FAILED: $new_sha != $bc_sum; restoring the previous record" >&2
+        dd if=/tmp/misc-bc-before.bin of="$dm" bs=1 seek=2048 count=32 conv=notrunc 2>/dev/null
+        sync
+        back_sha=$(sha256sum /tmp/misc-bc-before.bin | cut -d' ' -f1)
+        [ "$(dd if="$dm" bs=1 skip=2048 count=32 2>/dev/null | sha256sum | cut -d' ' -f1)" = "$back_sha" ] ||
+            { echo "RESTORE FAILED: misc control block is wrong; do not reboot" >&2; exit 1; }
+        echo "previous record restored; slot b not armed" >&2
+        exit 1
+    fi
+    echo "misc armed: sha256 $new_sha hex $(hexdump32 "$dm")"
 
     rm -f /tmp/changxing60-boot.img /tmp/changxing60-vb.img /tmp/changxing60-bc.bin
     sync
-    echo "rebooting into slot b (6.18 trial)"
-    reboot
+    echo "verified; reboot when ready (this script does not reboot)"
     ;;
 
 *)

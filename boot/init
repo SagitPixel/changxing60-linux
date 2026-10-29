@@ -39,11 +39,25 @@ diag() {  # diag TAG
         | tail -n 70 | while IFS= read -r l; do log "dmesg: $l"; done
 }
 
-# Persistent log: 8 MiB at 48 MiB inside boot_b, past the image and its AVB data
+# Persistent log: 4 MiB at 56 MiB inside boot_b, past the image and its AVB data
 # (image ends near 39 MiB). Survives a cold power cycle, unlike pstore.
 bootb=
+persist_ok=
 persist() {
     [ -n "$bootb" ] && [ -b "$bootb" ] || return
+    # The target has to still be a 64 MiB partition that starts with a boot image: 4 MiB
+    # written into a smaller or differently-named device would be corruption, not a log.
+    if [ -z "$persist_ok" ]; then
+        psz=$(( $(cat "/sys/class/block/$(basename "$bootb")/size" 2>/dev/null || echo 0) * 512 ))
+        phdr=$(dd if="$bootb" bs=8 count=1 2>/dev/null)
+        if [ "$psz" -lt 62914560 ] || [ "$phdr" != 'ANDROID!' ]; then
+            log "stage=persist-refused dev=$bootb bytes=$psz"
+            bootb=
+            return
+        fi
+        persist_ok=1
+        log "stage=persist-target-ok dev=$bootb bytes=$psz"
+    fi
     # the periodic loop and the reboot timer both call this
     mkdir /run/persist.lock 2>/dev/null || return
     {
@@ -64,6 +78,16 @@ persist() {
         echo "CHANGXING60-PERSIST-END"
     } > /run/persist.txt 2>&1
     head -c 65536 /dev/zero >> /run/persist.txt
+    # Keep the head (stage list, module list) and the tail (dmesg) rather than letting the
+    # fixed-count dd below cut the tail: a boot that dies late is the one worth reading.
+    if [ "$(wc -c < /run/persist.txt)" -gt 4194304 ]; then
+        before=$(wc -c < /run/persist.txt)
+        { head -c 524288 /run/persist.txt
+          tail -c $((4194304 - 524288)) /run/persist.txt; } > /run/persist.cut 2>/dev/null \
+            && mv /run/persist.cut /run/persist.txt
+        rm -f /run/persist.cut
+        log "stage=persist-truncated from=$before to=$(wc -c < /run/persist.txt)"
+    fi
     dd if=/run/persist.txt of="$bootb" bs=4096 seek=14336 count=1024 conv=notrunc 2>/dev/null
     sync
     rmdir /run/persist.lock
@@ -131,7 +155,13 @@ while read module; do
             fi
             ;;
     esac
-    if insmod "$file" 2>/run/insmod.err; then
+    # Board-specific compatibility for the stock SC2355 firmware. Keep these
+    # opt-in so other devices and the 5.4 module set retain their defaults.
+    set --
+    case "$(uname -r):$module" in
+        6.*:wcn_bsp.ko) set -- keep_power_on=1 ;;
+    esac
+    if insmod "$file" "$@" 2>/run/insmod.err; then
         loaded=$((loaded + 1))
         case "$module" in
             snd-soc-sprd-codec-ump9620-power.ko)
@@ -217,31 +247,109 @@ diag modules-done
 
 # Locate misc now; whether slot a is restored is decided once the rootfs is known.
 # 7552n-port: universal partition scan (UFS names partitions sdaN without the mmcblk 'p');
-# PARTNAME in uevent does the filtering, so scanning every block device is safe.
+# PARTNAME in uevent does the filtering, so scanning every block device is safe. If two
+# devices claim the name, writing the record would be a coin flip: refuse instead.
 misc=
 for n in $(seq 1 20); do
+    misc=
+    nfound=0
     for u in /sys/class/block/*/uevent; do
         grep -qx PARTNAME=misc "$u" 2>/dev/null || continue
-        misc=/dev/$(basename "$(dirname "$u")")
+        cand=/dev/$(basename "$(dirname "$u")")
+        [ -b "$cand" ] || continue
+        misc=$cand
+        nfound=$((nfound + 1))
     done
-    [ -n "$misc" ] && [ -b "$misc" ] && break
-    misc=
+    [ "$nfound" -le 1 ] || { log "stage=misc-ambiguous count=$nfound"; misc=; break; }
+    [ -n "$misc" ] && break
     sleep 1
     mdev -s
 done
+misc_bytes=0
+[ -n "$misc" ] && misc_bytes=$(( $(cat "/sys/class/block/$(basename "$misc")/size" 2>/dev/null || echo 0) * 512 ))
+if [ "$misc_bytes" -lt 2080 ]; then
+    log "stage=misc-unusable dev=${misc:-none} bytes=$misc_bytes"
+    misc=
+fi
 
-write_misc_bc() {  # write_misc_bc FILE STAGE
-    [ -n "$misc" ] || { log "stage=misc-NOT-FOUND"; return 1; }
-    dd if="$1" of="$misc" bs=1 seek=2048 conv=notrunc 2>/dev/null
-    sync
-    dd if="$misc" of=/run/bc.bin bs=1 skip=2048 count=32 2>/dev/null
-    if cmp -s /run/bc.bin "$1"; then log "stage=$2 dev=$misc"; else log "stage=$2-MISMATCH dev=$misc"; fi
+# Byte-for-byte hashes of the two records shipped in this ramdisk
+# (etc/misc-bc-slot-a.bin, etc/misc-bc-slot-b-trial.bin). misc is the one
+# partition whose corruption costs the Android slot, so the write path accepts
+# nothing but these exact records -- no partial file, no wrong slot, no CRC repair.
+MISC_BC_A_SHA=56290070e590c073d535b20d4133a51dd7c0dae415a8ae4b474a4ecb7ffc3ebb
+MISC_BC_B_SHA=9e2f7c07eba8efb341bcefc09709fc210e0f0e27f097d74163a9d18f271d48e2
+
+bc_struct_ok() {  # bc_struct_ok FILE SUFFIX-LETTER
+    [ "$(wc -c < "$1")" -eq 32 ] || return 1
+    [ "$(dd if="$1" bs=1 count=2 2>/dev/null)" = "_$2" ] || return 1
+    [ "$(dd if="$1" bs=1 skip=2 count=2 2>/dev/null | tr -d '\000' | wc -c)" -eq 0 ] || return 1
+    [ "$(dd if="$1" bs=1 skip=4 count=4 2>/dev/null)" = BCAB ] || return 1
+    [ "$(dd if="$1" bs=1 skip=13 count=1 2>/dev/null | tr -d '\000' | wc -c)" -eq 0 ] || return 1
+    [ "$(dd if="$1" bs=1 skip=15 count=1 2>/dev/null | tr -d '\000' | wc -c)" -eq 0 ] || return 1
+    [ "$(dd if="$1" bs=1 skip=20 count=8 2>/dev/null | tr -d '\000' | wc -c)" -eq 0 ] || return 1
+    return 0
 }
-restore_slot_a() { write_misc_bc /etc/misc-bc-slot-a.bin misc-restored; }
 
+write_misc_bc() {  # write_misc_bc FILE SHA256 SUFFIX-LETTER STAGE
+    [ -n "$misc" ] || { log "stage=$4-misc-NOT-FOUND"; return 1; }
+    [ "$misc_bytes" -ge 2080 ] || { log "stage=$4-misc-too-small bytes=$misc_bytes"; return 1; }
+    bc_struct_ok "$1" "$3" || { log "stage=$4-BAD-RECORD structure"; return 1; }
+    if command -v sha256sum >/dev/null 2>&1; then
+        src=$(sha256sum "$1" | cut -d' ' -f1)
+        [ "$src" = "$2" ] || { log "stage=$4-BAD-RECORD sha=$src"; return 1; }
+        cur=$(dd if="$misc" bs=1 skip=2048 count=32 2>/dev/null | sha256sum | cut -d' ' -f1)
+        if [ "$cur" = "$src" ]; then
+            log "stage=$4-already-set dev=$misc sha=$cur"
+            return 0
+        fi
+        # Record what is being replaced before replacing it: the persistent log then carries
+        # the hash of the old record, so a wrong slot choice stays reconstructable later.
+        log "stage=$4-prev dev=$misc sha=$cur"
+    else
+        log "stage=$4-sha256sum-missing (structure checked only)"
+        dd if="$misc" bs=1 skip=2048 count=32 2>/dev/null | cmp -s - "$1" \
+            && { log "stage=$4-already-set dev=$misc"; return 0; }
+    fi
+    dd if="$1" of="$misc" bs=1 seek=2048 count=32 conv=notrunc 2>/dev/null \
+        || { log "stage=$4-WRITE-FAILED dev=$misc"; return 1; }
+    sync
+    if command -v sha256sum >/dev/null 2>&1; then
+        if [ "$(dd if="$misc" bs=1 skip=2048 count=32 2>/dev/null | sha256sum | cut -d' ' -f1)" = "$2" ]; then
+            log "stage=$4 dev=$misc"
+            return 0
+        fi
+    else
+        dd if="$misc" of=/run/bc.readback bs=1 skip=2048 count=32 2>/dev/null
+        if [ "$(wc -c < /run/bc.readback 2>/dev/null)" = 32 ] && cmp -s /run/bc.readback "$1"; then
+            log "stage=$4 dev=$misc"
+            return 0
+        fi
+    fi
+    log "stage=$4-MISMATCH dev=$misc"
+    return 1
+}
+restore_slot_a() { write_misc_bc /etc/misc-bc-slot-a.bin "$MISC_BC_A_SHA" a misc-restored; }
+
+bc_records_ok() {
+    bc_struct_ok /etc/misc-bc-slot-a.bin a || return 1
+    bc_struct_ok /etc/misc-bc-slot-b-trial.bin b || return 1
+    command -v sha256sum >/dev/null 2>&1 || return 0
+    [ "$(sha256sum /etc/misc-bc-slot-a.bin | cut -d' ' -f1)" = "$MISC_BC_A_SHA" ] || return 1
+    [ "$(sha256sum /etc/misc-bc-slot-b-trial.bin | cut -d' ' -f1)" = "$MISC_BC_B_SHA" ] || return 1
+    return 0
+}
+
+# The same one-device rule as misc: this partition is the write target of persist().
+bootb=
+nfound=0
 for u in /sys/class/block/*/uevent; do
-    grep -qx PARTNAME=boot_b "$u" 2>/dev/null && bootb=/dev/$(basename "$(dirname "$u")")
+    grep -qx PARTNAME=boot_b "$u" 2>/dev/null || continue
+    cand=/dev/$(basename "$(dirname "$u")")
+    [ -b "$cand" ] || continue
+    bootb=$cand
+    nfound=$((nfound + 1))
 done
+[ "$nfound" -le 1 ] || { log "stage=persist-target-ambiguous count=$nfound"; bootb=; }
 # whole-disk device that backs boot_b (sda on 7552N UFS, mmcblk0 on F50 eMMC)
 rootdisk=
 [ -n "$bootb" ] && rootdisk=$(basename "$(dirname "$(readlink -f "/sys/class/block/${bootb#/dev/}")")")
@@ -374,7 +482,14 @@ if [ -n "$rootloop" ] && losetup -o $ROOT_OFFSET "$rootloop" /dev/$rootdisk 2>>/
     else
         restore_slot_a
     fi
-    mkdir -p /run/changxing60 && cp /etc/misc-bc-slot-a.bin /etc/misc-bc-slot-b-trial.bin /run/changxing60/
+    # changxing60-next-boot re-arms slot b from these two copies on every successful
+    # boot, so they get the same check as the write path before they leave the ramdisk.
+    if bc_records_ok; then
+        mkdir -p /run/changxing60
+        cp /etc/misc-bc-slot-a.bin /etc/misc-bc-slot-b-trial.bin /run/changxing60/
+    else
+        log "stage=misc-bc-records-BAD (not handing them to the rootfs)"
+    fi
     [ -n "$misc" ] && echo "$misc" > /run/changxing60/misc-dev
     echo "$rootloop" > /run/changxing60/disk-dev
     # Bring the modem CP up BEFORE switch_root. This is the proven 5.4 sequence (persist

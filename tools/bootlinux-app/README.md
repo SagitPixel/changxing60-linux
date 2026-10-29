@@ -1,14 +1,16 @@
-# bootlinux-app —— 一键从 Android 重启到 OpenWrt
+# bootlinux-app —— 一键从 Android 重启到 Linux
 
-一个 17 KB 的安卓应用，点一下按钮就把手机切到 slot b 的 Linux。替代每次插电脑跑 `work/arm-linux.sh`。
+一个安卓应用，点一下按钮就把手机切到 slot b 的 Linux。替代每次插电脑跑 adb 脚本。
 
 ## 它做什么
 
 和 `work/arm-linux.sh` 完全一样，只是省掉了 adb：
 
-1. 往 `/dev/block/by-name/misc` 的**偏移 2048** 写 32 字节的 `bootloader_control`，把 slot b 标成待启动
-2. 读回来逐字节核对，不一致就不重启
-3. `reboot`
+1. 从 `/dev/block/by-name/misc` 的**偏移 2048** 读取当前 32 字节 `bootloader_control`
+2. 校验 `_a/_b`、`BCAB`、reserved 字节和 CRC32；只允许在 Android slot `_a` 上继续
+3. 根据当前记录派生 slot-b 试启动记录（slot b 优先级 15、剩余尝试 2、成功标志 0），而不是使用写死的旧记录
+4. 只写回这 32 字节，读回逐字节核对；不一致时尝试恢复刚才读取的原记录，并且绝不重启
+5. 校验通过后执行 `reboot`
 
 boot_b 上的系统镜像**不动**，只改这一个标志位。Linux 起不来时 LK 会自己落回 Android。
 想回 Android：在 Linux 里 `poweroff -f`，或者正常重启即可（默认还是 Android）。
@@ -20,12 +22,20 @@ sh tools/bootlinux-app/build.sh
 adb install -r tools/bootlinux-app/out/bootlinux.apk
 ```
 
-需要 root（Magisk 的 `su`）。应用启动时会自己检查：`id -u` 是不是 0、当前槽位是不是 `_a`。
-槽位不是 `_a` 会给出警告——那时候写进去的标志可能对不上。
+需要 root（Magisk 的 `su`）。应用启动时会检查 `id -u`、当前槽位和 live BCB；槽位不是
+`_a` 或 BCB 校验失败时按钮不会执行写入。
 
 ## 构建
 
 不依赖 Gradle，只用 SDK 自带的 `aapt2` / `d8` / `zipalign` / `apksigner` 加 `javac`：
+
+在 Windows PowerShell 中直接运行：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tools/bootlinux-app/build.ps1
+```
+
+Linux/Git Bash 仍可使用 `build.sh`；PowerShell 脚本和它执行同一套无 Gradle 构建流程。
 
 ```
 AndroidManifest.xml          清单（没有 res/，标签直接写在清单里）
@@ -51,10 +61,10 @@ debug.keystore               自签调试证书（首次构建时生成）
 ```
 
 开头 `5f 62` 是 bootloader_control 的魔数，`42 43 41 42` 是 "BCAB"（bootloader control A/B）。
-和 `work/boot-linux-slotb.misc-slot-b-trial.bin` 是同一份。改了 slot 布局的话这个要重新生成，
-别手改。
+应用不会再内置一份固定的 32 字节。它会按 `boot/build-boot-image.py` 的
+`bootloader_control()` 规则从手机当前记录派生，因而能保留本机 A 槽的 tries/successful 状态。
 
 ## 验证过的
 
-2026-10-25 在 7552N 上实测：装好后点按钮 → 确认 → 约 3 分钟进到
-`Linux 5.4.254-gb50db5b6224c aarch64`。
+2026-10-25 在 7552N 上实测过同类按钮流程。2.0 版新增了动态 BCB 校验和失败恢复路径；
+安装新 APK 后应先查看页面上的“启动记录：已校验”，再按按钮。
